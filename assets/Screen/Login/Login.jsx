@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%', // Set width to 100%
         marginBottom: 30,
-        fontFamily: 'Inter'
     },
     imagesecondlog: {
         width: 120,
@@ -179,7 +178,7 @@ const styles = StyleSheet.create({
         borderColor: "#94A0CA",
         borderWidth: 1, // Border width
         fontSize: 15,
-        color: '#94A0CA',
+        color: 'black',
         marginVertical: 9,
         paddingLeft: 30,
         paddingTop: 7,
