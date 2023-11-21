@@ -5,8 +5,10 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // If using Expo, otherwise import from 'react-native-vector-icons/Ionicons';
 import { AntDesign, Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Login = () => {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -110,8 +112,8 @@ const Login = () => {
                     {/* Forgot passwaord second */}
                     <TouchableOpacity style={styles.ForgotPasswordview}><Text style={styles.ForgotPassword}>Forgot Password?</Text></TouchableOpacity>
                     {/* Login button */}
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText} >Log In</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+                        <Text style={styles.buttonText}>Log In</Text>
                     </TouchableOpacity>
 
                 </View>
