@@ -24,6 +24,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Make sure the container takes up the entire screen
+    flex: 1,
   },
 });
