@@ -1,19 +1,56 @@
 import React from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity ,View,Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import Login from './assets/Screen/Login/Login';
 import Home from './assets/Screen/Home/Home';
 import 'react-native-gesture-handler';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+
+function CustomDrawerContent(props) {
+  const { navigation, state } = props;
+
+  const toggleDrawer = () => {
+    if (state.isDrawerOpen) {
+      navigation.closeDrawer();
+    } else {
+      navigation.closeDrawer();
+    }
+  };
+
+  const renderDrawerIcon = () => {
+    if (state.isDrawerOpen) {
+      return (
+        <TouchableOpacity onPress={toggleDrawer}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>X</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={toggleDrawer}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>X</Text>
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <View style={{ alignItems: 'flex-end', marginRight: 10, marginTop: 10 }}>
+        {renderDrawerIcon()}
+      </View>
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  );
+}
+
 function MainStackNavigator() {
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
   );
 }
@@ -21,22 +58,35 @@ function MainStackNavigator() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName = "Login"  >
-        <Drawer.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Drawer.Screen name="Home" component={Home} options={{
-          headerTitle: '',
-          headerRight: () => (
-            <Image
-              source={require('./assets/Screen/Image/log-removebg-preview.png')}
-              resizeMode = 'cover'
-               style={{
-                marginTop: 10, // Adjusted margin top
-              }}
-            />
-          ),
-          headerTransparent: true,
+      <Drawer.Navigator
+        initialRouteName="Logout"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+      >
+        <Drawer.Screen name="Home"
+          component={Home}
+          options={{
+            headerTitle: '',
+            headerRight: () => (
+              <Image
+                source={require('./assets/Screen/Image/log-removebg-preview.png')}
+                resizeMode="cover"
+                style={{
+                  marginTop: 10,
+                }}
+              />
+            ),
+            headerTransparent: true,
+             drawerLabelStyle: {
+               color: '#1D3A9F',
+               fontSize: 16,
+               fontStyle: 'normal',
+               fontWeight: '700',
+               
+             },
+          }}
+        />
+         <Drawer.Screen name="Logout" component={MainStackNavigator}  options={{ headerShown: false }} />
 
-        }} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

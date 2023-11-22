@@ -1,9 +1,11 @@
 // Home.js
 
 import React from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 const Home = () => {
+
+    const navigation = useNavigation();
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
@@ -131,13 +133,15 @@ const Home = () => {
                         />
                         <Text style={styles.prograp}>Reports</Text>
                     </View>
-                    <View style={styles.imgsingle}>
-                        <Image
-                            source={require('../Image/Logout.png')}
-                            style={styles.image}
-                            resizeMode="cover"
-                        />
-                        <Text style={styles.prograp}>Log Out</Text>
+                    <View style={styles.imgsingle} >
+                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                            <Image
+                                source={require('../Image/Logout.png')}
+                                style={styles.image}
+                                resizeMode="cover"
+                            />
+                            <Text style={styles.prograp}>Log Out</Text>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
