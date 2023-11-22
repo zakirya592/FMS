@@ -17,7 +17,7 @@ const Home = () => {
                         <Image
                             source={require('../Image/worksrequest.png')}
                             style={styles.image}
-                            resizeMode="cover"
+                            resizeMode="cover" 
                         />
                         <Text style={styles.prograp}>Work Request</Text>
                     </View>
