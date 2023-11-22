@@ -40,7 +40,7 @@ const Login = () => {
                 <View style={styles.topeimgesection}>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Image
-                            source={require('../Image/log.png')}
+                            source={require('../Image/log-removebg-preview.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />

@@ -1,22 +1,13 @@
 // Home.js
 
 import React from 'react';
-import { StyleSheet, View, Text, Button, Image, ScrollView } from 'react-native';
-
+import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
 const Home = () => {
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
-            <View style={styles.topeimgesection}>
-                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end',marginBottom:30 }}>
-                    <Image
-                        source={require('../Image/log.png')}
-                        style={styles.imagelog}
-                        resizeMode="cover"
-                    />
-                </View>
-            </View>
+          
             {/* menue secontion */}
             <View style={styles.topborder}>
                 <View style={styles.imgrow}>
@@ -157,7 +148,7 @@ const Home = () => {
 
 const styles = StyleSheet.create({
     containerscrollview: {
-        paddingTop: 40,
+        paddingTop: 100,
         marginTop: 30,
     },
     imagelog:{
