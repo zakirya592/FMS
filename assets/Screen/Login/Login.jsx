@@ -71,7 +71,7 @@ const Login = () => {
                             onChangeText={(text) => setEmail(text)}
                             placeholder="User ID"
                             placeholderTextColor="#94A0CA"
-                            selectionColor="#fff"
+                            selectionColor="#1D3A9F"
                             keyboardType="email-address"
                             underlineColorAndroid="transparent"
                             onFocus={(() => {
