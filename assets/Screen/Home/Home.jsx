@@ -14,12 +14,15 @@ const Home = () => {
             <View style={styles.topborder}>
                 <View style={styles.imgrow}>
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Workrequest')}>
+
                         <Image
                             source={require('../Image/worksrequest.png')}
                             style={styles.image}
                             resizeMode="cover" 
                         />
                         <Text style={styles.prograp}>Work Request</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
                         <Image
