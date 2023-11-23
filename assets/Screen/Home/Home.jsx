@@ -155,8 +155,8 @@ const Home = () => {
 
 const styles = StyleSheet.create({
     containerscrollview: {
-        paddingTop: 100,
-        marginTop: 30,
+        paddingTop: 30,
+        // marginTop: 30,
     },
     imagelog:{
 width:200
