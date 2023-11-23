@@ -7,6 +7,7 @@ import Login from './assets/Screen/Login/Login';
 import Home from './assets/Screen/Home/Home';
 import 'react-native-gesture-handler';
 import Workrequest from './assets/Screen/Work Request/Workrequest';
+import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -53,8 +54,9 @@ function MainStackNavigator() {
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
 
-      <Stack.Screen name="WorkRequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }}  // Customize header options for Home screen
-      />
+      <Stack.Screen name="WorkRequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }}/>
+     <Stack.Screen name="Createworkrequest" component={Createworkrequest} options={{ headerShown: true, title: 'Create Work Request' }}/>
+
     </Stack.Navigator>
   );
 }

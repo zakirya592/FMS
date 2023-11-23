@@ -1,8 +1,10 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { Button } from '@rneui/themed';
-import { Icon } from '@rneui/themed';
+import { Button, Icon } from '@rneui/themed';
+import { useNavigation } from '@react-navigation/native';
+
 export default function Workrequest() {
+    const navigation =useNavigation();
     return (
         <View>
             <Text>Workrequest</Text>
@@ -20,6 +22,7 @@ export default function Workrequest() {
                     marginHorizontal: 50,
                     marginVertical: 10,
                 }}
+                    onPress={() => navigation.navigate('Createworkrequest')}
                 >
                     <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                     Create
