@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Icon } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker'; 
 import { AntDesign } from '@expo/vector-icons';
+import PhoneInput from "react-native-phone-number-input";
 
 const data = [
     { label: 'Item 1', value: '1' },
     { label: 'Item 2', value: '2' },
     { label: 'Item 3', value: '3' },
     { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
 ];
+
 export default function Createworkrequest() {
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequest: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
         DepartmentCode: '', DepartmentName: '', WorkType: '', WorkTypeDesc: '', WorkPriority: '', WorkTrade: '',
-        Building: '', Location: '', WorkTradeDesc: ''
+        Building: '', Location: '', WorkTradeDesc: '', MobileNumber: '', Landline :''
     })
 
     const [isFocusedDepartmentName, setIsFocusedDepartmentName] = useState(false);
@@ -231,6 +229,57 @@ export default function Createworkrequest() {
 
 
                 </View>
+                {/* Landline  Mobile Number */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Mobile Number
+                        </Text>
+                        <PhoneInput
+                            defaultCode="US"
+                            layout="first"
+                            value={value.MobileNumber}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    MobileNumber: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA' ,width:170}}
+                            // textContainerStyle={{ height: 30, borderRadius: 5}}
+                            textInputStyle={{ height: 25, padding: 1,fontSize:12}}
+                            codeTextStyle={{ height: 20 ,display:'none'}}
+                            flagButtonStyle={{paddingHorizontal:24,}}
+                            countryPickerButtonStyle={{padding:1,width:5}}
+
+                        />
+                    </View>
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Landline 
+                        </Text>
+                        <PhoneInput
+                            defaultCode="US"
+                            layout="first"
+                            value={value.Landline}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Landline: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA', width: 170 }}
+                            textInputStyle={{ height: 25, padding: 1, width: '100%', fontSize: 12 }}
+                            codeTextStyle={{ height: 20, display: 'none' }}
+                            flagButtonStyle={{ paddingHorizontal: 24, }}
+                            countryPickerButtonStyle={{ padding: 1, width: 5 }}
+
+                        />
+                    </View>
+
+
+
+                </View>
+
                 {/* Building and Location*/}
                 <View style={styles.inputContainer}>
 
