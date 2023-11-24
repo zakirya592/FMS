@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native"
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Icon } from '@rneui/themed';
+import DateTimePicker from '@react-native-community/datetimepicker'; 
+import { AntDesign } from '@expo/vector-icons';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -26,6 +28,18 @@ export default function Createworkrequest() {
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
     const [isFocusRequestStatus, setIsFocusRequestStatus] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [showPicker, setShowPicker] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowPicker(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+        setDate(currentDate);
+    };
+
+    const showDatepicker = () => {
+        setShowPicker(true);
+    };
 
     return (
 
@@ -102,29 +116,32 @@ export default function Createworkrequest() {
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Request Date/Time*
                         </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.Datetime}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    Datetime: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder='Request Date/Time'
-                            placeholderTextColor="#94A0CA"
-                             selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocused(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocused(false);
-                            })}
-                        />
+
+                        <View>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center',}}>
+                                <TextInput
+                                    style={[styles.inputBox, {position: 'relative',} ]}
+                                    value={date.toLocaleString()}
+                                    editable={true}
+                                />
+                                <TouchableOpacity onPress={showDatepicker} style={styles.iconcontainer}>
+                                    <AntDesign name="calendar" size={20} color="white" />
+                                </TouchableOpacity>
+                            </View>
+                            {showPicker && (
+                                <View>
+                                <DateTimePicker
+                                    testID="dateTimePicker"
+                                    value={date}
+                                    mode="datetime"
+                                    is24Hour={true}
+                                    display="default"
+                                    onChange={onChange}
+                                />
+                                </View>
+                            )}
+                        </View>
                     </View>
 
                     <View style={styles.singleinputlable}>
@@ -268,6 +285,9 @@ export default function Createworkrequest() {
                     </View>
 
                 </View>
+                  <View>
+
+      </View>
                 {/* Department */}
                 <View style={styles.inputContainer}>
 
@@ -292,7 +312,6 @@ export default function Createworkrequest() {
                                     DepartmentCode: item.value, // Update the Employeeid property
                                 }));
                             }}
-
                         />
                     </View>
 
@@ -382,7 +401,6 @@ export default function Createworkrequest() {
                     </View>
 
                 </View>
-
                 {/* WorkTradeDesc ans Add Assetcode button*/}
                 <View style={styles.inputContainer}>
 
@@ -489,7 +507,13 @@ export default function Createworkrequest() {
     )
 }
 const styles = StyleSheet.create({
-
+    iconcontainer:{
+        position:'absolute',
+        left:'86%',
+        backgroundColor:'black',
+        padding:1,
+        borderRadius:5
+    },
     placeholderStyle: {
         fontSize: 14,
         color: '#94A0CA'
