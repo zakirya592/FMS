@@ -1,10 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Icon } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import PhoneInput from "react-native-phone-number-input";
+import { DataTable } from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
+import { MaterialIcons } from '@expo/vector-icons';
+ import { Ionicons } from '@expo/vector-icons';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -38,6 +42,26 @@ export default function Createworkrequest() {
     const showDatepicker = () => {
         setShowPicker(true);
     };
+
+    const [first, setItems] = useState()
+
+
+    const [items] = React.useState([
+        { key: 1, WORKREQUEST: 'ASSET/STOCK NUMBER', REQUESTSTATUS: 'ASSET ITEM GROUP', REQUESTBYEMP: 'ASSET ITEM DESCRIPTION', PRIORITY: 'ASSET QTY', REQUESTDATE: 'MODEL', WORKTYPEDESC: 'MONIFACTURER', ACTIONS: 'Open', },
+
+    ]);
+
+
+    const handleCheckboxChange = (WORKREQUEST) => {
+        const updatedItems = [...items];
+        const selectedItem = updatedItems.find((item) => item.WORKREQUEST === WORKREQUEST);
+        if (selectedItem) {
+            selectedItem.selected = !selectedItem.selected;
+        }
+        // Update the state
+        setItems(updatedItems);
+    };
+
 
     return (
 
@@ -545,7 +569,76 @@ export default function Createworkrequest() {
                     </Button>
 
                 </View>
+                {/* Table section */}
+                <View style={[styles.tableborder, { height: 300, marginBottom: 40 }]}>
+                    {/* table section */}
+                    <ScrollView horizontal >
+                        <DataTable style={[styles.item, { width: '100%', height: 450 }]} >
+                            <DataTable.Header>
+                                <DataTable.Title style={[styles.header, { width: 50 }]}><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 160 }]} ><Text style={styles.tableHeading}>ASSET/STOCK NUMBER</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>ASSET ITEM GROUP</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 130 }]} ><Text style={styles.tableHeading}>ASSET QTY</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 100 }]} ><Text style={styles.tableHeading}>MODEL</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 130 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 130 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
+                            </DataTable.Header>
+                            <ScrollView showsVerticalScrollIndicator={true}>
+                                {items.map((item) => (
+                                    <DataTable.Row key={item.key}>
+                                        <DataTable.Cell style={{ width: 50 }}>
+                                            <Checkbox
+                                                status={item.selected ? 'checked' : 'unchecked'}
+                                                onPress={() => handleCheckboxChange(item.WORKREQUEST)}
+                                            />
+                                        </DataTable.Cell>
+                                        {/* <DataTable.Cell>{item.name}</DataTable.Cell> */}
+                                        <ScrollView horizontal={true}>
+                                            <DataTable.Cell style={[styles.bodytable, { width: 160 }]}>{item.WORKREQUEST}</DataTable.Cell>
+                                        </ScrollView>
+                                        <DataTable.Cell style={[styles.bodytable, { width: 180 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.bodytable, { width: 170 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.bodytable, { width: 170 }]}>{item.PRIORITY}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.bodytable, { width: 100 }]}>{item.REQUESTDATE}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.bodytable, { width: 130 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.bodytable, { width: 140 }]}>ACTIONS <MaterialIcons name="delete" size={20} color="black" /> </DataTable.Cell>
+                                    </DataTable.Row>
+                                ))}
+                            </ScrollView>
 
+                        </DataTable>
+                    </ScrollView>
+                </View>
+                {/* Button section */}
+                <Button radius={"md"} type="solid" containerStyle={{
+                    width: 150,
+                    marginLeft:15,
+                }}
+                // onPress={() => navigation.navigate('Createworkrequest')}
+                >
+                    <Ionicons name="md-save-outline" size={20} color="white" style={{marginRight:12}}/>
+                    SAVE
+                </Button>
+                <View style={[styles.inputContainer,{marginTop:12}]}>
+                    <Button radius={"md"} type="outline" containerStyle={{
+                        width: 150,
+                    }}
+                    // onPress={() => navigation.navigate('Createworkrequest')}
+                    >
+                        <Ionicons name="md-print-outline" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
+                        Print
+                    </Button>
+                    <Button radius={"md"} type="outline" containerStyle={{
+                        width: 150,
+                    }}
+                    // onPress={() => navigation.navigate('Createworkrequest')}
+                    >
+                        <MaterialIcons name="save-alt" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
+                        Export
+                    </Button>
+
+                </View>
             </View>
         </ScrollView>
     )
@@ -614,5 +707,30 @@ const styles = StyleSheet.create({
         borderRadius: 12, // Adjust the border radius to match the filled icon
         marginRight: 10, // Add spacing between the two icons
     },
+    tableborder: {
+        width: '99%',
+        borderColor: "#94A0CA",
+        borderWidth: 1, // Border width
+        justifyContent: 'center',
+        marginLeft: 2,
+        borderRadius:5
+    },
+    header: {
+        padding: 1,
+        backgroundColor: '#1E3B8B',
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    tableHeading: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 12,
+        width: "100%",
+
+    },
+    bodytable: {
+        textAlign: 'center',
+        justifyContent: 'center'
+    }
 
 })
