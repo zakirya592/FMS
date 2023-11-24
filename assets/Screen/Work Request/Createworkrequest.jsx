@@ -285,9 +285,7 @@ export default function Createworkrequest() {
                     </View>
 
                 </View>
-                  <View>
-
-      </View>
+               
                 {/* Department */}
                 <View style={styles.inputContainer}>
 
