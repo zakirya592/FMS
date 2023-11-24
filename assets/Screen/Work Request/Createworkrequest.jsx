@@ -32,7 +32,7 @@ export default function Createworkrequest() {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text className='color1 workitoppro my-auto' style={styles.prograp}>Create Work Request
+                    <Text  style={styles.prograp}>Create Work Request
                     </Text>
                 </View>
 
@@ -510,7 +510,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
-        margin: 5
+        marginHorizontal:10,
+        marginVertical:20,
     },
     inputContainer: {
         flexDirection: 'row',
