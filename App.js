@@ -51,10 +51,24 @@ function CustomDrawerContent(props) {
 
 function MainStackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+    < Stack.Navigator initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
+      }
+      }
+    >
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }}/>
-      <Stack.Screen name="Createworkrequest" component={Createworkrequest} options={{ title: 'Create Work Request',headerShown: true, }} />
+      <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
+      <Stack.Screen name="Createworkrequest" component={Createworkrequest}
+        options={{
+          title: 'Create Work Request',
+          headerShown: true,
+          headerStyle: { backgroundColor: '#0A2DAA' },
+          headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }
+        }
+      />
     </Stack.Navigator>
   );
 }
@@ -66,28 +80,28 @@ export default function App() {
         initialRouteName="Logout"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
       >
-        
-      <Drawer.Screen name="Home" component={Home} options={{
-            headerTitle: '',
-            headerRight: () => (
-              <Image
-                source={require('./assets/Screen/Image/log-removebg-preview.png')}
-                resizeMode='contain'
-                style={{
-                   marginTop: 10,
-                  width: '60%',
-                  height: '80%',
-                }}
-              />
-            ),
-            drawerLabelStyle: {
-              color: '#1D3A9F',
-              fontSize: 16,
-              fontStyle: 'normal',
-              fontWeight: '700',
 
-            },
-         }}/>
+        <Drawer.Screen name="Home" component={Home} options={{
+          headerTitle: '',
+          headerRight: () => (
+            <Image
+              source={require('./assets/Screen/Image/log-removebg-preview.png')}
+              resizeMode='contain'
+              style={{
+                marginTop: 10,
+                width: '60%',
+                height: '80%',
+              }}
+            />
+          ),
+          drawerLabelStyle: {
+            color: '#1D3A9F',
+            fontSize: 16,
+            fontStyle: 'normal',
+            fontWeight: '700',
+
+          },
+        }} />
 
         <Drawer.Screen name="Logout" component={MainStackNavigator} options={{ headerShown: false }} />
       </Drawer.Navigator>
