@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Icon } from '@rneui/themed';
-import DateTimePicker from '@react-native-community/datetimepicker'; 
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import PhoneInput from "react-native-phone-number-input";
 
@@ -17,7 +17,7 @@ export default function Createworkrequest() {
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequest: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
         DepartmentCode: '', DepartmentName: '', WorkType: '', WorkTypeDesc: '', WorkPriority: '', WorkTrade: '',
-        Building: '', Location: '', WorkTradeDesc: '', MobileNumber: '', Landline :''
+        Building: '', Location: '', WorkTradeDesc: '', MobileNumber: '', Landline: ''
     })
 
     const [isFocusedDepartmentName, setIsFocusedDepartmentName] = useState(false);
@@ -44,10 +44,10 @@ export default function Createworkrequest() {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text  style={styles.prograp}>Create Work Request
+                    <Text style={styles.prograp}>Create Work Request
                     </Text>
                 </View>
-
+                {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Employee ID
@@ -96,7 +96,7 @@ export default function Createworkrequest() {
                             }}
                             placeholder="Work Request #"
                             placeholderTextColor="#94A0CA"
-                             selectionColor="#1D3A9F"
+                            selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
                             onFocus={(() => {
                                 setIsFocused(true);
@@ -117,9 +117,10 @@ export default function Createworkrequest() {
 
                         <View>
                             <View style={{
-                                flexDirection: 'row', alignItems: 'center',}}>
+                                flexDirection: 'row', alignItems: 'center',
+                            }}>
                                 <TextInput
-                                    style={[styles.inputBox, {position: 'relative',} ]}
+                                    style={[styles.inputBox, { position: 'relative', }]}
                                     value={date.toLocaleString()}
                                     editable={true}
                                 />
@@ -129,14 +130,14 @@ export default function Createworkrequest() {
                             </View>
                             {showPicker && (
                                 <View>
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={date}
-                                    mode="datetime"
-                                    is24Hour={true}
-                                    display="default"
-                                    onChange={onChange}
-                                />
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={date}
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChange}
+                                    />
                                 </View>
                             )}
                         </View>
@@ -215,7 +216,7 @@ export default function Createworkrequest() {
                             }}
                             placeholder='LastName'
                             placeholderTextColor="#94A0CA"
-                             selectionColor="#1D3A9F"
+                            selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
                             onFocus={(() => {
                                 setIsFocused(true);
@@ -245,17 +246,17 @@ export default function Createworkrequest() {
                                     MobileNumber: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA' ,width:170}}
+                            containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA', width: 170 }}
                             // textContainerStyle={{ height: 30, borderRadius: 5}}
-                            textInputStyle={{ height: 25, padding: 1,fontSize:12}}
-                            codeTextStyle={{ height: 20 ,display:'none'}}
-                            flagButtonStyle={{paddingHorizontal:24,}}
-                            countryPickerButtonStyle={{padding:1,width:5}}
+                            textInputStyle={{ height: 25, padding: 1, fontSize: 12 }}
+                            codeTextStyle={{ height: 20, display: 'none' }}
+                            flagButtonStyle={{ paddingHorizontal: 24, }}
+                            countryPickerButtonStyle={{ padding: 1, width: 5 }}
 
                         />
                     </View>
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Landline 
+                        <Text style={styles.lableinput}>Landline
                         </Text>
                         <PhoneInput
                             defaultCode="US"
@@ -279,7 +280,6 @@ export default function Createworkrequest() {
 
 
                 </View>
-
                 {/* Building and Location*/}
                 <View style={styles.inputContainer}>
 
@@ -334,7 +334,6 @@ export default function Createworkrequest() {
                     </View>
 
                 </View>
-               
                 {/* Department */}
                 <View style={styles.inputContainer}>
 
@@ -379,7 +378,7 @@ export default function Createworkrequest() {
                             }}
                             placeholder="Department Name"
                             placeholderTextColor="#94A0CA"
-                             selectionColor="#1D3A9F"
+                            selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
                             onFocus={(() => {
                                 setIsFocusedDepartmentName(true);
@@ -436,7 +435,7 @@ export default function Createworkrequest() {
                             }}
                             placeholder="Work Type Description"
                             placeholderTextColor="#94A0CA"
-                             selectionColor="#1D3A9F"
+                            selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
                             onFocus={(() => {
                                 setIsFocusedWorkTypeDesc(true);
@@ -503,7 +502,7 @@ export default function Createworkrequest() {
 
 
                 </View>
-
+                {/* Work Trade Desc and Add asset button */}
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
@@ -523,7 +522,7 @@ export default function Createworkrequest() {
                             }}
                             placeholder="Work Trade Desc"
                             placeholderTextColor="#94A0CA"
-                             selectionColor="#1D3A9F"
+                            selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
                             onFocus={(() => {
                                 setIsFocusedWorkTradeDesc(true);
@@ -547,19 +546,18 @@ export default function Createworkrequest() {
 
                 </View>
 
-
-
             </View>
         </ScrollView>
     )
 }
+// Style section
 const styles = StyleSheet.create({
-    iconcontainer:{
-        position:'absolute',
-        left:'86%',
-        backgroundColor:'black',
-        padding:1,
-        borderRadius:5
+    iconcontainer: {
+        position: 'absolute',
+        left: '86%',
+        backgroundColor: 'black',
+        padding: 1,
+        borderRadius: 5
     },
     placeholderStyle: {
         fontSize: 14,
@@ -581,8 +579,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
-        marginHorizontal:10,
-        marginVertical:20,
+        marginHorizontal: 10,
+        marginVertical: 20,
     },
     inputContainer: {
         flexDirection: 'row',
