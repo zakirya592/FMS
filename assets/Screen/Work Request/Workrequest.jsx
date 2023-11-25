@@ -5,31 +5,41 @@ import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
+
 
 export default function Workrequest() {
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '',
     })
+
+
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([10]);
-    const [first, setItems] = useState()
     const [itemsPerPage, onItemsPerPageChange] = useState(
         numberOfItemsPerPageList[0]
     );
 
-    const [items] = React.useState([
-        { key: 1, WORKREQUEST: 'WORKREQUEST1', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 2, WORKREQUEST: 'WORKREQUEST2', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 3, WORKREQUEST: 'WORKREQUEST3', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 4, WORKREQUEST: 'WORKREQUEST4', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 5, WORKREQUEST: 'WORKREQUEST5', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 6, WORKREQUEST: 'WORKREQUEST6', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 7, WORKREQUEST: 'WORKREQUEST7', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 8, WORKREQUEST: 'WORKREQUEST8', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 9, WORKREQUEST: 'WORKREQUEST9', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 10, WORKREQUEST: 'WORKREQUEST10', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { key: 11, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+    const [items, setItems] = useState([
+        { _id: 1, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open' },
+        { _id: 2, WORKREQUEST: 'WORKREQUEST2', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 3, WORKREQUEST: 'WORKREQUEST3', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 4, WORKREQUEST: 'WORKREQUEST4', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 5, WORKREQUEST: 'WORKREQUEST5', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 6, WORKREQUEST: 'WORKREQUEST6', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 7, WORKREQUEST: 'WORKREQUEST7', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 8, WORKREQUEST: 'WORKREQUEST8', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 9, WORKREQUEST: 'WORKREQUEST9', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 10, WORKREQUEST: 'WORKREQUEST10', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+        { _id: 11, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
 
     ]);
 
@@ -39,23 +49,35 @@ export default function Workrequest() {
     useEffect(() => {
         setPage(0);
     }, [itemsPerPage]);
-
-    const handleCheckboxChange = (WORKREQUEST) => {
-        const updatedItems = [...items];
-        const selectedItem = updatedItems.find((item) => item.WORKREQUEST === WORKREQUEST);
-        if (selectedItem) {
-            selectedItem.selected = !selectedItem.selected;
-        }
-        // Update the state
-        setItems(updatedItems);
-    };
-
     const data = [
         { label: 'Item 1', value: '1' },
         { label: 'Item 2', value: '2' },
         { label: 'Item 3', value: '3' },
         { label: 'Item 4', value: '4' },
     ];
+
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    const handleCheckboxChange = (_id) => {
+        const updatedItems = items.map((item) =>
+            item._id === _id ? { ...item, selected: !item.selected } : item
+        );
+        setItems(updatedItems);
+        // Update selectedItems state
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        setSelectedItems(selectedIds);
+    };
+
+    const handleSelectAllChange = () => {
+        const allSelected = items.every((item) => item.selected);
+        const updatedItems = items.map((item) => ({
+            ...item,
+            selected: !allSelected,
+        }));
+        setItems(updatedItems);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        setSelectedItems(selectedIds);
+    };
 
     return (
         <ScrollView>
@@ -118,7 +140,11 @@ export default function Workrequest() {
                         width: '100%', height: 450, margin: 0
                     }]} >
                         <DataTable.Header>
-                            <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}> 
+                            <Checkbox
+                                status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
+                                onPress={handleSelectAllChange}
+                            /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 150 }]} ><Text style={styles.tableHeading}>WORK REQUEST# </Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>REQUEST STATUS</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>REQUEST BY EMP#</Text></DataTable.Title>
@@ -130,14 +156,13 @@ export default function Workrequest() {
                         </DataTable.Header>
                         {items.slice(from, to).map((item) => (
                             <ScrollView>
-                                <DataTable.Row key={item.key}>
+                                <DataTable.Row key={item._id}>
                                     <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                         <Checkbox
                                             status={item.selected ? 'checked' : 'unchecked'}
-                                            onPress={() => handleCheckboxChange(item.WORKREQUEST)}
+                                            onPress={() => handleCheckboxChange(item._id)}
                                         />
                                     </DataTable.Cell>
-                                    {/* <DataTable.Cell>{item.name}</DataTable.Cell> */}
                                     <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WORKREQUEST}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
@@ -145,8 +170,35 @@ export default function Workrequest() {
                                     <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTRADEDESC}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>Action 
-                                        
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>
+                                        <Menu onSelect={value => alert(`Selected number: ${value}`)}>
+                                            <MenuTrigger >
+                                                <View style={styles.actions}>
+                                                    <Text>Action </Text>
+                                                    <AntDesign name="caretdown" size={18} color="black" />
+                                                </View>
+                                            </MenuTrigger>
+                                            <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
+                                                <MenuOption value={1}>
+                                                    <View style={styles.actions}>
+                                                        <Text style={styles.actionstitle}>View</Text>
+                                                        <AntDesign name="eye" size={20} color="#0A2DAA" />
+                                                    </View>
+                                                </MenuOption>
+                                                <MenuOption value={2}>
+                                                    <View style={styles.actions}>
+                                                        <Text style={styles.actionstitle}>Update</Text>
+                                                        <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
+                                                    </View>
+                                                </MenuOption>
+                                                <MenuOption value={3}>
+                                                    <View style={styles.actions}>
+                                                        <Text style={styles.actionstitle}>Delete</Text>
+                                                        <AntDesign name="delete" size={15} color="red" />
+                                                    </View>
+                                                </MenuOption>
+                                            </MenuOptions>
+                                        </Menu>
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             </ScrollView>
@@ -282,5 +334,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         justifyContent: 'center'
+    },
+    actions: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    actionstitle: {
+        fontSize: 14,
+        marginRight: 5,
+        color: '#0A2DAA',
+        fontWeight: '700'
     }
 })

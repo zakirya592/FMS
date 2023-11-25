@@ -8,6 +8,7 @@ import Home from './assets/Screen/Home/Home';
 import 'react-native-gesture-handler';
 import Workrequest from './assets/Screen/Work Request/Workrequest';
 import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
+import { MenuProvider } from 'react-native-popup-menu';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -75,6 +76,7 @@ function MainStackNavigator() {
 
 export default function App() {
   return (
+    <MenuProvider>
     <NavigationContainer>
       <Drawer.Navigator
         initialRouteName="Logout"
@@ -106,6 +108,7 @@ export default function App() {
         <Drawer.Screen name="Logout" component={MainStackNavigator} options={{ headerShown: false }} />
       </Drawer.Navigator>
     </NavigationContainer>
+    </MenuProvider>
   );
 }
 

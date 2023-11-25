@@ -43,25 +43,32 @@ export default function Createworkrequest() {
         setShowPicker(true);
     };
 
-    const [first, setItems] = useState()
-
-
-    const [items] = React.useState([
-        { key: 1, WORKREQUEST: 'ASSET/STOCK NUMBER', REQUESTSTATUS: 'ASSET ITEM GROUP', REQUESTBYEMP: 'ASSET ITEM DESCRIPTION', PRIORITY: 'ASSET QTY', REQUESTDATE: 'MODEL', WORKTYPEDESC: 'MONIFACTURER', ACTIONS: 'Open', },
-
+    const [items, setItems] = React.useState([
+        { _id: 1, WORKREQUEST: 'ASSET/STOCK NUMBER', REQUESTSTATUS: 'ASSET ITEM GROUP', REQUESTBYEMP: 'ASSET ITEM DESCRIPTION', PRIORITY: 'ASSET QTY', REQUESTDATE: 'MODEL', WORKTYPEDESC: 'MONIFACTURER', ACTIONS: 'Open', },
     ]);
 
+    const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (WORKREQUEST) => {
-        const updatedItems = [...items];
-        const selectedItem = updatedItems.find((item) => item.WORKREQUEST === WORKREQUEST);
-        if (selectedItem) {
-            selectedItem.selected = !selectedItem.selected;
-        }
-        // Update the state
+   const handleCheckboxChange = (_id) => {
+        const updatedItems = items.map((item) =>
+            item._id === _id ? { ...item, selected: !item.selected } : item
+        );
         setItems(updatedItems);
+        // Update selectedItems state
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        setSelectedItems(selectedIds);
     };
 
+    const handleSelectAllChange = () => {
+        const allSelected = items.every((item) => item.selected);
+        const updatedItems = items.map((item) => ({
+            ...item,
+            selected: !allSelected,
+        }));
+        setItems(updatedItems);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        setSelectedItems(selectedIds);
+    };
 
     return (
 
@@ -571,41 +578,45 @@ export default function Createworkrequest() {
                 </View>
                 {/* Table section */}
                 <View style={[styles.tableborder, { height: 300, marginBottom: 40 }]}>
-                    {/* table section */}
                     <ScrollView horizontal >
-                        <DataTable style={[styles.item, { width: '100%', height: 450 }]} >
+                        <DataTable style={[styles.item, {
+                            width: '100%', height: 450, margin: 0
+                        }]} >
                             <DataTable.Header>
-                                <DataTable.Title style={[styles.header, { width: 50 }]}><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 160 }]} ><Text style={styles.tableHeading}>ASSET/STOCK NUMBER</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>ASSET ITEM GROUP</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 130 }]} ><Text style={styles.tableHeading}>ASSET QTY</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 100 }]} ><Text style={styles.tableHeading}>MODEL</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 130 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 130 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}>
+                                    <Checkbox
+                                        status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
+                                        onPress={handleSelectAllChange}
+                                    /></Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 180 }]} ><Text style={styles.tableHeading}>ASSET/STOCK NUMBER</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 150 }]} ><Text style={styles.tableHeading}>ASSET ITEM GROUP</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 200 }]}><Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>ASSET QTY</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>MODEL</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
+                                 <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                             </DataTable.Header>
-                            <ScrollView showsVerticalScrollIndicator={true}>
-                                {items.map((item) => (
-                                    <DataTable.Row key={item.key}>
-                                        <DataTable.Cell style={{ width: 50 }}>
+                            {items.map((item) => (
+                                <ScrollView>
+                                    <DataTable.Row key={item._id}>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                             <Checkbox
                                                 status={item.selected ? 'checked' : 'unchecked'}
-                                                onPress={() => handleCheckboxChange(item.WORKREQUEST)}
+                                                onPress={() => handleCheckboxChange(item._id)}
                                             />
                                         </DataTable.Cell>
-                                        {/* <DataTable.Cell>{item.name}</DataTable.Cell> */}
-                                        <ScrollView horizontal={true}>
-                                            <DataTable.Cell style={[styles.bodytable, { width: 160 }]}>{item.WORKREQUEST}</DataTable.Cell>
-                                        </ScrollView>
-                                        <DataTable.Cell style={[styles.bodytable, { width: 180 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.bodytable, { width: 170 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.bodytable, { width: 170 }]}>{item.PRIORITY}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.bodytable, { width: 100 }]}>{item.REQUESTDATE}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.bodytable, { width: 130 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.bodytable, { width: 140 }]}>ACTIONS <MaterialIcons name="delete" size={20} color="black" /> </DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.WORKREQUEST}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.PRIORITY}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>  
+                                      <DataTable.Cell style={[styles.bodytable, { width: 140 ,textAlign:'center',justifyContent:'center'}]}>ACTIONS <MaterialIcons name="delete" size={20} color="black" /> </DataTable.Cell>
+</DataTable.Cell>
                                     </DataTable.Row>
-                                ))}
-                            </ScrollView>
+                                </ScrollView>
+                            ))}
 
                         </DataTable>
                     </ScrollView>
@@ -712,25 +723,28 @@ const styles = StyleSheet.create({
         borderColor: "#94A0CA",
         borderWidth: 1, // Border width
         justifyContent: 'center',
-        marginLeft: 2,
+        // marginLeft: 2,
         borderRadius:5
     },
     header: {
-        padding: 1,
-        backgroundColor: '#1E3B8B',
         textAlign: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderTopWidth: 1,
     },
     tableHeading: {
-        color: 'white',
+        color: '#1E3B8B',
         fontWeight: 'bold',
-        fontSize: 12,
-        width: "100%",
-
+        fontSize: 14
     },
-    bodytable: {
+    tablebody: {
+        borderColor: "##9384EB",
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        fontSize: 14,
         textAlign: 'center',
-        justifyContent: 'center'
-    }
+        justifyContent: 'center',
+        borderBottomWidth:0.5
+    },
 
 })
