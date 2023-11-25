@@ -107,7 +107,6 @@ export default function Workrequest() {
                                         RequestStatus: item.value, // Update the Employeeid property
                                     }));
                                 }}
-
                             />
                         </View>
 
@@ -147,6 +146,7 @@ export default function Workrequest() {
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTRADEDESC}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>Action 
+                                        
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             </ScrollView>
