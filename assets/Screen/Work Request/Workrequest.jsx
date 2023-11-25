@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, ScrollView, TextInput, } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
 import { Button, Icon } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
@@ -115,36 +115,39 @@ export default function Workrequest() {
                 </View>
                 {/* table section */}
                 <ScrollView horizontal >
-                    <DataTable style={[styles.item, { width: '100%', height: 450 }]} >
+                    <DataTable style={[styles.item, {
+                        width: '100%', height: 450, margin: 0
+                    }]} >
                         <DataTable.Header>
-                            <DataTable.Title style={styles.header}><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>WORK REQUEST# </Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>REQUEST STATUS</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>REQUEST BY EMP#</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>PRIORITY</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>REQUEST DATE</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>WORK TYPE DESC</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>WORK TRADE DESC</Text></DataTable.Title>
-                            <DataTable.Title style={styles.header} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 150 }]} ><Text style={styles.tableHeading}>WORK REQUEST# </Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>REQUEST STATUS</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>REQUEST BY EMP#</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>PRIORITY</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>REQUEST DATE</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK TYPE DESC</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK TRADE DESC</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
                         {items.slice(from, to).map((item) => (
                             <ScrollView>
                                 <DataTable.Row key={item.key}>
-                                    <DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                         <Checkbox
                                             status={item.selected ? 'checked' : 'unchecked'}
                                             onPress={() => handleCheckboxChange(item.WORKREQUEST)}
                                         />
                                     </DataTable.Cell>
                                     {/* <DataTable.Cell>{item.name}</DataTable.Cell> */}
-                                    <DataTable.Cell >{item.WORKREQUEST}</DataTable.Cell>
-                                    <DataTable.Cell >{item.REQUESTSTATUS}</DataTable.Cell>
-                                    <DataTable.Cell >{item.REQUESTBYEMP}</DataTable.Cell>
-                                    <DataTable.Cell >{item.PRIORITY}</DataTable.Cell>
-                                    <DataTable.Cell >{item.REQUESTDATE}</DataTable.Cell>
-                                    <DataTable.Cell >{item.WORKTYPEDESC}</DataTable.Cell>
-                                    <DataTable.Cell >{item.WORKTRADEDESC}</DataTable.Cell>
-                                    <DataTable.Cell >{item.ACTIONS}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WORKREQUEST}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.PRIORITY}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTRADEDESC}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>Action 
+                                    </DataTable.Cell>
                                 </DataTable.Row>
                             </ScrollView>
                         ))}
@@ -257,12 +260,27 @@ const styles = StyleSheet.create({
         marginRight: 10, // Add spacing between the two icons
     },
     header: {
-        padding: 10,
-        backgroundColor: '#1E3B8B',
+        textAlign: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderTopWidth: 1,
     },
     tableHeading: {
-        color: 'white',
+        color: '#1E3B8B',
         fontWeight: 'bold',
-        fontSize: 12
+        fontSize: 14
     },
+    item: {
+        // borderColor: "#0A2DAA",
+        // borderWidth: 1, // Border width
+        // borderRadius:5
+    },
+    tablebody: {
+        borderColor: "##9384EB",
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        fontSize: 14,
+        textAlign: 'center',
+        justifyContent: 'center'
+    }
 })
