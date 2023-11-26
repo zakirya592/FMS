@@ -7,6 +7,9 @@ import { Checkbox } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import axios from "axios"; 
+import moment from 'moment';
+
 import {
     Menu,
     MenuOptions,
@@ -28,20 +31,30 @@ export default function Workorder() {
         numberOfItemsPerPageList[0]
     );
 
-    const [items, setItems] = useState([
-        { _id: 1, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open' },
-        { _id: 2, WORKREQUEST: 'WORKREQUEST2', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 3, WORKREQUEST: 'WORKREQUEST3', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 4, WORKREQUEST: 'WORKREQUEST4', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 5, WORKREQUEST: 'WORKREQUEST5', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 6, WORKREQUEST: 'WORKREQUEST6', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 7, WORKREQUEST: 'WORKREQUEST7', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 8, WORKREQUEST: 'WORKREQUEST8', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 9, WORKREQUEST: 'WORKREQUEST9', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 10, WORKREQUEST: 'WORKREQUEST10', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 11, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
+    const [items, setItems] = useState([]);
 
-    ]);
+    const getapi = () => {
+        axios.get(`/api/WorkOrders_GET_LIST`)
+            .then((res) => {
+                setItems(res.data.recordset)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
+
+    const [RequestStatusLIST, setRequestStatusLIST] = useState([])
+    useEffect(() => {
+        axios.get(`/api/RequestStatus_LIST`).then((res) => {
+            setRequestStatusLIST(res.data.recordsets[0])
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     const from = page * itemsPerPage;
     const to = Math.min((page + 1) * itemsPerPage, items.length);
@@ -49,12 +62,6 @@ export default function Workorder() {
     useEffect(() => {
         setPage(0);
     }, [itemsPerPage]);
-    const data = [
-        { label: 'Item 1', value: '1' },
-        { label: 'Item 2', value: '2' },
-        { label: 'Item 3', value: '3' },
-        { label: 'Item 4', value: '4' },
-    ];
 
     const [selectedItems, setSelectedItems] = useState([]);
 
@@ -94,10 +101,10 @@ export default function Workorder() {
                             <TextInput
                                 style={styles.inputBox}
                                 value={value.Employeeid}
-                                onChange={item => {
+                                onChangeText={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        Employeeid: item.value, // Update the Employeeid property
+                                        Employeeid: item, // Update the Employeeid property
                                     }));
                                 }}
                                 placeholder="Order Number"
@@ -117,10 +124,10 @@ export default function Workorder() {
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={data}
+                                data={RequestStatusLIST}
                                 maxHeight={200}
-                                labelField="label"
-                                valueField="value"
+                                labelField="RequestStatusCode"
+                                valueField="RequestStatusCode"
                                 placeholder={'Select Status'}
                                 value={value.RequestStatus}
                                 onChange={item => {
@@ -147,36 +154,35 @@ export default function Workorder() {
                                 /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 150 }]} ><Text style={styles.tableHeading}>WORK ORDER#</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>WORK STATUS </Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>WORK TYPE</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>WORK REQUEST NUMBER</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>PRIORITY</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>SCHEDULED DATE</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>FINDING CODE</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>START DATE/TIME</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>FAILURE CODE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>ASSIGNED TO EMP#</Text></DataTable.Title>
-
-                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>DEPARTMENT</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>BUILDING</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>LOCATION</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>SOLUTION CODE</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK CATEGORY CODE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.slice(from, to).map((item) => (
-                            <ScrollView>
-                                <DataTable.Row key={item._id}>
+                        {items.filter(
+                            (item) =>
+                                item.WorkOrderNumber.includes(value.Employeeid)
+                        ).slice(from, to).map((item) => (
+                             <DataTable.Row key={item.WorkOrderNumber}>
                                     <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                         <Checkbox
                                             status={item.selected ? 'checked' : 'unchecked'}
-                                            onPress={() => handleCheckboxChange(item._id)}
+                                        onPress={() => handleCheckboxChange(item.WorkOrderNumber)}
                                         />
                                     </DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WORKREQUEST}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.PRIORITY}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTRADEDESC}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.DEPARTMENT}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.BUILDING}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.LOCATION}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkOrderNumber}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkStatus === "Closed" ? "This Work Order is already closed.." : item.WorkStatus}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkRequestNumber}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkPriority}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.StartWorkOrderDateTime).isValid() ? moment(item.StartWorkOrderDateTime).format('DD/MM/YYYY') : ''}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.FailureCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.AssignedtoEmployeeID}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.SolutionCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkCategoryCode}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>
                                         <Menu onSelect={value => alert(`Selected number: ${value}`)}>
                                             <MenuTrigger >
@@ -208,7 +214,6 @@ export default function Workorder() {
                                         </Menu>
                                     </DataTable.Cell>
                                 </DataTable.Row>
-                            </ScrollView>
                         ))}
 
                     </DataTable>
@@ -257,6 +262,7 @@ export default function Workorder() {
                         <Icon name="print" color="#0A2DAA" size={20} style={{ marginRight: 7 }} />
                         Print
                     </Button>
+
                     <Button radius={"md"} type="outline" containerStyle={{
                         width: 150,
                         marginHorizontal: 50,
