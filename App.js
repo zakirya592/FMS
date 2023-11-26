@@ -13,7 +13,9 @@ import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 import Workorder from './assets/Screen/Work Order/Workorder';
 import Createworkorder from './assets/Screen/Work Order/Createworkorder';
 import Locationmanagement from './assets/Screen/Location Management/Locationmanagement';
+import axios from "axios";
 
+axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 

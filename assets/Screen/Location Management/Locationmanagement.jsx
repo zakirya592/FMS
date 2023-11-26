@@ -6,11 +6,12 @@ import { Checkbox } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown'; 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function Locationmanagement() {
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '', Building: '', Location: '', DepartmentCode: '',
-        Building2: '', Location2: '', DepartmentCode2:'', TotalMinuites:'0'
+        Building2: '', Location2: '', DepartmentCode2:null, TotalMinuites:'0'
     })
 
 
@@ -71,6 +72,30 @@ export default function Locationmanagement() {
         setSelectedItems(selectedIds);
     };
 
+    const [dropdownBuildingList, setDropdownBuildingList] = useState([]);
+    const [dropdownLocation, setdropdownLocation] = useState([])
+    const [dropdownDepartmentLIST, setdropdownDepartmentLIST] = useState([])
+
+    // Fetch data from the API when the component mounts
+    useEffect(() => {
+        axios.get(`/api/Building_LIST`)
+            .then((res) => {
+                setDropdownBuildingList(res.data.recordsets[0]);
+            }).catch((err) => {
+                console.error(err);
+            });
+        axios.get(`/api/Location_LIST`).then((res) => {
+            setdropdownLocation(res.data.recordsets[0])
+        }).catch((err) => {
+                console.log(err);
+            });
+        axios.get(`/api/Department_LIST`).then((res) => {
+            setdropdownDepartmentLIST(res.data.recordsets[0])
+        }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     return (
         <ScrollView>
             <View>
@@ -90,10 +115,10 @@ export default function Locationmanagement() {
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={data}
+                                data={dropdownBuildingList}
                                 maxHeight={200}
-                                labelField="label"
-                                valueField="value"
+                                labelField="BuildingCode"
+                                valueField="BuildingCode"
                                 placeholder={'Select Building'}
                                 value={value.Building}
                                 onChange={item => {
@@ -115,10 +140,10 @@ export default function Locationmanagement() {
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={data}
+                                data={dropdownLocation}
                                 maxHeight={200}
-                                labelField="label"
-                                valueField="value"
+                                labelField="LocationCode"
+                                valueField="LocationCode"
                                 placeholder={'Select Location'}
                                 value={value.Location}
                                 onChange={item => {
@@ -144,11 +169,11 @@ export default function Locationmanagement() {
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={data}
+                                data={dropdownDepartmentLIST}
                                 maxHeight={200}
-                                labelField="label"
-                                valueField="value"
-                                placeholder={'Select DeptCode'}
+                                labelField="DepartmentCode"
+                                valueField="DepartmentCode"
+                                placeholder='Select DeptCode'
                                 value={value.DepartmentCode}
                                 onChange={item => {
                                     setvalue((prevValue) => ({
@@ -233,11 +258,11 @@ export default function Locationmanagement() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownBuildingList}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select Building2'}
+                            labelField="BuildingCode"
+                            valueField="BuildingCode"
+                            placeholder={'Select Building'}
                             value={value.Building2}
                             onChange={item => {
                                 setvalue((prevValue) => ({
@@ -258,10 +283,10 @@ export default function Locationmanagement() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownLocation}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="LocationCode"
+                            valueField="LocationCode"
                             placeholder={'Select Location'}
                             value={value.Location2}
                             onChange={item => {
@@ -287,10 +312,10 @@ export default function Locationmanagement() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownDepartmentLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="DepartmentCode"
+                            valueField="DepartmentCode"
                             placeholder={'Select DeptCode'}
                             value={value.DepartmentCode2}
                             onChange={item => {
