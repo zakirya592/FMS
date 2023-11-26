@@ -12,6 +12,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 import Workorder from './assets/Screen/Work Order/Workorder';
 import Createworkorder from './assets/Screen/Work Order/Createworkorder';
+import Locationmanagement from './assets/Screen/Location Management/Locationmanagement';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -81,6 +82,11 @@ function MainStackNavigator() {
          <Stack.Screen name="Createworkorder" component={Createworkorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+          <Stack.Screen name="Locationmanagement" component={Locationmanagement}
+        options={{
+          title: 'Location Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>

@@ -7,6 +7,7 @@ import { Checkbox } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import {
     Menu,
     MenuOptions,
@@ -256,7 +257,7 @@ export default function Workrequest() {
                         marginVertical: 10,
                     }}
                     >
-                        {/* <Icon name="file_download" color="#0A2DAA" size={15} /> */}
+                        <MaterialIcons name="save-alt" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
                         Export
                     </Button>
                 </View>

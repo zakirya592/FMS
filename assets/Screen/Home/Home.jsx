@@ -13,9 +13,9 @@ const Home = () => {
             {/* menue secontion */}
             <View style={styles.topborder}>
                 <View style={styles.imgrow}>
+                    {/* Work request  */}
                     <View style={styles.imgsingle}>
                         <TouchableOpacity onPress={() => navigation.navigate('Workrequest')}>
-
                         <Image
                             source={require('../Image/worksrequest.png')}
                             style={styles.image}
@@ -24,6 +24,7 @@ const Home = () => {
                         <Text style={styles.prograp}>Work Request</Text>
                         </TouchableOpacity>
                     </View>
+                    {/* Work order */}
                     <View style={styles.imgsingle}>
                         <TouchableOpacity onPress={() => navigation.navigate('Workorder')}>
                         <Image
@@ -42,7 +43,6 @@ const Home = () => {
                         />
                         <Text style={styles.prograp}>Preventive Maintenance</Text>
                     </View>
-
                 </View>
 
                 <View style={styles.imgrow}>
@@ -54,13 +54,17 @@ const Home = () => {
                         />
                         <Text style={styles.prograp}>Cleaning Works</Text>
                     </View>
+                    {/* Locationmanagement */}
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Locationmanagement')}>
+
                         <Image
                             source={require('../Image/Locationmanagment.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Location Management</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
                         <Image
