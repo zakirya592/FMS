@@ -9,6 +9,7 @@ import 'react-native-gesture-handler';
 import Workrequest from './assets/Screen/Work Request/Workrequest';
 import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
 import { MenuProvider } from 'react-native-popup-menu';
+import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -61,14 +62,14 @@ function MainStackNavigator() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
-        options={{
-          title: 'Create Work Request',
-          headerShown: true,
-          headerStyle: { backgroundColor: '#0A2DAA' },
-          headerTitleStyle: { color: '#FFFFFF', },
+        options={{title: 'Create Work Request',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
-        }
-        }
+        }}
+      />
+       <Stack.Screen name="Addassetcode" component={Addassetcode}
+        options={{title: 'Asset Management',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }}
       />
     </Stack.Navigator>
   );

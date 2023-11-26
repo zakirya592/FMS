@@ -8,7 +8,8 @@ import PhoneInput from "react-native-phone-number-input";
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
- import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -18,6 +19,8 @@ const data = [
 ];
 
 export default function Createworkrequest() {
+
+    const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequest: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
         DepartmentCode: '', DepartmentName: '', WorkType: '', WorkTypeDesc: '', WorkPriority: '', WorkTrade: '',
@@ -478,7 +481,7 @@ export default function Createworkrequest() {
                     </View>
 
                 </View>
-                {/* WorkTradeDesc ans Add Assetcode button*/}
+                {/* Work Priority and Work Trade*/}
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
@@ -569,7 +572,7 @@ export default function Createworkrequest() {
                         marginVertical: 10,
                         marginTop: 30
                     }}
-                    // onPress={() => navigation.navigate('Createworkrequest')}
+                    onPress={() => navigation.navigate('Addassetcode')}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Asset code
