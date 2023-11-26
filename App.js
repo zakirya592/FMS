@@ -10,6 +10,7 @@ import Workrequest from './assets/Screen/Work Request/Workrequest';
 import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
 import { MenuProvider } from 'react-native-popup-menu';
 import Addassetcode from './assets/Screen/Work Request/Addassetcode';
+import Workorder from './assets/Screen/Work Order/Workorder';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -68,6 +69,11 @@ function MainStackNavigator() {
       />
        <Stack.Screen name="Addassetcode" component={Addassetcode}
         options={{title: 'Asset Management',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }}
+      />
+         <Stack.Screen name="Workorder" component={Workorder}
+        options={{title: 'Work Order',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }}
       />

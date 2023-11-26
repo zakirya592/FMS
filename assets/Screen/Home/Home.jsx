@@ -25,12 +25,14 @@ const Home = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Workorder')}>
                         <Image
                             source={require('../Image/worksorders.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Work Order</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
                         <Image
