@@ -11,6 +11,7 @@ import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
 import { MenuProvider } from 'react-native-popup-menu';
 import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 import Workorder from './assets/Screen/Work Order/Workorder';
+import Createworkorder from './assets/Screen/Work Order/Createworkorder';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -63,20 +64,25 @@ function MainStackNavigator() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
-        options={{title: 'Create Work Request',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
+        options={{
+          title: 'Create Work Request', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
-        }}
-      />
-       <Stack.Screen name="Addassetcode" component={Addassetcode}
-        options={{title: 'Asset Management',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
+        }} />
+      <Stack.Screen name="Addassetcode" component={Addassetcode}
+        options={{
+          title: 'Asset Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
-        }}
-      />
-         <Stack.Screen name="Workorder" component={Workorder}
-        options={{title: 'Work Order',  headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' },  headerTitleStyle: { color: '#FFFFFF', },
+        }} />
+      <Stack.Screen name="Workorder" component={Workorder}
+        options={{
+          title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
-        }}
-      />
+        }} />
+         <Stack.Screen name="Createworkorder" component={Createworkorder}
+        options={{
+          title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
     </Stack.Navigator>
   );
 }
@@ -84,37 +90,37 @@ function MainStackNavigator() {
 export default function App() {
   return (
     <MenuProvider>
-    <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName="Logout"
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
-      >
+      <NavigationContainer>
+        <Drawer.Navigator
+          initialRouteName="Logout"
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+        >
 
-        <Drawer.Screen name="Home" component={Home} options={{
-          headerTitle: '',
-          headerRight: () => (
-            <Image
-              source={require('./assets/Screen/Image/log-removebg-preview.png')}
-              resizeMode='contain'
-              style={{
-                marginTop: 10,
-                width: '60%',
-                height: '80%',
-              }}
-            />
-          ),
-          drawerLabelStyle: {
-            color: '#1D3A9F',
-            fontSize: 16,
-            fontStyle: 'normal',
-            fontWeight: '700',
+          <Drawer.Screen name="Home" component={Home} options={{
+            headerTitle: '',
+            headerRight: () => (
+              <Image
+                source={require('./assets/Screen/Image/log-removebg-preview.png')}
+                resizeMode='contain'
+                style={{
+                  marginTop: 10,
+                  width: '60%',
+                  height: '80%',
+                }}
+              />
+            ),
+            drawerLabelStyle: {
+              color: '#1D3A9F',
+              fontSize: 16,
+              fontStyle: 'normal',
+              fontWeight: '700',
 
-          },
-        }} />
+            },
+          }} />
 
-        <Drawer.Screen name="Logout" component={MainStackNavigator} options={{ headerShown: false }} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+          <Drawer.Screen name="Logout" component={MainStackNavigator} options={{ headerShown: false }} />
+        </Drawer.Navigator>
+      </NavigationContainer>
     </MenuProvider>
   );
 }
