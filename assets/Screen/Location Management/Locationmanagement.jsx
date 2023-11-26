@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
 import { Button, Icon } from '@rneui/themed';
-import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown'; 
