@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native'
 import { Button, Icon, Dialog } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
@@ -11,7 +11,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {Menu,MenuOptions, MenuOption,MenuTrigger} from 'react-native-popup-menu';
 import axios from 'axios';
 import moment from 'moment';
-
 
 export default function Preventivemaintenance() {
     const navigation = useNavigation();
@@ -89,7 +88,15 @@ export default function Preventivemaintenance() {
               
             });
     }
+    const [showAlert, setShowAlert] = useState(false);
 
+    const showAlertExample = () => {
+        setShowAlert(true);
+    };
+
+    const hideAlert = () => {
+        setShowAlert(false);
+    };
 
     return (
         <ScrollView>
@@ -143,8 +150,7 @@ export default function Preventivemaintenance() {
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
                         {items.filter((item) => item && item.RequestNumber && item.RequestNumber.includes(value.Employeeid)).slice(from, to).map((item,index) => (
-                            <ScrollView>
-                                <DataTable.Row key={item._id}>
+                             <DataTable.Row key={item._id}>
                                     <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                         <Checkbox
                                             status={item.selected ? 'checked' : 'unchecked'}
@@ -160,8 +166,7 @@ export default function Preventivemaintenance() {
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{moment(item.RequestDateTime).isValid() ? moment(item.RequestDateTime).format('DD/MM/YYYY') : ''}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.DepartmentCode}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.BuildingCode}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>
-                                        <Menu onSelect={value => alert(`Selected number: ${value}`)}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu onSelect={value => alert(`Selected number: ${value}`)}>
                                             <MenuTrigger >
                                                 <View style={styles.actions}>
                                                     <Text>Action </Text>
@@ -202,9 +207,8 @@ export default function Preventivemaintenance() {
                                         </Menu>
                                     </DataTable.Cell>
                                 </DataTable.Row>
-                            </ScrollView>
                         ))}
-                       
+                        
 
                     </DataTable>
                 </ScrollView>
@@ -218,7 +222,16 @@ export default function Preventivemaintenance() {
                     showFastPaginationControls
                     selectPageDropdownLabel={'Rows per page'}
                 />
+                <View style={styles.container}>
+                    <Button title="Show Alert" onPress={showAlertExample} />
 
+                    <SweetAlert
+                        show={showAlert}
+                        title="Title"
+                        subTitle="Subtitle"
+                        onConfirm={hideAlert}
+                    />
+                </View>
                 {/* Button section */}
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="solid" containerStyle={{
