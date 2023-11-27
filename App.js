@@ -14,6 +14,7 @@ import Workorder from './assets/Screen/Work Order/Workorder';
 import Createworkorder from './assets/Screen/Work Order/Createworkorder';
 import Locationmanagement from './assets/Screen/Location Management/Locationmanagement';
 import axios from "axios";
+import Preventivemaintenance from './assets/Screen/Preventive Maintenance/Preventivemaintenance';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -64,31 +65,44 @@ function MainStackNavigator() {
       }
       }
     >
+      {/* Login */}
       <Stack.Screen name="Login" component={Login} />
+      {/* Workrequest */}
       <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
+      {/* Createworkrequest */}
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
         options={{
           title: 'Create Work Request', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Addassetcode */}
       <Stack.Screen name="Addassetcode" component={Addassetcode}
         options={{
           title: 'Asset Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Workorder */}
       <Stack.Screen name="Workorder" component={Workorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Createworkorder */}
          <Stack.Screen name="Createworkorder" component={Createworkorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Locationmanagement */}
           <Stack.Screen name="Locationmanagement" component={Locationmanagement}
         options={{
           title: 'Location Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Preventivemaintenance */ }
+            <Stack.Screen name="Preventivemaintenance" component={Preventivemaintenance}
+        options={{
+          title: 'Preventive Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>

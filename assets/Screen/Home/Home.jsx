@@ -35,13 +35,16 @@ const Home = () => {
                         <Text style={styles.prograp}>Work Order</Text>
                         </TouchableOpacity>
                     </View>
+                    {/* Preventivemaintenance */}
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Preventivemaintenance')}>
                         <Image
                             source={require('../Image/Preventive.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Preventive Maintenance</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
