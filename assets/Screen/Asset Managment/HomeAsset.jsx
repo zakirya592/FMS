@@ -209,7 +209,7 @@ export default function Workrequest () {
               containerStyle={{
                 width: 250,
                 marginHorizontal: 50,
-                marginVertical: 10,
+                marginVertical: 40,
               }}
             >
               Asset Master
@@ -260,7 +260,7 @@ const styles = StyleSheet.create ({
     fontSize: 16,
     fontStyle: 'normal',
     fontWeight: '600',
-    marginHorizontal: 10,
+    marginHorizontal: 100,
     marginVertical: 10,
   },
   inputBox: {
