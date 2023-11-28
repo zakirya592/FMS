@@ -70,12 +70,14 @@ const Home = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('AssetHome')}>
                         <Image
                             source={require('../Image/Assetmanagment.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Asset Management</Text>
+                          </TouchableOpacity>
                     </View>
 
                 </View>

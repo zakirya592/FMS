@@ -8,6 +8,7 @@ import Home from './assets/Screen/Home/Home';
 import 'react-native-gesture-handler';
 import Workrequest from './assets/Screen/Work Request/Workrequest';
 import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
+import AssetHome from './assets/Screen/Asset Managment/HomeAsset';
 import { MenuProvider } from 'react-native-popup-menu';
 import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 import Workorder from './assets/Screen/Work Order/Workorder';
@@ -110,6 +111,12 @@ function MainStackNavigator() {
             <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
         options={{
           title: 'Preventive Maintenance', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Asset magmanet  */}
+      <Stack.Screen name="AssetHome" component={AssetHome}
+        options={{
+          title: 'Asset Managment', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>
