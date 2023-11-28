@@ -18,6 +18,8 @@ import Preventivemaintenance from './assets/Screen/Preventive Maintenance/Preven
 import Createpreventivemaintenance from './assets/Screen/Preventive Maintenance/Createpreventivemaintenance';
 import Cleaningworks from './assets/Screen/Cleaning Works/Cleaningworks';
 import Createcleaningwork from './assets/Screen/Cleaning Works/Createcleaningwork';
+import Usermanagment from './assets/Screen/User management/Usermanagment';
+import Systemmodules from './assets/Screen/User management/System Modules/Systemmodules';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -124,6 +126,18 @@ function MainStackNavigator() {
             <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
         options={{
           title: 'Cleaning Works', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+         {/*user managment Access */ }
+            <Stack.Screen name="Usermanagment" component={Usermanagment}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+         {/*Systemmodules managment Access */ }
+            <Stack.Screen name="Systemmodules" component={Systemmodules}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>

@@ -83,13 +83,16 @@ const Home = () => {
                 </View>
 
                 <View style={styles.imgrow}>
+                    {/* Usermanagment */}
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Usermanagment')}>
                         <Image
                             source={require('../Image/usermanagment.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>User Management</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
                         <Image
