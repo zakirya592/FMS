@@ -229,7 +229,7 @@ export default function Preventivemaintenance() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createworkrequest')}
+                        onPress={() => navigation.navigate('Createpreventivemaintenance')}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
