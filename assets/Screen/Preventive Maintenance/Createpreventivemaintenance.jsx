@@ -5,7 +5,7 @@ import { Button } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { RadioButton } from 'react-native-paper';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -17,14 +17,14 @@ const data = [
 export default function Createpreventivemaintenance() {
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequestNo:'',
-         WorkOrderNumber: '', Datetime: '', RequestStatus: '',
-        FailureCode: '', FailureCodeDesc: '', SolutionCode: '', SolutionCodeDesc: '', WorkPriority: '', WorkTrade: '', WorkDescription: '',
-        WorkPrority: '', WorkStaus: '', WorkCategory: '', WorkCategoryDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
+        WorkOrderNumber: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
+        AssetCategory: '', Manufacturer: '', Model: '', Building: '', DepartmentCode: '', DepartmentName:'',
+        WorkPriority: '', WorkDescription: '', SchedulingPriority:'',
+        WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
         CompletedbyEmp: '', ComplateEmployeeName: '',
     })
 
-    const [isFocusedWorkCategoryDesc, setIsFocusedWorkCategoryDesc] = useState(false);
-    const [isFocusedWorkDescription, setIsFocusedWorkDescription] = useState(false);
+    const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -52,30 +52,35 @@ export default function Createpreventivemaintenance() {
         setShowPickerEndDatetime(true);
     };
 
-    const [dateAppointment, setDateAppointment] = useState(null);
-    const [showPickerAppointment, setShowPickerAppointment] = useState(false);
-    const onChangeAppointment = (event, selectedDate) => {
-        const currentDate = selectedDate || dateAppointment; // Use the existing date if no new date is selected
-        setShowPickerAppointment(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
-        setDateAppointment(currentDate);
+    const [dateManufacturer, setDateManufacturer] = useState(null);
+    const [showPickerManufacturer, setShowPickerManufacturer] = useState(false);
+    const onChangeManufacturer = (event, selectedDate) => {
+        const currentDate = selectedDate || dateManufacturer; // Use the existing date if no new date is selected
+        setShowPickerManufacturer(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+        setDateManufacturer(currentDate);
     };
 
-    const showDatepickerAppointment = () => {
-        setShowPickerAppointment(true);
+    const showDatepickerManufacturer = () => {
+        setShowPickerManufacturer(true);
     };
 
-    const [dateSchedule, setDateSchedule] = useState(null);
-    const [showPickerSchedule, setShowPickerSchedule] = useState(false);
-    const onChangeSchedule = (event, selectedDate) => {
-        const currentDate = selectedDate || dateSchedule; // Use the existing date if no new date is selected
-        setShowPickerSchedule(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
-        setDateSchedule(currentDate);
+    const [dateWarrantyenddata, setDateWarrantyenddata] = useState(null);
+    const [showPickerWarrantyenddata, setShowPickerWarrantyenddata] = useState(false);
+    const onChangeWarrantyenddata = (event, selectedDate) => {
+        const currentDate = selectedDate || dateWarrantyenddata; // Use the existing date if no new date is selected
+        setShowPickerWarrantyenddata(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+        setDateWarrantyenddata(currentDate);
     };
 
-    const showDatepickerSchedule = () => {
-        setShowPickerSchedule(true);
+    const showDatepickerWarrantyenddata = () => {
+        setShowPickerWarrantyenddata(true);
     };
 
+    const [selectedOption, setSelectedOption] = React.useState('Daily');
+
+    const handleRadioChange = (value) => {
+        setSelectedOption(value);
+    };
 
     return (
 
@@ -138,434 +143,12 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                 </View>
-                {/* Request Date/Time and Schedule Date/time */}
-                <View style={styles.inputContainer}>
+                {/* Start Date/Time  */}
+                <View style={[styles.inputContainer,{alignItems:'flex-start',justifyContent:'flex-start',marginLeft:4}]}>
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Request <Text style={{ fontSize: 12 }}> Date/Time</Text>
                         </Text>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
-                                <TextInput
-                                    style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateAppointment ? dateAppointment.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
-                                    editable={true}
-                                />
-                                <TouchableOpacity onPress={showDatepickerAppointment} style={styles.iconcontainer}>
-                                    <AntDesign name="calendar" size={20} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                            {showPickerAppointment && (
-                                <View>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={dateAppointment || new Date()} // Use the existing date or the current date if dateEndDatetime is null
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChangeAppointment}
-                                    />
-                                </View>
-                            )}
-                        </View>
-                    </View>
-
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Schedule <Text style={{ fontSize: 12 }}> Date/Time</Text>
-                        </Text>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
-                                <TextInput
-                                    style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateSchedule ? dateSchedule.toLocaleString() : 'dd/mm/yyyy -:- -'}
-                                    editable={true}
-                                />
-                                <TouchableOpacity onPress={showDatepickerSchedule} style={styles.iconcontainer}>
-                                    <AntDesign name="calendar" size={20} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                            {showPickerSchedule && (
-                                <View>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={dateSchedule || new Date()}
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChangeSchedule}
-                                    />
-                                </View>
-                            )}
-                        </View>
-                    </View>
-                </View>
-                {/* WorkStaus and Work Prority */}
-                <View style={styles.inputContainer}>
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Staus
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Work Staus '}
-                            value={value.WorkStaus}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkStaus: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Prority
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Work Prority '}
-                            searchPlaceholder="Search..."
-                            value={value.WorkPrority}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkPrority: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                        />
-                    </View>
-
-                </View>
-                {/* WorkDescription */}
-                <View style={styles.inputContainer}>
-                    <View style={[styles.singleinputlable]}>
-                        <Text style={styles.lableinput}>Work Description
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox, { width: 350 },
-                                { borderColor: isFocusedWorkDescription ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.WorkDescription}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkDescription: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="Work Description"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocusedWorkDescription(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocusedWorkDescription(false);
-                            })}
-                        />
-                    </View>
-                </View>
-                {/* WorkCategory and WorkCategoryDesc */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Category
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40 }, isFocus && { borderColor: 'blue' }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Work Category'}
-                            value={value.WorkCategory}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkCategory: item.value,
-                                }));
-                            }}
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Category Desc.
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocusedWorkCategoryDesc ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.WorkCategoryDesc}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkCategoryDesc: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="Work Category Desc"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocusedWorkCategoryDesc(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocusedWorkCategoryDesc(false);
-                            })}
-                        />
-                    </View>
-
-                </View>
-                {/* Failure Code */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Failure Code
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select Failure Code'}
-                            value={value.FailureCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    FailureCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Failure Code Desc.
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.FailureCodeDesc}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    FailureCodeDesc: item.value,
-                                }));
-                            }}
-                            placeholder="Failure Code Desc."
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
-                </View>
-                {/* Solution Code */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Solution Code
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select Solution Code'}
-                            value={value.SolutionCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    SolutionCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
-
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Solution Code Desc
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.SolutionCodeDesc}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    SolutionCodeDesc: item.value,
-                                }));
-                            }}
-                            placeholder="Solution Code Description"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
-                </View>
-                {/* Assign to Employee */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Assign to Employee
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Assign to Employee'}
-                            search
-                            searchPlaceholder='search Employee'
-                            value={value.AssigntoEmployee}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    AssigntoEmployee: item.value, // Update the Employeeid property
-                                }));
-                            }}
-
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Employee Name
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.EmployeeName}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    EmployeeName: item.value,
-                                }));
-                            }}
-                            placeholder="Employee Name"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
-                </View>
-                {/* Appointment and Schedule Date/time */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Appointment <Text style={{ fontSize: 12 }}> Date/Time</Text>
-                        </Text>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
-                                <TextInput
-                                    style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateAppointment ? dateAppointment.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
-                                    editable={true}
-                                />
-                                <TouchableOpacity onPress={showDatepickerAppointment} style={styles.iconcontainer}>
-                                    <AntDesign name="calendar" size={20} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                            {showPickerAppointment && (
-                                <View>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={dateAppointment || new Date()} // Use the existing date or the current date if dateEndDatetime is null
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChangeAppointment}
-                                    />
-                                </View>
-                            )}
-                        </View>
-                    </View>
-
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Schedule <Text style={{ fontSize: 12 }}> Date/Time</Text>
-                        </Text>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
-                                <TextInput
-                                    style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateSchedule ? dateSchedule.toLocaleString() : 'dd/mm/yyyy -:- -'}
-                                    editable={true}
-                                />
-                                <TouchableOpacity onPress={showDatepickerSchedule} style={styles.iconcontainer}>
-                                    <AntDesign name="calendar" size={20} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                            {showPickerSchedule && (
-                                <View>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={dateSchedule || new Date()}
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChangeSchedule}
-                                    />
-                                </View>
-                            )}
-                        </View>
-                    </View>
-                </View>
-                {/* Start Date/time and End Date/time */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Start Date/time
-                        </Text>
-
                         <View>
                             <View style={{
                                 flexDirection: 'row', alignItems: 'center',
@@ -593,9 +176,495 @@ export default function Createpreventivemaintenance() {
                             )}
                         </View>
                     </View>
+                </View>
+                {/* FirstMiddleName and last name */}
+                <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>End Date/time
+                        <Text style={styles.lableinput}>First & Middle Name
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
+                            ]}
+                            value={value.FirstMiddleName}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    FirstMiddleName: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder='First & Middle Name '
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Last Name
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
+                            ]}
+                            value={value.Datetime}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Datetime: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder='LastName'
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                            onFocus={(() => {
+                                setIsFocused(true);
+                            })}
+                            onBlur={(() => {
+                                setIsFocused(false);
+                            })}
+                        />
+                    </View>
+
+
+
+                </View>
+                {/* Work Type */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Work Type
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select Work Type'}
+                            value={value.WorkType}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    WorkType: item.value, // Update the Employeeid property
+                                }));
+                            }}
+
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Work Type Desc
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                            ]}
+                            value={value.WorkTypeDesc}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    WorkTypeDesc: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder="Work Type Description"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                </View>
+                {/* Work Priority*/}
+                <View style={[styles.inputContainer,{alignItems:'flex-start',justifyContent:'flex-start',margin:5}]}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Work Priority
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select Work Priority'}
+                            value={value.WorkPriority}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    WorkPriority: item.value, // Update the Employeeid property
+                                }));
+                            }}
+
+                        />
+                    </View>
+
+                </View>
+                {/* Asset Type and AssetTypeDesc */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Asset Type
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40 }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Asset Type'}
+                            value={value.AssetType}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    AssetType: item.value,
+                                }));
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Asset Type Desc.
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                                { borderColor: isFocusedAssetTypeDesc ? '#1D3A9F' : '#94A0CA' },
+                            ]}
+                            value={value.AssetTypeDesc}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    AssetTypeDesc: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder="Asset Type Desc."
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                            onFocus={(() => {
+                                setIsFocusedAssetTypeDesc(true);
+                            })}
+                            onBlur={(() => {
+                                setIsFocusedAssetTypeDesc(false);
+                            })}
+                        />
+                    </View>
+
+                </View>
+                {/* Asset Category Manufacturer */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Asset Category
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox
+                            ]}
+                            value={value.AssetCategory}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    AssetCategory: item.value,
+                                }));
+                            }}
+                            placeholder="Asset Category"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Manufacturer
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox
+                            ]}
+                            value={value.Manufacturer}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Manufacturer: item.value,
+                                }));
+                            }}
+                            placeholder="Manufacturer"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                </View>
+                {/* Model Building */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Model
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox
+                            ]}
+                            value={value.Model}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Model: item.value,
+                                }));
+                            }}
+                            placeholder="Model"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Building
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select Building'}
+                            value={value.Building}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Building: item.value, // Update the Employeeid property
+                                }));
+                            }}
+
+                        />
+                    </View>
+                </View>
+                {/* Department */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Department Code
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select DeptCode'}
+                            value={value.DepartmentCode}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    DepartmentCode: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Department Name
+                        </Text>
+                        <TextInput
+                            style={[styles.inputBox,]}
+                            value={value.DepartmentName}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    DepartmentName: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder="Department Name"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                </View>
+                {/* Warranty Period and Warrantyenddata Date/time */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Warranty Period
+                        </Text>
+                        <View>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center',
+                            }}>
+                                <TextInput
+                                    style={[styles.inputBox, { position: 'relative', }]}
+                                    value={dateManufacturer ? dateManufacturer.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
+                                    editable={true}
+                                />
+                                <TouchableOpacity onPress={showDatepickerManufacturer} style={styles.iconcontainer}>
+                                    <AntDesign name="calendar" size={20} color="white" />
+                                </TouchableOpacity>
+                            </View>
+                            {showPickerManufacturer && (
+                                <View>
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={dateManufacturer || new Date()} // Use the existing date or the current date if dateEndDatetime is null
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChangeManufacturer}
+                                    />
+                                </View>
+                            )}
+                        </View>
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Warranty <Text style={{ fontSize: 12 }}>End Date</Text>
+                        </Text>
+                        <View>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center',
+                            }}>
+                                <TextInput
+                                    style={[styles.inputBox, { position: 'relative', }]}
+                                    value={dateWarrantyenddata ? dateWarrantyenddata.toLocaleString() : 'dd/mm/yyyy -:- -'}
+                                    editable={true}
+                                />
+                                <TouchableOpacity onPress={showDatepickerWarrantyenddata} style={styles.iconcontainer}>
+                                    <AntDesign name="calendar" size={20} color="white" />
+                                </TouchableOpacity>
+                            </View>
+                            {showPickerWarrantyenddata && (
+                                <View>
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={dateWarrantyenddata || new Date()}
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChangeWarrantyenddata}
+                                    />
+                                </View>
+                            )}
+                        </View>
+                    </View>
+                </View>
+                {/* Location*/}
+                <View style={[styles.inputContainer,{justifyContent:'flex-start',alignItems:'flex-start',marginLeft:5}]}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Location
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select Location'}
+                            value={value.Location}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Location: item.value, // Update the Employeeid property
+                                }));
+                            }}
+
+                        />
+                    </View>
+
+                </View>
+                {/* WorkDescription */}
+                <View style={styles.inputContainer}>
+                    <View style={[styles.singleinputlable]}>
+                        <Text style={styles.lableinput}>Work Description
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox, { width: 350 },
+                            ]}
+                            value={value.WorkDescription}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    WorkDescription: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder="Describe the nature of the Proplem"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+                </View>
+                {/*Schedule Start Date/time and End Date/time */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Schedule <Text style={{ fontSize: 12 }}>Start Date</Text>
+                        </Text>
+
+                        <View>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center',
+                            }}>
+                                <TextInput
+                                    style={[styles.inputBox, { position: 'relative', }]}
+                                    value={dateManufacturer ? dateManufacturer.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
+                                    editable={true}
+                                />
+                                <TouchableOpacity onPress={showDatepickerManufacturer} style={styles.iconcontainer}>
+                                    <AntDesign name="calendar" size={20} color="white" />
+                                </TouchableOpacity>
+                            </View>
+                            {showPickerManufacturer && (
+                                <View>
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={dateManufacturer || new Date()} // Use the existing date or the current date if dateEndDatetime is null
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChangeManufacturer}
+                                    />
+                                </View>
+                            )}
+                        </View>
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Schedule <Text style={{ fontSize: 12 }}>End Date</Text>
                         </Text>
                         <View>
                             <View style={{
@@ -625,118 +694,13 @@ export default function Createpreventivemaintenance() {
                         </View>
                     </View>
                 </View>
-                {/* TotalHours TotalDays */}
+                {/* {Work Trade} */}
                 <View style={styles.inputContainer}>
-
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Total Days
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.TotalDays}
-                            onChangeText={text => {
-                                if (/^\d+$/.test(text) || text === "") {
-                                    setvalue(prevValue => ({
-                                        ...prevValue,
-                                        TotalDays: text,
-                                    }));
-                                }
-                            }}
-                            placeholder="Total Hours"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            keyboardType="numeric" // Allow only numeric input
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Total Hours
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.TotalHours}
-                            onChangeText={text => {
-                                if (/^\d+$/.test(text) || text === "") {
-                                    setvalue(prevValue => ({
-                                        ...prevValue,
-                                        TotalHours: text,
-                                    }));
-                                }
-                            }}
-                            placeholder="Total Hours"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            keyboardType="numeric" // Allow only numeric input
-                        />
-                    </View>
-
-                </View>
-                {/* TotalHours TotalDays */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Total Minuites
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.TotalMinuites}
-                            onChangeText={text => {
-                                if (/^\d+$/.test(text) || text === "") {
-                                    setvalue(prevValue => ({
-                                        ...prevValue,
-                                        TotalMinuites: text,
-                                    }));
-                                }
-                            }}
-                            placeholder="Total Minuites"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            keyboardType="numeric" // Allow only numeric input
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Cost of Work
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.CostofWork}
-                            onChangeText={text => {
-                                if (/^\d+$/.test(text) || text === "") {
-                                    setvalue(prevValue => ({
-                                        ...prevValue,
-                                        CostofWork: text,
-                                    }));
-                                }
-                            }}
-                            placeholder="Total Cost of Work"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            keyboardType="numeric" // Allow only numeric input
-                        />
-                    </View>
-
-                </View>
-                {/* Completed by Emp. */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Completed by Emp.
+                        <Text style={styles.lableinput}>Work Trade
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40, }]}
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
@@ -745,14 +709,12 @@ export default function Createpreventivemaintenance() {
                             maxHeight={200}
                             labelField="label"
                             valueField="value"
-                            placeholder={'Completed by Emp.'}
-                            search
-                            searchPlaceholder='search Completed by Employee'
-                            value={value.CompletedbyEmp}
+                            placeholder={'Select Work Trade'}
+                            value={value.WorkTrade}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    CompletedbyEmp: item.value, // Update the Employeeid property
+                                    WorkTrade: item.value, // Update the Employeeid property
                                 }));
                             }}
 
@@ -760,41 +722,130 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Employee Name
+                        <Text style={styles.lableinput}>Scheduling Priority
                         </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.Complate}
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select sched priority'}
+                            value={value.SchedulingPriority}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Complate: item.value,
+                                    SchedulingPriority: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder="Employee Name"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
+
                         />
                     </View>
+                </View>
+                {/* Frequency */}
+                <View >
+                    <Text style={[styles.lableinput,{marginLeft:5}]}>Frequency
+                    </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <RadioButton.Item
+                            label="Daily"
+                            value="Daily"
+                            status={selectedOption === 'Daily' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Daily')}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }} 
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                            labelPosition='right'  // Set the label position to the left
 
+                        />
+                        <RadioButton.Item
+                            label="Weekly"
+                            value="Weekly"
+                            status={selectedOption === 'Weekly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Weekly')}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                        />
+                        <RadioButton.Item
+                            label="Monthly"
+                            value="Monthly"
+                            status={selectedOption === 'Monthly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Monthly')}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row'}}>
+                       
+                        <RadioButton.Item
+                            label="Bi-Monthly"
+                            value="Bi-Monthly"
+                            status={selectedOption === 'Bi-Monthly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Bi-Monthly')}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                        />
+
+                        <RadioButton.Item
+                            label="Quarterly"
+                            value="Quarterly"
+                            status={selectedOption === 'Quarterly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Quarterly')}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                             />
+
+                        <RadioButton.Item
+                            label="Yearly"
+                            value="Yearly"
+                            status={selectedOption === 'Yearly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Yearly')}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14 ,fontWeight:'400'}}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                        />
+                    </View>
                 </View>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
-                    width: 350,
+                    // width: 400,
                     paddingHorizontal: 12,
                     marginRight: 40,
-                    marginBottom: 20,
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
+                    marginBottom: 10,
+                    marginTop:10,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
                 }}
+                    buttonStyle={{
+                        backgroundColor: '#0A2DAA',
+                        borderRadius: 3,
+                        width:130
+                    }}
                 // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
                 </Button>
+                <Button radius={"md"} type="solid" containerStyle={{
+                    width: 350,
+                    paddingHorizontal: 12,
+                    marginRight: 40,
+                    marginBottom: 20,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                }}
+                    buttonStyle={{
+                        backgroundColor: '#029B5B',
+                        borderRadius: 3,
+                    }}
+                // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
+                >
+                    <Ionicons name="document-text-outline" size={23} color="white" style={{ marginRight: 12 }} />
+                    GENERATE PM WORK ORDERS
+                </Button>
+
             </View>
         </ScrollView>
     )
@@ -891,5 +942,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderBottomWidth: 0.5
     },
+    radiobutton:{
+        fontWeight:'400',
+        fontSize:12,
+        color:'#0A2DAA'
+    }
 
 })
