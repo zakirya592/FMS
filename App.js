@@ -16,6 +16,8 @@ import Locationmanagement from './assets/Screen/Location Management/Locationmana
 import axios from "axios";
 import Preventivemaintenance from './assets/Screen/Preventive Maintenance/Preventivemaintenance';
 import Createpreventivemaintenance from './assets/Screen/Preventive Maintenance/Createpreventivemaintenance';
+import Cleaningworks from './assets/Screen/Cleaning Works/Cleaningworks';
+import Createcleaningwork from './assets/Screen/Cleaning Works/Createcleaningwork';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -110,6 +112,18 @@ function MainStackNavigator() {
             <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
         options={{
           title: 'Preventive Maintenance', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+         {/* Createpreventivemaintenance */ }
+            <Stack.Screen name="Cleaningworks" component={Cleaningworks}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+         {/* Createpreventivemaintenance */ }
+            <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>

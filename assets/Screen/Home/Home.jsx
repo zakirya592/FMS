@@ -49,18 +49,20 @@ const Home = () => {
                 </View>
 
                 <View style={styles.imgrow}>
+                    {/* Cleaningworks */}
                     <View style={styles.imgsingle}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Cleaningworks')}>
                         <Image
                             source={require('../Image/cleaningwork.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Cleaning Works</Text>
+                    </TouchableOpacity>
                     </View>
                     {/* Locationmanagement */}
                     <View style={styles.imgsingle}>
                         <TouchableOpacity onPress={() => navigation.navigate('Locationmanagement')}>
-
                         <Image
                             source={require('../Image/Locationmanagment.png')}
                             style={styles.image}
