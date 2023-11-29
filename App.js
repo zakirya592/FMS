@@ -20,6 +20,7 @@ import Cleaningworks from './assets/Screen/Cleaning Works/Cleaningworks';
 import Createcleaningwork from './assets/Screen/Cleaning Works/Createcleaningwork';
 import Usermanagment from './assets/Screen/User management/Usermanagment';
 import Systemmodules from './assets/Screen/User management/System Modules/Systemmodules';
+import Userauthoritylevels from './assets/Screen/User management/User Authority Levels/Userauthoritylevels';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -136,6 +137,12 @@ function MainStackNavigator() {
         }} />
          {/*Systemmodules managment Access */ }
             <Stack.Screen name="Systemmodules" component={Systemmodules}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+           {/*Systemmodules managment Access */ }
+            <Stack.Screen name="Userauthoritylevels" component={Userauthoritylevels}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
