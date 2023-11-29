@@ -216,7 +216,7 @@ export default function Systemmodules() {
                 />
                 {/* Button section */}
                 <View style={[styles.buttonsection,{justifyContent:'flex-start',alignItems:'flex-start'}]} >
-                    <Addsystemmodules/>
+                    <Addsystemmodules myFunction={getapi} />
                 </View>
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="outline" containerStyle={{

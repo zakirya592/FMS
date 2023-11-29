@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { Button, Icon, Dialog } from '@rneui/themed';
+import axios from 'axios';
 
-export default function Addsystemmodules() {
+export default function Addsystemmodules({ myFunction }) {
     const [value, setvalue] = useState({
         SystemModuleCode: '', SystemModuledesc:''
     })
@@ -11,6 +12,20 @@ export default function Addsystemmodules() {
     const toggleshowmodel = () => {
         setshowmodel(!showmodel);
     };
+
+    const postapi = (e) => {
+        e.preventDefault();
+        axios.post(`/api/SystemModules_post`, {
+            SystemModuleCode: value.SystemModuleCode,
+            SystemModuleDesc: value.SystemModuledesc,
+            SystemModuleSeq: "80"
+        },).then((res) => {
+                setshowmodel(!showmodel);
+            myFunction()
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
 
     return (
         <View>
@@ -34,10 +49,10 @@ export default function Addsystemmodules() {
                         <TextInput
                             style={[styles.inputBox,]}
                             value={value.SystemModuleCode}
-                            onChange={item => {
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    SystemModuleCode: item.value, // Update the Employeeid property
+                                    SystemModuleCode: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder="System Module Code"
@@ -52,10 +67,10 @@ export default function Addsystemmodules() {
                         <TextInput
                             style={[styles.inputBox]}
                             value={value.SystemModuledesc}
-                            onChange={item => {
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    SystemModuledesc: item.value, // Update the Employeeid property
+                                    SystemModuledesc: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder="System Module Description"
@@ -66,7 +81,7 @@ export default function Addsystemmodules() {
                     </View>
                 </View>
                 <Dialog.Actions style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Dialog.Button ><Text style={{ backgroundColor: '#0A2DAA', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Add New</Text></Dialog.Button>
+                        <Dialog.Button onPress={postapi}><Text style={{ backgroundColor: '#0A2DAA', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Add New</Text></Dialog.Button>
                         <Dialog.Button onPress={() => setshowmodel(!showmodel)} ><Text style={{ backgroundColor: 'black', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14}}>Back</Text></Dialog.Button>
                  </Dialog.Actions>
             </Dialog>
