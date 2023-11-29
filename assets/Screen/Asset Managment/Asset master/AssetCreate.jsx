@@ -637,8 +637,8 @@ export default function Createworkrequest () {
             </View>
           </View>
 
-              </View>
-               <View style={styles.warranty}>
+        </View>
+        <View style={styles.warranty}>
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -661,9 +661,14 @@ export default function Createworkrequest () {
                   onPress={showDatepicker}
                   style={styles.iconcontainer}
                 >
-                  <AntDesign name="calendar"style={{
-                  position:'relative'
-                }} size={20} color="white" />
+                  <AntDesign
+                    name="calendar"
+                    style={{
+                      position: 'relative',
+                    }}
+                    size={20}
+                    color="white"
+                  />
                 </TouchableOpacity>
               </View>
               {showPicker &&
@@ -679,11 +684,11 @@ export default function Createworkrequest () {
                 </View>}
             </View>
           </View>
-        
+
           <View style={styles.singleinputlable} />
 
-              </View>
-              <View style={styles.inputContainer}>
+        </View>
+        <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -743,8 +748,8 @@ export default function Createworkrequest () {
             />
           </View>
 
-              </View>
-              <View style={styles.inputContainer}>
+        </View>
+        <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -804,7 +809,7 @@ export default function Createworkrequest () {
             />
           </View>
 
-             </View>
+        </View>
         {/* Work Trade Desc and Add asset button */}
         <View style={styles.inputContainer}>
 
@@ -983,9 +988,9 @@ const styles = StyleSheet.create ({
     marginVertical: 9,
     paddingVertical: 5,
     backgroundColor: '#FFFFFF',
-    },
-    warranty: {
-   marginLeft:5   
+  },
+  warranty: {
+    marginLeft: 5,
   },
   inputBoxdescription: {
     width: 300,
