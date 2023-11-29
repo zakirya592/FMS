@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
-import { Button } from '@rneui/themed';
+import { Button, Icon } from '@rneui/themed';
 import PhoneInput from "react-native-phone-number-input";
 import { Ionicons } from '@expo/vector-icons';
+import { DataTable } from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -12,45 +15,43 @@ const data = [
     { label: 'Item 4', value: '4' },
 ];
 
-export default function Createusercredientials() {
+export default function Crreateuseraccess() {
 
     const [value, setvalue] = useState({
         Employeeid: null, MiddleName: '', LastName: '', FirstName: '', Title: '',
-        DepartmentCode: '', DepartmentName: '', UserRole: '', UserRoleDesc: '', WorkPriority: '',
-        Building: '', Location: '', MobileNumber: '', Landline: '', UserID: '', passwordUserid: '', WindowUserID: '', Windowpassword: '', email:''
+        DepartmentCode: '', DepartmentName: '', UserAuthority:'',
+        Building: '', Location: '', MobileNumber: '', Landline: '', 
     })
 
-    const [isFocusedemail, setisFocusedemail] = useState(false)
     const [isFocusedDepartmentName, setIsFocusedDepartmentName] = useState(false);
-    const [isFocusedUserID, setIsFocusedUserID] = useState(false);
-    const [isFocusedWindowUserID, setIsFocusedWindowUserID] = useState(false);
-    const [isFocusedUserRoleDesc, setIsFocusedUserRoleDesc] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
-    const [isFocusedWindowpassword, setIsFocusedWindowpassword] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
-    const [showpasswordUserid, setshowpasswordUserid] = useState(false);
-    const [showWindowpassword, setshowWindowpassword] = useState(false);
+ 
+    const [items, setItems] = React.useState([
+        { _id: 1, WORKREQUEST: 'SYSTEM MODULES', REQUESTSTATUS: 'ASSET ITEM GROUP', REQUESTBYEMP: 'ASSET ITEM DESCRIPTION', PRIORITY: 'ASSET QTY', REQUESTDATE: 'MODEL', WORKTYPEDESC: 'MONIFACTURER', ACTIONS: 'Open', },
+    ]);
 
-    const toggleshowpasswordUserid = () => {
-        setshowpasswordUserid((prevshowpasswordUserid) => !prevshowpasswordUserid);
-    };
-    const handleFocuspasswordUserid = () => {
-        setIsFocusedWindowpassword(true);
-    };
+    const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleBlurpasswordUserid = () => {
-        setIsFocusedWindowpassword(false);
-    };
-
-    const toggleshowWindowpassword = () => {
-        setshowWindowpassword((prevshowWindowpassword) => !prevshowWindowpassword);
-    };
-    const handleFocusWindowpassword = () => {
-        setIsFocusedWindowpassword(true);
+    const handleCheckboxChange = (_id) => {
+        const updatedItems = items.map((item) =>
+            item._id === _id ? { ...item, selected: !item.selected } : item
+        );
+        setItems(updatedItems);
+        // Update selectedItems state
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        setSelectedItems(selectedIds);
     };
 
-    const handleBlurWindowpassword = () => {
-        setIsFocusedWindowpassword(false);
+    const handleSelectAllChange = () => {
+        const allSelected = items.every((item) => item.selected);
+        const updatedItems = items.map((item) => ({
+            ...item,
+            selected: !allSelected,
+        }));
+        setItems(updatedItems);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        setSelectedItems(selectedIds);
     };
 
     return (
@@ -58,16 +59,16 @@ export default function Createusercredientials() {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>User Credentials - Create
+                    <Text style={styles.prograp}>Create User Access
                     </Text>
                 </View>
-                {/* Employee ID  */}
-                <View style={[styles.inputContainer, { justifyContent: 'flex-start', alignItems: 'flex-start' }]}>
+                {/* Employee ID User Authority */}
+                <View style={[styles.inputContainer]}>
                     <View style={[styles.singleinputlable]}>
                         <Text style={styles.lableinput}>Employee ID
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40, width: 350 }, isFocus && { borderColor: 'blue' }]}
+                            style={[styles.inputBox, { height: 40}, isFocus && { borderColor: 'blue' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
@@ -92,7 +93,30 @@ export default function Createusercredientials() {
 
                         />
                     </View>
+                    <View style={[styles.singleinputlable]}>
+                        <Text style={styles.lableinput}>User Authority
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40 }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={data}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={' User Authority'}
+                            value={value.UserAuthority}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    UserAuthority: item.value, // Update the Employeeid property
+                                }));
+                            }}
 
+                        />
+                    </View>
                 </View>
                 {/* Landline  Mobile Number */}
                 <View style={styles.inputContainer}>
@@ -359,240 +383,64 @@ export default function Createusercredientials() {
                     </View>
 
                 </View>
-                {/* Button */}
-                <Button radius={"md"} type="solid" containerStyle={{
-                    width: '100%',
-                    marginVertical: 20,
+                {/* Add asset button */}
+                {/* <View style={styles.inputContainer}> */}
+
+                    <Button radius={"md"} type="solid" containerStyle={{
+                    width: 200,
+                    marginBottom:20,
+                    marginLeft: 5,
                 }}
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
                     }}
-                // onPress={() => navigation.navigate('Addassetcode')}
-                >
-                    User Credentials
-                </Button>
-                {/* User Role */}
-                <View style={styles.inputContainer}>
+                        onPress={() => navigation.navigate('Addassetcode')}
+                    >
+                        <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
+                    Add Syetem Modules
+                    </Button>
 
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>User Role
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select User Role'}
-                            value={value.UserRole}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    UserRole: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                {/* </View> */}
+                {/* Table section */}
+                <View style={{ height: 300, marginBottom: 40 }}>
+                    <ScrollView horizontal >
+                        <DataTable style={[styles.item, {
+                            width: '100%', height: 400, margin: 0
+                        }]} >
+                            <DataTable.Header>
+                                <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}>
+                                    <Checkbox
+                                        status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
+                                        onPress={handleSelectAllChange}
+                                    /></Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 120}]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 180, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>SYSTEM MODULES</Text></DataTable.Title>
+                            </DataTable.Header>
+                            {items.map((item) => (
+                                <ScrollView>
+                                    <DataTable.Row key={item._id}>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                            <Checkbox
+                                                status={item.selected ? 'checked' : 'unchecked'}
+                                                onPress={() => handleCheckboxChange(item._id)}
+                                            />
+                                        </DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.WORKREQUEST}</DataTable.Cell>
+                                        
+                                    </DataTable.Row>
+                                </ScrollView>
+                            ))}
 
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>User Role Desc
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocusedUserRoleDesc ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.UserRoleDesc}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    UserRoleDesc: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="User Role Description"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocusedUserRoleDesc(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocusedUserRoleDesc(false);
-                            })}
-                        />
-                    </View>
-
-                </View>
-                {/*Window User-ID and Password */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>User-ID
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocusedUserID ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.UserID}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    UserID : item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="Enter User-ID "
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocusedUserID(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocusedUserID(false);
-                            })}
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Password
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' }, // Dynamic border color
-                            ]}
-                            value={value.passwordUserid}
-                            onChangeText={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    passwordUserid: item, // Update the Employeeid property
-                                }));
-                            }}
-                            secureTextEntry={!showpasswordUserid}
-                            placeholder="************"
-                            placeholderTextColor="#94A0CA"
-                            underlineColorAndroid="transparent"
-                            onFocus={handleFocuspasswordUserid}
-                            onBlur={handleBlurpasswordUserid}
-                        />
-                        <TouchableOpacity onPress={toggleshowpasswordUserid} style={styles.icon}>
-                            <Ionicons
-                                name={showpasswordUserid ? 'eye-off-outline' : 'eye-outline'}
-                                size={24}
-                                color="#94A0CA"
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-                {/* Window User-ID and Password */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Window User-ID
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocusedWindowUserID ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.WindowUserID}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WindowUserID : item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="Enter Window User-ID "
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocusedWindowUserID(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocusedWindowUserID(false);
-                            })}
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Password
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocusedWindowpassword ? '#1D3A9F' : '#94A0CA' }, // Dynamic border color
-                            ]}
-                            value={value.Windowpassword}
-                            onChangeText={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    Windowpassword: item, // Update the Employeeid property
-                                }));
-                            }}
-                            secureTextEntry={!showWindowpassword}
-                            placeholder="************"
-                            placeholderTextColor="#94A0CA"
-                            underlineColorAndroid="transparent"
-                            onFocus={handleFocusWindowpassword}
-                            onBlur={handleBlurWindowpassword}
-                        />
-                        <TouchableOpacity onPress={toggleshowWindowpassword} style={styles.icon}>
-                            <Ionicons
-                                name={showWindowpassword ? 'eye-off-outline' : 'eye-outline'}
-                                size={24}
-                                color="#94A0CA"
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
-
-                {/* Window User-ID and Password */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Email Address</Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,{width:350},
-                                { borderColor: isFocusedemail ? '#1D3A9F' : '#94A0CA' }, // Dynamic border color
-                            ]}
-                            value={value.email}
-                            onChangeText={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    email: item, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="Enter email address"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            keyboardType="email-address"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setisFocusedemail(true);
-                            })}
-                            onBlur={(() => {
-                                setisFocusedemail(false);
-                            })}
-                        />
-                    </View>
-
+                        </DataTable>
+                    </ScrollView>
                 </View>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
                     width: 200,
                     marginVertical: 20,
-                    marginLeft:5,
+                    marginLeft: 5,
                 }}
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
@@ -683,8 +531,7 @@ const styles = StyleSheet.create({
     header: {
         textAlign: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderTopWidth: 1,
+        borderWidth:0.5
     },
     tableHeading: {
         color: '#1E3B8B',
@@ -693,8 +540,7 @@ const styles = StyleSheet.create({
     },
     tablebody: {
         borderColor: "##9384EB",
-        borderTopWidth: 1,
-        borderLeftWidth: 1,
+        borderWidth: 0.5,
         fontSize: 14,
         textAlign: 'center',
         justifyContent: 'center',
@@ -703,7 +549,7 @@ const styles = StyleSheet.create({
     icon: {
         position: 'absolute',
         left: '85%',
-        top:'45%'
+        top: '45%'
     },
 
 })

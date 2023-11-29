@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
 
-export default function UserCredentials() {
+export default function Useraccess() {
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '',
@@ -27,7 +27,7 @@ export default function UserCredentials() {
     const [items, setItems] = useState([]);
 
     const getapi = () => {
-        axios.get(`/api/UserCredentials_GET_LIST`)
+        axios.get(`/api/UserSystemAccess_GET_LIST`)
             .then((res) => {
                 setItems(res.data.recordset)
             })
@@ -75,7 +75,7 @@ export default function UserCredentials() {
     };
 
     const Deletedapi = (EmployeeID) => {
-        axios.delete(`/api/UserCredentials_DELETE_BYID/${EmployeeID}`)
+        axios.delete(`/api/UserSystemAccess_DELETE_BYID/${EmployeeID}`)
             .then((res) => {
                 setVisible2(false);
                 getapi()
@@ -91,7 +91,7 @@ export default function UserCredentials() {
             <View>
                 {/* Top section */}
                 <View >
-                    <Text style={styles.prograp}>User Creditials View
+                    <Text style={styles.prograp}>User Access
                     </Text>
                     <View style={styles.inputContainer}>
 
@@ -128,9 +128,6 @@ export default function UserCredentials() {
                             /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 80 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 200 }]} ><Text style={styles.tableHeading}>Employee ID#</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>USER ID</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>Window ID</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 200 }]}><Text style={styles.tableHeading}>CreatedByAdminID</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>UserAuthorityCode</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
@@ -144,9 +141,6 @@ export default function UserCredentials() {
                                 </DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.EmployeeID}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.UserID}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WindowsID}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.CreatedByAdminID}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.UserAuthorityCode}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu onSelect={value => alert(`Selected number: ${value}`)}>
                                     <MenuTrigger >
@@ -178,7 +172,7 @@ export default function UserCredentials() {
                                             </View>
                                             <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
                                                 <Dialog.Title title="Are you sure?" />
-                                                <Text>{`You want to delete this ${item.EmployeeID} User Creditials`}</Text>
+                                                <Text>{`You want to delete this ${item.EmployeeID} User System Access`}</Text>
                                                 <Dialog.Actions >
                                                     <View style={{ display: 'flex', flexDirection: 'row' }}>
                                                         <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
@@ -222,7 +216,7 @@ export default function UserCredentials() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createusercredientials')}
+                        onPress={() => navigation.navigate('Crreateuseraccess')}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
