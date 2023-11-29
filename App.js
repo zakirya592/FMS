@@ -21,6 +21,8 @@ import Createcleaningwork from './assets/Screen/Cleaning Works/Createcleaningwor
 import Usermanagment from './assets/Screen/User management/Usermanagment';
 import Systemmodules from './assets/Screen/User management/System Modules/Systemmodules';
 import Userauthoritylevels from './assets/Screen/User management/User Authority Levels/Userauthoritylevels';
+import UserCredentials from './assets/Screen/User management/User Credientials/UserCredentials';
+import Createusercredientials from './assets/Screen/User management/User Credientials/Createusercredientials';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -81,68 +83,80 @@ function MainStackNavigator() {
           title: 'Create Work Request', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Addassetcode */}
+      {/* Addassetcode */}
       <Stack.Screen name="Addassetcode" component={Addassetcode}
         options={{
           title: 'Asset Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Workorder */}
+      {/* Workorder */}
       <Stack.Screen name="Workorder" component={Workorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Createworkorder */}
-         <Stack.Screen name="Createworkorder" component={Createworkorder}
+      {/* Createworkorder */}
+      <Stack.Screen name="Createworkorder" component={Createworkorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Locationmanagement */}
-          <Stack.Screen name="Locationmanagement" component={Locationmanagement}
+      {/* Locationmanagement */}
+      <Stack.Screen name="Locationmanagement" component={Locationmanagement}
         options={{
           title: 'Location Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Preventivemaintenance */ }
-            <Stack.Screen name="Preventivemaintenance" component={Preventivemaintenance}
+      {/* Preventivemaintenance */}
+      <Stack.Screen name="Preventivemaintenance" component={Preventivemaintenance}
         options={{
           title: 'Preventive Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-         {/* Createpreventivemaintenance */ }
-            <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
+      {/* Createpreventivemaintenance */}
+      <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
         options={{
           title: 'Preventive Maintenance', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-         {/* Createpreventivemaintenance */ }
-            <Stack.Screen name="Cleaningworks" component={Cleaningworks}
+      {/* Cleaningworks */}
+      <Stack.Screen name="Cleaningworks" component={Cleaningworks}
         options={{
           title: 'Cleaning Works', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-         {/* Createpreventivemaintenance */ }
-            <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
+      {/* Create Cleaningworks */}
+      <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
         options={{
           title: 'Cleaning Works', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-         {/*user managment Access */ }
-            <Stack.Screen name="Usermanagment" component={Usermanagment}
+      {/*user managment Access */}
+      <Stack.Screen name="Usermanagment" component={Usermanagment}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-         {/*Systemmodules managment Access */ }
-            <Stack.Screen name="Systemmodules" component={Systemmodules}
+      {/*Systemmodules managment Access */}
+      <Stack.Screen name="Systemmodules" component={Systemmodules}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-           {/*Systemmodules managment Access */ }
-            <Stack.Screen name="Userauthoritylevels" component={Userauthoritylevels}
+      {/*Userauthoritylevels managment Access */}
+      <Stack.Screen name="Userauthoritylevels" component={Userauthoritylevels}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/*UserCredentials managment Access */}
+      <Stack.Screen name="UserCredentials" component={UserCredentials}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+          {/* Create UserCredentials managment Access */}
+      <Stack.Screen name="Createusercredientials" component={Createusercredientials}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'

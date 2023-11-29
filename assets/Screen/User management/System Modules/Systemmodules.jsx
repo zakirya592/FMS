@@ -46,13 +46,13 @@ export default function Systemmodules() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (RequestNumber) => {
+    const handleCheckboxChange = (SystemModuleCode) => {
         const updatedItems = items.map((item) =>
-            item.RequestNumber === RequestNumber ? { ...item, selected: !item.selected } : item
+            item.SystemModuleCode === SystemModuleCode ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RequestNumber);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.SystemModuleCode);
         setSelectedItems(selectedIds);
     };
 
@@ -63,7 +63,7 @@ export default function Systemmodules() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RequestNumber);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.SystemModuleCode);
         setSelectedItems(selectedIds);
     };
 
@@ -77,7 +77,6 @@ export default function Systemmodules() {
     };
 
     const Deletedapi = (SystemModuleCode) => {
-        console.log(SystemModuleCode);
         axios.delete(`/api/SystemModules_DELETE_BYID/${SystemModuleCode}`)
             .then((res) => {
                 setVisible2(false);

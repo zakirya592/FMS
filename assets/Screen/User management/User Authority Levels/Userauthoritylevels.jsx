@@ -47,13 +47,13 @@ export default function Userauthoritylevels() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (RequestNumber) => {
+    const handleCheckboxChange = (UserAuthorityCode) => {
         const updatedItems = items.map((item) =>
-            item.RequestNumber === RequestNumber ? { ...item, selected: !item.selected } : item
+            item.UserAuthorityCode === UserAuthorityCode ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RequestNumber);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.UserAuthorityCode);
         setSelectedItems(selectedIds);
     };
 
@@ -64,7 +64,7 @@ export default function Userauthoritylevels() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RequestNumber);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.UserAuthorityCode);
         setSelectedItems(selectedIds);
     };
 
