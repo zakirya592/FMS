@@ -203,7 +203,8 @@ export default function Workrequest () {
             Select Transaction
           </Text>
           <View>
-            <Button
+                      <Button
+                          onPress={() => navigation.navigate ('AssetMasterCreate')}
               radius={'md'}
               type="solid"
               containerStyle={{
@@ -218,7 +219,7 @@ export default function Workrequest () {
           </View>
           <View>
             <Button
-        
+        onPress={() => navigation.navigate ('Createworkrequest')}
               radius={'md'}
               type="solid"
               containerStyle={{
