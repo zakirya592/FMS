@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Icon } from '@rneui/themed';
 import PhoneInput from "react-native-phone-number-input";
 import { Ionicons } from '@expo/vector-icons';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -20,28 +20,26 @@ export default function Crreateuseraccess() {
     const navigation = useNavigation();
 
     const [value, setvalue] = useState({
-        Employeeid: null, MiddleName: '', LastName: '', FirstName: '', Title: '',
-        DepartmentCode: '', DepartmentName: '', UserAuthority:'',
-        Building: '', Location: '', MobileNumber: '', Landline: '', 
+        Employeeid: null, Middlename: '', Lastname: '', Firstname: '', Title: '',
+        DepartmentCode: '', DepartmentName: '', UserAuthority: '',
+        BuildingCode: '', LocationCode: '', MobileNumber: '', LandlineNumber: '',
     })
 
     const [isFocusedDepartmentName, setIsFocusedDepartmentName] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
- 
-    const [items, setItems] = React.useState([
-        { _id: 1, WORKREQUEST: 'SYSTEM MODULES', REQUESTSTATUS: 'ASSET ITEM GROUP', REQUESTBYEMP: 'ASSET ITEM DESCRIPTION', PRIORITY: 'ASSET QTY', REQUESTDATE: 'MODEL', WORKTYPEDESC: 'MONIFACTURER', ACTIONS: 'Open', },
-    ]);
+
+    const [items, setItems] = React.useState([]);
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (_id) => {
+    const handleCheckboxChange = (SystemModuleCode) => {
         const updatedItems = items.map((item) =>
-            item._id === _id ? { ...item, selected: !item.selected } : item
+            item.SystemModuleCode === SystemModuleCode ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.SystemModuleCode);
         setSelectedItems(selectedIds);
     };
 
@@ -52,9 +50,129 @@ export default function Crreateuseraccess() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.SystemModuleCode);
         setSelectedItems(selectedIds);
     };
+
+    const [UserAuthoritydropdown, setUserAuthoritydropdown] = useState([])
+    const [dropdownBuildingList, setDropdownBuildingList] = useState([]);
+    const [dropdownLocation, setdropdownLocation] = useState([])
+    const [dropdownDepartmentLIST, setdropdownDepartmentLIST] = useState([])
+    const [Employeeiddropdown, setEmployeeiddropdown] = useState([])
+
+    useEffect(() => {
+        axios.get('/api/EmployeeID_GET_LIST')
+            .then((response) => {
+                // const data = response.data.recordset;
+                const data = response.data.recordset.map((item) => ({
+                    labelEmployeeID: `${item.Firstname} (${item.EmployeeID})`, // Customize label as needed
+                    valueEmployeeID: item.EmployeeID,
+                }));
+                setEmployeeiddropdown(data)
+            }).catch((error) => {
+                console.log('-----', error);
+            });
+        axios.get('/api/UserAuthority_GET_DropdownList')
+            .then((res) => {
+                setUserAuthoritydropdown(res.data.recordset)
+            }).catch((error) => {
+                console.log('-----', error);
+            });
+        axios.get(`/api/Building_LIST`)
+            .then((res) => {
+                setDropdownBuildingList(res.data.recordsets[0]);
+            }).catch((err) => {
+                console.error(err);
+            });
+        axios.get(`/api/Location_LIST`).then((res) => {
+            setdropdownLocation(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/Department_LIST`).then((res) => {
+            setdropdownDepartmentLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [])
+
+    // EmployeeID
+    function postapi(EmployeeID) {
+        axios.post(`/api/getworkRequest_by_EPID`, {
+            EmployeeID,
+        }).then((res) => {
+            console.log(res.data.recordset);
+            const {
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                MobileNumber,
+                LandlineNumber
+            } = res.data.recordsets[0][0];
+            setvalue((prevValue) => ({
+                ...prevValue,
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                MobileNumber,
+                LandlineNumber
+            }));
+            const Depauto = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                .then((res) => {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        DepartmentName: res.data.recordset[0].DepartmentDesc,
+                    }));
+                }).catch((err) => {
+                    console.log(err);;
+                });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    // Department
+    const handleProvinceChange = (selectedValue) => {
+        setvalue((prevValue) => ({
+            ...prevValue,
+            DepartmentCode: selectedValue.DepartmentCode,
+        }));
+        axios.get(`/api/Department_desc_LIST/${selectedValue.DepartmentCode}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    DepartmentName: res.data.recordset[0].DepartmentDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const AddSyetemModulesscreen=()=>{
+        if (value.Employeeid) {
+            navigation.navigate('Addystemaccessmodules', { selectedEmployeeID: value.Employeeid });
+        } else {
+            console.warn('Please select an Employee ID');
+        }
+    }
+    const getapitable = (selectedEmployeeID) => {
+        axios.get(`/api/usersystemAccess_get_Em_id/${selectedEmployeeID}`)
+            .then((res) => {
+                setItems(res.data.recordset)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        getapitable()
+    }, [])
 
     return (
 
@@ -70,16 +188,16 @@ export default function Crreateuseraccess() {
                         <Text style={styles.lableinput}>Employee ID
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40}, isFocus && { borderColor: 'blue' }]}
+                            style={[styles.inputBox, { height: 40 }, isFocus && { borderColor: 'blue' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={Employeeiddropdown}
                             search
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelEmployeeID" // Displayed label
+                            valueField="valueEmployeeID"
                             placeholder={!isFocus ? 'Select item' : '...'}
                             searchPlaceholder="Search..."
                             value={value.Employeeid}
@@ -88,11 +206,12 @@ export default function Crreateuseraccess() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Employeeid: item.value, // Update the Employeeid property
+                                    Employeeid: item?.valueEmployeeID || '', // Use the correct value key
                                 }));
                                 setIsFocus(false);
-                            }}
+                                postapi(item?.valueEmployeeID || '');
 
+                            }}
                         />
                     </View>
                     <View style={[styles.singleinputlable]}>
@@ -104,16 +223,16 @@ export default function Crreateuseraccess() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={UserAuthoritydropdown}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="UserAuthorityCode"
+                            valueField="UserAuthorityCode"
                             placeholder={' User Authority'}
                             value={value.UserAuthority}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    UserAuthority: item.value, // Update the Employeeid property
+                                    UserAuthority: item?.value || '',  // Update the Employeeid property
                                 }));
                             }}
 
@@ -130,14 +249,13 @@ export default function Crreateuseraccess() {
                             defaultCode="US"
                             layout="first"
                             value={value.MobileNumber}
-                            onChange={item => {
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    MobileNumber: item.value, // Update the Employeeid property
+                                    MobileNumber: item || '', // Update MobileNumber
                                 }));
                             }}
                             containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA', width: 170 }}
-                            // textContainerStyle={{ height: 30, borderRadius: 5}}
                             textInputStyle={{ height: 25, padding: 1, fontSize: 12 }}
                             codeTextStyle={{ height: 20, display: 'none' }}
                             flagButtonStyle={{ paddingHorizontal: 24, }}
@@ -146,16 +264,16 @@ export default function Crreateuseraccess() {
                         />
                     </View>
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Landline
+                        <Text style={styles.lableinput}>Landline Number
                         </Text>
                         <PhoneInput
                             defaultCode="US"
                             layout="first"
-                            value={value.Landline}
-                            onChange={item => {
+                            value={value.LandlineNumber}
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Landline: item.value, // Update the Employeeid property
+                                    LandlineNumber: item,
                                 }));
                             }}
                             containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA', width: 170 }}
@@ -201,11 +319,11 @@ export default function Crreateuseraccess() {
                         </Text>
                         <TextInput
                             style={[styles.inputBox]}
-                            value={value.FirstName}
-                            onChange={item => {
+                            value={value.Firstname}
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    FirstName: item.value, // Update the Employeeid property
+                                    Firstname: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder='First Name'
@@ -229,11 +347,11 @@ export default function Crreateuseraccess() {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.MiddleName}
-                            onChange={item => {
+                            value={value.Middlename}
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    MiddleName: item.value, // Update the Employeeid property
+                                    Middlename: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder='Enter Middle Name '
@@ -252,11 +370,11 @@ export default function Crreateuseraccess() {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.LastName}
-                            onChange={item => {
+                            value={value.Lastname}
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    LastName: item.value, // Update the Employeeid property
+                                    Lastname: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder='Enter Last Name'
@@ -287,16 +405,16 @@ export default function Crreateuseraccess() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownBuildingList}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="BuildingCode"
+                            valueField="BuildingCode"
                             placeholder={'Select Building'}
-                            value={value.Building}
+                            value={value.BuildingCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Building: item.value, // Update the Employeeid property
+                                    BuildingCode: item?.value || '', // Update the Building property
                                 }));
                             }}
 
@@ -312,16 +430,16 @@ export default function Crreateuseraccess() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownLocation}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="LocationCode"
+                            valueField="LocationCode"
                             placeholder={'Select Location'}
-                            value={value.Location}
+                            value={value.LocationCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Location: item.value, // Update the Employeeid property
+                                    LocationCode: item?.value || '',  // Update the Employeeid property
                                 }));
                             }}
 
@@ -341,18 +459,13 @@ export default function Crreateuseraccess() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownDepartmentLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="DepartmentCode"
+                            valueField="DepartmentCode"
                             placeholder={'Select DeptCode'}
                             value={value.DepartmentCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    DepartmentCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            onChange={handleProvinceChange}
                         />
                     </View>
 
@@ -368,7 +481,7 @@ export default function Crreateuseraccess() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    DepartmentName: item.value, // Update the Employeeid property
+                                    DepartmentName: item.value,
                                 }));
                             }}
                             placeholder="Department Name"
@@ -381,29 +494,26 @@ export default function Crreateuseraccess() {
                             onBlur={(() => {
                                 setIsFocusedDepartmentName(false);
                             })}
+                            editable={false}
                         />
                     </View>
 
                 </View>
-                {/* Add asset button */}
-                {/* <View style={styles.inputContainer}> */}
-
-                    <Button radius={"md"} type="solid" containerStyle={{
+                {/* Add  button */}
+                <Button radius={"md"} type="solid" containerStyle={{
                     width: 200,
-                    marginBottom:20,
+                    marginBottom: 20,
                     marginLeft: 5,
                 }}
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
                     }}
-                    onPress={() => navigation.navigate('Addystemaccessmodules')}
-                    >
-                        <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
+                    onPress={AddSyetemModulesscreen}
+                >
+                    <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                     Add Syetem Modules
-                    </Button>
-
-                {/* </View> */}
+                </Button>
                 {/* Table section */}
                 <View style={{ height: 300, marginBottom: 40 }}>
                     <ScrollView horizontal >
@@ -416,21 +526,21 @@ export default function Crreateuseraccess() {
                                         status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
                                         onPress={handleSelectAllChange}
                                     /></Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 120}]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 120 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 180, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>SYSTEM MODULES</Text></DataTable.Title>
                             </DataTable.Header>
-                            {items.map((item) => (
+                            {items.map((item,index) => (
                                 <ScrollView>
-                                    <DataTable.Row key={item._id}>
+                                    <DataTable.Row key={item.SystemModuleCode}>
                                         <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                             <Checkbox
                                                 status={item.selected ? 'checked' : 'unchecked'}
-                                                onPress={() => handleCheckboxChange(item._id)}
+                                                onPress={() => handleCheckboxChange(item.SystemModuleCode)}
                                             />
                                         </DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.WORKREQUEST}</DataTable.Cell>
-                                        
+                                        <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{index + 1}</DataTable.Cell>
+                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.SystemModuleCode}</DataTable.Cell>
+
                                     </DataTable.Row>
                                 </ScrollView>
                             ))}
@@ -533,7 +643,7 @@ const styles = StyleSheet.create({
     header: {
         textAlign: 'center',
         justifyContent: 'center',
-        borderWidth:0.5
+        borderWidth: 0.5
     },
     tableHeading: {
         color: '#1E3B8B',

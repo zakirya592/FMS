@@ -8,7 +8,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 
 
-export default function Addystemaccessmodules() {
+export default function Addystemaccessmodules({ route }) {
+    const { selectedEmployeeID } = route.params;
+
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '',
@@ -53,6 +55,23 @@ export default function Addystemaccessmodules() {
         setSelectedItems(selectedIds);
     };
 
+    const posttable=()=>{
+        axios.post(`/api/systemaccess_ADD_post`, {
+            EmployeeID: selectedEmployeeID,
+            SystemModuleCodes: selectedItems
+        }).then((res) => {
+                getapi()
+            })
+            .catch((err) => {
+                // Handle delete error
+                console.log('Add Asset Code Error:', err);
+            });
+    }
+
+    const handleAddSyetemModule = () => {
+        posttable(selectedItems)
+    };
+
     return (
         <ScrollView>
             <View>
@@ -80,7 +99,7 @@ export default function Addystemaccessmodules() {
 
                             />
                         </View>
-
+                        <Text style={[styles.lableinput,{marginTop:35}]}>{selectedEmployeeID}</Text>
                     </View>
                 </View>
                 {/* table section */}
@@ -127,7 +146,7 @@ export default function Addystemaccessmodules() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Crreateuseraccess')}
+                        onPress={handleAddSyetemModule}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Add Syetem Modules
@@ -167,7 +186,7 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         marginBottom: 10,
         position: 'relative',
-        // justifyContent: 'space-around'
+        justifyContent: 'space-between',
         paddingHorizontal: 15
     },
     lableinput: {
@@ -185,7 +204,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     inputBox: {
-        width: 300,
+        width: 250,
         borderRadius: 5,
         paddingHorizontal: 10,
         borderColor: "#94A0CA",
