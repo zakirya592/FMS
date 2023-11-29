@@ -21,7 +21,7 @@ export default function Crreateuseraccess() {
 
     const [value, setvalue] = useState({
         Employeeid: null, Middlename: '', Lastname: '', Firstname: '', Title: '',
-        DepartmentCode: '', DepartmentName: '', UserAuthority: '',
+        DepartmentCode: '', DepartmentName: '', UserAuthorityCode: '',
         BuildingCode: '', LocationCode: '', MobileNumber: '', LandlineNumber: '',
     })
 
@@ -174,6 +174,22 @@ export default function Crreateuseraccess() {
         getapitable()
     }, [])
 
+    const Createapi = async () => {
+        axios.post(`/api/UserSystemAccess_post`, {
+            EmployeeID: value.Employeeid,
+            UserAuthorityCode: value.UserAuthorityCode,
+            UserAuthorityAccessYN: 'dhfd',
+            AddedByAdminID: 'nu',
+            AddedDateTime: '0',
+
+        }).then((res) => {
+            navigation.navigate('Useraccess')
+            }).catch((err) => {
+                console.log(err);
+            });
+    };
+
+
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
@@ -228,11 +244,11 @@ export default function Crreateuseraccess() {
                             labelField="UserAuthorityCode"
                             valueField="UserAuthorityCode"
                             placeholder={' User Authority'}
-                            value={value.UserAuthority}
+                            value={value.UserAuthorityCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    UserAuthority: item?.value || '',  // Update the Employeeid property
+                                    UserAuthorityCode: item?.UserAuthorityCode || '',  // Update the Employeeid property
                                 }));
                             }}
 
@@ -558,7 +574,7 @@ export default function Crreateuseraccess() {
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
                     }}
-                // onPress={() => navigation.navigate('Createworkrequest')}
+                    onPress={Createapi}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
