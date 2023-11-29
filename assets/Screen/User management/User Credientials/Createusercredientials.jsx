@@ -594,34 +594,20 @@ export default function Createusercredientials() {
                 </View>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
-                    width: 150,
-                    marginLeft: 15,
+                    width: 200,
+                    marginVertical: 20,
+                    marginLeft:5,
                 }}
+                    buttonStyle={{
+                        backgroundColor: '#0A2DAA',
+                        borderRadius: 3,
+                    }}
                 // onPress={() => navigation.navigate('Createworkrequest')}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
                 </Button>
 
-                <View style={[styles.inputContainer, { marginTop: 12 }]}>
-                    <Button radius={"md"} type="outline" containerStyle={{
-                        width: 150,
-                    }}
-                    // onPress={() => navigation.navigate('Createworkrequest')}
-                    >
-                        <Ionicons name="md-print-outline" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
-                        Print
-                    </Button>
-                    <Button radius={"md"} type="outline" containerStyle={{
-                        width: 150,
-                    }}
-                    // onPress={() => navigation.navigate('Createworkrequest')}
-                    >
-                        <MaterialIcons name="save-alt" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
-                        Export
-                    </Button>
-
-                </View>
             </View>
         </ScrollView>
     )
