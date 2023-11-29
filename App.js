@@ -25,6 +25,7 @@ import UserCredentials from './assets/Screen/User management/User Credientials/U
 import Createusercredientials from './assets/Screen/User management/User Credientials/Createusercredientials';
 import Useraccess from './assets/Screen/User management/User System Access/Useraccess';
 import Crreateuseraccess from './assets/Screen/User management/User System Access/Crreateuseraccess';
+import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -157,20 +158,26 @@ function MainStackNavigator() {
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-          {/* Create UserCredentials managment Access */}
+      {/* Create UserCredentials managment Access */}
       <Stack.Screen name="Createusercredientials" component={Createusercredientials}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-           {/* Useraccess managment Access */}
+      {/* Useraccess managment Access */}
       <Stack.Screen name="Useraccess" component={Useraccess}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-              {/* Useraccess managment Access */}
+      {/* Useraccess managment Access */}
       <Stack.Screen name="Crreateuseraccess" component={Crreateuseraccess}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Add System modules Access */}
+      <Stack.Screen name="Addystemaccessmodules" component={Addystemaccessmodules}
         options={{
           title: 'User Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'

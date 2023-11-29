@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
     { label: 'Item 1', value: '1' },
@@ -16,6 +17,7 @@ const data = [
 ];
 
 export default function Crreateuseraccess() {
+    const navigation = useNavigation();
 
     const [value, setvalue] = useState({
         Employeeid: null, MiddleName: '', LastName: '', FirstName: '', Title: '',
@@ -395,7 +397,7 @@ export default function Crreateuseraccess() {
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
                     }}
-                        onPress={() => navigation.navigate('Addassetcode')}
+                    onPress={() => navigation.navigate('Addystemaccessmodules')}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                     Add Syetem Modules
