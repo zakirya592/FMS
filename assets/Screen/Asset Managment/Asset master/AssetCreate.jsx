@@ -116,7 +116,7 @@ export default function Createworkrequest () {
             Asset Masterlist-Create
           </Text>
         </View>
-        {/* Employee ID and Work Request Number */}
+        {/* Asset Category and Asset Category Desc. */}
         <View style={styles.inputContainer}>
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -182,7 +182,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        {/* Time date and Request status */}
+        {/* Asset Sub Category and Asset Sub-Cat. Desc. */}
         <View style={styles.inputContainer}>
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -248,7 +248,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        {/* FirstMiddleName and last name */}
+        {/* Asset Item Description */}
         <View style={styles.inputContainerdesc}>
 
           <View style={styles.singleinputlable}>
@@ -276,7 +276,7 @@ export default function Createworkrequest () {
 
         </View>
 
-        {/* Building and Location*/}
+        {/* Asset Item Group and Item Group Desc.*/}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -338,7 +338,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        {/* Department */}
+        {/* Asset Type and Asset Type Desc  */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -402,7 +402,7 @@ export default function Createworkrequest () {
         </View>
         <View style={styles.line} />
 
-        {/* Work Type */}
+        {/* Manufacturer and model */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -464,7 +464,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        {/* Work Priority and Work Trade*/}
+        {/* Brand*/}
         <View style={styles.inputContainer}>
 
           <View style={styles.Brand}>
@@ -499,6 +499,7 @@ export default function Createworkrequest () {
           <View style={styles.singleinputlable} />
 
         </View>
+        {/* Purchase Date and Purchased Amount */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -569,6 +570,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
+        {/* Warranty Period and Warranty Start Date */}
         <View style={styles.inputContainer}>
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -638,6 +640,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
+        {/* Warranty Start Date and Warranty Start Date */}
         <View style={styles.warranty}>
 
           <View style={styles.singleinputlable}>
@@ -688,6 +691,7 @@ export default function Createworkrequest () {
           <View style={styles.singleinputlable} />
 
         </View>
+         {/* On Hand Qty and Re-Order Qty Level */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -749,6 +753,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
+         {/* Minimum Level and Maximum Level */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -810,58 +815,308 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        {/* Work Trade Desc and Add asset button */}
+         {/* Units and Units Description */}
         <View style={styles.inputContainer}>
-
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Work Trade Desc
+              Units
             </Text>
-            <TextInput
+            <Dropdown
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTradeDesc ? '#1D3A9F' : '#94A0CA'},
+                {height: 40},
+                isFocus && {borderColor: 'blue'},
               ]}
-              value={value.WorkTradeDesc}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              search
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Units' : '...'}
+              searchPlaceholder="Search..."
+              value={value.Employeeid}
+              onFocus={() => setIsFocus (true)}
+              onBlur={() => setIsFocus (false)}
               onChange={item => {
                 setvalue (prevValue => ({
                   ...prevValue,
-                  WorkTradeDesc: item.value, // Update the Employeeid property
+                  Employeeid: item.value, // Update the Employeeid property
                 }));
-              }}
-              placeholder="Work Trade Desc"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTradeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTradeDesc (false);
+                setIsFocus (false);
               }}
             />
           </View>
 
-          <Button
-            radius={'md'}
-            type="solid"
-            containerStyle={{
-              width: 150,
-              marginVertical: 10,
-              marginTop: 30,
-            }}
-            onPress={() => navigation.navigate ('Addassetcode')}
-          >
-            <Icon
-              name="add"
-              color="#0A2DAA"
-              size={15}
-              style={styles.outlineIcon}
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Units Description
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.WorkRequest}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  WorkRequest: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="Units Description"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocused (true);
+              }}
+              onBlur={() => {
+                setIsFocused (false);
+              }}
             />
-            Asset code
-          </Button>
+          </View>
 
         </View>
+        <View style={styles.line} />
+        {/* P.O Reference and Last Purchase Date */}
+        <View style={styles.inputContainer}>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Last Purchase Date
+            </Text>
+
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <TextInput
+                  style={[styles.inputBox, {position: 'relative'}]}
+                  placeholder="dd/mm/yyyy -:- --"
+                  editable={true}
+                />
+                <TouchableOpacity
+                  onPress={showDatepicker}
+                  style={styles.iconcontainer}
+                >
+                  <AntDesign name="calendar" size={20} color="white" />
+                </TouchableOpacity>
+              </View>
+              {showPicker &&
+                <View>
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode="datetime"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChange}
+                  />
+                </View>}
+            </View>
+          </View>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              P.O Reference
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.WorkTypeDesc}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  WorkTypeDesc: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="xxx xxx xxx"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocusedWorkTypeDesc (true);
+              }}
+              onBlur={() => {
+                setIsFocusedWorkTypeDesc (false);
+              }}
+            />
+          </View>
+
+        </View>
+ {/*  Purchase Amount and P.O Qty Units */}
+        <View style={styles.inputContainer}>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Purchase Amount
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.WorkTypeDesc}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  WorkTypeDesc: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="0"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocusedWorkTypeDesc (true);
+              }}
+              onBlur={() => {
+                setIsFocusedWorkTypeDesc (false);
+              }}
+            />
+          </View>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              P.O Qty Units
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.WorkTypeDesc}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  WorkTypeDesc: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="0"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocusedWorkTypeDesc (true);
+              }}
+              onBlur={() => {
+                setIsFocusedWorkTypeDesc (false);
+              }}
+            />
+          </View>
+
+        </View>
+        {/*   Warranty End  */}
+        <View style={styles.inputContainer}>
+
+          <View style={styles.Brand}>
+            <Text style={styles.lableinput}>
+              Warranty End
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.WorkTypeDesc}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  WorkTypeDesc: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="0"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocusedWorkTypeDesc (true);
+              }}
+              onBlur={() => {
+                setIsFocusedWorkTypeDesc (false);
+              }}
+            />
+          </View>
+
+          <View style={styles.singleinputlable} />
+
+        </View>
+        {/*  Vendor Code and Vendor Name */}
+        <View style={styles.inputContainer}>
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Vendor Code
+            </Text>
+            <Dropdown
+              style={[
+                styles.inputBox,
+                {height: 40},
+                isFocus && {borderColor: 'blue'},
+              ]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              search
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Select Vendor Code' : '...'}
+              searchPlaceholder="Search..."
+              value={value.Employeeid}
+              onFocus={() => setIsFocus (true)}
+              onBlur={() => setIsFocus (false)}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  Employeeid: item.value, // Update the Employeeid property
+                }));
+                setIsFocus (false);
+              }}
+            />
+          </View>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Vendor Name
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.WorkRequest}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  WorkRequest: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="Vendor Name"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocused (true);
+              }}
+              onBlur={() => {
+                setIsFocused (false);
+              }}
+            />
+          </View>
+
+        </View>
+       
 
         {/* Button section */}
         <Button
@@ -870,6 +1125,7 @@ export default function Createworkrequest () {
           containerStyle={{
             width: 150,
             marginLeft: 15,
+            marginTop: -10,
           }}
           // onPress={() => navigation.navigate('Createworkrequest')}
         >
@@ -881,46 +1137,12 @@ export default function Createworkrequest () {
           />
           SAVE
         </Button>
-        <View style={[styles.inputContainer, {marginTop: 12}]}>
-          <Button
-            radius={'md'}
-            type="outline"
-            containerStyle={{
-              width: 150,
-            }}
-            // onPress={() => navigation.navigate('Createworkrequest')}
-          >
-            <Ionicons
-              name="md-print-outline"
-              size={20}
-              color="#0A2DAA"
-              style={{marginRight: 12}}
-            />
-            Print
-          </Button>
-          <Button
-            radius={'md'}
-            type="outline"
-            containerStyle={{
-              width: 150,
-            }}
-            // onPress={() => navigation.navigate('Createworkrequest')}
-          >
-            <MaterialIcons
-              name="save-alt"
-              size={20}
-              color="#0A2DAA"
-              style={{marginRight: 12}}
-            />
-            Export
-          </Button>
 
-        </View>
       </View>
     </ScrollView>
   );
 }
-// Style section
+
 const styles = StyleSheet.create ({
   iconcontainer: {
     position: 'absolute',
