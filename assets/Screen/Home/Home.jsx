@@ -122,13 +122,16 @@ const Home = () => {
                         />
                         <Text style={styles.prograp}>Space Management</Text>
                     </View>
+                    {/* Setupconfigurationrouting */}
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Setupconfigurationrouting')}>
                         <Image
                             source={require('../Image/setupconfiguration.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Set Up & Configuration</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
                         <Image
