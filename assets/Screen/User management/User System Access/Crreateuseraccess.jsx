@@ -9,13 +9,6 @@ import { Checkbox } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-];
-
 export default function Crreateuseraccess() {
     const navigation = useNavigation();
 
