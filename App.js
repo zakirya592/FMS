@@ -18,6 +18,16 @@ import Locationmanagement from './assets/Screen/Location Management/Locationmana
 import axios from "axios";
 import Preventivemaintenance from './assets/Screen/Preventive Maintenance/Preventivemaintenance';
 import Createpreventivemaintenance from './assets/Screen/Preventive Maintenance/Createpreventivemaintenance';
+import Cleaningworks from './assets/Screen/Cleaning Works/Cleaningworks';
+import Createcleaningwork from './assets/Screen/Cleaning Works/Createcleaningwork';
+import Usermanagment from './assets/Screen/User management/Usermanagment';
+import Systemmodules from './assets/Screen/User management/System Modules/Systemmodules';
+import Userauthoritylevels from './assets/Screen/User management/User Authority Levels/Userauthoritylevels';
+import UserCredentials from './assets/Screen/User management/User Credientials/UserCredentials';
+import Createusercredientials from './assets/Screen/User management/User Credientials/Createusercredientials';
+import Useraccess from './assets/Screen/User management/User System Access/Useraccess';
+import Crreateuseraccess from './assets/Screen/User management/User System Access/Crreateuseraccess';
+import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -78,38 +88,38 @@ function MainStackNavigator() {
           title: 'Create Work Request', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Addassetcode */}
+      {/* Addassetcode */}
       <Stack.Screen name="Addassetcode" component={Addassetcode}
         options={{
           title: 'Asset Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Workorder */}
+      {/* Workorder */}
       <Stack.Screen name="Workorder" component={Workorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Createworkorder */}
-         <Stack.Screen name="Createworkorder" component={Createworkorder}
+      {/* Createworkorder */}
+      <Stack.Screen name="Createworkorder" component={Createworkorder}
         options={{
           title: 'Work Order', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Locationmanagement */}
-          <Stack.Screen name="Locationmanagement" component={Locationmanagement}
+      {/* Locationmanagement */}
+      <Stack.Screen name="Locationmanagement" component={Locationmanagement}
         options={{
           title: 'Location Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Preventivemaintenance */ }
-            <Stack.Screen name="Preventivemaintenance" component={Preventivemaintenance}
+      {/* Preventivemaintenance */}
+      <Stack.Screen name="Preventivemaintenance" component={Preventivemaintenance}
         options={{
           title: 'Preventive Management', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'
         }} />
-         {/* Createpreventivemaintenance */ }
-            <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
+      {/* Createpreventivemaintenance */}
+      <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
         options={{
           title: 'Preventive Maintenance', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
           headerTintColor: '#FFFFFF'

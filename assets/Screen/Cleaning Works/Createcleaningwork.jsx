@@ -14,17 +14,16 @@ const data = [
     { label: 'Item 4', value: '4' },
 ];
 
-export default function Createpreventivemaintenance() {
+export default function Createcleaningwork() {
     const [value, setvalue] = useState({
-        Employeeid: null, WorkRequestNo:'',
+        Employeeid: null, WorkRequestNo: '',
         WorkOrderNumber: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
-        AssetCategory: '', Manufacturer: '', Model: '', Building: '', DepartmentCode: '', DepartmentName:'',
-        WorkPriority: '', WorkDescription: '', SchedulingPriority:'',
+        AssetCategory: '', Manufacturer: '', Model: '', Building: '', DepartmentCode: '', DepartmentName: '', CleaningGroup: '', InstructionRemarks:'',
+        WorkPriority: '', GroupDescription: '', SchedulingPriority: '',
         WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
         CompletedbyEmp: '', ComplateEmployeeName: '',
     })
 
-    const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -87,7 +86,7 @@ export default function Createpreventivemaintenance() {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>Create Preventive  Maintenance
+                    <Text style={styles.prograp}>Cleaning Works
                     </Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
@@ -144,7 +143,7 @@ export default function Createpreventivemaintenance() {
 
                 </View>
                 {/* Start Date/Time  */}
-                <View style={[styles.inputContainer,{alignItems:'flex-start',justifyContent:'flex-start',marginLeft:4}]}>
+                <View style={[styles.inputContainer, { alignItems: 'flex-start', justifyContent: 'flex-start', marginLeft: 4 }]}>
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Request <Text style={{ fontSize: 12 }}> Date/Time</Text>
@@ -285,7 +284,7 @@ export default function Createpreventivemaintenance() {
 
                 </View>
                 {/* Work Priority*/}
-                <View style={[styles.inputContainer,{alignItems:'flex-start',justifyContent:'flex-start',margin:5}]}>
+                <View style={[styles.inputContainer, { alignItems: 'flex-start', justifyContent: 'flex-start', margin: 5 }]}>
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Work Priority
@@ -313,14 +312,13 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                 </View>
-                {/* Asset Type and AssetTypeDesc */}
+                {/* Loaction Building */}
                 <View style={styles.inputContainer}>
-
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Asset Type
+                        <Text style={styles.lableinput}>Location
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40 }, isFocus && { borderColor: 'blue' }]}
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
@@ -329,116 +327,17 @@ export default function Createpreventivemaintenance() {
                             maxHeight={200}
                             labelField="label"
                             valueField="value"
-                            placeholder={'Asset Type'}
-                            value={value.AssetType}
+                            placeholder={'Select Location'}
+                            value={value.Location}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    AssetType: item.value,
+                                    Location: item.value, // Update the Employeeid property
                                 }));
                             }}
+
                         />
                     </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Asset Type Desc.
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox,
-                                { borderColor: isFocusedAssetTypeDesc ? '#1D3A9F' : '#94A0CA' },
-                            ]}
-                            value={value.AssetTypeDesc}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    AssetTypeDesc: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder="Asset Type Desc."
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                            onFocus={(() => {
-                                setIsFocusedAssetTypeDesc(true);
-                            })}
-                            onBlur={(() => {
-                                setIsFocusedAssetTypeDesc(false);
-                            })}
-                        />
-                    </View>
-
-                </View>
-                {/* Asset Category Manufacturer */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Asset Category
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.AssetCategory}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    AssetCategory: item.value,
-                                }));
-                            }}
-                            placeholder="Asset Category"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Manufacturer
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.Manufacturer}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    Manufacturer: item.value,
-                                }));
-                            }}
-                            placeholder="Manufacturer"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
-                </View>
-                {/* Model Building */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Model
-                        </Text>
-                        <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.Model}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    Model: item.value,
-                                }));
-                            }}
-                            placeholder="Model"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Building
                         </Text>
@@ -511,76 +410,12 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                 </View>
-                {/* Warranty Period and Warrantyenddata Date/time */}
-                <View style={styles.inputContainer}>
+                
+                {/* Cleaning Group*/}
+                <View style={[styles.inputContainer, { justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5 }]}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Warranty Period
-                        </Text>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
-                                <TextInput
-                                    style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateManufacturer ? dateManufacturer.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
-                                    editable={true}
-                                />
-                                <TouchableOpacity onPress={showDatepickerManufacturer} style={styles.iconcontainer}>
-                                    <AntDesign name="calendar" size={20} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                            {showPickerManufacturer && (
-                                <View>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={dateManufacturer || new Date()} // Use the existing date or the current date if dateEndDatetime is null
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChangeManufacturer}
-                                    />
-                                </View>
-                            )}
-                        </View>
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Warranty <Text style={{ fontSize: 12 }}>End Date</Text>
-                        </Text>
-                        <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
-                                <TextInput
-                                    style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateWarrantyenddata ? dateWarrantyenddata.toLocaleString() : 'dd/mm/yyyy -:- -'}
-                                    editable={true}
-                                />
-                                <TouchableOpacity onPress={showDatepickerWarrantyenddata} style={styles.iconcontainer}>
-                                    <AntDesign name="calendar" size={20} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                            {showPickerWarrantyenddata && (
-                                <View>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={dateWarrantyenddata || new Date()}
-                                        mode="datetime"
-                                        is24Hour={true}
-                                        display="default"
-                                        onChange={onChangeWarrantyenddata}
-                                    />
-                                </View>
-                            )}
-                        </View>
-                    </View>
-                </View>
-                {/* Location*/}
-                <View style={[styles.inputContainer,{justifyContent:'flex-start',alignItems:'flex-start',marginLeft:5}]}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Location
+                        <Text style={styles.lableinput}>Cleaning Group
                         </Text>
                         <Dropdown
                             style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
@@ -592,12 +427,12 @@ export default function Createpreventivemaintenance() {
                             maxHeight={200}
                             labelField="label"
                             valueField="value"
-                            placeholder={'Select Location'}
-                            value={value.Location}
+                            placeholder={'Cleaning Group'}
+                            value={value.CleaningGroup}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Location: item.value, // Update the Employeeid property
+                                    CleaningGroup: item.value, // Update the Employeeid property
                                 }));
                             }}
 
@@ -605,23 +440,47 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                 </View>
-                {/* WorkDescription */}
+                {/* Group Description */}
                 <View style={styles.inputContainer}>
                     <View style={[styles.singleinputlable]}>
-                        <Text style={styles.lableinput}>Work Description
+                        <Text style={styles.lableinput}>Group Description
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox, { width: 350 },
                             ]}
-                            value={value.WorkDescription}
+                            value={value.GroupDescription}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkDescription: item.value, // Update the Employeeid property
+                                    GroupDescription: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder="Describe the nature of the Proplem"
+                            placeholder="Describe group description"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+                </View>
+
+                {/* InstructionRemarks */}
+                <View style={styles.inputContainer}>
+                    <View style={[styles.singleinputlable]}>
+                        <Text style={styles.lableinput}>Instruction/Remarks
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox, { width: 350 },
+                            ]}
+                            value={value.InstructionRemarks}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    InstructionRemarks : item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder="Describe the cleaning works"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -748,7 +607,7 @@ export default function Createpreventivemaintenance() {
                 </View>
                 {/* Frequency */}
                 <View >
-                    <Text style={[styles.lableinput,{marginLeft:5}]}>Frequency
+                    <Text style={[styles.lableinput, { marginLeft: 5 }]}>Frequency
                     </Text>
                     <View style={{ flexDirection: 'row' }}>
                         <RadioButton.Item
@@ -756,7 +615,7 @@ export default function Createpreventivemaintenance() {
                             value="Daily"
                             status={selectedOption === 'Daily' ? 'checked' : 'unchecked'}
                             onPress={() => handleRadioChange('Daily')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }} 
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                             style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
                             labelPosition='right'  // Set the label position to the left
 
@@ -778,35 +637,7 @@ export default function Createpreventivemaintenance() {
                             labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row'}}>
-                       
-                        <RadioButton.Item
-                            label="Bi-Monthly"
-                            value="Bi-Monthly"
-                            status={selectedOption === 'Bi-Monthly' ? 'checked' : 'unchecked'}
-                            onPress={() => handleRadioChange('Bi-Monthly')}
-                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
-                        />
-
-                        <RadioButton.Item
-                            label="Quarterly"
-                            value="Quarterly"
-                            status={selectedOption === 'Quarterly' ? 'checked' : 'unchecked'}
-                            onPress={() => handleRadioChange('Quarterly')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
-                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
-                             />
-
-                        <RadioButton.Item
-                            label="Yearly"
-                            value="Yearly"
-                            status={selectedOption === 'Yearly' ? 'checked' : 'unchecked'}
-                            onPress={() => handleRadioChange('Yearly')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14 ,fontWeight:'400'}}
-                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
-                        />
-                    </View>
+                    
                 </View>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
@@ -814,14 +645,14 @@ export default function Createpreventivemaintenance() {
                     paddingHorizontal: 12,
                     marginRight: 40,
                     marginBottom: 10,
-                    marginTop:10,
+                    marginTop: 10,
                     alignItems: 'flex-start',
                     justifyContent: 'flex-start',
                 }}
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
-                        width:130
+                        width: 130
                     }}
                 // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
                 >
@@ -942,10 +773,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderBottomWidth: 0.5
     },
-    radiobutton:{
-        fontWeight:'400',
-        fontSize:12,
-        color:'#0A2DAA'
+    radiobutton: {
+        fontWeight: '400',
+        fontSize: 12,
+        color: '#0A2DAA'
     }
 
 })
