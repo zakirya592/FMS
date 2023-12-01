@@ -28,6 +28,8 @@ import Crreateuseraccess from './assets/Screen/User management/User System Acces
 import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Setupconfigurationrouting';
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
+import Worktrade from './assets/Screen/Set Up & Configuration/Work Trade/Worktrade';
+import Workstatus from './assets/Screen/Set Up & Configuration/Work Status/Workstatus';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -193,6 +195,16 @@ function MainStackNavigator() {
         }} />
           {/* set up and configuration Work types*/}
       <Stack.Screen name="Worktype" component={Worktype}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+           {/* Work Trade*/}
+      <Stack.Screen name="Worktrade" component={Worktrade}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+              {/* Workstatus*/}
+      <Stack.Screen name="Workstatus" component={Workstatus}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
