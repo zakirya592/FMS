@@ -32,6 +32,9 @@ import Worktrade from './assets/Screen/Set Up & Configuration/Work Trade/Worktra
 import Workstatus from './assets/Screen/Set Up & Configuration/Work Status/Workstatus';
 import Workpriority from './assets/Screen/Set Up & Configuration/Work Priority/Workpriority';
 import Workcategory from './assets/Screen/Set Up & Configuration/Work Category Maintenance/Workcategory';
+import Department from './assets/Screen/Set Up & Configuration/Department/Department';
+import Building from './assets/Screen/Set Up & Configuration/Building/Building';
+import Location from './assets/Screen/Set Up & Configuration/Location/Location';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -217,6 +220,21 @@ function MainStackNavigator() {
         }} />
          {/* Workcategory */}
          <Stack.Screen name="Workcategory" component={Workcategory}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+         {/* Department */}
+         <Stack.Screen name="Department" component={Department}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Building */}
+         <Stack.Screen name="Building" component={Building}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Location */}
+         <Stack.Screen name="Location" component={Location}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
