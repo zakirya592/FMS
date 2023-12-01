@@ -645,7 +645,7 @@ export default function Createworkrequest () {
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Warranty Start Date
+              Warranty End Date
             </Text>
 
             <View>

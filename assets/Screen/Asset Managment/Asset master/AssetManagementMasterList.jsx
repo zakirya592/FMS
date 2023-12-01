@@ -5,7 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {DataTable} from 'react-native-paper';
 import {Checkbox} from 'react-native-paper';
 import {Dropdown} from 'react-native-element-dropdown';
-import {AntDesign} from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import {FontAwesome5} from '@expo/vector-icons';
 import {MaterialIcons} from '@expo/vector-icons';
 import {
@@ -234,6 +235,7 @@ export default function Workrequest () {
                 selectionColor="#1D3A9F"
                 underlineColorAndroid="transparent"
               />
+              <Feather name="search" size={24} color="black" style={{ position: 'absolute', left: '87%', top: '45%' }} />
             </View>
 
           </View>

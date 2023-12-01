@@ -133,8 +133,7 @@ function MainStackNavigator() {
       <Stack.Screen name="AssetHome" component={AssetHome}
         options={{
           title: 'Asset Managment', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
-          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
+           headerTintColor: '#FFFFFF'
         }} />
       <Stack.Screen name="AssetMasterCreate" component={AssetMasterCreate}
         options={{
