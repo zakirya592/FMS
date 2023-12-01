@@ -691,7 +691,7 @@ export default function Createworkrequest () {
           <View style={styles.singleinputlable} />
 
         </View>
-         {/* On Hand Qty and Re-Order Qty Level */}
+        {/* On Hand Qty and Re-Order Qty Level */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -753,7 +753,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-         {/* Minimum Level and Maximum Level */}
+        {/* Minimum Level and Maximum Level */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -815,7 +815,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-         {/* Units and Units Description */}
+        {/* Units and Units Description */}
         <View style={styles.inputContainer}>
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -953,7 +953,7 @@ export default function Createworkrequest () {
           </View>
 
         </View>
- {/*  Purchase Amount and P.O Qty Units */}
+        {/*  Purchase Amount and P.O Qty Units */}
         <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
@@ -1116,7 +1116,6 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-       
 
         {/* Button section */}
         <Button

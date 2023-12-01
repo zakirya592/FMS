@@ -31,123 +31,134 @@ export default function Workrequest () {
   const [items, setItems] = useState ([
     {
       _id: 1,
-      WORKREQUEST: 'WORKREQUEST11',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '1',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 2,
-      WORKREQUEST: 'WORKREQUEST2',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '2',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 3,
-      WORKREQUEST: 'WORKREQUEST3',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '3',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 4,
-      WORKREQUEST: 'WORKREQUEST4',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '4',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 5,
-      WORKREQUEST: 'WORKREQUEST5',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '5',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 6,
-      WORKREQUEST: 'WORKREQUEST6',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '6',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 7,
-      WORKREQUEST: 'WORKREQUEST7',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '7',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 8,
-      WORKREQUEST: 'WORKREQUEST8',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '8',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 9,
-      WORKREQUEST: 'WORKREQUEST9',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '9',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 10,
-      WORKREQUEST: 'WORKREQUEST10',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '10',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'ASSETCATEGORY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
     {
       _id: 11,
-      WORKREQUEST: 'WORKREQUEST11',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
+      Seq: '11',
+      AssetItemDescription: 'Open',
+      ASSETITEMGROUP: 'ASSETITEMGROUP',
+      ASSETCATEGORY: 'PRIORITY',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'ONHANDQTY',
+      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
+      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
       ACTIONS: 'Open',
     },
   ]);
@@ -225,8 +236,6 @@ export default function Workrequest () {
               />
             </View>
 
-            
-
           </View>
         </View>
         {/* table section */}
@@ -256,27 +265,31 @@ export default function Workrequest () {
                   />
                 </Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 150}]}>
+              <DataTable.Title style={[styles.header, {width: 50}]}>
                 <Text style={styles.tableHeading}>Seq </Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 140}]}>
+              <DataTable.Title style={[styles.header, {width: 180}]}>
                 <Text style={styles.tableHeading}>Asset Item Description</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 150}]}>
-                <Text style={styles.tableHeading}>REQUEST BY EMP#</Text>
+              <DataTable.Title style={[styles.header, {width: 160}]}>
+                <Text style={styles.tableHeading}>ASSET ITEM GROUP</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>PRIORITY</Text>
-              </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>REQUEST DATE</Text>
+                <Text style={styles.tableHeading}>ASSET CATEGORY</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>WORK TYPE DESC</Text>
+                <Text style={styles.tableHeading}>ASSET SUB_CATGORY</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, {width: 130}]}>
+                <Text style={styles.tableHeading}>ON-HAND QTY</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, {width: 180}]}>
+                <Text style={styles.tableHeading}>LAST PURCHASE DATE</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>WORK TRADE DESC</Text>
+                <Text style={styles.tableHeading}>PURCHASE AMOUNT</Text>
               </DataTable.Title>
+
               <DataTable.Title
                 style={[
                   styles.header,
@@ -295,26 +308,29 @@ export default function Workrequest () {
                       onPress={() => handleCheckboxChange (item._id)}
                     />
                   </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 150}]}>
-                    {item.WORKREQUEST}
+                  <DataTable.Cell style={[styles.tablebody, {width: 50}]}>
+                    {item.Seq}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
+                    {item.AssetItemDescription}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
+                    {item.ASSETITEMGROUP}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.REQUESTSTATUS}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 150}]}>
-                    {item.REQUESTBYEMP}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.PRIORITY}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.REQUESTDATE}
+                    {item.ASSETCATEGORY}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.WORKTYPEDESC}
+                    {item.ASSETSUB_CATGORY}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
+                    {item.ONHANDQTY}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
+                    {item.LASTPURCHASEDATE}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.WORKTRADEDESC}
+                    {item.PURCHASEAMOUNT}
                   </DataTable.Cell>
                   <DataTable.Cell
                     style={[
@@ -387,6 +403,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
+            onPress={() => navigation.navigate ('AssetMasterUpdate')}
           >
             Update
           </Button>
@@ -458,7 +475,7 @@ const styles = StyleSheet.create ({
     paddingBottom: 5,
     marginBottom: 10,
     position: 'relative',
-    marginLeft:-90,
+    marginLeft: -90,
     justifyContent: 'space-around',
   },
   lableinput: {

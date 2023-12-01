@@ -10,6 +10,7 @@ import Workrequest from './assets/Screen/Work Request/Workrequest';
 import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
 import AssetHome from './assets/Screen/Asset Managment/HomeAsset';
 import AssetMasterCreate from './assets/Screen/Asset Managment/Asset master/AssetCreate';
+import AssetMasterUpdate from './assets/Screen/Asset Managment/Asset master/AssetUpdate';
 import { MenuProvider } from 'react-native-popup-menu';
 import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 import Workorder from './assets/Screen/Work Order/Workorder';
@@ -203,6 +204,11 @@ function MainStackNavigator() {
       <Stack.Screen name="AssetManagementMasterList" component={AssetManagementMasterList}
         options={{
           title: 'Asset Management Master List', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* AssetMasterUpdate */}
+      <Stack.Screen name="AssetMasterUpdate" component={AssetMasterUpdate}
+        options={{
+          title: 'Asset Master List update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>
   );
