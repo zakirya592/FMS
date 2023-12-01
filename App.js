@@ -30,6 +30,8 @@ import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Se
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import Worktrade from './assets/Screen/Set Up & Configuration/Work Trade/Worktrade';
 import Workstatus from './assets/Screen/Set Up & Configuration/Work Status/Workstatus';
+import Workpriority from './assets/Screen/Set Up & Configuration/Work Priority/Workpriority';
+import Workcategory from './assets/Screen/Set Up & Configuration/Work Category Maintenance/Workcategory';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -193,18 +195,28 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-          {/* set up and configuration Work types*/}
+      {/* set up and configuration Work types*/}
       <Stack.Screen name="Worktype" component={Worktype}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-           {/* Work Trade*/}
+      {/* Work Trade*/}
       <Stack.Screen name="Worktrade" component={Worktrade}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-              {/* Workstatus*/}
+      {/* Workstatus*/}
       <Stack.Screen name="Workstatus" component={Workstatus}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Workpriority */}
+         <Stack.Screen name="Workpriority" component={Workpriority}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+         {/* Workcategory */}
+         <Stack.Screen name="Workcategory" component={Workcategory}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
