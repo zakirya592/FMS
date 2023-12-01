@@ -204,7 +204,7 @@ export default function Workrequest () {
           </Text>
           <View>
                       <Button
-                          onPress={() => navigation.navigate ('AssetMasterCreate')}
+                          onPress={() => navigation.navigate ('AssetManagementMasterList')}
               radius={'md'}
               type="solid"
               containerStyle={{

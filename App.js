@@ -29,8 +29,8 @@ import Useraccess from './assets/Screen/User management/User System Access/Usera
 import Crreateuseraccess from './assets/Screen/User management/User System Access/Crreateuseraccess';
 import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Setupconfigurationrouting';
-import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
-
+// import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
+import AssetManagementMasterList from "./assets/Screen/Asset Managment/Asset master/AssetManagementMasterList"
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -138,7 +138,7 @@ function MainStackNavigator() {
       <Stack.Screen name="AssetMasterCreate" component={AssetMasterCreate}
         options={{
           title: 'Asset Master List Create', headerShown: true, headerStyle: { backgroundColor: '#0A2DAA' }, headerTitleStyle: { color: '#FFFFFF', },
-          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+         
           headerTintColor: '#FFFFFF'
         }} />
       {/*user managment Access */}
@@ -190,14 +190,19 @@ function MainStackNavigator() {
           headerTintColor: '#FFFFFF'
         }} />
       {/* set up and configuration COmponent Rounting */}
-      <Stack.Screen name="Setupconfigurationrouting" component={Setupconfigurationrouting}
+      {/* <Stack.Screen name="Setupconfigurationrouting" component={Setupconfigurationrouting}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
           {/* set up and configuration Work types*/}
-      <Stack.Screen name="Worktype" component={Worktype}
+      {/* <Stack.Screen name="Worktype" component={Worktype}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} /> */}
+{/* AssetManagementMasterList */}
+      <Stack.Screen name="AssetManagementMasterList" component={AssetManagementMasterList}
+        options={{
+          title: 'Asset Management Master List', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>
   );
