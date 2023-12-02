@@ -7,12 +7,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
-import Createworktypes from '../../../Component/Setup and configuration/Work Type/Createworktypes';
+import Createrequeststatus from '../../../Component/Setup and configuration/Request Status/Createrequeststatus';
 
-export default function Worktype() {
+export default function Requeststatus() {
     const [value, setvalue] = useState({
-        WorkTypeCodeserach: '', WorkRequest: '', WorkTypeCode: '', WorkTypeDesc: ''
-
+        RequestStatusCodeserach: '', WorkRequest: '', RequestStatusCode: '', RequestStatusDesc: ''
     })
 
     const [page, setPage] = useState(0);
@@ -24,11 +23,10 @@ export default function Worktype() {
     const [items, setItems] = useState([]);
 
     const getapi = () => {
-        axios.get(`/api/WorkType_GET_LIST`)
+        axios.get(`/api/RequestStatus_GET_LIST`)
             .then((res) => {
                 setItems(res.data.recordset)
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
             });
     }
@@ -44,13 +42,13 @@ export default function Worktype() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (WorkTypeCode) => {
+    const handleCheckboxChange = (RequestStatusCode) => {
         const updatedItems = items.map((item) =>
-            item.WorkTypeCode === WorkTypeCode ? { ...item, selected: !item.selected } : item
+            item.RequestStatusCode === RequestStatusCode ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkTypeCode);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RequestStatusCode);
         setSelectedItems(selectedIds);
     };
 
@@ -61,21 +59,20 @@ export default function Worktype() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkTypeCode);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RequestStatusCode);
         setSelectedItems(selectedIds);
     };
 
     const [visible2, setVisible2] = useState(false);
     const [deleteItemCode, setDeleteItemCode] = useState('');
 
-    const toggleDialog2 = (WorkTypeCode) => {
-        setDeleteItemCode(WorkTypeCode); // Store the system module code
-
+    const toggleDialog2 = (RequestStatusCode) => {
+        setDeleteItemCode(RequestStatusCode); // Store the system module code
         setVisible2(!visible2);
     };
 
-    const Deletedapi = (WorkTypeCode) => {
-        axios.delete(`/api/WORKTYPE_DELETE_BYID/${WorkTypeCode}`)
+    const Deletedapi = (RequestStatusCode) => {
+        axios.delete(`/api/RequestStatus_DELETE_BYID/${RequestStatusCode}`)
             .then((res) => {
                 setVisible2(false);
                 getapi()
@@ -89,32 +86,30 @@ export default function Worktype() {
     const [showmodel, setshowmodel] = useState(false);
     const [updataItemCode, setupdataItemCode] = useState('');
 
-    const toggleshowmodel = (WorkTypeCode) => {
+    const toggleshowmodel = (RequestStatusCode) => {
         setshowmodel(!showmodel);
-        setupdataItemCode(WorkTypeCode)
-        axios.get(`/api/WorkType_GET_BYID/${WorkTypeCode}`)
+        setupdataItemCode(RequestStatusCode)
+        axios.get(`/api/RequestStatus_GET_BYID/${RequestStatusCode}`)
             .then((res) => {
                 setvalue((prevValue) => ({
                     ...prevValue,
-                    WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
-                    WorkTypeCode: res.data.recordset[0].WorkTypeCode,
+                    RequestStatusDesc: res.data.recordset[0].RequestStatusDesc,
+                    RequestStatusCode: res.data.recordset[0].RequestStatusCode,
                 }))
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
-
             });
     };
 
     const postapi = (updataItemCode) => {
-        axios.put(`/api/WorkType_Put/${updataItemCode}`, {
-            WorkTypeDesc: value.WorkTypeDesc,
+        axios.put(`/api/RequestStatus_Put/${updataItemCode}`, {
+            RequestStatusDesc: value.RequestStatusDesc,
         },).then((res) => {
-                getapi()
-                setshowmodel(!showmodel);
-            }).catch((err) => {
-                console.log(err);
-            });
+            getapi()
+            setshowmodel(!showmodel);
+        }).catch((err) => {
+            console.log(err);
+        });
     };
 
     return (
@@ -122,7 +117,7 @@ export default function Worktype() {
             <View>
                 {/* Top section */}
                 <View >
-                    <Text style={styles.prograp}>Work Type Maintenance
+                    <Text style={styles.prograp}>REQUEST STATUS MAINTENANCE
                     </Text>
                 </View>
                 {/* table section */}
@@ -136,33 +131,28 @@ export default function Worktype() {
                                 onPress={handleSelectAllChange}
                             /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 80 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK TYPES</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>REQUEST STATUS CODE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.filter(
-                            (item) =>
-                                item &&
-                                item.WorkTypeCode &&
-                                item.WorkTypeCode.toLowerCase().includes(value.WorkTypeCodeserach.toLowerCase())
-                        ).slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.WorkTypeCode}>
+                        {items.slice(from, to).map((item, index) => (
+                            <DataTable.Row key={item.RequestStatusCode}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                     <Checkbox
                                         status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.WorkTypeCode)}
+                                        onPress={() => handleCheckboxChange(item.RequestStatusCode)}
                                     />
                                 </DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkTypeCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.WorkTypeDesc}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.RequestStatusCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.RequestStatusDesc}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
                                     <View>
                                         <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => toggleshowmodel(item.WorkTypeCode)} style={[styles.actions, { marginRight: 10 }]}>
+                                            <TouchableOpacity onPress={() => toggleshowmodel(item.RequestStatusCode)} style={[styles.actions, { marginRight: 10 }]}>
                                                 <FontAwesome5 name="sync-alt" size={20} color="black" />
                                             </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => toggleDialog2(item.WorkTypeCode)} style={styles.actions}>
+                                            <TouchableOpacity onPress={() => toggleDialog2(item.RequestStatusCode)} style={styles.actions}>
                                                 <AntDesign name="delete" size={20} color="red" />
                                             </TouchableOpacity>
 
@@ -189,7 +179,7 @@ export default function Worktype() {
                 />
                 {/* Button section */}
                 <View style={[styles.buttonsection, { justifyContent: 'flex-start', alignItems: 'flex-start' }]} >
-                    <Createworktypes myFunction={getapi} />
+                    <Createrequeststatus myFunction={getapi} />
                 </View>
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="outline" containerStyle={{
@@ -215,7 +205,7 @@ export default function Worktype() {
                 {/* Deleted  Dialog*/}
                 <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
                     <Dialog.Title title="Are you sure?" />
-                    <Text>{`You want to delete this ${deleteItemCode} work type`}</Text>
+                    <Text>{`You want to delete this ${deleteItemCode} Request Status`}</Text>
                     <Dialog.Actions >
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
@@ -226,39 +216,41 @@ export default function Worktype() {
 
                 {/* Updata Diaog */}
                 <Dialog isVisible={showmodel} >
+                    <Dialog.Title title="Updata Request Status" />
+
                     <View style={{ marginTop: 20 }}>
                         <View style={styles.singleinputlable}>
-                            <Text style={styles.lableinput}>Work Type Code
+                            <Text style={styles.lableinput}>Request Status Code
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.WorkTypeCode}
+                                value={value.RequestStatusCode}
                                 onChange={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        WorkTypeCode: item.value, // Update the Employeeid property
+                                        RequestStatusCode: item.value,
                                     }));
                                 }}
-                                placeholder="Work Type Code"
+                                placeholder="Request Status Code"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
-                                editable={false} // Set editable dynamically based on some condition
+                                editable={false} 
                             />
                         </View>
                         <View style={[styles.singleinputlable, { marginTop: 15 }]}>
-                            <Text style={styles.lableinput}>Work Type Description
+                            <Text style={styles.lableinput}>Request Status Desc
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.WorkTypeDesc}
+                                value={value.RequestStatusDesc}
                                 onChangeText={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        WorkTypeDesc: item, // Update the Employeeid property
+                                        RequestStatusDesc: item,
                                     }));
                                 }}
-                                placeholder="Work Type Description"
+                                placeholder="Request Status Desc"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
