@@ -11,6 +11,7 @@ import Createworkrequest from './assets/Screen/Work Request/Createworkrequest';
 import AssetHome from './assets/Screen/Asset Managment/HomeAsset';
 import AssetMasterCreate from './assets/Screen/Asset Managment/Asset master/AssetCreate';
 import AssetMasterUpdate from './assets/Screen/Asset Managment/Asset master/AssetUpdate';
+import AssetTransactionsHome from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsHome'
 import { MenuProvider } from 'react-native-popup-menu';
 import Addassetcode from './assets/Screen/Work Request/Addassetcode';
 import Workorder from './assets/Screen/Work Order/Workorder';
@@ -208,6 +209,11 @@ function MainStackNavigator() {
       <Stack.Screen name="AssetMasterUpdate" component={AssetMasterUpdate}
         options={{
           title: 'Asset Master List update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* AssetTransactionsHome */}
+      <Stack.Screen name="AssetTransactionsHome" component={AssetTransactionsHome}
+        options={{
+          title: 'Asset Transactions', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>
   );

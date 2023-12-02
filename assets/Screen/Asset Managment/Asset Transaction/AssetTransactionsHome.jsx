@@ -33,133 +33,133 @@ export default function Workrequest () {
     {
       _id: 1,
       Seq: '1',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 2,
       Seq: '2',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 3,
       Seq: '3',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 4,
       Seq: '4',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 5,
       Seq: '5',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 6,
       Seq: '6',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 7,
       Seq: '7',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 8,
       Seq: '8',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 9,
       Seq: '9',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 10,
       Seq: '10',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'ASSETCATEGORY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'ASSETITEMDESCRIPTION',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
     {
       _id: 11,
       Seq: '11',
-      AssetItemDescription: 'Open',
-      ASSETITEMGROUP: 'ASSETITEMGROUP',
-      ASSETCATEGORY: 'PRIORITY',
-      ASSETSUB_CATGORY: '12/12/3003',
-      ONHANDQTY: 'ONHANDQTY',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      ASSETTAGSTOCKNUMBER: 'Open',
+      SERIALNUMBER: 'SERIALNUMBER',
+      ASSETITEMDESCRIPTION: 'PRIORITY',
+      EMPLOYEEID: '12/12/3003',
+      ASSETCONDITION: 'ASSETCONDITION',
+      BUILDING: 'BUILDING',
+      LOACTION: 'LOACTION',
       ACTIONS: 'Open',
     },
   ]);
@@ -213,10 +213,32 @@ export default function Workrequest () {
         {/* Top section */}
         <View>
           <Text style={styles.prograp}>
-            Asset Master List
+            AssetItem Tag ID
           </Text>
           <View style={styles.inputContainer}>
-
+<View style={styles.singleinputlable}>
+              
+              <TextInput
+                style={styles.inputBox}
+                value={value.Employeeid}
+                onChange={item => {
+                  setvalue (prevValue => ({
+                    ...prevValue,
+                    Employeeid: item.value, // Update the Employeeid property
+                  }));
+                }}
+                placeholder="Select assetitem tag ID"
+                placeholderTextColor="#94A0CA"
+                selectionColor="#1D3A9F"
+                underlineColorAndroid="transparent"
+              />
+              <Feather
+                name="search"
+                size={24}
+                color="black"
+                style={{position: 'absolute', left: '50%', top: '25%'}}
+              />
+            </View>
             <View style={styles.singleinputlable}>
               <Text style={styles.lableinput}>
                 Asset Item Description
@@ -239,7 +261,7 @@ export default function Workrequest () {
                 name="search"
                 size={24}
                 color="black"
-                style={{position: 'absolute', left: '87%', top: '45%'}}
+                style={{position: 'absolute', left: '50%', top: '45%'}}
               />
             </View>
 
@@ -276,25 +298,25 @@ export default function Workrequest () {
                 <Text style={styles.tableHeading}>Seq </Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 180}]}>
-                <Text style={styles.tableHeading}>Asset Item Description</Text>
+                <Text style={styles.tableHeading}>ASSET TAG/STOCK NUMBER</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 160}]}>
-                <Text style={styles.tableHeading}>ASSET ITEM GROUP</Text>
+                <Text style={styles.tableHeading}>SERIAL NUMBER</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>ASSET CATEGORY</Text>
+                <Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>ASSET SUB_CATGORY</Text>
+                <Text style={styles.tableHeading}>EMPLOYEE ID</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 130}]}>
-                <Text style={styles.tableHeading}>ON-HAND QTY</Text>
+                <Text style={styles.tableHeading}>ASSET CONDITION</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 180}]}>
-                <Text style={styles.tableHeading}>LAST PURCHASE DATE</Text>
+                <Text style={styles.tableHeading}>BUILDING</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>PURCHASE AMOUNT</Text>
+                <Text style={styles.tableHeading}>LOACTION</Text>
               </DataTable.Title>
 
               <DataTable.Title
@@ -319,25 +341,25 @@ export default function Workrequest () {
                     {item.Seq}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
-                    {item.AssetItemDescription}
+                    {item.ASSETTAGSTOCKNUMBER}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
-                    {item.ASSETITEMGROUP}
+                    {item.SERIALNUMBER}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.ASSETCATEGORY}
+                    {item.ASSETITEMDESCRIPTION}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.ASSETSUB_CATGORY}
+                    {item.EMPLOYEEID}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
-                    {item.ONHANDQTY}
+                    {item.ASSETCONDITION}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
-                    {item.LASTPURCHASEDATE}
+                    {item.BUILDING}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.PURCHASEAMOUNT}
+                    {item.LOACTION}
                   </DataTable.Cell>
                   <DataTable.Cell
                     style={[
@@ -477,13 +499,14 @@ export default function Workrequest () {
 
 const styles = StyleSheet.create ({
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    // flexDirection: 'row',
+        alignItems: 'center',
+      display:"block",
     paddingBottom: 5,
     marginBottom: 10,
     position: 'relative',
     marginLeft: -90,
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
   },
   lableinput: {
     color: '#0A2DAA',

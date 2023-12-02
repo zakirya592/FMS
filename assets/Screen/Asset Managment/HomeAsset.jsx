@@ -219,7 +219,7 @@ export default function Workrequest () {
           </View>
           <View>
             <Button
-        onPress={() => navigation.navigate ('Createworkrequest')}
+        onPress={() => navigation.navigate ('AssetTransactionsHome')}
               radius={'md'}
               type="solid"
               containerStyle={{
