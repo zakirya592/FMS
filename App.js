@@ -35,6 +35,11 @@ import Workcategory from './assets/Screen/Set Up & Configuration/Work Category M
 import Department from './assets/Screen/Set Up & Configuration/Department/Department';
 import Building from './assets/Screen/Set Up & Configuration/Building/Building';
 import Location from './assets/Screen/Set Up & Configuration/Location/Location';
+import Problemcategory from './assets/Screen/Set Up & Configuration/Problem Category/Problemcategory';
+import Requeststatus from './assets/Screen/Set Up & Configuration/Request Status/Requeststatus';
+import Failurecode from './assets/Screen/Set Up & Configuration/Failure Code/Failurecode';
+import Solutioncode from './assets/Screen/Set Up & Configuration/Solution Code Maintenance/Solutioncode';
+import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -238,6 +243,31 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
+         {/* Problemcategory */}
+         <Stack.Screen name="Problemcategory" component={Problemcategory}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Requeststatus */}
+         <Stack.Screen name="Requeststatus" component={Requeststatus}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Failurecode */}
+         <Stack.Screen name="Failurecode" component={Failurecode}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Solutioncode */}
+          <Stack.Screen name="Solutioncode" component={Solutioncode}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Days Maintenance */}
+            <Stack.Screen name="Days" component={Days}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} /> 
     </Stack.Navigator>
   );
 }
