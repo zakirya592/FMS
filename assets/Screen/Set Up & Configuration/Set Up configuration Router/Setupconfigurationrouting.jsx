@@ -115,14 +115,14 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Floorcode')}
                         title='Floor'
                     />
                     {/* Room */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('RoomCode')}
                         title='Room'
                     />
                 </View>
@@ -132,42 +132,42 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Frequency')}
                         title='Frequency '
                     />
                     {/* Gender */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Gendercode')}
                         title='Gender'
                     />
                     {/* Title/Salutation */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Titlesatutation')}
                         title='Title/Salutation '
                     />
                     {/* Marital Status */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Maritalstatus')}
                         title='Marital Status'
                     />
                     {/* Nationality*/}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Nationality')}
                         title='Nationality'
                     />
                     {/* Asset Type */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Assettype')}
                         title='Asset Type '
                     />
                     {/* Asset Category*/}

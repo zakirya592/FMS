@@ -42,6 +42,14 @@ import Requeststatus from './assets/Screen/Set Up & Configuration/Request Status
 import Failurecode from './assets/Screen/Set Up & Configuration/Failure Code/Failurecode';
 import Solutioncode from './assets/Screen/Set Up & Configuration/Solution Code Maintenance/Solutioncode';
 import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days';
+import Floorcode from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Floor Code/Floorcode';
+import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
+import Gendercode from './assets/Screen/Set Up & Configuration/Gender Code/Gendercode';
+import Titlesatutation from './assets/Screen/Set Up & Configuration/Title Salutation/Titlesatutation';
+import Frequency from './assets/Screen/Set Up & Configuration/Frequency Code/Frequency';
+import Maritalstatus from './assets/Screen/Set Up & Configuration/Marital Status/Maritalstatus';
+import Nationality from './assets/Screen/Set Up & Configuration/Nationality/Nationality';
+import Assettype from './assets/Screen/Set Up & Configuration/Asset Type/Assettype';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -221,56 +229,96 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Workpriority */}
-         <Stack.Screen name="Workpriority" component={Workpriority}
+      {/* Workpriority */}
+      <Stack.Screen name="Workpriority" component={Workpriority}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-         {/* Workcategory */}
-         <Stack.Screen name="Workcategory" component={Workcategory}
+      {/* Workcategory */}
+      <Stack.Screen name="Workcategory" component={Workcategory}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-         {/* Department */}
-         <Stack.Screen name="Department" component={Department}
+      {/* Department */}
+      <Stack.Screen name="Department" component={Department}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Building */}
-         <Stack.Screen name="Building" component={Building}
+      {/* Building */}
+      <Stack.Screen name="Building" component={Building}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Location */}
-         <Stack.Screen name="Location" component={Location}
+      {/* Location */}
+      <Stack.Screen name="Location" component={Location}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-         {/* Problemcategory */}
-         <Stack.Screen name="Problemcategory" component={Problemcategory}
+      {/* Problemcategory */}
+      <Stack.Screen name="Problemcategory" component={Problemcategory}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Requeststatus */}
-         <Stack.Screen name="Requeststatus" component={Requeststatus}
+      {/* Requeststatus */}
+      <Stack.Screen name="Requeststatus" component={Requeststatus}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Failurecode */}
-         <Stack.Screen name="Failurecode" component={Failurecode}
+      {/* Failurecode */}
+      <Stack.Screen name="Failurecode" component={Failurecode}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Solutioncode */}
-          <Stack.Screen name="Solutioncode" component={Solutioncode}
+      {/* Solutioncode */}
+      <Stack.Screen name="Solutioncode" component={Solutioncode}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Days Maintenance */}
-            <Stack.Screen name="Days" component={Days}
+      {/* Days Maintenance */}
+      <Stack.Screen name="Days" component={Days}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} /> 
+        }} />
+      {/* Floor code Maintenance*/}
+      <Stack.Screen name="Floorcode" component={Floorcode}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Room Code Maintenance*/}
+      <Stack.Screen name="RoomCode" component={RoomCode}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Frequency */}
+      <Stack.Screen name="Frequency" component={Frequency}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Gender Code Maintenance*/}
+      <Stack.Screen name="Gendercode" component={Gendercode}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Titlesatutation */}
+      <Stack.Screen name="Titlesatutation" component={Titlesatutation}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Maritalstatus */}
+      <Stack.Screen name="Maritalstatus" component={Maritalstatus}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Nationality */}
+      <Stack.Screen name="Nationality" component={Nationality}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Assettype */}
+          <Stack.Screen name="Assettype" component={Assettype}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
     </Stack.Navigator>
   );
 }
