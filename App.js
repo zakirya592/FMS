@@ -43,6 +43,8 @@ import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days';
 import Floorcode from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Floor Code/Floorcode';
 import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
 import Gendercode from './assets/Screen/Set Up & Configuration/Gender Code/Gendercode';
+import Titlesatutation from './assets/Screen/Set Up & Configuration/Title Salutation/Titlesatutation';
+import Frequency from './assets/Screen/Set Up & Configuration/Frequency Code/Frequency';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -281,8 +283,18 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Gender Code Maintenance*/}
-          <Stack.Screen name="Gendercode" component={Gendercode}
+        {/* Frequency */}
+              <Stack.Screen name="Frequency" component={Frequency}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Gender Code Maintenance*/}
+      <Stack.Screen name="Gendercode" component={Gendercode}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Titlesatutation */}
+      <Stack.Screen name="Titlesatutation" component={Titlesatutation}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
