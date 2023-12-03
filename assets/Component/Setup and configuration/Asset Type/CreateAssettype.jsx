@@ -53,7 +53,7 @@ export default function CreateAssettype({ myFunction }) {
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    AssetTypeCode: item, // Update the Employeeid property
+                                    AssetTypeCode: item,
                                 }));
                             }}
                             placeholder="Asset Type Code"
@@ -71,7 +71,7 @@ export default function CreateAssettype({ myFunction }) {
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    AssetTypeDesc: item, // Update the Employeeid property
+                                    AssetTypeDesc: item,
                                 }));
                             }}
                             placeholder="Asset Type Description"
