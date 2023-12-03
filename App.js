@@ -45,6 +45,9 @@ import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode'
 import Gendercode from './assets/Screen/Set Up & Configuration/Gender Code/Gendercode';
 import Titlesatutation from './assets/Screen/Set Up & Configuration/Title Salutation/Titlesatutation';
 import Frequency from './assets/Screen/Set Up & Configuration/Frequency Code/Frequency';
+import Maritalstatus from './assets/Screen/Set Up & Configuration/Marital Status/Maritalstatus';
+import Nationality from './assets/Screen/Set Up & Configuration/Nationality/Nationality';
+import Assettype from './assets/Screen/Set Up & Configuration/Asset Type/Assettype';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -283,8 +286,8 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Frequency */}
-              <Stack.Screen name="Frequency" component={Frequency}
+      {/* Frequency */}
+      <Stack.Screen name="Frequency" component={Frequency}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
@@ -295,6 +298,21 @@ function MainStackNavigator() {
         }} />
       {/* Titlesatutation */}
       <Stack.Screen name="Titlesatutation" component={Titlesatutation}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Maritalstatus */}
+      <Stack.Screen name="Maritalstatus" component={Maritalstatus}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Nationality */}
+      <Stack.Screen name="Nationality" component={Nationality}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Assettype */}
+          <Stack.Screen name="Assettype" component={Assettype}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

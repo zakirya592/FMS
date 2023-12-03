@@ -153,21 +153,21 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Maritalstatus')}
                         title='Marital Status'
                     />
                     {/* Nationality*/}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Nationality')}
                         title='Nationality'
                     />
                     {/* Asset Type */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Assettype')}
                         title='Asset Type '
                     />
                     {/* Asset Category*/}
