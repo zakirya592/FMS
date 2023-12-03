@@ -32,7 +32,9 @@ import Crreateuseraccess from './assets/Screen/User management/User System Acces
 import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Setupconfigurationrouting';
 // import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
+import AssetTransactionsCreate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsCreate'
 import AssetManagementMasterList from "./assets/Screen/Asset Managment/Asset master/AssetManagementMasterList"
+import AssetTransactionsUpdate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsUpdate'
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -200,7 +202,7 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} /> */}
-{/* AssetManagementMasterList */}
+      {/* AssetManagementMasterList */}
       <Stack.Screen name="AssetManagementMasterList" component={AssetManagementMasterList}
         options={{
           title: 'Asset Management Master List', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
@@ -214,6 +216,16 @@ function MainStackNavigator() {
       <Stack.Screen name="AssetTransactionsHome" component={AssetTransactionsHome}
         options={{
           title: 'Asset Transactions', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* AssetTransactionsCreate */}
+      <Stack.Screen name="AssetTransactionsCreate" component={AssetTransactionsCreate}
+        options={{
+          title: 'Asset Transactions Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+       {/* AssetTransactionsCreate */}
+      <Stack.Screen name="AssetTransactionsUpdate" component={AssetTransactionsUpdate}
+        options={{
+          title: 'Asset Transactions Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>
   );

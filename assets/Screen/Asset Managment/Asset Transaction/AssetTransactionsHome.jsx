@@ -216,8 +216,8 @@ export default function Workrequest () {
             AssetItem Tag ID
           </Text>
           <View style={styles.inputContainer}>
-<View style={styles.singleinputlable}>
-              
+            <View style={styles.singleinputlable}>
+
               <TextInput
                 style={styles.inputBox}
                 value={value.Employeeid}
@@ -432,7 +432,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('AssetMasterUpdate')}
+            onPress={() => navigation.navigate ('AssetTransactionsUpdate')}
           >
             Update
           </Button>
@@ -444,7 +444,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('AssetMasterCreate')}
+            onPress={() => navigation.navigate ('AssetTransactionsCreate')}
           >
             <Icon
               name="add"
@@ -500,8 +500,8 @@ export default function Workrequest () {
 const styles = StyleSheet.create ({
   inputContainer: {
     // flexDirection: 'row',
-        alignItems: 'center',
-      display:"block",
+    alignItems: 'center',
+    display: 'block',
     paddingBottom: 5,
     marginBottom: 10,
     position: 'relative',

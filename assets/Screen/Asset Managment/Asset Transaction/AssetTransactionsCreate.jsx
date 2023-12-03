@@ -15,7 +15,8 @@ import PhoneInput from 'react-native-phone-number-input';
 import {DataTable} from 'react-native-paper';
 import {Checkbox} from 'react-native-paper';
 import {MaterialIcons} from '@expo/vector-icons';
-import {Ionicons} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import {Feather} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 const data = [
@@ -113,14 +114,40 @@ export default function Createworkrequest () {
       <View>
         <View>
           <Text style={styles.prograp}>
-            Asset Masterlist-Update
+            Asset Transaction - Create
           </Text>
-        </View>
-        {/* Asset Category and Asset Category Desc. */}
-        <View style={styles.inputContainer}>
-          <View style={styles.singleinputlable}>
+              </View>
+               <View>
+        
+          <View style={styles.inputContainer}>
+ <View style={styles.singleinputlable}>
+              <Text style={styles.lableinput}>
+                Asset/Stock Number
+              </Text>
+              <TextInput
+                style={styles.inputBox}
+                value={value.Employeeid}
+                onChange={item => {
+                  setvalue (prevValue => ({
+                    ...prevValue,
+                    Employeeid: item.value, // Update the Employeeid property
+                  }));
+                }}
+                placeholder="Enter Generate Tag #"
+                placeholderTextColor="#94A0CA"
+                selectionColor="#1D3A9F"
+                underlineColorAndroid="transparent"
+              />
+              <Feather
+                name="search"
+                size={24}
+                color="black"
+                style={{position: 'absolute', left: '85%', top: '45%'}}
+              />
+            </View>
+            <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Asset Category
+              Asset Condition
             </Text>
             <Dropdown
               style={[
@@ -137,7 +164,7 @@ export default function Createworkrequest () {
               maxHeight={200}
               labelField="label"
               valueField="value"
-              placeholder={!isFocus ? 'Select Asset Category' : '...'}
+              placeholder={!isFocus ? 'Select asset condition' : '...'}
               searchPlaceholder="Search..."
               value={value.Employeeid}
               onFocus={() => setIsFocus (true)}
@@ -152,41 +179,14 @@ export default function Createworkrequest () {
             />
           </View>
 
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Asset Category Desc.
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkRequest}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="Asset Category Desc."
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocused (true);
-              }}
-              onBlur={() => {
-                setIsFocused (false);
-              }}
-            />
           </View>
-
         </View>
-        {/* Asset Sub Category and Asset Sub-Cat. Desc. */}
+        
+        {/* Employee ID and Employee Name */}
         <View style={styles.inputContainer}>
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Asset Sub Category
+              Employee ID
             </Text>
             <Dropdown
               style={[
@@ -203,7 +203,7 @@ export default function Createworkrequest () {
               maxHeight={200}
               labelField="label"
               valueField="value"
-              placeholder={!isFocus ? 'Select Sub Category' : '...'}
+              placeholder={!isFocus ? 'Employee Number' : '...'}
               searchPlaceholder="Search..."
               value={value.Employeeid}
               onFocus={() => setIsFocus (true)}
@@ -220,7 +220,7 @@ export default function Createworkrequest () {
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Asset Sub-Cat. Desc.
+              Employee Name
             </Text>
             <TextInput
               style={[
@@ -234,7 +234,7 @@ export default function Createworkrequest () {
                   WorkRequest: item.value, // Update the Employeeid property
                 }));
               }}
-              placeholder="Sub-Asset Cat. desc."
+              placeholder="Employee Name"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
@@ -343,7 +343,7 @@ export default function Createworkrequest () {
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Asset Type
+              Asset category
             </Text>
             <Dropdown
               style={[
@@ -359,7 +359,7 @@ export default function Createworkrequest () {
               maxHeight={200}
               labelField="label"
               valueField="value"
-              placeholder={'Select asset type'}
+              placeholder={'Select asset category'}
               value={value.DepartmentCode}
               onChange={item => {
                 setvalue (prevValue => ({
@@ -372,7 +372,7 @@ export default function Createworkrequest () {
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Asset Type Desc
+              Asset Category Desc
             </Text>
             <TextInput
               style={[
@@ -386,7 +386,132 @@ export default function Createworkrequest () {
                   DepartmentName: item.value, // Update the Employeeid property
                 }));
               }}
-              placeholder="Enter Description"
+              placeholder="Category Description"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocusedDepartmentName (true);
+              }}
+              onBlur={() => {
+                setIsFocusedDepartmentName (false);
+              }}
+            />
+          </View>
+
+              </View>
+        {/* Asset Type and Asset Type Desc  */}
+        <View style={styles.inputContainer}>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Asset Sub Category
+            </Text>
+            <Dropdown
+              style={[
+                styles.inputBox,
+                {height: 40},
+                isFocus && {borderColor: 'blue'},
+              ]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={'Select Sub Category'}
+              value={value.DepartmentCode}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  DepartmentCode: item.value, // Update the Employeeid property
+                }));
+              }}
+            />
+          </View>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Asset Sub Cat Desc
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocusedDepartmentName ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.DepartmentName}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  DepartmentName: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="Sub Category desc"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+              onFocus={() => {
+                setIsFocusedDepartmentName (true);
+              }}
+              onBlur={() => {
+                setIsFocusedDepartmentName (false);
+              }}
+            />
+          </View>
+
+        </View>      
+        <View style={styles.line} />
+        {/* Manufacturer and model */}
+       <View style={styles.inputContainer}>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Department Code
+            </Text>
+            <Dropdown
+              style={[
+                styles.inputBox,
+                {height: 40},
+                isFocus && {borderColor: 'blue'},
+              ]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={'Select dept code'}
+              value={value.DepartmentCode}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  DepartmentCode: item.value, // Update the Employeeid property
+                }));
+              }}
+            />
+          </View>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Department Name
+            </Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+                {borderColor: isFocusedDepartmentName ? '#1D3A9F' : '#94A0CA'},
+              ]}
+              value={value.DepartmentName}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  DepartmentName: item.value, // Update the Employeeid property
+                }));
+              }}
+              placeholder="Department name"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
@@ -400,10 +525,70 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        <View style={styles.line} />
-
-        {/* Manufacturer and model */}
+        {/* Brand*/}
         <View style={styles.inputContainer}>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+              Building
+            </Text>
+            <Dropdown
+              style={[
+                styles.inputBox,
+                {height: 40},
+                isFocus && {borderColor: 'blue'},
+              ]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={'Select building code'}
+              value={value.DepartmentCode}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  DepartmentCode: item.value, // Update the Employeeid property
+                }));
+              }}
+            />
+          </View>
+
+         <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>
+             Location
+            </Text>
+            <Dropdown
+              style={[
+                styles.inputBox,
+                {height: 40},
+                isFocus && {borderColor: 'blue'},
+              ]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              maxHeight={200}
+              labelField="label"
+              valueField="value"
+              placeholder={'Select location'}
+              value={value.DepartmentCode}
+              onChange={item => {
+                setvalue (prevValue => ({
+                  ...prevValue,
+                  DepartmentCode: item.value, // Update the Employeeid property
+                }));
+              }}
+            />
+          </View>
+
+        </View>
+        {/* Manufacturer and model */}
+               <View style={styles.inputContainer}>
 
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
@@ -464,10 +649,10 @@ export default function Createworkrequest () {
           </View>
 
         </View>
-        {/* Brand*/}
-        <View style={styles.inputContainer}>
+        {/* Manufacturer and model */}
+               <View style={styles.inputContainer}>
 
-          <View style={styles.Brand}>
+          <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
               Brand
             </Text>
@@ -496,53 +681,9 @@ export default function Createworkrequest () {
             />
           </View>
 
-          <View style={styles.singleinputlable} />
-
-        </View>
-        {/* Purchase Date and Purchased Amount */}
-        <View style={styles.inputContainer}>
-
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
-              Purchase Date
-            </Text>
-
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
-                  placeholder="dd/mm/yyyy -:- --"
-                  editable={true}
-                />
-                <TouchableOpacity
-                  onPress={showDatepicker}
-                  style={styles.iconcontainer}
-                >
-                  <AntDesign name="calendar" size={20} color="white" />
-                </TouchableOpacity>
-              </View>
-              {showPicker &&
-                <View>
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                  />
-                </View>}
-            </View>
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Purchased Amount
+              Serial Number
             </Text>
             <TextInput
               style={[
@@ -556,7 +697,7 @@ export default function Createworkrequest () {
                   WorkTypeDesc: item.value, // Update the Employeeid property
                 }));
               }}
-              placeholder="000"
+              placeholder="Serial Number"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
@@ -565,552 +706,6 @@ export default function Createworkrequest () {
               }}
               onBlur={() => {
                 setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-        </View>
-        {/* Warranty Period and Warranty Start Date */}
-        <View style={styles.inputContainer}>
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Warranty Period
-            </Text>
-            <Dropdown
-              style={[
-                styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
-              ]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={data}
-              maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={'Warranty Period'}
-              value={value.DepartmentCode}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  DepartmentCode: item.value, // Update the Employeeid property
-                }));
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Warranty Start Date
-            </Text>
-
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
-                  placeholder="dd/mm/yyyy -:- --"
-                  editable={true}
-                />
-                <TouchableOpacity
-                  onPress={showDatepicker}
-                  style={styles.iconcontainer}
-                >
-                  <AntDesign name="calendar" size={20} color="white" />
-                </TouchableOpacity>
-              </View>
-              {showPicker &&
-                <View>
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                  />
-                </View>}
-            </View>
-          </View>
-
-        </View>
-        {/* Warranty Start Date and Warranty Start Date */}
-        <View style={styles.warranty}>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Warranty Start Date
-            </Text>
-
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
-                  placeholder="dd/mm/yyyy -:- --"
-                  editable={true}
-                />
-                <TouchableOpacity
-                  onPress={showDatepicker}
-                  style={styles.iconcontainer}
-                >
-                  <AntDesign
-                    name="calendar"
-                    style={{
-                      position: 'relative',
-                    }}
-                    size={20}
-                    color="white"
-                  />
-                </TouchableOpacity>
-              </View>
-              {showPicker &&
-                <View>
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                  />
-                </View>}
-            </View>
-          </View>
-
-          <View style={styles.singleinputlable} />
-
-        </View>
-        {/* On Hand Qty and Re-Order Qty Level */}
-        <View style={styles.inputContainer}>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              On Hand Qty
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Re-Order Qty Level
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-        </View>
-        {/* Minimum Level and Maximum Level */}
-        <View style={styles.inputContainer}>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Minimum Level
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Maximum Level
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-        </View>
-        {/* Units and Units Description */}
-        <View style={styles.inputContainer}>
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Units
-            </Text>
-            <Dropdown
-              style={[
-                styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
-              ]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={data}
-              search
-              maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Units' : '...'}
-              searchPlaceholder="Search..."
-              value={value.Employeeid}
-              onFocus={() => setIsFocus (true)}
-              onBlur={() => setIsFocus (false)}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  Employeeid: item.value, // Update the Employeeid property
-                }));
-                setIsFocus (false);
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Units Description
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkRequest}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="Units Description"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocused (true);
-              }}
-              onBlur={() => {
-                setIsFocused (false);
-              }}
-            />
-          </View>
-
-        </View>
-        <View style={styles.line} />
-        {/* P.O Reference and Last Purchase Date */}
-        <View style={styles.inputContainer}>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Last Purchase Date
-            </Text>
-
-            <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
-                  placeholder="dd/mm/yyyy -:- --"
-                  editable={true}
-                />
-                <TouchableOpacity
-                  onPress={showDatepicker}
-                  style={styles.iconcontainer}
-                >
-                  <AntDesign name="calendar" size={20} color="white" />
-                </TouchableOpacity>
-              </View>
-              {showPicker &&
-                <View>
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                  />
-                </View>}
-            </View>
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              P.O Reference
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="xxx xxx xxx"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-        </View>
-        {/*  Purchase Amount and P.O Qty Units */}
-        <View style={styles.inputContainer}>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Purchase Amount
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              P.O Qty Units
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-        </View>
-        {/*   Warranty End  */}
-        <View style={styles.inputContainer}>
-
-          <View style={styles.Brand}>
-            <Text style={styles.lableinput}>
-              Warranty End
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="0"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable} />
-
-        </View>
-        {/*  Vendor Code and Vendor Name */}
-        <View style={styles.inputContainer}>
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Vendor Code
-            </Text>
-            <Dropdown
-              style={[
-                styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
-              ]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={data}
-              search
-              maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Select Vendor Code' : '...'}
-              searchPlaceholder="Search..."
-              value={value.Employeeid}
-              onFocus={() => setIsFocus (true)}
-              onBlur={() => setIsFocus (false)}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  Employeeid: item.value, // Update the Employeeid property
-                }));
-                setIsFocus (false);
-              }}
-            />
-          </View>
-
-          <View style={styles.singleinputlable}>
-            <Text style={styles.lableinput}>
-              Vendor Name
-            </Text>
-            <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkRequest}
-              onChange={item => {
-                setvalue (prevValue => ({
-                  ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
-                }));
-              }}
-              placeholder="Vendor Name"
-              placeholderTextColor="#94A0CA"
-              selectionColor="#1D3A9F"
-              underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocused (true);
-              }}
-              onBlur={() => {
-                setIsFocused (false);
               }}
             />
           </View>
