@@ -35,6 +35,18 @@ import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Se
 import AssetTransactionsCreate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsCreate'
 import AssetManagementMasterList from "./assets/Screen/Asset Managment/Asset master/AssetManagementMasterList"
 import AssetTransactionsUpdate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsUpdate'
+import Worktrade from './assets/Screen/Set Up & Configuration/Work Trade/Worktrade'
+import Workstatus from './assets/Screen/Set Up & Configuration/Work Status/Workstatus'
+import Workpriority from './assets/Screen/Set Up & Configuration/Work Priority/Workpriority'
+import Workcategory from './assets/Screen/Set Up & Configuration/Work Category Maintenance/Workcategory'
+import Department from './assets/Screen/Set Up & Configuration/Department/Department'
+import Building from './assets/Screen/Set Up & Configuration/Building/Building'
+import Location from './assets/Screen/Set Up & Configuration/Location/Location'
+import Problemcategory from './assets/Screen/Set Up & Configuration/Problem Category/Problemcategory'
+import Requeststatus from './assets/Screen/Set Up & Configuration/Request Status/Requeststatus'
+import Failurecode from './assets/Screen/Set Up & Configuration/Failure Code/Failurecode'
+import Solutioncode from './assets/Screen/Set Up & Configuration/Solution Code Maintenance/Solutioncode'
+import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days'
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -193,10 +205,10 @@ function MainStackNavigator() {
           headerTintColor: '#FFFFFF'
         }} />
       {/* set up and configuration COmponent Rounting */}
-      {/* <Stack.Screen name="Setupconfigurationrouting" component={Setupconfigurationrouting}
+      <Stack.Screen name="Setupconfigurationrouting" component={Setupconfigurationrouting}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} /> */}
+        }} />
           {/* set up and configuration Work types*/}
       {/* <Stack.Screen name="Worktype" component={Worktype}
         options={{
