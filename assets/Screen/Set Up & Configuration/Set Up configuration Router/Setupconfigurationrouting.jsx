@@ -115,14 +115,14 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Floorcode')}
                         title='Floor'
                     />
                     {/* Room */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('RoomCode')}
                         title='Room'
                     />
                 </View>
@@ -139,7 +139,7 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Gendercode')}
                         title='Gender'
                     />
                     {/* Title/Salutation */}
