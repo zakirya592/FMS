@@ -7,11 +7,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
-import Createworktypes from '../../../Component/Setup and configuration/Work Type/Createworktypes';
+import Createdepartment from '../../../Component/Setup and configuration/Department/Createdepartment';
 
-export default function Worktype() {
+export default function Department() {
     const [value, setvalue] = useState({
-        WorkTypeCodeserach: '', WorkRequest: '', WorkTypeCode: '', WorkTypeDesc: ''
+        DepartmentCodeserach: '', WorkRequest: '', DepartmentCode: '', DepartmentDesc: ''
 
     })
 
@@ -24,11 +24,10 @@ export default function Worktype() {
     const [items, setItems] = useState([]);
 
     const getapi = () => {
-        axios.get(`/api/WorkType_GET_LIST`)
+        axios.get(`/api/Department_GET_LIST`)
             .then((res) => {
                 setItems(res.data.recordset)
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
             });
     }
@@ -44,13 +43,13 @@ export default function Worktype() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (WorkTypeCode) => {
+    const handleCheckboxChange = (DepartmentCode) => {
         const updatedItems = items.map((item) =>
-            item.WorkTypeCode === WorkTypeCode ? { ...item, selected: !item.selected } : item
+            item.DepartmentCode === DepartmentCode ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkTypeCode);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.DepartmentCode);
         setSelectedItems(selectedIds);
     };
 
@@ -61,21 +60,20 @@ export default function Worktype() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkTypeCode);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.DepartmentCode);
         setSelectedItems(selectedIds);
     };
 
     const [visible2, setVisible2] = useState(false);
     const [deleteItemCode, setDeleteItemCode] = useState('');
 
-    const toggleDialog2 = (WorkTypeCode) => {
-        setDeleteItemCode(WorkTypeCode); // Store the system module code
-
+    const toggleDialog2 = (DepartmentCode) => {
+        setDeleteItemCode(DepartmentCode); // Store the system module code
         setVisible2(!visible2);
     };
 
-    const Deletedapi = (WorkTypeCode) => {
-        axios.delete(`/api/WORKTYPE_DELETE_BYID/${WorkTypeCode}`)
+    const Deletedapi = (DepartmentCode) => {
+        axios.delete(`/api/Department_DELETE_BYID/${DepartmentCode}`)
             .then((res) => {
                 setVisible2(false);
                 getapi()
@@ -89,32 +87,30 @@ export default function Worktype() {
     const [showmodel, setshowmodel] = useState(false);
     const [updataItemCode, setupdataItemCode] = useState('');
 
-    const toggleshowmodel = (WorkTypeCode) => {
+    const toggleshowmodel = (DepartmentCode) => {
         setshowmodel(!showmodel);
-        setupdataItemCode(WorkTypeCode)
-        axios.get(`/api/WorkType_GET_BYID/${WorkTypeCode}`)
+        setupdataItemCode(DepartmentCode)
+        axios.get(`/api/Department_GET_BYID/${DepartmentCode}`)
             .then((res) => {
                 setvalue((prevValue) => ({
                     ...prevValue,
-                    WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
-                    WorkTypeCode: res.data.recordset[0].WorkTypeCode,
+                    DepartmentDesc: res.data.recordset[0].DepartmentDesc,
+                    DepartmentCode: res.data.recordset[0].DepartmentCode,
                 }))
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
-
             });
     };
 
     const postapi = (updataItemCode) => {
-        axios.put(`/api/WorkType_Put/${updataItemCode}`, {
-            WorkTypeDesc: value.WorkTypeDesc,
+        axios.put(`/api/Department_Put/${updataItemCode}`, {
+            DepartmentDesc: value.DepartmentDesc,
         },).then((res) => {
-                getapi()
-                setshowmodel(!showmodel);
-            }).catch((err) => {
-                console.log(err);
-            });
+            getapi()
+            setshowmodel(!showmodel);
+        }).catch((err) => {
+            console.log(err);
+        });
     };
 
     return (
@@ -122,7 +118,7 @@ export default function Worktype() {
             <View>
                 {/* Top section */}
                 <View >
-                    <Text style={styles.prograp}>Work Type Maintenance
+                    <Text style={styles.prograp}>WORK DEPARTMENT MAINTENANCE
                     </Text>
                 </View>
                 {/* table section */}
@@ -136,33 +132,28 @@ export default function Worktype() {
                                 onPress={handleSelectAllChange}
                             /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 80 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK TYPES</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>DEPARTMENT CODE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.filter(
-                            (item) =>
-                                item &&
-                                item.WorkTypeCode &&
-                                item.WorkTypeCode.toLowerCase().includes(value.WorkTypeCodeserach.toLowerCase())
-                        ).slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.WorkTypeCode}>
+                        {items.slice(from, to).map((item, index) => (
+                            <DataTable.Row key={item.DepartmentCode}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                     <Checkbox
                                         status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.WorkTypeCode)}
+                                        onPress={() => handleCheckboxChange(item.DepartmentCode)}
                                     />
                                 </DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkTypeCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.WorkTypeDesc}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.DepartmentCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.DepartmentDesc}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
                                     <View>
                                         <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => toggleshowmodel(item.WorkTypeCode)} style={[styles.actions, { marginRight: 10 }]}>
+                                            <TouchableOpacity onPress={() => toggleshowmodel(item.DepartmentCode)} style={[styles.actions, { marginRight: 10 }]}>
                                                 <FontAwesome5 name="sync-alt" size={20} color="black" />
                                             </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => toggleDialog2(item.WorkTypeCode)} style={styles.actions}>
+                                            <TouchableOpacity onPress={() => toggleDialog2(item.DepartmentCode)} style={styles.actions}>
                                                 <AntDesign name="delete" size={20} color="red" />
                                             </TouchableOpacity>
 
@@ -189,7 +180,7 @@ export default function Worktype() {
                 />
                 {/* Button section */}
                 <View style={[styles.buttonsection, { justifyContent: 'flex-start', alignItems: 'flex-start' }]} >
-                    <Createworktypes myFunction={getapi} />
+                    <Createdepartment myFunction={getapi} />
                 </View>
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="outline" containerStyle={{
@@ -215,7 +206,7 @@ export default function Worktype() {
                 {/* Deleted  Dialog*/}
                 <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
                     <Dialog.Title title="Are you sure?" />
-                    <Text>{`You want to delete this ${deleteItemCode} work type`}</Text>
+                    <Text>{`You want to delete this ${deleteItemCode} Department`}</Text>
                     <Dialog.Actions >
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
@@ -226,20 +217,22 @@ export default function Worktype() {
 
                 {/* Updata Diaog */}
                 <Dialog isVisible={showmodel} >
+                    <Dialog.Title title="Updata Department" />
+
                     <View style={{ marginTop: 20 }}>
                         <View style={styles.singleinputlable}>
-                            <Text style={styles.lableinput}>Work Type Code
+                            <Text style={styles.lableinput}>Work Department Code
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.WorkTypeCode}
+                                value={value.DepartmentCode}
                                 onChange={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        WorkTypeCode: item.value, // Update the Employeeid property
+                                        DepartmentCode: item.value, // Update the Employeeid property
                                     }));
                                 }}
-                                placeholder="Work Type Code"
+                                placeholder="Work Department Code"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
@@ -247,18 +240,18 @@ export default function Worktype() {
                             />
                         </View>
                         <View style={[styles.singleinputlable, { marginTop: 15 }]}>
-                            <Text style={styles.lableinput}>Work Type Description
+                            <Text style={styles.lableinput}>Work Department Desc
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.WorkTypeDesc}
+                                value={value.DepartmentDesc}
                                 onChangeText={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        WorkTypeDesc: item, // Update the Employeeid property
+                                        DepartmentDesc: item, // Update the Employeeid property
                                     }));
                                 }}
-                                placeholder="Work Type Description"
+                                placeholder="Work Department Desc"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"

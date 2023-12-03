@@ -7,11 +7,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
-import Createworktypes from '../../../Component/Setup and configuration/Work Type/Createworktypes';
+import Createworktrade from '../../../Component/Setup and configuration/Work Trade/Createworktrade';
 
-export default function Worktype() {
+export default function Worktrade() {
     const [value, setvalue] = useState({
-        WorkTypeCodeserach: '', WorkRequest: '', WorkTypeCode: '', WorkTypeDesc: ''
+        WorkTypeCodeserach: '', WorkRequest: '', WorkTypeCode: '', WorkTradeDesc: ''
 
     })
 
@@ -24,7 +24,7 @@ export default function Worktype() {
     const [items, setItems] = useState([]);
 
     const getapi = () => {
-        axios.get(`/api/WorkType_GET_LIST`)
+        axios.get(`/api/WorkTRADE_GET_LIST`)
             .then((res) => {
                 setItems(res.data.recordset)
             })
@@ -75,7 +75,7 @@ export default function Worktype() {
     };
 
     const Deletedapi = (WorkTypeCode) => {
-        axios.delete(`/api/WORKTYPE_DELETE_BYID/${WorkTypeCode}`)
+        axios.delete(`/api/WORKTRADE_DELETE_BYID/${WorkTypeCode}`)
             .then((res) => {
                 setVisible2(false);
                 getapi()
@@ -92,11 +92,11 @@ export default function Worktype() {
     const toggleshowmodel = (WorkTypeCode) => {
         setshowmodel(!showmodel);
         setupdataItemCode(WorkTypeCode)
-        axios.get(`/api/WorkType_GET_BYID/${WorkTypeCode}`)
+        axios.get(`/api/WorkTRADE_GET_BYID/${WorkTypeCode}`)
             .then((res) => {
                 setvalue((prevValue) => ({
                     ...prevValue,
-                    WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
+                    WorkTradeDesc: res.data.recordset[0].WorkTradeDesc,
                     WorkTypeCode: res.data.recordset[0].WorkTypeCode,
                 }))
             })
@@ -107,14 +107,14 @@ export default function Worktype() {
     };
 
     const postapi = (updataItemCode) => {
-        axios.put(`/api/WorkType_Put/${updataItemCode}`, {
-            WorkTypeDesc: value.WorkTypeDesc,
+        axios.put(`/api/WorkTrade_Put/${updataItemCode}`, {
+            WorkTradeDesc: value.WorkTradeDesc,
         },).then((res) => {
-                getapi()
-                setshowmodel(!showmodel);
-            }).catch((err) => {
-                console.log(err);
-            });
+            getapi()
+            setshowmodel(!showmodel);
+        }).catch((err) => {
+            console.log(err);
+        });
     };
 
     return (
@@ -122,7 +122,7 @@ export default function Worktype() {
             <View>
                 {/* Top section */}
                 <View >
-                    <Text style={styles.prograp}>Work Type Maintenance
+                    <Text style={styles.prograp}>Work Trade Maintenance
                     </Text>
                 </View>
                 {/* table section */}
@@ -136,7 +136,7 @@ export default function Worktype() {
                                 onPress={handleSelectAllChange}
                             /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 80 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK TYPES</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>WORK TRADE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
@@ -155,7 +155,7 @@ export default function Worktype() {
                                 </DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkTypeCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.WorkTypeDesc}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.WorkTradeDesc}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
                                     <View>
                                         <View style={styles.actions}>
@@ -189,7 +189,7 @@ export default function Worktype() {
                 />
                 {/* Button section */}
                 <View style={[styles.buttonsection, { justifyContent: 'flex-start', alignItems: 'flex-start' }]} >
-                    <Createworktypes myFunction={getapi} />
+                    <Createworktrade myFunction={getapi} />
                 </View>
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="outline" containerStyle={{
@@ -215,7 +215,7 @@ export default function Worktype() {
                 {/* Deleted  Dialog*/}
                 <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
                     <Dialog.Title title="Are you sure?" />
-                    <Text>{`You want to delete this ${deleteItemCode} work type`}</Text>
+                    <Text>{`You want to delete this ${deleteItemCode} work Trade`}</Text>
                     <Dialog.Actions >
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
@@ -226,9 +226,11 @@ export default function Worktype() {
 
                 {/* Updata Diaog */}
                 <Dialog isVisible={showmodel} >
+                    <Dialog.Title title="Updata Work Trade" />
+
                     <View style={{ marginTop: 20 }}>
                         <View style={styles.singleinputlable}>
-                            <Text style={styles.lableinput}>Work Type Code
+                            <Text style={styles.lableinput}>Work Trade Code
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
@@ -239,7 +241,7 @@ export default function Worktype() {
                                         WorkTypeCode: item.value, // Update the Employeeid property
                                     }));
                                 }}
-                                placeholder="Work Type Code"
+                                placeholder="Work Trade Code"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
@@ -247,18 +249,18 @@ export default function Worktype() {
                             />
                         </View>
                         <View style={[styles.singleinputlable, { marginTop: 15 }]}>
-                            <Text style={styles.lableinput}>Work Type Description
+                            <Text style={styles.lableinput}>Work Trade Description
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.WorkTypeDesc}
+                                value={value.WorkTradeDesc}
                                 onChangeText={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        WorkTypeDesc: item, // Update the Employeeid property
+                                        WorkTradeDesc: item, // Update the Employeeid property
                                     }));
                                 }}
-                                placeholder="Work Type Description"
+                                placeholder="Work Trade Description"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
