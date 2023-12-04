@@ -204,7 +204,7 @@ export default function Workrequest () {
           </Text>
           <View>
             <Button
-              onPress={() => navigation.navigate ('AssetManagementMasterList')}
+              onPress={() => navigation.navigate ('Purchaserequesttable')}
               radius={'md'}
               type="solid"
               containerStyle={{
@@ -219,7 +219,7 @@ export default function Workrequest () {
           </View>
           <View>
             <Button
-              onPress={() => navigation.navigate ('AssetTransactionsHome')}
+              onPress={() => navigation.navigate ('PurchaseOrdertable')}
               radius={'md'}
               type="solid"
               containerStyle={{
@@ -234,7 +234,7 @@ export default function Workrequest () {
           </View>
 <View>
             <Button
-              onPress={() => navigation.navigate ('AssetManagementMasterList')}
+              onPress={() => navigation.navigate ('GoodReceiptable')}
               radius={'md'}
               type="solid"
               containerStyle={{
@@ -249,7 +249,7 @@ export default function Workrequest () {
           </View>
           <View>
             <Button
-              onPress={() => navigation.navigate ('AssetTransactionsHome')}
+              onPress={() => navigation.navigate ('GoodReturntable')}
               radius={'md'}
               type="solid"
               containerStyle={{

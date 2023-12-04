@@ -47,7 +47,19 @@ import Requeststatus from './assets/Screen/Set Up & Configuration/Request Status
 import Failurecode from './assets/Screen/Set Up & Configuration/Failure Code/Failurecode'
 import Solutioncode from './assets/Screen/Set Up & Configuration/Solution Code Maintenance/Solutioncode'
 import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days'
+import GoodReceiptable from './assets/Screen/PurchasingManagment/GoodsReceipts/GoodReceiptable'
 import PMHome from './assets/Screen/PurchasingManagment/PMHome'
+import GoodReceiptCreate from './assets/Screen/PurchasingManagment/GoodsReceipts/GoodReceiptCreate'
+import GoodReceiptUpdate from './assets/Screen/PurchasingManagment/GoodsReceipts/GoodReceiptUpdate'
+import GoodReturntable from './assets/Screen/PurchasingManagment/GoodsReturns/GoodReturntable'
+import GoodReturnUpdate from './assets/Screen/PurchasingManagment/GoodsReturns/GoodReturnUpdate'
+import GoodReturnCreate from './assets/Screen/PurchasingManagment/GoodsReturns/GoodReturnCreate'
+import PurchaseOrdertable from './assets/Screen/PurchasingManagment/PurchaseOrders/PurchaseOrdertable'
+import PurchaseOrderCreate from './assets/Screen/PurchasingManagment/PurchaseOrders/PurchaseOrderCreate'
+import PurchaseOrderUpdate from './assets/Screen/PurchasingManagment/PurchaseOrders/PurchaseOrderUpdate'
+import Purchaserequesttable from './assets/Screen/PurchasingManagment/PurchaseRequests/Purchaserequesttable'
+import PurchaseRequestCreate from './assets/Screen/PurchasingManagment/PurchaseRequests/PurchaseRequestCreate'
+import PurchaseRequestUpdate from './assets/Screen/PurchasingManagment/PurchaseRequests/PurchaseRequestUpdate'
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -101,6 +113,69 @@ function MainStackNavigator() {
       <Stack.Screen name="Login" component={Login} />
       {/* Workrequest */}
       <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
+    
+    
+      
+      {/* Createworkrequest */}
+      <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
+        options={{
+          title: 'Purchase Request Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="Purchaserequesttable" component={Purchaserequesttable}
+        options={{
+          title: 'Purchase request table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="PurchaseRequestCreate" component={PurchaseRequestCreate}
+        options={{
+          title: 'Purchase Request Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
+
+
+
+
+
+      {/* Createworkrequest */}
+      <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
+        options={{
+          title: 'Purchase Order Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="PurchaseOrderCreate" component={PurchaseOrderCreate}
+        options={{
+          title: 'Purchase Order Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="PurchaseOrdertable" component={PurchaseOrdertable}
+        options={{
+          title: 'Purchase Order table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="GoodReturnCreate" component={GoodReturnCreate}
+        options={{
+          title: 'Good Return Create ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="GoodReturnUpdate" component={GoodReturnUpdate}
+        options={{
+          title: 'Good Return Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="GoodReturntable" component={GoodReturntable}
+        options={{
+          title: 'Good Return ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
       {/* Createworkrequest */}
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
         options={{
@@ -304,6 +379,21 @@ function MainStackNavigator() {
             <Stack.Screen name="PMHome" component={PMHome}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} /> 
+      {/* Days Maintenance */}
+            <Stack.Screen name="GoodReceiptable" component={GoodReceiptable}
+        options={{
+          title: 'Goods Receipts', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} /> 
+      {/* Days Maintenance */}
+            <Stack.Screen name="GoodReceiptCreate" component={GoodReceiptCreate}
+        options={{
+          title: 'Good Receipt Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} /> 
+      {/* Days Maintenance */}
+            <Stack.Screen name="GoodReceiptUpdate" component={GoodReceiptUpdate}
+        options={{
+          title: 'Good Receipt Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} /> 
     </Stack.Navigator>
   );
