@@ -54,6 +54,8 @@ import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condi
 import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
 import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
 import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
+import supplier from './assets/Screen/Set Up & Configuration/Supplier/supplier';
+import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -324,28 +326,38 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Asset SubCategory */}
-          <Stack.Screen name="AssetSubCategory" component={AssetSubCategory}
+      {/* Asset SubCategory */}
+      <Stack.Screen name="AssetSubCategory" component={AssetSubCategory}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Assect condition */}
-          <Stack.Screen name="Assectcondition" component={Assectcondition}
+      {/* Assect condition */}
+      <Stack.Screen name="Assectcondition" component={Assectcondition}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Warranty Period */}
-          <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
+      {/* Warranty Period */}
+      <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* EmployeeStatus */}
-            <Stack.Screen name="EmployeeStatus" component={EmployeeStatus}
+      {/* EmployeeStatus */}
+      <Stack.Screen name="EmployeeStatus" component={EmployeeStatus}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Employeedesignation */}
-            <Stack.Screen name="Employeedesignation" component={Employeedesignation}
+      {/* Employeedesignation */}
+      <Stack.Screen name="Employeedesignation" component={Employeedesignation}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* supplier */}
+      <Stack.Screen name="supplier" component={supplier}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Crreatesupier */}
+           <Stack.Screen name="Crreatesupier" component={Crreatesupier}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

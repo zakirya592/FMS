@@ -223,7 +223,7 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('supplier')}
                         title='Vendor/Supplier'
                     />
                 </View>
