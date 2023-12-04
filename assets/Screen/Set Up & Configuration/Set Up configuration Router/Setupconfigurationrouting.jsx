@@ -188,14 +188,14 @@ export default function Setupconfigurationrouting() {
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('Assectcondition')}
                         title='Asset Condition'
                     />
                     {/* Warranty Period  */}
                     <Button containerStyle={styles.containerstyle}
                         titleStyle={styles.titlestyle}
                         buttonStyle={styles.buttonstylesss}
-                        onPress={() => navigation.navigate('Systemmodules')}
+                        onPress={() => navigation.navigate('WarrantyPeriod')}
                         title='Warranty Period '
                     />
                     {/* Employee Master*/}

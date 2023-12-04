@@ -50,6 +50,8 @@ import Assettype from './assets/Screen/Set Up & Configuration/Asset Type/Assetty
 import Assetcategory from './assets/Screen/Set Up & Configuration/Asset Category/Assetcategory';
 import Floorcode from './assets/Screen/Set Up & Configuration/Floor Code/Floorcode';
 import AssetSubCategory from './assets/Screen/Set Up & Configuration/Asset Sub Category/AssetSubCategory';
+import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condition/Assectcondition';
+import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -320,8 +322,18 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* AssetSubCategory */}
+        {/* Asset SubCategory */}
           <Stack.Screen name="AssetSubCategory" component={AssetSubCategory}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Assect condition */}
+          <Stack.Screen name="Assectcondition" component={Assectcondition}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Warranty Period */}
+          <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
