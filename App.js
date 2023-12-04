@@ -47,6 +47,7 @@ import Requeststatus from './assets/Screen/Set Up & Configuration/Request Status
 import Failurecode from './assets/Screen/Set Up & Configuration/Failure Code/Failurecode'
 import Solutioncode from './assets/Screen/Set Up & Configuration/Solution Code Maintenance/Solutioncode'
 import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days'
+import PMHome from './assets/Screen/PurchasingManagment/PMHome'
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -298,6 +299,11 @@ function MainStackNavigator() {
             <Stack.Screen name="Days" component={Days}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} /> 
+       {/* Days Maintenance */}
+            <Stack.Screen name="PMHome" component={PMHome}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} /> 
     </Stack.Navigator>
   );
