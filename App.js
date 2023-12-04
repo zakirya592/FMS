@@ -52,6 +52,8 @@ import Floorcode from './assets/Screen/Set Up & Configuration/Floor Code/Floorco
 import AssetSubCategory from './assets/Screen/Set Up & Configuration/Asset Sub Category/AssetSubCategory';
 import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condition/Assectcondition';
 import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
+import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
+import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -334,6 +336,16 @@ function MainStackNavigator() {
         }} />
         {/* Warranty Period */}
           <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* EmployeeStatus */}
+            <Stack.Screen name="EmployeeStatus" component={EmployeeStatus}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Employeedesignation */}
+            <Stack.Screen name="Employeedesignation" component={Employeedesignation}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
