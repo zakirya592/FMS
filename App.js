@@ -89,6 +89,7 @@ import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Stat
 import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
 import supplier from './assets/Screen/Set Up & Configuration/Supplier/supplier';
 import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
+import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -268,12 +269,6 @@ function MainStackNavigator() {
           title: 'Purchase Request Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-
-
-
-
-
-
       {/* Createworkrequest */}
       <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
         options={{
@@ -283,7 +278,7 @@ function MainStackNavigator() {
       {/* Createworkrequest */}
       <Stack.Screen name="PurchaseOrderCreate" component={PurchaseOrderCreate}
         options={{
-          title: 'Purchase Order Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+           title: 'Purchase Order Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* Createworkrequest */}
@@ -420,10 +415,10 @@ function MainStackNavigator() {
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
           {/* set up and configuration Work types*/}
-      {/* <Stack.Screen name="Worktype" component={Worktype}
+      <Stack.Screen name="Worktype" component={Worktype}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} /> */}
+        }} />
       {/* AssetManagementMasterList */}
       <Stack.Screen name="AssetManagementMasterList" component={AssetManagementMasterList}
         options={{
