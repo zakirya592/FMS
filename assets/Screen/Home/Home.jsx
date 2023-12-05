@@ -97,22 +97,25 @@ const Home = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('PMHome')}>
                         <Image
                             source={require('../Image/Purchasingmangment.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
-                        <Text style={styles.prograp}>Purchasing Management</Text>
+                            <Text style={styles.prograp}>Purchasing Management</Text>
+                            </TouchableOpacity>
                     </View>
                     <View style={styles.imgsingle}>
+                        <TouchableOpacity onPress={() => navigation.navigate('WarehouseManagment')}>
                         <Image
                             source={require('../Image/Warehousemanagment.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
                         <Text style={styles.prograp}>Warehouse Management</Text>
+                        </TouchableOpacity>
                     </View>
-
                 </View>
 
                 <View style={styles.imgrow}>

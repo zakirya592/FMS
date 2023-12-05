@@ -200,11 +200,11 @@ export default function Workrequest () {
       <View style={{marginTop: '30%'}}>
         <View style={{display: 'flex', margin: 'auto 0'}}>
           <Text style={styles.prograp}>
-            Select Transaction
+            Select Purchase Management
           </Text>
           <View>
-                      <Button
-                          onPress={() => navigation.navigate ('AssetManagementMasterList')}
+            <Button
+              onPress={() => navigation.navigate ('Purchaserequesttable')}
               radius={'md'}
               type="solid"
               containerStyle={{
@@ -213,27 +213,55 @@ export default function Workrequest () {
                 marginVertical: 40,
               }}
             >
-              Asset Master
+              Purchase Requests
             </Button>
 
           </View>
           <View>
             <Button
-        onPress={() => navigation.navigate ('AssetTransactionsHome')}
+              onPress={() => navigation.navigate ('PurchaseOrdertable')}
               radius={'md'}
               type="solid"
               containerStyle={{
                 width: 250,
                 marginHorizontal: 50,
                 marginVertical: 10,
-              
               }}
             >
-              Asset Transaction
+             Purchase Orders
             </Button>
 
           </View>
+<View>
+            <Button
+              onPress={() => navigation.navigate ('GoodReceiptable')}
+              radius={'md'}
+              type="solid"
+              containerStyle={{
+                width: 250,
+                marginHorizontal: 50,
+                marginVertical: 40,
+              }}
+            >
+             Goods Receipts
+            </Button>
 
+          </View>
+          <View>
+            <Button
+              onPress={() => navigation.navigate ('GoodReturntable')}
+              radius={'md'}
+              type="solid"
+              containerStyle={{
+                width: 250,
+                marginHorizontal: 50,
+                marginVertical: 10,
+              }}
+            >
+              Goods Returns
+            </Button>
+
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -255,13 +283,14 @@ const styles = StyleSheet.create ({
     fontWeight: '400',
     lineHeight: 17,
   },
-  
+
   prograp: {
     color: '#1E3B8B',
     fontSize: 16,
     fontStyle: 'normal',
-    fontWeight: '600',
-    marginHorizontal: 100,
+      fontWeight: '600',
+    
+    marginHorizontal: 60,
     marginVertical: 10,
   },
   inputBox: {

@@ -113,7 +113,7 @@ export default function Createworkrequest () {
       <View>
         <View>
           <Text style={styles.prograp}>
-            Asset Masterlist-Create
+            Masterlist-Create
           </Text>
         </View>
         {/* Asset Category and Asset Category Desc. */}
