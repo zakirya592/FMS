@@ -42,7 +42,6 @@ import Requeststatus from './assets/Screen/Set Up & Configuration/Request Status
 import Failurecode from './assets/Screen/Set Up & Configuration/Failure Code/Failurecode';
 import Solutioncode from './assets/Screen/Set Up & Configuration/Solution Code Maintenance/Solutioncode';
 import Days from './assets/Screen/Set Up & Configuration/Days Maintenance/Days';
-import Floorcode from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Floor Code/Floorcode';
 import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
 import Gendercode from './assets/Screen/Set Up & Configuration/Gender Code/Gendercode';
 import Titlesatutation from './assets/Screen/Set Up & Configuration/Title Salutation/Titlesatutation';
@@ -50,6 +49,15 @@ import Frequency from './assets/Screen/Set Up & Configuration/Frequency Code/Fre
 import Maritalstatus from './assets/Screen/Set Up & Configuration/Marital Status/Maritalstatus';
 import Nationality from './assets/Screen/Set Up & Configuration/Nationality/Nationality';
 import Assettype from './assets/Screen/Set Up & Configuration/Asset Type/Assettype';
+import Assetcategory from './assets/Screen/Set Up & Configuration/Asset Category/Assetcategory';
+import Floorcode from './assets/Screen/Set Up & Configuration/Floor Code/Floorcode';
+import AssetSubCategory from './assets/Screen/Set Up & Configuration/Asset Sub Category/AssetSubCategory';
+import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condition/Assectcondition';
+import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
+import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
+import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
+import supplier from './assets/Screen/Set Up & Configuration/Supplier/supplier';
+import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -95,10 +103,7 @@ function CustomDrawerContent(props) {
 function MainStackNavigator() {
   return (
     < Stack.Navigator initialRouteName="Login"
-      screenOptions={{
-        headerShown: false,
-      }
-      }
+      screenOptions={{ headerShown: false, }}
     >
       {/* Login */}
       <Stack.Screen name="Login" component={Login} />
@@ -314,8 +319,48 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Assettype */}
-          <Stack.Screen name="Assettype" component={Assettype}
+      {/* Assettype */}
+      <Stack.Screen name="Assettype" component={Assettype}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Asset Category */}
+      <Stack.Screen name="Assetcategory" component={Assetcategory}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Asset SubCategory */}
+      <Stack.Screen name="AssetSubCategory" component={AssetSubCategory}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Assect condition */}
+      <Stack.Screen name="Assectcondition" component={Assectcondition}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Warranty Period */}
+      <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* EmployeeStatus */}
+      <Stack.Screen name="EmployeeStatus" component={EmployeeStatus}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Employeedesignation */}
+      <Stack.Screen name="Employeedesignation" component={Employeedesignation}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* supplier */}
+      <Stack.Screen name="supplier" component={supplier}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Crreatesupier */}
+           <Stack.Screen name="Crreatesupier" component={Crreatesupier}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

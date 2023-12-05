@@ -7,11 +7,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
-import Createfloorcode from '../../../Component/Setup and configuration/Floor Code/Createfloorcode';
+import CreateAssetSubCategory from '../../../Component/Setup and configuration/Asset Sub Category/CreateAssetSubCategory';
 
-export default function Floorcode() {
+export default function AssetSubCategory() {
     const [value, setvalue] = useState({
-        FloorCodeserach: '', WorkRequest: '', FloorCode: '', FloorDesc: ''
+        AssetSubCategoryCodeserach: '', WorkRequest: '', AssetSubCategoryCode: '', AssetSubCategoryDesc: ''
 
     })
 
@@ -24,9 +24,9 @@ export default function Floorcode() {
     const [items, setItems] = useState([]);
 
     const getapi = () => {
-        axios.get(`/api/Floor_GET_List`)
+        axios.get(`/api/AssetSubCategory_GET_LIST`)
             .then((res) => {
-                setItems(res.data.data)
+                setItems(res.data.recordset)
             }).catch((err) => {
                 console.log(err);
             });
@@ -43,13 +43,13 @@ export default function Floorcode() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (FloorCode) => {
+    const handleCheckboxChange = (AssetSubCategoryCode) => {
         const updatedItems = items.map((item) =>
-            item.FloorCode === FloorCode ? { ...item, selected: !item.selected } : item
+            item.AssetSubCategoryCode === AssetSubCategoryCode ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.FloorCode);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.AssetSubCategoryCode);
         setSelectedItems(selectedIds);
     };
 
@@ -60,20 +60,20 @@ export default function Floorcode() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.FloorCode);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.AssetSubCategoryCode);
         setSelectedItems(selectedIds);
     };
 
     const [visible2, setVisible2] = useState(false);
     const [deleteItemCode, setDeleteItemCode] = useState('');
 
-    const toggleDialog2 = (FloorCode) => {
-        setDeleteItemCode(FloorCode); // Store the system module code
+    const toggleDialog2 = (AssetSubCategoryCode) => {
+        setDeleteItemCode(AssetSubCategoryCode); // Store the system module code
         setVisible2(!visible2);
     };
 
-    const Deletedapi = (FloorCode) => {
-        axios.delete(`/api/Floor_DELETE_BYID/${FloorCode}`)
+    const Deletedapi = (AssetSubCategoryCode) => {
+        axios.delete(`/api/AssetSubCategory_DELETE_BYID/${AssetSubCategoryCode}`)
             .then((res) => {
                 setVisible2(false);
                 getapi()
@@ -87,15 +87,15 @@ export default function Floorcode() {
     const [showmodel, setshowmodel] = useState(false);
     const [updataItemCode, setupdataItemCode] = useState('');
 
-    const toggleshowmodel = (FloorCode) => {
+    const toggleshowmodel = (AssetSubCategoryCode) => {
         setshowmodel(!showmodel);
-        setupdataItemCode(FloorCode)
-        axios.get(`/api/Floor_GET_BYID/${FloorCode}`)
+        setupdataItemCode(AssetSubCategoryCode)
+        axios.get(`/api/AssetSubCategory_GET_BYID/${AssetSubCategoryCode}`)
             .then((res) => {
                 setvalue((prevValue) => ({
                     ...prevValue,
-                    FloorDesc: res.data.data[0].FloorDesc,
-                    FloorCode: res.data.data[0].FloorCode,
+                    AssetSubCategoryDesc: res.data.recordset[0].AssetSubCategoryDesc,
+                    AssetSubCategoryCode: res.data.recordset[0].AssetSubCategoryCode,
                 }))
             }).catch((err) => {
                 console.log(err);
@@ -103,8 +103,8 @@ export default function Floorcode() {
     };
 
     const postapi = (updataItemCode) => {
-        axios.put(`/api/Floor_Put/${updataItemCode}`, {
-            FloorDesc: value.FloorDesc,
+        axios.put(`/api/AssetSubCategory_Put/${updataItemCode}`, {
+            AssetSubCategoryDesc: value.AssetSubCategoryDesc,
         },).then((res) => {
             getapi()
             setshowmodel(!showmodel);
@@ -118,7 +118,7 @@ export default function Floorcode() {
             <View>
                 {/* Top section */}
                 <View >
-                    <Text style={styles.prograp}>FLOOR MAINTENANCE
+                    <Text style={styles.prograp}>Asset Sub Category MAINTENANCE
                     </Text>
                 </View>
                 {/* table section */}
@@ -132,28 +132,28 @@ export default function Floorcode() {
                                 onPress={handleSelectAllChange}
                             /></Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 80 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>FLOOR CODE</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 200 }]} ><Text style={styles.tableHeading}>ASSET SUBCATEGORY CODE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
                         {items.slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.FloorCode}>
+                            <DataTable.Row key={item.AssetSubCategoryCode}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
                                     <Checkbox
                                         status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.FloorCode)}
+                                        onPress={() => handleCheckboxChange(item.AssetSubCategoryCode)}
                                     />
                                 </DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.FloorCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.FloorDesc}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.AssetSubCategoryCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.AssetSubCategoryDesc}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
                                     <View>
                                         <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => toggleshowmodel(item.FloorCode)} style={[styles.actions, { marginRight: 10 }]}>
+                                            <TouchableOpacity onPress={() => toggleshowmodel(item.AssetSubCategoryCode)} style={[styles.actions, { marginRight: 10 }]}>
                                                 <FontAwesome5 name="sync-alt" size={20} color="black" />
                                             </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => toggleDialog2(item.FloorCode)} style={styles.actions}>
+                                            <TouchableOpacity onPress={() => toggleDialog2(item.AssetSubCategoryCode)} style={styles.actions}>
                                                 <AntDesign name="delete" size={20} color="red" />
                                             </TouchableOpacity>
 
@@ -180,7 +180,7 @@ export default function Floorcode() {
                 />
                 {/* Button section */}
                 <View style={[styles.buttonsection, { justifyContent: 'flex-start', alignItems: 'flex-start' }]} >
-                    <Createfloorcode myFunction={getapi} />
+                    <CreateAssetSubCategory myFunction={getapi} />
                 </View>
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="outline" containerStyle={{
@@ -206,7 +206,7 @@ export default function Floorcode() {
                 {/* Deleted  Dialog*/}
                 <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
                     <Dialog.Title title="Are you sure?" />
-                    <Text>{`You want to delete this ${deleteItemCode} Floor`}</Text>
+                    <Text>{`You want to delete this ${deleteItemCode} Asset Sub Category`}</Text>
                     <Dialog.Actions >
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
@@ -217,22 +217,22 @@ export default function Floorcode() {
 
                 {/* Updata Diaog */}
                 <Dialog isVisible={showmodel} >
-                    <Dialog.Title title="Updata Floor" />
+                    <Dialog.Title title="Updata Asset Sub Category" />
 
                     <View style={{ marginTop: 20 }}>
                         <View style={styles.singleinputlable}>
-                            <Text style={styles.lableinput}>Floor Code
+                            <Text style={styles.lableinput}>Asset Sub Category Code
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.FloorCode}
+                                value={value.AssetSubCategoryCode}
                                 onChange={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        FloorCode: item.value, // Update the Employeeid property
+                                        AssetSubCategoryCode: item.value, // Update the Employeeid property
                                     }));
                                 }}
-                                placeholder="Floor Code"
+                                placeholder="Asset Sub Category Code"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
@@ -240,18 +240,18 @@ export default function Floorcode() {
                             />
                         </View>
                         <View style={[styles.singleinputlable, { marginTop: 15 }]}>
-                            <Text style={styles.lableinput}>Floor Desc
+                            <Text style={styles.lableinput}>Asset Sub Category Desc
                             </Text>
                             <TextInput
                                 style={[styles.inputBox, { width: 240 }]}
-                                value={value.FloorDesc}
+                                value={value.AssetSubCategoryDesc}
                                 onChangeText={item => {
                                     setvalue((prevValue) => ({
                                         ...prevValue,
-                                        FloorDesc: item, // Update the Employeeid property
+                                        AssetSubCategoryDesc: item, // Update the Employeeid property
                                     }));
                                 }}
-                                placeholder="Floor Desc"
+                                placeholder="Asset Sub Category Desc"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
