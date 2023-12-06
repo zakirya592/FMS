@@ -73,7 +73,22 @@ import stockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERIN
 import transferlocationTable from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationTable'
 import transferlocationCreate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationCreate'
 import transferlocationUpdate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationUpdate'
-
+import spaceManagementHome from './assets/Screen/SpaceManagement/spaceManagementHome'
+import BuildingTable from './assets/Screen/SpaceManagement/building/BuildingTable'
+import BuildingCreate from './assets/Screen/SpaceManagement/building/BuildingCreate'
+import BuildingUpdate from './assets/Screen/SpaceManagement/building/BuildingUpdate'
+import EmpolyeeRATable from './assets/Screen/SpaceManagement/employeRoomAssign/EmpolyeeRATable'
+import EmpolyeeRACreate from './assets/Screen/SpaceManagement/employeRoomAssign/EmpolyeeRACreate'
+import EmpolyeeRAUpdate from './assets/Screen/SpaceManagement/employeRoomAssign/EmpolyeeRAUpdate'
+import EmpolyeeRTTable from './assets/Screen/SpaceManagement/empolyeRoomTransfer/EmpolyeeRTTable'
+import EmpolyeeRTCreate from './assets/Screen/SpaceManagement/empolyeRoomTransfer/EmpolyeeRTCreate'
+import EmpolyeeRTUpdate from './assets/Screen/SpaceManagement/empolyeRoomTransfer/EmpolyeeRTUpdate'
+import FloorTable from './assets/Screen/SpaceManagement/Floors/FloorTable'
+import FloorCreate from './assets/Screen/SpaceManagement/Floors/FloorCreate'
+import FloorUpdate from './assets/Screen/SpaceManagement/Floors/FloorCreate'
+import RoomsTable from './assets/Screen/SpaceManagement/Rooms/RoomsTable'
+import RoomsCreate from './assets/Screen/SpaceManagement/Rooms/RoomsCreate'
+import RoomsUpdate from './assets/Screen/SpaceManagement/Rooms/RoomsUpdate'
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -128,7 +143,152 @@ function MainStackNavigator() {
       {/* Workrequest */}
       <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
    
+      
+       {/* Createworkrequest */}
+      <Stack.Screen name="RoomsTable" component={RoomsTable}
+        options={{
+          title: 'Rooms Table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="RoomsCreate" component={RoomsCreate}
+        options={{
+          title: 'Rooms Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="RoomsUpdate" component={RoomsUpdate}
+        options={{
+          title: 'Rooms Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
 
+
+
+
+
+
+      
+
+      {/* Createworkrequest */}
+      <Stack.Screen name="FloorTable" component={FloorTable}
+        options={{
+          title: 'Floor Table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="FloorCreate" component={FloorCreate}
+        options={{
+          title: 'Floor Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="FloorUpdate" component={FloorUpdate}
+        options={{
+          title: 'Floor Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
+
+
+
+
+
+{/* Createworkrequest */}
+      <Stack.Screen name="EmpolyeeRTTable" component={EmpolyeeRTTable}
+        options={{
+          title: 'Empolyee Rooms Transfer', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="EmpolyeeRTCreate" component={EmpolyeeRTCreate}
+        options={{
+          title: 'Empolyee Rooms Transfer Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="EmpolyeeRTUpdate" component={EmpolyeeRTUpdate}
+        options={{
+          title: 'Empolyee Rooms Transfer Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* Createworkrequest */}
+      <Stack.Screen name="EmpolyeeRATable" component={EmpolyeeRATable}
+        options={{
+          title: 'Empolyee Rooms Assigment', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="EmpolyeeRACreate" component={EmpolyeeRACreate}
+        options={{
+          title: 'Empolyee Rooms Assig Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="EmpolyeeRAUpdate" component={EmpolyeeRAUpdate}
+        options={{
+          title: 'Empolyee Rooms Assigment Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
+      
+
+
+
+
+
+
+
+
+
+
+
+ {/* Createworkrequest */}
+      <Stack.Screen name="BuildingTable" component={BuildingTable}
+        options={{
+          title: 'Building Table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="BuildingCreate" component={BuildingCreate}
+        options={{
+          title: 'Building Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="BuildingUpdate" component={BuildingUpdate}
+        options={{
+          title: 'Building Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
+
+
+
+
+
+
+
+
+
+ {/* Createworkrequest */}
+      <Stack.Screen name="spaceManagementHome" component={spaceManagementHome}
+        options={{
+          title: 'space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
 
       
       {/* Createworkrequest */}
