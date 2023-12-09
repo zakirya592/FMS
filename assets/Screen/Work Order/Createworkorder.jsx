@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button } from '@rneui/themed';
@@ -8,8 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 
-export default function Createworkorder() {
-
+export default function Createworkorder({ route }) {
+    const { myFunction } = route.params
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkOrderNumber: '', Datetime: '', RequestStatus: '',
@@ -76,7 +76,6 @@ export default function Createworkorder() {
 
         }
     };
-
 
     const showDatepickerEndDatetime = () => {
         setShowPickerEndDatetime(true);
@@ -280,9 +279,9 @@ export default function Createworkorder() {
             TotalCostofWork: value.CostofWork,
             CompletedByEmployeeID: value.CompletedbyEmp,
             CompletionDateTime: date.toISOString(),
-        },).then((res) => {
-                console.log('Add work api first api', res.data);
+        }).then((res) => {
                 navigation.navigate('Workorder')
+            myFunction()
             })
             .catch((err) => {
                 console.log(err);

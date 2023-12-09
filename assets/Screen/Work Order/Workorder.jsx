@@ -246,7 +246,7 @@ export default function Workorder() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createworkorder')}
+                        onPress={() => navigation.navigate('Createworkorder', { myFunction: getapi })}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
