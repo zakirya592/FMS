@@ -211,11 +211,11 @@ export default function Workorder() {
                                                         <AntDesign name="eye" size={20} color="#0A2DAA" />
                                                     </View>
                                                 </MenuOption>
-                                                <MenuOption>
-                                                <TouchableOpacity style={styles.actions} >
+                                            <MenuOption onSelect={() => navigation.navigate(`Updataworkorder`, { WorkOrderNumber: item.WorkOrderNumber, myFunction: getapi })}>
+                                                <View style={styles.actions} >
                                                         <Text style={styles.actionstitle}>Update</Text>
                                                         <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
-                                                    </TouchableOpacity>
+                                                    </View>
                                                 </MenuOption>
                                             <MenuOption onSelect={() => toggleDialog2(item.WorkOrderNumber)} >
                                                 <View style={styles.actions} >

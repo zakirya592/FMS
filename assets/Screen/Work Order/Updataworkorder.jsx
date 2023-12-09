@@ -8,8 +8,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 
-export default function Viewworkorder({ route }) {
+export default function Updataworkorder({ route }) {
     const { WorkOrderNumber } = route.params
+    const { myFunction } = route.params
 
     const navigation = useNavigation();
     const [value, setvalue] = useState({
@@ -309,8 +310,7 @@ export default function Viewworkorder({ route }) {
     }, [])
 
     const Createapi = async () => {
-        await axios.post(`/api/WorkOrders_post`, {
-            WorkOrderNumber: value.WorkOrderNumber,
+        await axios.put(`/api/WorkOrders_Put/${WorkOrderNumber}`, {
             WorkRequestNumber: value.Employeeid,
             WorkStatus: value.WorkStaus,
             WorkPriority: value.WorkPrority,
@@ -331,7 +331,7 @@ export default function Viewworkorder({ route }) {
             CompletionDateTime: date.toISOString(),
         }).then((res) => {
             navigation.navigate('Workorder')
-            // myFunction()
+            myFunction()
         })
             .catch((err) => {
                 console.log(err);
@@ -347,7 +347,7 @@ export default function Viewworkorder({ route }) {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>View Work Orders
+                    <Text style={styles.prograp}>Modify Work Orders
                     </Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
@@ -962,24 +962,36 @@ export default function Viewworkorder({ route }) {
                     </View>
 
                 </View>
+                <View style={styles.buttonsection}>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
-                    width: 350,
+                    // width: 350,
                     paddingHorizontal: 12,
                     marginRight: 40,
                     marginBottom: 20,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
                 }}
                     buttonStyle={{
                         backgroundColor: 'black',
                         borderRadius: 3,
                     }}
-                    onPress={() => { navigation.goBack()}}
+                    onPress={() => { navigation.goBack() }}
                 >
                     <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
                     Back
                 </Button>
+                    {/* Button section */}
+                    <Button radius={"md"} type="solid" 
+                        containerStyle={{
+                            paddingHorizontal: 12,
+                            marginBottom: 20,
+                        }}
+
+                        onPress={postdatfunction}
+                    >
+                        <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
+                        SAVE
+                    </Button>
+                </View>
             </View>
         </ScrollView>
     )
@@ -1076,5 +1088,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderBottomWidth: 0.5
     },
+    buttonsection:{
+       display:'flex',
+       flexDirection:'row',
+       justifyContent:'space-around',
+    }
 
 })

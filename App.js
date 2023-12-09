@@ -91,6 +91,7 @@ import supplier from './assets/Screen/Set Up & Configuration/Supplier/supplier';
 import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
+import Updataworkorder from './assets/Screen/Work Order/Updataworkorder';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -300,12 +301,19 @@ function MainStackNavigator() {
           title: 'Work Order', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-         {/* Workorder */}
+         {/* View Work Orders */}
       <Stack.Screen name="ViewWorkorder" component={Viewworkorder}
         options={{
-          title: 'Work Order', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: ' View Work Orders', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+          {/* Modify Work Orders */}
+      <Stack.Screen name="Updataworkorder" component={Updataworkorder}
+        options={{
+          title: 'Modify Work Orders', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
       {/* Locationmanagement */}
       <Stack.Screen name="Locationmanagement" component={Locationmanagement}
         options={{
