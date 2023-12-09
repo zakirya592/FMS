@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function Createworkorder({ route }) {
     const { myFunction } = route.params
@@ -258,6 +259,12 @@ export default function Createworkorder({ route }) {
             });
     }
 
+    const [showAlert, setShowAlert] = useState(false);
+
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
+
     const Createapi = async () => {
         await axios.post(`/api/WorkOrders_post`, {
             WorkOrderNumber: value.WorkOrderNumber,
@@ -280,8 +287,8 @@ export default function Createworkorder({ route }) {
             CompletedByEmployeeID: value.CompletedbyEmp,
             CompletionDateTime: date.toISOString(),
         }).then((res) => {
-                navigation.navigate('Workorder')
             myFunction()
+            showSuccessAlert(true)
             })
             .catch((err) => {
                 console.log(err);
@@ -297,6 +304,7 @@ export default function Createworkorder({ route }) {
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
+
                 <View >
                     <Text style={styles.prograp}>Create Work Orders
                     </Text>
@@ -927,6 +935,28 @@ export default function Createworkorder({ route }) {
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
                 </Button>
+
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
+                        </View>
+                    }
+                    message={`Work Order ${value.WorkOrderNumber} has been created successfully`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        navigation.navigate('Workorder')
+                        myFunction()
+                    }}
+                />
+                
             </View>
         </ScrollView>
     )

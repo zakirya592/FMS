@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function Updataworkorder({ route }) {
     const { WorkOrderNumber } = route.params
@@ -214,8 +215,10 @@ export default function Updataworkorder({ route }) {
 
     function GetgetworkRequest() {
         axios.get(`/api/WorkOrders_GET_BYID/${WorkOrderNumber}`).then((res) => {
+            console.log(res);
             setvalue(prevValue => ({
                 ...prevValue,
+                WorkOrderNumber:res.data.recordset[0].WorkOrderNumber,
                 Employeeid: res.data.recordset[0].WorkRequestNumber,
                 WorkStaus: res.data.recordset[0].WorkStatus,
                 WorkPrority: res.data.recordset[0].WorkPriority,
@@ -309,9 +312,11 @@ export default function Updataworkorder({ route }) {
 
     }, [])
 
-    function showToast() {
-        ToastAndroid.show(`Work Order ${WorkOrderNumber} has been updated`, ToastAndroid.SHORT);
-    }
+    const [showAlert, setShowAlert] = useState(false);
+
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
 
     const Createapi = async () => {
         await axios.put(`/api/WorkOrders_Put/${WorkOrderNumber}`, {
@@ -334,9 +339,8 @@ export default function Updataworkorder({ route }) {
             CompletedByEmployeeID: value.CompletedbyEmp,
             CompletionDateTime: date.toISOString(),
         }).then((res) => {
-            navigation.navigate('Workorder')
-            showToast()
             myFunction()
+            showSuccessAlert(true)
         })
             .catch((err) => {
                 console.log(err);
@@ -365,7 +369,7 @@ export default function Updataworkorder({ route }) {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={WorkOrderNumber}
+                            value={value.WorkOrderNumber}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
@@ -414,6 +418,7 @@ export default function Updataworkorder({ route }) {
                         />
                     </View>
                 </View>
+               
                 {/* WorkStaus and Work Prority */}
                 <View style={styles.inputContainer}>
                     <View style={styles.singleinputlable}>
@@ -997,6 +1002,28 @@ export default function Updataworkorder({ route }) {
                         SAVE
                     </Button>
                 </View>
+
+                {/* Pop message */}
+                 <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
+                        </View>
+                    }
+                    message={`Work Order ${WorkOrderNumber} has been updated`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black'}}
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        navigation.navigate('Workorder')
+                        myFunction()
+                    }}
+                />
             </View>
         </ScrollView>
     )

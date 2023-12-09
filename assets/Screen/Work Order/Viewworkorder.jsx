@@ -308,40 +308,6 @@ export default function Viewworkorder({ route }) {
 
     }, [])
 
-    const Createapi = async () => {
-        await axios.post(`/api/WorkOrders_post`, {
-            WorkOrderNumber: value.WorkOrderNumber,
-            WorkRequestNumber: value.Employeeid,
-            WorkStatus: value.WorkStaus,
-            WorkPriority: value.WorkPrority,
-            WorkCategoryCode: value.WorkCategory,
-            WorkDescription: value.WorkDescription,
-            FailureCode: value.FailureCode,
-            SolutionCode: value.solutionCode,
-            AssignedtoEmployeeID: value.AssigntoEmployee,
-            AppointmentDateTime: dateAppointment,
-            ScheduledDateTime: dateSchedule,
-            StartWorkOrderDateTime: date,
-            EndWorkOrderDateTime: dateEndDatetime,
-            TotalDays: value.TotalDays,
-            TotalHours: value.TotalHours,
-            TotalMinutes: value.TotalMinuites,
-            TotalCostofWork: value.CostofWork,
-            CompletedByEmployeeID: value.CompletedbyEmp,
-            CompletionDateTime: date.toISOString(),
-        }).then((res) => {
-            navigation.navigate('Workorder')
-            // myFunction()
-        })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    const postdatfunction = () => {
-        Createapi()
-    }
-
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>

@@ -7,9 +7,10 @@ import { Checkbox } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import axios from "axios"; 
+import axios from "axios";
 import moment from 'moment';
-import {Menu,MenuOptions,MenuOption,MenuTrigger} from 'react-native-popup-menu';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function Workorder() {
     const navigation = useNavigation();
@@ -17,7 +18,10 @@ export default function Workorder() {
         Employeeid: '', WorkRequest: '',
     })
 
-
+    const [showAlert, setShowAlert] = useState(false);
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([10]);
     const [itemsPerPage, onItemsPerPageChange] = useState(
@@ -58,15 +62,24 @@ export default function Workorder() {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (_id) => {
+    const handleCheckboxChange = (WorkOrderNumber) => {
         const updatedItems = items.map((item) =>
-            item._id === _id ? { ...item, selected: !item.selected } : item
+            item.WorkOrderNumber === WorkOrderNumber ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkOrderNumber);
         setSelectedItems(selectedIds);
     };
+
+    const updatbutton=()=>{
+        if (selectedItems.length >= 1){
+            navigation.navigate(`Updataworkorder`, { WorkOrderNumber: selectedItems, myFunction: getapi })
+        }
+        else {
+            console.warn('Please select at least one item before updating.');
+        }
+    }
 
     const handleSelectAllChange = () => {
         const allSelected = items.every((item) => item.selected);
@@ -75,7 +88,7 @@ export default function Workorder() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkOrderNumber);
         setSelectedItems(selectedIds);
     };
 
@@ -93,6 +106,7 @@ export default function Workorder() {
             .then((res) => {
                 setVisible2(false);
                 getapi()
+                showSuccessAlert(true)
             })
             .catch((err) => {
                 console.log('Error deleting', err);
@@ -180,53 +194,53 @@ export default function Workorder() {
                             (item) =>
                                 item.WorkOrderNumber.includes(value.Employeeid)
                         ).slice(from, to).map((item) => (
-                             <DataTable.Row key={item.WorkOrderNumber}>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                        <Checkbox
-                                            status={item.selected ? 'checked' : 'unchecked'}
+                            <DataTable.Row key={item.WorkOrderNumber}>
+                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                    <Checkbox
+                                        status={item.selected ? 'checked' : 'unchecked'}
                                         onPress={() => handleCheckboxChange(item.WorkOrderNumber)}
-                                        />
-                                    </DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkOrderNumber}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkStatus === "Closed" ? "This Work Order is already closed.." : item.WorkStatus}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkRequestNumber}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkPriority}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.StartWorkOrderDateTime).isValid() ? moment(item.StartWorkOrderDateTime).format('DD/MM/YYYY') : ''}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.FailureCode}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.AssignedtoEmployeeID}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.SolutionCode}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkCategoryCode}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>
-                                        <Menu>
-                                            <MenuTrigger >
-                                                <View style={styles.actions}>
-                                                    <Text>Action </Text>
-                                                    <AntDesign name="caretdown" size={18} color="black" />
-                                                </View>
-                                            </MenuTrigger>
+                                    />
+                                </DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkOrderNumber}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkStatus === "Closed" ? "This Work Order is already closed.." : item.WorkStatus}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkRequestNumber}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkPriority}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.StartWorkOrderDateTime).isValid() ? moment(item.StartWorkOrderDateTime).format('DD/MM/YYYY') : ''}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.FailureCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.AssignedtoEmployeeID}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.SolutionCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkCategoryCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>
+                                    <Menu>
+                                        <MenuTrigger >
+                                            <View style={styles.actions}>
+                                                <Text>Action </Text>
+                                                <AntDesign name="caretdown" size={18} color="black" />
+                                            </View>
+                                        </MenuTrigger>
                                         <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
                                             <MenuOption onSelect={() => navigation.navigate(`ViewWorkorder`, { WorkOrderNumber: item.WorkOrderNumber })}>
                                                 <View style={styles.actions} >
-                                                        <Text style={styles.actionstitle}>View</Text>
-                                                        <AntDesign name="eye" size={20} color="#0A2DAA" />
-                                                    </View>
-                                                </MenuOption>
+                                                    <Text style={styles.actionstitle}>View</Text>
+                                                    <AntDesign name="eye" size={20} color="#0A2DAA" />
+                                                </View>
+                                            </MenuOption>
                                             <MenuOption onSelect={() => navigation.navigate(`Updataworkorder`, { WorkOrderNumber: item.WorkOrderNumber, myFunction: getapi })}>
                                                 <View style={styles.actions} >
-                                                        <Text style={styles.actionstitle}>Update</Text>
-                                                        <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
-                                                    </View>
-                                                </MenuOption>
+                                                    <Text style={styles.actionstitle}>Update</Text>
+                                                    <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
+                                                </View>
+                                            </MenuOption>
                                             <MenuOption onSelect={() => toggleDialog2(item.WorkOrderNumber)} >
                                                 <View style={styles.actions} >
-                                                        <Text style={styles.actionstitle}>Delete</Text>
-                                                        <AntDesign name="delete" size={15} color="red" />
-                                                    </View>
-                                                </MenuOption>
-                                            </MenuOptions>
-                                        </Menu>
-                                    </DataTable.Cell>
-                                </DataTable.Row>
+                                                    <Text style={styles.actionstitle}>Delete</Text>
+                                                    <AntDesign name="delete" size={15} color="red" />
+                                                </View>
+                                            </MenuOption>
+                                        </MenuOptions>
+                                    </Menu>
+                                </DataTable.Cell>
+                            </DataTable.Row>
                         ))}
 
                     </DataTable>
@@ -251,6 +265,8 @@ export default function Workorder() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
+                    onPress={updatbutton}
+                    disabled={selectedItems.length < 1}
                     >
                         Update
                     </Button>
@@ -298,6 +314,26 @@ export default function Workorder() {
                         </View>
                     </Dialog.Actions>
                 </Dialog>
+                {/* Pop message */}
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <AntDesign name="delete" color="red" size={20} style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Deleted!</Text>
+                        </View>
+                    }
+                    message={`Work Order ${deleteItemCode} has been deleted`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setShowAlert(false)
+                    }}
+                />
             </View>
         </ScrollView>
     )
