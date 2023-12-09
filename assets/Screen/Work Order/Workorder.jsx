@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import { Button, Icon } from '@rneui/themed';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native'
+import { Button, Icon, Dialog } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
@@ -9,14 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from "axios"; 
 import moment from 'moment';
-
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
-
+import {Menu,MenuOptions,MenuOption,MenuTrigger} from 'react-native-popup-menu';
 
 export default function Workorder() {
     const navigation = useNavigation();
@@ -85,6 +78,26 @@ export default function Workorder() {
         const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
         setSelectedItems(selectedIds);
     };
+
+    // Deleting api
+    const [visible2, setVisible2] = useState(false);
+    const [deleteItemCode, setDeleteItemCode] = useState('');
+
+    const toggleDialog2 = (WorkOrderNumber) => {
+        setDeleteItemCode(WorkOrderNumber); // Store the system module code
+        setVisible2(!visible2);
+    };
+
+    const Deletedapi = (WorkOrderNumber) => {
+        axios.delete(`/api/WorkOrders_DELETE_BYID/${WorkOrderNumber}`)
+            .then((res) => {
+                setVisible2(false);
+                getapi()
+            })
+            .catch((err) => {
+                console.log('Error deleting', err);
+            });
+    }
 
     return (
         <ScrollView>
@@ -191,21 +204,21 @@ export default function Workorder() {
                                                     <AntDesign name="caretdown" size={18} color="black" />
                                                 </View>
                                             </MenuTrigger>
-                                            <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                                <MenuOption>
-                                                    <View style={styles.actions}>
+                                        <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
+                                            <MenuOption onSelect={() => navigation.navigate(`ViewWorkorder`, { WorkOrderNumber: item.WorkOrderNumber })}>
+                                                <View style={styles.actions} >
                                                         <Text style={styles.actionstitle}>View</Text>
                                                         <AntDesign name="eye" size={20} color="#0A2DAA" />
                                                     </View>
                                                 </MenuOption>
                                                 <MenuOption>
-                                                    <View style={styles.actions}>
+                                                <TouchableOpacity style={styles.actions} >
                                                         <Text style={styles.actionstitle}>Update</Text>
                                                         <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
-                                                    </View>
+                                                    </TouchableOpacity>
                                                 </MenuOption>
-                                                <MenuOption>
-                                                    <View style={styles.actions}>
+                                            <MenuOption onSelect={() => toggleDialog2(item.WorkOrderNumber)} >
+                                                <View style={styles.actions} >
                                                         <Text style={styles.actionstitle}>Delete</Text>
                                                         <AntDesign name="delete" size={15} color="red" />
                                                     </View>
@@ -274,6 +287,17 @@ export default function Workorder() {
                     </Button>
                 </View>
 
+                {/* Deleted  Dialog*/}
+                <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
+                    <Dialog.Title title="Are you sure?" />
+                    <Text>{`You want to delete this ${deleteItemCode} Work Order Number`}</Text>
+                    <Dialog.Actions >
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
+                            <Dialog.Button onPress={() => Deletedapi(deleteItemCode)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
+                        </View>
+                    </Dialog.Actions>
+                </Dialog>
             </View>
         </ScrollView>
     )
