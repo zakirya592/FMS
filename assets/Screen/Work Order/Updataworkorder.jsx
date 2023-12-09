@@ -1,5 +1,5 @@
 import React, { useState, useEffect, } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, ToastAndroid, StatusBar } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -309,6 +309,10 @@ export default function Updataworkorder({ route }) {
 
     }, [])
 
+    function showToast() {
+        ToastAndroid.show(`Work Order ${WorkOrderNumber} has been updated`, ToastAndroid.SHORT);
+    }
+
     const Createapi = async () => {
         await axios.put(`/api/WorkOrders_Put/${WorkOrderNumber}`, {
             WorkRequestNumber: value.Employeeid,
@@ -331,6 +335,7 @@ export default function Updataworkorder({ route }) {
             CompletionDateTime: date.toISOString(),
         }).then((res) => {
             navigation.navigate('Workorder')
+            showToast()
             myFunction()
         })
             .catch((err) => {
