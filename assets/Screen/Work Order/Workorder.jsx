@@ -184,7 +184,7 @@ export default function Workorder() {
                                     <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.SolutionCode}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkCategoryCode}</DataTable.Cell>
                                     <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>
-                                        <Menu onSelect={value => alert(`Selected number: ${value}`)}>
+                                        <Menu>
                                             <MenuTrigger >
                                                 <View style={styles.actions}>
                                                     <Text>Action </Text>
@@ -192,19 +192,19 @@ export default function Workorder() {
                                                 </View>
                                             </MenuTrigger>
                                             <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                                <MenuOption value={1}>
+                                                <MenuOption>
                                                     <View style={styles.actions}>
                                                         <Text style={styles.actionstitle}>View</Text>
                                                         <AntDesign name="eye" size={20} color="#0A2DAA" />
                                                     </View>
                                                 </MenuOption>
-                                                <MenuOption value={2}>
+                                                <MenuOption>
                                                     <View style={styles.actions}>
                                                         <Text style={styles.actionstitle}>Update</Text>
                                                         <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
                                                     </View>
                                                 </MenuOption>
-                                                <MenuOption value={3}>
+                                                <MenuOption>
                                                     <View style={styles.actions}>
                                                         <Text style={styles.actionstitle}>Delete</Text>
                                                         <AntDesign name="delete" size={15} color="red" />

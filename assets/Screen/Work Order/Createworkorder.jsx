@@ -1,55 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
-import { Button, Icon } from '@rneui/themed';
+import { Button } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
-import { DataTable } from 'react-native-paper';
-import { Checkbox } from 'react-native-paper';
-import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-];
+import axios from "axios";
 
 export default function Createworkorder() {
 
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkOrderNumber: '', Datetime: '', RequestStatus: '',
-        FailureCode: '', FailureCodeDesc: '', SolutionCode: '', SolutionCodeDesc: '', WorkPriority: '', WorkTrade: '', WorkDescription: '',
-        WorkPrority: '', WorkStaus: '', WorkCategory: '', WorkCategoryDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
+        FailureCode: '', FailureCodeDesc: '', solutionCode: '', SolutionCodeDesc: '', WorkPriority: '', WorkTrade: '', WorkDescription: '',
+        WorkPrority: '', WorkStaus: 'open', WorkCategory: '', WorkCategoryDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
         CompletedbyEmp: '', ComplateEmployeeName: '',
     })
-
     const [isFocusedWorkCategoryDesc, setIsFocusedWorkCategoryDesc] = useState(false);
     const [isFocusedWorkDescription, setIsFocusedWorkDescription] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
+    // Dropdown useState
+    const [RequestStatusLIST, setRequestStatusLIST] = useState([])
+    const [WorkPrioritlist, setWorkPrioritlist] = useState([])
+    const [workCategorylist, setworkCategorylist] = useState([])
+    const [failureStatusCodelist, setfailureStatusCodelist] = useState([])
+    const [solutionCodelist, setsolutionCodelist] = useState([])
+    const [EmployeeiddropdownAssigntoEmployee, setEmployeeiddropdownAssigntoEmployee] = useState([])
+    const [EmployeeiddropdownCompletedbyEmp, setEmployeeiddropdownCompletedbyEmp] = useState([])
+    const [dropdownRequestNumber, setdropdownRequestNumber] = useState([])
+    const [dateEndDatetime, setDateEndDatetime] = useState(null);
+    const [showPickerEndDatetime, setShowPickerEndDatetime] = useState(false);
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        setShowPicker(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+        setShowPicker(Platform.OS === 'ios');
         setDate(currentDate);
+        if (endDate && endDate < currentDate) {
+            setDateEndDatetime(currentDate);
+        }
     };
 
     const showDatepicker = () => {
         setShowPicker(true);
     };
 
-    const [dateEndDatetime, setDateEndDatetime] = useState(null);
-    const [showPickerEndDatetime, setShowPickerEndDatetime] = useState(false);
     const onChangeEndDatetime = (event, selectedDate) => {
-        const currentDate = selectedDate || dateEndDatetime; // Use the existing date if no new date is selected
-        setShowPickerEndDatetime(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
-        setDateEndDatetime(currentDate);
+
+        const currentDate = selectedDate || dateEndDatetime;
+        if (date && currentDate < date) {
+            setDateEndDatetime(date);
+        } else {
+            setShowPickerEndDatetime(Platform.OS === 'ios');
+            setDateEndDatetime(currentDate);
+        }
+
     };
 
     const showDatepickerEndDatetime = () => {
@@ -80,6 +88,196 @@ export default function Createworkorder() {
         setShowPickerSchedule(true);
     };
 
+    // Work Employes ID  Api
+    const Requestnumberapi = () => {
+        axios.get(`/api/workRequestCount_GET_BYID/1`)
+            .then((res) => {
+                const reqput = res.data.recordset[0].WorkOrderNumber;
+                // const reqput=1000
+                let formattedRequestNumber;
+                if (reqput >= 1 && reqput <= 9) {
+                    formattedRequestNumber = `000-000-00${reqput}`;
+                } else if (reqput >= 10 && reqput <= 99) {
+                    formattedRequestNumber = `000-000-0${reqput}`;
+                } else if (reqput >= 100 && reqput <= 999) {
+                    formattedRequestNumber = `000-000-${reqput}`;
+                } else if (reqput >= 1000 && reqput <= 9999) {
+                    formattedRequestNumber = `000-000-${reqput}`;
+                } else {
+                    formattedRequestNumber = `000-000-${reqput}`;
+                }
+                // localStorage.setItem('Requestnumbers', reqput)
+                setvalue(prevState => ({ ...prevState, WorkOrderNumber: formattedRequestNumber }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    useEffect(() => {
+        Requestnumberapi()
+    }, [])
+    // Dropdown api
+    useEffect(() => {
+        axios.get('/api/EmployeeID_GET_LIST').then((response) => {
+            // const data = response.data.recordset;
+            const data = response.data.recordset.map((item) => ({
+                labelEmployeeID: `${item.Firstname} (${item.EmployeeID})`, // Customize label as needed
+                valueEmployeeID: item.EmployeeID,
+                labelEmployeeIDname: item.Firstname
+            }));
+            setEmployeeiddropdownAssigntoEmployee(data)
+            setEmployeeiddropdownCompletedbyEmp(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get('/api/Filter_WR').then((response) => {
+            const data = response.data.recordset.map((item) => ({
+                labelRequestNumber: `${item.RequestNumber} (${item.RequestStatus})`, // Customize label as needed
+                valueRequestNumber: item.RequestNumber,
+                labelEmployeeIDname: item.RequestStatus
+            }));
+            setdropdownRequestNumber(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get(`/api/RequestStatus_LIST`).then((res) => {
+            setRequestStatusLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/WorkPriority_LIST`).then((res) => {
+            setWorkPrioritlist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/WorkCatagres_GET_CODE_LIST`).then((res) => {
+            setworkCategorylist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/Failure_GET_CODELIST`).then((res) => {
+            setfailureStatusCodelist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/Solution_GET_CODE_LIST`).then((res) => {
+            setsolutionCodelist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [])
+    // WorkCategory 
+    const handleProvinceChange = (selectedValue) => {
+        setvalue((prevValue) => ({
+            ...prevValue,
+            WorkCategory: selectedValue.WorkCategoryCode,
+        }));
+        axios.get(`/api/WorkCatagres_GET_BYID/${selectedValue.WorkCategoryCode}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    WorkCategoryDesc: res.data.recordset[0].WorkCategoryDesc,
+                }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    // failureCode
+    const handleProvinceChangeFailure = (selectedValue) => {
+        const Deptnale = selectedValue.FailureStatusCode;
+        setvalue((prevValue) => ({
+            ...prevValue,
+            FailureCode: Deptnale,
+        }));
+        axios.get(`/api/Failure_GET_BYID/${Deptnale}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    FailureCodeDesc: res.data.recordset[0].FailureStatusDesc,
+                }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    // solutionCode
+    const solutionCodeheeandly = (selectedValue) => {
+        const Deptnale = selectedValue.SolutiontatusCode;
+        setvalue((prevValue) => ({
+            ...prevValue,
+            solutionCode: Deptnale,
+        }));
+        axios.get(`/api/Solution_GET_BYID/${Deptnale}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    SolutionCodeDesc: res.data.recordset[0].SolutionStatusDesc,
+                }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const requestincreas = () => {
+        axios.get(`/api/workRequestCount_GET_BYID/1`)
+            .then((res) => {
+                const reqput = res.data.recordset[0].WorkOrderNumber + 1;
+                axios.put(`/api/WorkOrderNumberCount_Put/1`, {
+                    WorkOrderNumber: reqput
+                })
+                    .then((res) => {
+                        console.log('Work Request Number put Api', res.data);
+                        const reqput = res.data.recordset[0].WorkOrderNumber + 1;
+                        setvalue(prevState => ({ ...prevState, WorkOrderNumber: '000-000-' + '0' + `${reqput}` }));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const Createapi = async () => {
+        await axios.post(`/api/WorkOrders_post`, {
+            WorkOrderNumber: value.WorkOrderNumber,
+            WorkRequestNumber: value.Employeeid,
+            WorkStatus: value.WorkStaus,
+            WorkPriority: value.WorkPrority,
+            WorkCategoryCode: value.WorkCategory,
+            WorkDescription: value.WorkDescription,
+            FailureCode: value.FailureCode,
+            SolutionCode: value.solutionCode,
+            AssignedtoEmployeeID: value.AssigntoEmployee,
+            AppointmentDateTime: dateAppointment,
+            ScheduledDateTime: dateSchedule,
+            StartWorkOrderDateTime: date,
+            EndWorkOrderDateTime: dateEndDatetime,
+            TotalDays: value.TotalDays,
+            TotalHours: value.TotalHours,
+            TotalMinutes: value.TotalMinuites,
+            TotalCostofWork: value.CostofWork,
+            CompletedByEmployeeID: value.CompletedbyEmp,
+            CompletionDateTime: date,
+        },)
+            .then((res) => {
+                console.log('Add work api first api', res.data);
+                navigation.navigate('Workorder')
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+
+    const postdatfunction = () => {
+        Createapi()
+        requestincreas()
+    }
 
     return (
 
@@ -106,6 +304,7 @@ export default function Createworkorder() {
                                     WorkOrderNumber: item.value, // Update the Employeeid property
                                 }));
                             }}
+                            editable={false}
                             placeholder="Work Order Number "
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
@@ -118,7 +317,6 @@ export default function Createworkorder() {
                             })}
                         />
                     </View>
-
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Work Request No.
                         </Text>
@@ -128,11 +326,11 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownRequestNumber}
                             search
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelRequestNumber"
+                            valueField="valueRequestNumber"
                             placeholder={!isFocus ? 'Work Request No' : '...'}
                             searchPlaceholder="Search..."
                             value={value.Employeeid}
@@ -141,14 +339,12 @@ export default function Createworkorder() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Employeeid: item.value, // Update the Employeeid property
+                                    Employeeid: item?.valueRequestNumber || '', // Use the correct value key
                                 }));
                                 setIsFocus(false);
                             }}
-
                         />
                     </View>
-
                 </View>
                 {/* WorkStaus and Work Prority */}
                 <View style={styles.inputContainer}>
@@ -161,16 +357,16 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={RequestStatusLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="RequestStatusCode"
+                            valueField="RequestStatusCode"
                             placeholder={'Work Staus '}
                             value={value.WorkStaus}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkStaus: item.value, // Update the Employeeid property
+                                    WorkStaus: item?.RequestStatusCode || '', // Use the correct value key
                                 }));
                             }}
                         />
@@ -185,17 +381,17 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={WorkPrioritlist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkPriorityCode"
+                            valueField="WorkPriorityCode"
                             placeholder={'Work Prority '}
                             searchPlaceholder="Search..."
                             value={value.WorkPrority}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkPrority: item.value, // Update the Employeeid property
+                                    WorkPrority: item?.WorkPriorityCode || '', // Update the Employeeid property
                                 }));
                             }}
                         />
@@ -213,10 +409,10 @@ export default function Createworkorder() {
                                 { borderColor: isFocusedWorkDescription ? '#1D3A9F' : '#94A0CA' },
                             ]}
                             value={value.WorkDescription}
-                            onChange={item => {
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkDescription: item.value, // Update the Employeeid property
+                                    WorkDescription: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder="Work Description"
@@ -244,18 +440,13 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={workCategorylist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkCategoryCode"
+                            valueField="WorkCategoryCode"
                             placeholder={'Work Category'}
                             value={value.WorkCategory}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkCategory: item.value,
-                                }));
-                            }}
+                            onChange={handleProvinceChange}
                         />
                     </View>
 
@@ -274,6 +465,7 @@ export default function Createworkorder() {
                                     WorkCategoryDesc: item.value, // Update the Employeeid property
                                 }));
                             }}
+                            editable={false}
                             placeholder="Work Category Desc"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
@@ -300,18 +492,13 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={failureStatusCodelist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="FailureStatusCode"
+                            valueField="FailureStatusCode"
                             placeholder={'Select Failure Code'}
                             value={value.FailureCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    FailureCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            onChange={handleProvinceChangeFailure}
                         />
                     </View>
 
@@ -349,18 +536,13 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={solutionCodelist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="SolutiontatusCode"
+                            valueField="SolutiontatusCode"
                             placeholder={'Select Solution Code'}
-                            value={value.SolutionCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    SolutionCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            value={value.solutionCode}
+                            onChange={solutionCodeheeandly}
 
                         />
                     </View>
@@ -399,10 +581,10 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={EmployeeiddropdownAssigntoEmployee}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelEmployeeID"
+                            valueField="valueEmployeeID"
                             placeholder={'Assign to Employee'}
                             search
                             searchPlaceholder='search Employee'
@@ -410,10 +592,10 @@ export default function Createworkorder() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    AssigntoEmployee: item.value, // Update the Employeeid property
+                                    AssigntoEmployee: item?.valueEmployeeID || '',
+                                    EmployeeName: item?.labelEmployeeIDname || '', // Update EmployeeName here
                                 }));
                             }}
-
                         />
                     </View>
 
@@ -421,14 +603,12 @@ export default function Createworkorder() {
                         <Text style={styles.lableinput}>Employee Name
                         </Text>
                         <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
+                            style={styles.inputBox}
                             value={value.EmployeeName}
-                            onChange={item => {
+                            onChange={text => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    EmployeeName: item.value,
+                                    EmployeeName: text,
                                 }));
                             }}
                             placeholder="Employee Name"
@@ -451,7 +631,7 @@ export default function Createworkorder() {
                             }}>
                                 <TextInput
                                     style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateAppointment ? dateAppointment.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
+                                    value={dateAppointment ? dateAppointment.toLocaleString() : 'dd/mm/yyyy -:- -'}
                                     editable={true}
                                 />
                                 <TouchableOpacity onPress={showDatepickerAppointment} style={styles.iconcontainer}>
@@ -462,7 +642,7 @@ export default function Createworkorder() {
                                 <View>
                                     <DateTimePicker
                                         testID="dateTimePicker"
-                                        value={dateAppointment || new Date()} // Use the existing date or the current date if dateEndDatetime is null
+                                        value={dateAppointment || new Date()}
                                         mode="datetime"
                                         is24Hour={true}
                                         display="default"
@@ -472,7 +652,6 @@ export default function Createworkorder() {
                             )}
                         </View>
                     </View>
-
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Schedule <Text style={{ fontSize: 12 }}> Date/Time</Text>
@@ -509,17 +688,14 @@ export default function Createworkorder() {
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Start Date/time
-                        </Text>
+                        <Text style={styles.lableinput}>Start Date/time</Text>
 
                         <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <TextInput
                                     style={[styles.inputBox, { position: 'relative', }]}
                                     value={date.toLocaleString()}
-                                    editable={true}
+                                    editable={false}
                                 />
                                 <TouchableOpacity onPress={showDatepicker} style={styles.iconcontainer}>
                                     <AntDesign name="calendar" size={20} color="white" />
@@ -541,16 +717,13 @@ export default function Createworkorder() {
                     </View>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>End Date/time
-                        </Text>
+                        <Text style={styles.lableinput}>End Date/time</Text>
                         <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <TextInput
                                     style={[styles.inputBox, { position: 'relative', }]}
-                                    value={dateEndDatetime ? dateEndDatetime.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
-                                    editable={true}
+                                    value={dateEndDatetime ? dateEndDatetime.toLocaleString() : 'dd/mm/yyyy -:- -'}
+                                    editable={false}
                                 />
                                 <TouchableOpacity onPress={showDatepickerEndDatetime} style={styles.iconcontainer}>
                                     <AntDesign name="calendar" size={20} color="white" />
@@ -560,7 +733,7 @@ export default function Createworkorder() {
                                 <View>
                                     <DateTimePicker
                                         testID="dateTimePicker"
-                                        value={dateEndDatetime || new Date()} // Use the existing date or the current date if dateEndDatetime is null
+                                        value={dateEndDatetime || new Date()} 
                                         mode="datetime"
                                         is24Hour={true}
                                         display="default"
@@ -623,7 +796,7 @@ export default function Createworkorder() {
                     </View>
 
                 </View>
-                {/* TotalHours TotalDays */}
+                {/* Total Minuites CostofWork */}
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
@@ -687,10 +860,10 @@ export default function Createworkorder() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={EmployeeiddropdownCompletedbyEmp}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelEmployeeID"
+                            valueField="valueEmployeeID"
                             placeholder={'Completed by Emp.'}
                             search
                             searchPlaceholder='search Completed by Employee'
@@ -698,7 +871,8 @@ export default function Createworkorder() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    CompletedbyEmp: item.value, // Update the Employeeid property
+                                    CompletedbyEmp: item?.valueEmployeeID || '',
+                                    ComplateEmployeeName: item?.labelEmployeeIDname || '',
                                 }));
                             }}
 
@@ -709,14 +883,12 @@ export default function Createworkorder() {
                         <Text style={styles.lableinput}>Employee Name
                         </Text>
                         <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.Complate}
-                            onChange={item => {
+                            style={styles.inputBox}
+                            value={value.ComplateEmployeeName}
+                            onChange={text => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Complate: item.value,
+                                    ComplateEmployeeName: text,
                                 }));
                             }}
                             placeholder="Employee Name"
@@ -736,7 +908,7 @@ export default function Createworkorder() {
                     alignItems: 'flex-end',
                     justifyContent: 'flex-end',
                 }}
-                // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
+                    onPress={postdatfunction}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
