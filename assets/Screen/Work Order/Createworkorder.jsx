@@ -49,16 +49,34 @@ export default function Createworkorder() {
     };
 
     const onChangeEndDatetime = (event, selectedDate) => {
-
         const currentDate = selectedDate || dateEndDatetime;
+
         if (date && currentDate < date) {
             setDateEndDatetime(date);
         } else {
             setShowPickerEndDatetime(Platform.OS === 'ios');
             setDateEndDatetime(currentDate);
-        }
 
+            // Calculate the time difference in milliseconds
+            const timeDifference = currentDate.getTime() - date.getTime();
+
+            // Calculate total days
+            const totalDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+            // Calculate total hours
+            const hours = Math.floor(timeDifference / 3600000); // 1 hour = 3600000 milliseconds
+            const minutes = hours * 60
+            // Update state with totalDays and totalHours
+            setvalue(prevValue => ({
+                ...prevValue,
+                TotalDays: totalDays.toString(),
+                TotalHours: hours.toString(),
+                TotalMinuites: minutes.toString()
+            }));
+
+        }
     };
+
 
     const showDatepickerEndDatetime = () => {
         setShowPickerEndDatetime(true);
@@ -229,7 +247,6 @@ export default function Createworkorder() {
                     WorkOrderNumber: reqput
                 })
                     .then((res) => {
-                        console.log('Work Request Number put Api', res.data);
                         const reqput = res.data.recordset[0].WorkOrderNumber + 1;
                         setvalue(prevState => ({ ...prevState, WorkOrderNumber: '000-000-' + '0' + `${reqput}` }));
                     })
@@ -262,9 +279,8 @@ export default function Createworkorder() {
             TotalMinutes: value.TotalMinuites,
             TotalCostofWork: value.CostofWork,
             CompletedByEmployeeID: value.CompletedbyEmp,
-            CompletionDateTime: date,
-        },)
-            .then((res) => {
+            CompletionDateTime: date.toISOString(),
+        },).then((res) => {
                 console.log('Add work api first api', res.data);
                 navigation.navigate('Workorder')
             })
@@ -272,7 +288,6 @@ export default function Createworkorder() {
                 console.log(err);
             });
     };
-
 
     const postdatfunction = () => {
         Createapi()
