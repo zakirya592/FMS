@@ -94,6 +94,8 @@ import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
 import Updataworkorder from './assets/Screen/Work Order/Updataworkorder';
 import Viewpreventivemaintenance from './assets/Screen/Preventive Maintenance/Viewpreventivemaintenance';
 import Updatapreventivemaintenance from './assets/Screen/Preventive Maintenance/Updatapreventivemaintenance';
+import Viewcleaningwork from './assets/Screen/Cleaning Works/Viewcleaningwork';
+import Updatacleaningwork from './assets/Screen/Cleaning Works/Updatacleaningwork';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -353,6 +355,16 @@ function MainStackNavigator() {
         }} />
         {/* Createcleaningwork */}
           <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewcleaningwork */}
+          <Stack.Screen name="Viewcleaningwork" component={Viewcleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updatacleaningwork */}
+          <Stack.Screen name="Updatacleaningwork" component={Updatacleaningwork}
         options={{
           title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

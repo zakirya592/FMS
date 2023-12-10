@@ -9,7 +9,7 @@ import { RadioButton } from 'react-native-paper';
 import axios from "axios";
 import { useNavigation } from '@react-navigation/native';
 
-export default function Viewpreventivemaintenance({ route }) {
+export default function Viewcleaningwork({ route }) {
     const { RequestNumber } = route.params
 
     const navigation = useNavigation();
@@ -17,10 +17,10 @@ export default function Viewpreventivemaintenance({ route }) {
         Employeeid: null, WorkRequestNo: '',
         WorkOrderNumber: '', Datetime: '', RequestStatus: '', Firstname: '', Middlename: '', Lastname: '',
         AssetCategory: '', Manufacturer: '', Model: '', BuildingCode: '', DepartmentCode: '', DepartmentName: '',
-        WorkPriority: '', WorkDescription: '', SchedulingPriority: '',
+        WorkPriority: '', Intruction_Remarks: '', SchedulingPriority: '',
         WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '',
         CompletedbyEmp: '', ComplateEmployeeName: '',
-        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: ''
+        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: '',CleaningGroup: '', GroupDescription: '',
     })
 
     const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
@@ -91,7 +91,7 @@ export default function Viewpreventivemaintenance({ route }) {
     const [dropdownWorkTradeLIST, setdropdownWorkTradeLIST] = useState([])
     const [schedulingprioritylist, setschedulingprioritylist] = useState([])
     const [assetTypelist, setassetTypelist] = useState([]);
-
+    const [dropdownCleaning, setdropdownCleaning] = useState([])
     useEffect(() => {
         axios.get('/api/Filter_WR').then((response) => {
             const data = response.data.recordset.map((item) => ({
@@ -147,6 +147,11 @@ export default function Viewpreventivemaintenance({ route }) {
         }).catch((err) => {
             console.log(err);
         });
+        axios.get(`/api/CleaningGroup_GET_LIST`).then((res) => {
+            setdropdownCleaning(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
     }, [])
 
     // Department
@@ -164,6 +169,22 @@ export default function Viewpreventivemaintenance({ route }) {
             }).catch((err) => {
                 console.log(err);
             });
+    }
+    // Cleaning
+    const handleCleaningChange = (selectedValue) => {
+        const Deptnale = selectedValue.CleaningGroupCode
+        setvalue((prevValue) => ({
+            ...prevValue,
+            CleaningGroup: Deptnale,
+        }));
+        axios.get(`/api/CleaningGroup_GET_BYID/${Deptnale}`).then((res) => {
+            setvalue((prevValue) => ({
+                ...prevValue,
+                GroupDescription: res.data.recordset[0].CleaningGroupDesc,
+            }));
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     // Work types desc
     const Workypesdesc = (selectedValue) => {
@@ -268,10 +289,9 @@ export default function Viewpreventivemaintenance({ route }) {
     }
     // empoyee ID
     function GetgetworkRequest() {
-        axios.get(`/api/PreventiveMaintenance_GET_BYID/${RequestNumber}`).then((res) => {
+        axios.get(`/api/CleaningWorks_GET_BYID/${RequestNumber}`).then((res) => {
+            console.log(res.data);
             const {
-                MobileNumber,
-                LandlineNumber,
                 DepartmentCode,
                 BuildingCode,
                 LocationCode,
@@ -285,9 +305,8 @@ export default function Viewpreventivemaintenance({ route }) {
                 WorkRequestNo: res.data.recordsets[0][0].RequestNumber,
                 WorkTypeCode: res.data.recordsets[0][0].WorkType,
                 AssetType: res.data.recordsets[0][0].AssetItemTagID,
-                WorkDescription: res.data.recordsets[0][0].MaintenanceDescription,
-                MobileNumber,
-                LandlineNumber,
+                Intruction_Remarks: res.data.recordsets[0][0].Intruction_Remarks,
+                CleaningGroup: res.data.recordsets[0][0].CleaningGroup,
                 DepartmentCode,
                 BuildingCode,
                 LocationCode,
@@ -385,6 +404,15 @@ export default function Viewpreventivemaintenance({ route }) {
             }).catch((err) => {
                 console.log(err);;
             });
+            const CleaningGroup = res.data.recordsets[0][0].CleaningGroup
+            axios.get(`/api/CleaningGroup_GET_BYID/${CleaningGroup}`).then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    GroupDescription: res.data.recordset[0].CleaningGroupDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
         })
             .catch((err) => {
                 console.log(err);
@@ -400,7 +428,7 @@ export default function Viewpreventivemaintenance({ route }) {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>View Preventive Maintenance</Text>
+                    <Text style={styles.prograp}>View Cleaning Works</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -831,6 +859,48 @@ export default function Viewpreventivemaintenance({ route }) {
                     </View>
 
                 </View>
+                {/* CleaningGroup */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}> Cleaning Group
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={dropdownCleaning}
+                            maxHeight={200}
+                            labelField="CleaningGroupCode"
+                            valueField="CleaningGroupCode"
+                            placeholder={'Select DeptCode'}
+                            value={value.CleaningGroup}
+                            onChange={handleCleaningChange}
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}> Group Description
+                        </Text>
+                        <TextInput
+                            style={[styles.inputBox,]}
+                            value={value.GroupDescription}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    GroupDescription: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder=" Group Description"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                </View>
                 {/* Warranty Period and Warrantyenddata Date/time */}
                 <View style={styles.inputContainer}>
 
@@ -925,23 +995,23 @@ export default function Viewpreventivemaintenance({ route }) {
                     </View>
 
                 </View>
-                {/* WorkDescription */}
+                {/* Intruction_Remarks */}
                 <View style={styles.inputContainer}>
                     <View style={[styles.singleinputlable]}>
-                        <Text style={styles.lableinput}>Work Description
+                        <Text style={styles.lableinput}>Instructions/Remarks
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox, { width: 350 },
                             ]}
-                            value={value.WorkDescription}
+                            value={value.Intruction_Remarks}
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkDescription: item, // Update the Employeeid property
+                                    Intruction_Remarks: item, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder="Describe the nature of the Proplem"
+                            placeholder="Describe the cleaning works"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -1094,35 +1164,6 @@ export default function Viewpreventivemaintenance({ route }) {
                             onPress={() => handleRadioChange('Monthly')}
                             style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
                             labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
-                        />
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-
-                        <RadioButton.Item
-                            label="Bi-Monthly"
-                            value="Bi-Monthly"
-                            status={selectedOption === 'Bi-Monthly' ? 'checked' : 'unchecked'}
-                            onPress={() => handleRadioChange('Bi-Monthly')}
-                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
-                        />
-
-                        <RadioButton.Item
-                            label="Quarterly"
-                            value="Quarterly"
-                            status={selectedOption === 'Quarterly' ? 'checked' : 'unchecked'}
-                            onPress={() => handleRadioChange('Quarterly')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
-                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
-                        />
-
-                        <RadioButton.Item
-                            label="Yearly"
-                            value="Yearly"
-                            status={selectedOption === 'Yearly' ? 'checked' : 'unchecked'}
-                            onPress={() => handleRadioChange('Yearly')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
-                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
                         />
                     </View>
                 </View>
