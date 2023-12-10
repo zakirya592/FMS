@@ -33,126 +33,14 @@ export default function Workrequest () {
     {
       _id: 1,
       Seq: '1',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      BuildingCode: 'Open',
+      DESCRIPTION: 'InvoiceNumbe',
+      Capacity: 'DiscountAmount',
+      GPSLatitude: '12/12/3003',
+      GPSLongtitude: 'InvoiceDate',
       ACTIONS: 'Open',
     },
-    {
-      _id: 2,
-      Seq: '2',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 3,
-      Seq: '3',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 4,
-      Seq: '4',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 5,
-      Seq: '5',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 6,
-      Seq: '6',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 7,
-      Seq: '7',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 8,
-      Seq: '8',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 9,
-      Seq: '9',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 10,
-      Seq: '10',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 11,
-      Seq: '11',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'PRIORITY',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
+   
   ]);
   //
   const from = page * itemsPerPage;
@@ -204,7 +92,7 @@ export default function Workrequest () {
         {/* Top section */}
         <View>
           <Text style={styles.prograp}>
-            Goods Receipts
+            BUILDING MAINTENANCE
           </Text>
 
         </View>
@@ -239,19 +127,19 @@ export default function Workrequest () {
                 <Text style={styles.tableHeading}>Seq </Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 180}]}>
-                <Text style={styles.tableHeading}>Purchase Order Number</Text>
+                <Text style={styles.tableHeading}>Building Code</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 160}]}>
-                <Text style={styles.tableHeading}>Invoice Numbe</Text>
+                <Text style={styles.tableHeading}>DESCRIPTION</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>Discount Amount</Text>
+                <Text style={styles.tableHeading}>Capacity</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>Vendor ID</Text>
+                <Text style={styles.tableHeading}>GPS Latitude</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 130}]}>
-                <Text style={styles.tableHeading}>Invoice Date</Text>
+                <Text style={styles.tableHeading}>GPS Longtitude</Text>
               </DataTable.Title>
 
               <DataTable.Title
@@ -276,19 +164,19 @@ export default function Workrequest () {
                     {item.Seq}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
-                    {item.PurchaseOrderNumber}
+                    {item.BuildingCode}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
-                    {item.InvoiceNumbe}
+                    {item.DESCRIPTION}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.DiscountAmount}
+                    {item.Capacity}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.VendorID}
+                    {item.GPSLatitude}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
-                    {item.InvoiceDate}
+                    {item.GPSLongtitude}
                   </DataTable.Cell>
 
                   <DataTable.Cell
@@ -362,7 +250,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('BuildingUpdate')}
+            onPress={() => navigation.navigate ('GoodReturnUpdate')}
           >
             Update
           </Button>
@@ -374,7 +262,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('BuildingCreate')}
+            onPress={() => navigation.navigate ('GoodReturnCreate')}
           >
             <Icon
               name="add"

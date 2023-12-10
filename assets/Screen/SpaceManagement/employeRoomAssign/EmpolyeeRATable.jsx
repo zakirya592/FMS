@@ -33,126 +33,16 @@ export default function Workrequest () {
     {
       _id: 1,
       Seq: '1',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
+      EmployeeNumber: 'Open',
+      RoomCode: 'InvoiceNumbe',
+      DESCRIPTION: 'DiscountAmount',
+      FloorCode: '12/12/3003',
+      BuildingCode: 'InvoiceDate',
+      LocationCode: 'LASTPURCHASEDATE',
+    
       ACTIONS: 'Open',
     },
-    {
-      _id: 2,
-      Seq: '2',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 3,
-      Seq: '3',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 4,
-      Seq: '4',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 5,
-      Seq: '5',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 6,
-      Seq: '6',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 7,
-      Seq: '7',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 8,
-      Seq: '8',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 9,
-      Seq: '9',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 10,
-      Seq: '10',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 11,
-      Seq: '11',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'PRIORITY',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
+    
   ]);
   //
   const from = page * itemsPerPage;
@@ -204,7 +94,7 @@ export default function Workrequest () {
         {/* Top section */}
         <View>
           <Text style={styles.prograp}>
-            Goods Receipts
+           Employee Room Assignments
           </Text>
 
         </View>
@@ -239,21 +129,23 @@ export default function Workrequest () {
                 <Text style={styles.tableHeading}>Seq </Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 180}]}>
-                <Text style={styles.tableHeading}>Purchase Order Number</Text>
+                <Text style={styles.tableHeading}>Employee Number</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 160}]}>
-                <Text style={styles.tableHeading}>Invoice Numbe</Text>
+                <Text style={styles.tableHeading}>Room Code</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>Discount Amount</Text>
+                <Text style={styles.tableHeading}>DESCRIPTION</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>Vendor ID</Text>
+                <Text style={styles.tableHeading}>Floor Code</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 130}]}>
-                <Text style={styles.tableHeading}>Invoice Date</Text>
+                <Text style={styles.tableHeading}>Building Code</Text>
               </DataTable.Title>
-
+<DataTable.Title style={[styles.header, {width: 130}]}>
+                <Text style={styles.tableHeading}>Location Code</Text>
+              </DataTable.Title>
               <DataTable.Title
                 style={[
                   styles.header,
@@ -276,21 +168,23 @@ export default function Workrequest () {
                     {item.Seq}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
-                    {item.PurchaseOrderNumber}
+                    {item.EmployeeNumber}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
-                    {item.InvoiceNumbe}
+                    {item.RoomCode}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.DiscountAmount}
+                    {item.DESCRIPTION}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.VendorID}
+                    {item.FloorCode}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
-                    {item.InvoiceDate}
+                    {item.BuildingCode}
                   </DataTable.Cell>
-
+                  <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
+                    {item.LocationCode}
+                  </DataTable.Cell>
                   <DataTable.Cell
                     style={[
                       styles.tablebody,
