@@ -274,7 +274,7 @@ export default function Createpreventivemaintenance({ route }) {
     };
 
     const Createapi = () => {
-      axios.post(`/api/PreventiveMaintenance_post`, {
+        axios.post(`/api/PreventiveMaintenance_post`, {
             RequestNumber: value.WorkRequestNo,
             EmployeeID: value.Employeeid,
             RequestDateTime: date,
@@ -293,7 +293,7 @@ export default function Createpreventivemaintenance({ route }) {
             myFunction()
             showSuccessAlert(true)
         }).catch((err) => {
-            });
+        });
     };
 
     return (
