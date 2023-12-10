@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button } from '@rneui/themed';
@@ -6,24 +6,24 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper';
+import axios from "axios";
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { useNavigation } from '@react-navigation/native';
 
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-];
-
-export default function Createcleaningwork() {
+export default function Createcleaningwork({ route }) {
+    const { myFunction } = route.params
+    const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequestNo: '',
-        WorkOrderNumber: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
-        AssetCategory: '', Manufacturer: '', Model: '', Building: '', DepartmentCode: '', DepartmentName: '', CleaningGroup: '', InstructionRemarks:'',
-        WorkPriority: '', GroupDescription: '', SchedulingPriority: '',
-        WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
+        WorkOrderNumber: '', Datetime: '', RequestStatus: '', Firstname: '', Middlename: '', Lastname: '',
+        AssetCategory: '', Manufacturer: '', Model: '', BuildingCode: '', DepartmentCode: '', DepartmentName: '',
+        WorkPriority: '', Intruction_Remarks: '', SchedulingPriority: '',
+        WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '',
         CompletedbyEmp: '', ComplateEmployeeName: '',
+        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: '', CleaningGroup:'', GroupDescription:'',
     })
 
+    const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -81,13 +81,251 @@ export default function Createcleaningwork() {
         setSelectedOption(value);
     };
 
+    const [dropdownRequestNumber, setdropdownRequestNumber] = useState([])
+    const [WorkPrioritlist, setWorkPrioritlist] = useState([])
+    const [dropdownBuildingList, setDropdownBuildingList] = useState([]);
+    const [dropdownLocation, setdropdownLocation] = useState([])
+    const [dropdownDepartmentLIST, setdropdownDepartmentLIST] = useState([])
+    const [Employeeiddropdown, setEmployeeiddropdown] = useState([])
+    const [dropdownworktypesLIST, setdropdownworktypesLIST] = useState([])
+    const [dropdownWorkTradeLIST, setdropdownWorkTradeLIST] = useState([])
+    const [schedulingprioritylist, setschedulingprioritylist] = useState([])
+    const [assetTypelist, setassetTypelist] = useState([]);
+    const [dropdownCleaning, setdropdownCleaning] = useState([])
+
+    useEffect(() => {
+        axios.get('/api/Filter_WR').then((response) => {
+            const data = response.data.recordset.map((item) => ({
+                labelRequestNumber: `${item.RequestNumber} (${item.RequestStatus})`, // Customize label as needed
+                valueRequestNumber: item.RequestNumber,
+                labelEmployeeIDname: item.RequestStatus
+            }));
+            setdropdownRequestNumber(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get(`/api/WorkPriority_LIST`).then((res) => {
+            setWorkPrioritlist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get('/api/EmployeeID_GET_LIST').then((response) => {
+            const data = response.data.recordset.map((item) => ({
+                labelEmployeeID: `${item.Firstname} (${item.EmployeeID})`,
+                valueEmployeeID: item.EmployeeID,
+            }));
+            setEmployeeiddropdown(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get(`/api/Building_LIST`).then((res) => {
+            setDropdownBuildingList(res.data.recordsets[0]);
+        }).catch((err) => {
+            console.error(err);
+        });
+        axios.get(`/api/Location_LIST`).then((res) => {
+            setdropdownLocation(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/Department_LIST`).then((res) => {
+            setdropdownDepartmentLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/WorkType_LIST`).then((res) => {
+            setdropdownworktypesLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/SchedPriority_GET_LIST`).then((res) => {
+            setschedulingprioritylist(res.data.recordsets[0]);
+        }).catch((err) => {
+            console.error("Gender API error:", err);
+        });
+        axios.get(`/api/AssetType_GET_LIST`).then((res) => {
+            setassetTypelist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/CleaningGroup_GET_LIST`).then((res) => {
+            setdropdownCleaning(res.data.recordsets[0])
+        }).catch((err) => {
+                console.log(err);
+            });
+    }, [])
+
+    // Department
+    const handleProvinceChange = (selectedValue) => {
+        setvalue((prevValue) => ({
+            ...prevValue,
+            DepartmentCode: selectedValue.DepartmentCode,
+        }));
+        axios.get(`/api/Department_desc_LIST/${selectedValue.DepartmentCode}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    DepartmentName: res.data.recordset[0].DepartmentDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+    // Cleaning
+    const handleCleaningChange = (selectedValue) => {
+        const Deptnale = selectedValue.CleaningGroupCode
+        setvalue((prevValue) => ({
+            ...prevValue,
+            CleaningGroup: Deptnale,
+        }));
+        axios.get(`/api/CleaningGroup_GET_BYID/${Deptnale}`).then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    GroupDescription: res.data.recordset[0].CleaningGroupDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+    // Work types desc
+    const Workypesdesc = (selectedValue) => {
+        const Deptnale = selectedValue.WorkTypeCode
+        setvalue(prevValue => ({
+            ...prevValue,
+            WorkTypeCode: selectedValue.WorkTypeCode
+        }))
+        axios.get(`/api/WorkType_descri_LIST/${Deptnale}`).then((res) => {
+            setvalue(prevValue => ({
+                ...prevValue,
+                WorkTypeDesc: res.data.recordset[0].WorkTypeDesc
+            }))
+        }).catch((err) => {
+            console.log(err);
+        });
+        // WorkTrade_LIST
+        axios.get(`/api/WorkTrade_LIST/${Deptnale}`).then((res) => {
+            setdropdownWorkTradeLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    // EmployeeID
+    function postapi(EmployeeID) {
+        axios.post(`/api/getworkRequest_by_EPID`, {
+            EmployeeID,
+        }).then((res) => {
+            console.log(res.data.recordset);
+            const {
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+            } = res.data.recordsets[0][0];
+            setvalue((prevValue) => ({
+                ...prevValue,
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+            }));
+            const Depauto = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                .then((res) => {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        DepartmentName: res.data.recordset[0].DepartmentDesc,
+                    }));
+                }).catch((err) => {
+                    console.log(err);;
+                });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    const handleProvinceChangeassetType = (selectedValue) => {
+        const Deptnale = selectedValue.AssetTypeCode;
+        setvalue((prevValue) => ({
+            ...prevValue,
+            AssetType: selectedValue.AssetTypeCode,
+        }));
+        axios.get(`/api/AssetType_GET_BYID/${Deptnale}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    AssetTypeDesc: res.data.recordset[0].AssetTypeDesc,
+                }));
+            })
+            .catch((err) => {
+                console.log(err);;
+            });
+
+        axios.get(`/api/AssetType_GET_BYAssetType/${Deptnale}`)
+            .then((res) => {
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    const responseData = res.data.recordset[0];
+
+                    // Set values in state
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: responseData.AssetCategory || '',
+                        Manufacturer: responseData.Manufacturer || '',
+                        Model: responseData.Model || '',
+                    }));
+                } else {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: '',
+                        Manufacturer: '',
+                        Model: '',
+                    }));
+                }
+            })
+            .catch((err) => {
+                console.log(err);;
+            });
+    }
+
+    const [showAlert, setShowAlert] = useState(false);
+
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
+
+    const Createapi = () => {
+        axios.post(`/api/CleaningWorks_post`, {
+            RequestNumber: value.WorkRequestNo,
+            EmployeeID: value.Employeeid,
+            RequestDateTime: date,
+            WorkType: value.WorkTypeCode,
+            WorkPriority: value.WorkPriority,
+            CleaningGroup: value.CleaningGroup,
+            Intruction_Remarks: value.Intruction_Remarks,
+            AssetItemTagID: value.AssetType,
+            BuildingCode: value.BuildingCode,
+            LocationCode: value.LocationCode,
+            DepartmentCode: value.DepartmentCode,
+            Frequency: selectedOption,
+            ScheduleStartDateTime: dateManufacturer,
+            ScheduleEndDateTime: dateEndDatetime,
+            SchedulingPriority: value.SchedulingPriority,
+        }).then((res) => {
+            myFunction()
+            showSuccessAlert(true)
+        }).catch((err) => {
+        });
+    };
+
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
+                {/* Top title */}
                 <View >
-                    <Text style={styles.prograp}>Cleaning Works
-                    </Text>
+                    <Text style={styles.prograp}>Create Cleaning Works</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -100,19 +338,21 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={Employeeiddropdown}
                             search
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelEmployeeID"
+                            valueField="valueEmployeeID"
                             placeholder='Employee Number'
                             searchPlaceholder="Search..."
                             value={value.Employeeid}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Employeeid: item.value, // Update the Employeeid property
+                                    Employeeid: item?.valueEmployeeID || '',
                                 }));
+                                postapi(item?.valueEmployeeID || '');
+
                             }}
                         />
                     </View>
@@ -126,16 +366,16 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownRequestNumber}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelRequestNumber"
+                            valueField="valueRequestNumber"
                             placeholder='Work Request No'
                             value={value.WorkRequestNo}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkRequestNo: item.value, // Update the Employeeid property
+                                    WorkRequestNo: item?.valueRequestNumber || '',
                                 }));
                             }}
                         />
@@ -176,22 +416,22 @@ export default function Createcleaningwork() {
                         </View>
                     </View>
                 </View>
-                {/* FirstMiddleName and last name */}
+                {/* FirstName and MiddleName */}
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>First & Middle Name
+                        <Text style={styles.lableinput}>First Name
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.FirstMiddleName}
+                            value={value.Firstname}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    FirstMiddleName: item.value, // Update the Employeeid property
+                                    Firstname: item.value, // Update the Employeeid property
                                 }));
                             }}
                             placeholder='First & Middle Name '
@@ -203,6 +443,33 @@ export default function Createcleaningwork() {
                     </View>
 
                     <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Middle Name
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
+                            ]}
+                            value={value.Middlename}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Middlename: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder='Middle Name'
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+
+                        />
+                    </View>
+
+                </View>
+                {/* Work Priority* and last name */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Last Name
                         </Text>
                         <TextInput
@@ -210,14 +477,14 @@ export default function Createcleaningwork() {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.Datetime}
+                            value={value.Lastname}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Datetime: item.value, // Update the Employeeid property
+                                    Lastname: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder='LastName'
+                            placeholder='Last Name'
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -230,7 +497,30 @@ export default function Createcleaningwork() {
                         />
                     </View>
 
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Work Priority
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={WorkPrioritlist}
+                            maxHeight={200}
+                            labelField="WorkPriorityCode"
+                            valueField="WorkPriorityCode"
+                            placeholder={'Select Work Priority'}
+                            value={value.WorkPriority}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    WorkPriority: item?.WorkPriorityCode || '',
+                                }));
+                            }}
 
+                        />
+                    </View>
 
                 </View>
                 {/* Work Type */}
@@ -245,18 +535,13 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownworktypesLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkTypeCode"
+                            valueField="WorkTypeCode"
                             placeholder={'Select Work Type'}
-                            value={value.WorkType}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkType: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            value={value.WorkTypeCode}
+                            onChange={Workypesdesc}
 
                         />
                     </View>
@@ -283,61 +568,127 @@ export default function Createcleaningwork() {
                     </View>
 
                 </View>
-                {/* Work Priority*/}
-                <View style={[styles.inputContainer, { alignItems: 'flex-start', justifyContent: 'flex-start', margin: 5 }]}>
+                {/* Asset Type and AssetTypeDesc */}
+                <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Priority
+                        <Text style={styles.lableinput}>Asset Type
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            style={[styles.inputBox, { height: 40 }, isFocus && { borderColor: 'blue' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={assetTypelist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select Work Priority'}
-                            value={value.WorkPriority}
+                            labelField="AssetTypeCode"
+                            valueField="AssetTypeCode"
+                            placeholder={'Asset Type'}
+                            value={value.AssetType}
+                            onChange={handleProvinceChangeassetType}
+                        />
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Asset Type Desc.
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                                { borderColor: isFocusedAssetTypeDesc ? '#1D3A9F' : '#94A0CA' },
+                            ]}
+                            value={value.AssetTypeDesc}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkPriority: item.value, // Update the Employeeid property
+                                    AssetTypeDesc: item.value, // Update the Employeeid property
                                 }));
                             }}
-
+                            placeholder="Asset Type Desc."
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                            onFocus={(() => {
+                                setIsFocusedAssetTypeDesc(true);
+                            })}
+                            onBlur={(() => {
+                                setIsFocusedAssetTypeDesc(false);
+                            })}
                         />
                     </View>
 
                 </View>
-                {/* Loaction Building */}
+                {/* Asset Category Manufacturer */}
                 <View style={styles.inputContainer}>
+
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Location
+                        <Text style={styles.lableinput}>Asset Category
                         </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select Location'}
-                            value={value.Location}
+                        <TextInput
+                            style={[
+                                styles.inputBox
+                            ]}
+                            value={value.AssetCategory}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Location: item.value, // Update the Employeeid property
+                                    AssetCategory: item.value,
                                 }));
                             }}
-
+                            placeholder="Asset Category"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
                         />
                     </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Manufacturer
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox
+                            ]}
+                            value={value.Manufacturer}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Manufacturer: item.value,
+                                }));
+                            }}
+                            placeholder="Manufacturer"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                </View>
+                {/* Model Building */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Model
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox
+                            ]}
+                            value={value.Model}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Model: item.value,
+                                }));
+                            }}
+                            placeholder="Model"
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Building
                         </Text>
@@ -347,16 +698,16 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownBuildingList}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="BuildingCode"
+                            valueField="BuildingCode"
                             placeholder={'Select Building'}
-                            value={value.Building}
+                            value={value.BuildingCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Building: item.value, // Update the Employeeid property
+                                    BuildingCode: item?.BuildingCode || '',
                                 }));
                             }}
 
@@ -375,18 +726,13 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownDepartmentLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="DepartmentCode"
+                            valueField="DepartmentCode"
                             placeholder={'Select DeptCode'}
                             value={value.DepartmentCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    DepartmentCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            onChange={handleProvinceChange}
                         />
                     </View>
 
@@ -410,45 +756,33 @@ export default function Createcleaningwork() {
                     </View>
 
                 </View>
-                
-                {/* Cleaning Group*/}
-                <View style={[styles.inputContainer, { justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5 }]}>
+                {/* CleaningGroup */}
+                <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Cleaning Group
+                        <Text style={styles.lableinput}> Cleaning Group
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            style={[styles.inputBox, { height: 40, }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownCleaning}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Cleaning Group'}
+                            labelField="CleaningGroupCode"
+                            valueField="CleaningGroupCode"
+                            placeholder={'Select DeptCode'}
                             value={value.CleaningGroup}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    CleaningGroup: item.value, // Update the Employeeid property
-                                }));
-                            }}
-
+                            onChange={handleCleaningChange}
                         />
                     </View>
 
-                </View>
-                {/* Group Description */}
-                <View style={styles.inputContainer}>
-                    <View style={[styles.singleinputlable]}>
-                        <Text style={styles.lableinput}>Group Description
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}> Group Description
                         </Text>
                         <TextInput
-                            style={[
-                                styles.inputBox, { width: 350 },
-                            ]}
+                            style={[styles.inputBox,]}
                             value={value.GroupDescription}
                             onChange={item => {
                                 setvalue((prevValue) => ({
@@ -456,28 +790,122 @@ export default function Createcleaningwork() {
                                     GroupDescription: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder="Describe group description"
+                            placeholder=" Group Description"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
                         />
                     </View>
-                </View>
 
-                {/* InstructionRemarks */}
+                </View>
+                {/* Warranty Period and Warrantyenddata Date/time */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Warranty Period
+                        </Text>
+                        <View>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center',
+                            }}>
+                                <TextInput
+                                    style={[styles.inputBox, { position: 'relative', }]}
+                                    value={dateManufacturer ? dateManufacturer.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
+                                    editable={true}
+                                />
+                                <TouchableOpacity onPress={showDatepickerManufacturer} style={styles.iconcontainer}>
+                                    <AntDesign name="calendar" size={20} color="white" />
+                                </TouchableOpacity>
+                            </View>
+                            {showPickerManufacturer && (
+                                <View>
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={dateManufacturer || new Date()} // Use the existing date or the current date if dateEndDatetime is null
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChangeManufacturer}
+                                    />
+                                </View>
+                            )}
+                        </View>
+                    </View>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Warranty <Text style={{ fontSize: 12 }}>End Date</Text>
+                        </Text>
+                        <View>
+                            <View style={{
+                                flexDirection: 'row', alignItems: 'center',
+                            }}>
+                                <TextInput
+                                    style={[styles.inputBox, { position: 'relative', }]}
+                                    value={dateWarrantyenddata ? dateWarrantyenddata.toLocaleString() : 'dd/mm/yyyy -:- -'}
+                                    editable={true}
+                                />
+                                <TouchableOpacity onPress={showDatepickerWarrantyenddata} style={styles.iconcontainer}>
+                                    <AntDesign name="calendar" size={20} color="white" />
+                                </TouchableOpacity>
+                            </View>
+                            {showPickerWarrantyenddata && (
+                                <View>
+                                    <DateTimePicker
+                                        testID="dateTimePicker"
+                                        value={dateWarrantyenddata || new Date()}
+                                        mode="datetime"
+                                        is24Hour={true}
+                                        display="default"
+                                        onChange={onChangeWarrantyenddata}
+                                    />
+                                </View>
+                            )}
+                        </View>
+                    </View>
+                </View>
+                {/* Location*/}
+                <View style={[styles.inputContainer, { justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5 }]}>
+
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Location
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={dropdownLocation}
+                            maxHeight={200}
+                            labelField="LocationCode"
+                            valueField="LocationCode"
+                            placeholder={'Select Location'}
+                            value={value.LocationCode}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    LocationCode: item?.value || '',
+                                }));
+                            }}
+
+                        />
+                    </View>
+
+                </View>
+                {/* Intruction_Remarks */}
                 <View style={styles.inputContainer}>
                     <View style={[styles.singleinputlable]}>
-                        <Text style={styles.lableinput}>Instruction/Remarks
+                        <Text style={styles.lableinput}>Instructions/Remarks
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox, { width: 350 },
                             ]}
-                            value={value.InstructionRemarks}
-                            onChange={item => {
+                            value={value.Intruction_Remarks}
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    InstructionRemarks : item.value, // Update the Employeeid property
+                                    Intruction_Remarks: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder="Describe the cleaning works"
@@ -553,7 +981,7 @@ export default function Createcleaningwork() {
                         </View>
                     </View>
                 </View>
-                {/* {Work Trade} */}
+                {/* {Work Trade} Scheduling Priority*/}
                 <View style={styles.inputContainer}>
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Work Trade
@@ -564,16 +992,16 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownWorkTradeLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkTradeCode"
+                            valueField="WorkTradeCode"
                             placeholder={'Select Work Trade'}
-                            value={value.WorkTrade}
+                            value={value.WorkTradeCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkTrade: item.value, // Update the Employeeid property
+                                    WorkTradeCode: item?.value || '',
                                 }));
                             }}
 
@@ -589,16 +1017,16 @@ export default function Createcleaningwork() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={schedulingprioritylist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="SchedPriorityCode"
+                            valueField="SchedPriorityCode"
                             placeholder={'Select sched priority'}
                             value={value.SchedulingPriority}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    SchedulingPriority: item.value, // Update the Employeeid property
+                                    SchedulingPriority: item?.SchedPriorityCode || '',
                                 }));
                             }}
 
@@ -637,11 +1065,9 @@ export default function Createcleaningwork() {
                             labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                         />
                     </View>
-                    
                 </View>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
-                    // width: 400,
                     paddingHorizontal: 12,
                     marginRight: 40,
                     marginBottom: 10,
@@ -654,7 +1080,7 @@ export default function Createcleaningwork() {
                         borderRadius: 3,
                         width: 130
                     }}
-                // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
+                    onPress={Createapi}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
@@ -676,6 +1102,27 @@ export default function Createcleaningwork() {
                     <Ionicons name="document-text-outline" size={23} color="white" style={{ marginRight: 12 }} />
                     GENERATE PM WORK ORDERS
                 </Button>
+
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
+                        </View>
+                    }
+                    message={`Cleaning Works ${value.WorkRequestNo} has been created successfully`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        navigation.navigate('Cleaningworks')
+                        myFunction()
+                    }}
+                />
 
             </View>
         </ScrollView>

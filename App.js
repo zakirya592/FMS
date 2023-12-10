@@ -346,6 +346,16 @@ function MainStackNavigator() {
           title: 'Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Cleaningworks */}
+         <Stack.Screen name="Cleaningworks" component={Cleaningworks}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Createcleaningwork */}
+          <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
       {/* Asset magmanet  */}
       <Stack.Screen name="AssetHome" component={AssetHome}
         options={{

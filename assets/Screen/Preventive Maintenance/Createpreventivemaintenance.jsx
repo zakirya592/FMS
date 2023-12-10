@@ -300,6 +300,7 @@ export default function Createpreventivemaintenance({ route }) {
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
+                {/* Top title */}
                 <View >
                     <Text style={styles.prograp}>Create Preventive Maintenance</Text>
                 </View>

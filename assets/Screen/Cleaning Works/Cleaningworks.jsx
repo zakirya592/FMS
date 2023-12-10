@@ -229,7 +229,8 @@ export default function Cleaningworks() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createcleaningwork')}
+                        onPress={() => navigation.navigate('Createcleaningwork', { myFunction: getapi })}
+
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
