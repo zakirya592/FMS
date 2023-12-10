@@ -26,7 +26,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Worktrade')}
             title="Work Trade"
           />
           {/* Work Status*/}
@@ -34,7 +34,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Workstatus')}
             title="Work Status"
           />
           {/* Work Priority*/}
@@ -42,7 +42,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Workpriority')}
             title="Work Priority"
           />
           {/* Work Category*/}
@@ -50,7 +50,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Workcategory')}
             title="Work Category"
           />
           {/* Department*/}
@@ -58,7 +58,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Department')}
             title="Department"
           />
           {/* Building */}
@@ -66,7 +66,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Building')}
             title="Building "
           />
           {/* Location*/}
@@ -74,7 +74,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Location')}
             title="Location"
           />
           {/* Problem Category */}
@@ -82,7 +82,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Problemcategory')}
             title="Problem Category"
           />
           {/* Request Status*/}
@@ -90,7 +90,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Requeststatus')}
             title="Request Status"
           />
           {/* Failure Codes */}
@@ -98,7 +98,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Failurecode')}
             title="Failure Codes"
           />
           {/* Solution Codes*/}
@@ -106,7 +106,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Solutioncode')}
             title="Solution Codes"
           />
           {/* Work Type*/}
@@ -114,7 +114,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Worktype')}
             title="Work Type"
           />
           {/* Days*/}
@@ -122,7 +122,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Days')}
             title="Days"
           />
           {/* Floor */}
@@ -130,7 +130,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Floorcode')}
             title="Floor"
           />
           {/* Room */}
@@ -138,7 +138,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('RoomCode')}
             title="Room"
           />
         </View>
@@ -149,7 +149,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Frequency')}
             title="Frequency "
           />
           {/* Gender */}
@@ -157,7 +157,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Gendercode')}
             title="Gender"
           />
           {/* Title/Salutation */}
@@ -165,7 +165,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Titlesatutation')}
             title="Title/Salutation "
           />
           {/* Marital Status */}
@@ -173,7 +173,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Maritalstatus')}
             title="Marital Status"
           />
           {/* Nationality*/}
@@ -181,7 +181,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Nationality')}
             title="Nationality"
           />
           {/* Asset Type */}
@@ -189,7 +189,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Assettype')}
             title="Asset Type "
           />
           {/* Asset Category*/}
@@ -197,7 +197,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Assetcategory')}
             title="Asset Category"
           />
           {/* Asset Sub  Category */}
@@ -205,7 +205,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('AssetSubCategory')}
             title="Asset Sub Category"
           />
           {/* Asset Condition*/}
@@ -213,7 +213,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Assectcondition')}
             title="Asset Condition"
           />
           {/* Warranty Period  */}
@@ -221,7 +221,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('WarrantyPeriod')}
             title="Warranty Period "
           />
           {/* Employee Master*/}
@@ -237,7 +237,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('EmployeeStatus')}
             title="Employee Status"
           />
           {/* Employee Designation*/}
@@ -245,7 +245,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('Employeedesignation')}
             title="Employee Designation"
           />
           {/* Vendor/Supplier */}
@@ -253,7 +253,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate ('supplier')}
             title="Vendor/Supplier"
           />
         </View>
