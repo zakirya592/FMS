@@ -33,126 +33,19 @@ export default function Workrequest () {
     {
       _id: 1,
       Seq: '1',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 2,
-      Seq: '2',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 3,
-      Seq: '3',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
+      ASSETITEMDESCRIPTION: 'Open',
+      ASSETITEMGROUP: 'InvoiceNumbe',
+      ASSETCATGORY: 'DiscountAmount',
+      ASSETSUB_CATGORY: '12/12/3003',
+      ONHANDQTY: 'InvoiceDate',
 
+      REORDER: 'InvoiceNumbe',
+      MINIMUMORDERLEVEL: 'DiscountAmount',
+      LASTPURCHASEDATE: '12/12/3003',
+      WARRANTYENDDATE: 'InvoiceDate',
       ACTIONS: 'Open',
     },
-    {
-      _id: 4,
-      Seq: '4',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 5,
-      Seq: '5',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 6,
-      Seq: '6',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 7,
-      Seq: '7',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 8,
-      Seq: '8',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 9,
-      Seq: '9',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 10,
-      Seq: '10',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 11,
-      Seq: '11',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'PRIORITY',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
+  
   ]);
   //
   const from = page * itemsPerPage;
@@ -204,7 +97,7 @@ export default function Workrequest () {
         {/* Top section */}
         <View>
           <Text style={styles.prograp}>
-            Goods Receipts
+            Transfer Location
           </Text>
 
         </View>
@@ -239,21 +132,33 @@ export default function Workrequest () {
                 <Text style={styles.tableHeading}>Seq </Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 180}]}>
-                <Text style={styles.tableHeading}>Purchase Order Number</Text>
+                <Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 160}]}>
-                <Text style={styles.tableHeading}>Invoice Numbe</Text>
+                <Text style={styles.tableHeading}>ASSET ITEM GROUP</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>Discount Amount</Text>
+                <Text style={styles.tableHeading}>ASSET CATGORY</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>Vendor ID</Text>
+                <Text style={styles.tableHeading}>ASSET SUB_CATGORY</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 130}]}>
-                <Text style={styles.tableHeading}>Invoice Date</Text>
+                <Text style={styles.tableHeading}>ON-HAND QTY</Text>
               </DataTable.Title>
 
+              <DataTable.Title style={[styles.header, {width: 160}]}>
+                <Text style={styles.tableHeading}>RE-ORDER</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, {width: 140}]}>
+                <Text style={styles.tableHeading}>MINIMUM ORDER LEVEL</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, {width: 170}]}>
+                <Text style={styles.tableHeading}>LAST PURCHASE DATE</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, {width: 130}]}>
+                <Text style={styles.tableHeading}>WARRANTY END DATE</Text>
+              </DataTable.Title>
               <DataTable.Title
                 style={[
                   styles.header,
@@ -276,21 +181,33 @@ export default function Workrequest () {
                     {item.Seq}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
-                    {item.PurchaseOrderNumber}
+                    {item.ASSETITEMDESCRIPTION}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
-                    {item.InvoiceNumbe}
+                    {item.ASSETITEMGROUP}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.DiscountAmount}
+                    {item.ASSETCATGORY}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.VendorID}
+                    {item.ASSETSUB_CATGORY}
                   </DataTable.Cell>
                   <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
-                    {item.InvoiceDate}
+                    {item.ONHANDQTY}
                   </DataTable.Cell>
 
+                  <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
+                    {item.REORDER}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
+                    {item.MINIMUMORDERLEVEL}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
+                    {item.LASTPURCHASEDATE}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
+                    {item.WARRANTYENDDATE}
+                  </DataTable.Cell>
                   <DataTable.Cell
                     style={[
                       styles.tablebody,
@@ -352,39 +269,7 @@ export default function Workrequest () {
           selectPageDropdownLabel={'Rows per page'}
         />
 
-        {/* Button section */}
-        <View style={styles.buttonsection}>
-          <Button
-            radius={'md'}
-            type="solid"
-            containerStyle={{
-              width: 150,
-              marginHorizontal: 50,
-              marginVertical: 10,
-            }}
-            onPress={() => navigation.navigate ('transferlocationUpdate')}
-          >
-            Update
-          </Button>
-          <Button
-            radius={'md'}
-            type="outline"
-            containerStyle={{
-              width: 150,
-              marginHorizontal: 50,
-              marginVertical: 10,
-            }}
-            onPress={() => navigation.navigate ('transferlocationCreate')}
-          >
-            <Icon
-              name="add"
-              color="#0A2DAA"
-              size={15}
-              style={styles.outlineIcon}
-            />
-            Create
-          </Button>
-        </View>
+       
         <View style={styles.buttonsection}>
           <Button
             radius={'md'}

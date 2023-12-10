@@ -31,7 +31,7 @@ import Useraccess from './assets/Screen/User management/User System Access/Usera
 import Crreateuseraccess from './assets/Screen/User management/User System Access/Crreateuseraccess';
 import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Setupconfigurationrouting';
-// import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
+import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import AssetTransactionsCreate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsCreate'
 import AssetManagementMasterList from "./assets/Screen/Asset Managment/Asset master/AssetManagementMasterList"
 import AssetTransactionsUpdate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsUpdate'
@@ -140,6 +140,42 @@ function MainStackNavigator() {
       {/* Workrequest */}
       <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
    
+      
+{/* Createworkrequest */}
+      <Stack.Screen name="GoodReceiptUpdate" component={GoodReceiptUpdate}
+        options={{
+          title: 'Good Receipt Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="PMHome" component={PMHome}
+        options={{
+          title: 'PMHome', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="GoodReceiptable" component={GoodReceiptable}
+        options={{
+          title: 'Good Receip table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* Createworkrequest */}
+      <Stack.Screen name="GoodReceiptCreate" component={GoodReceiptCreate}
+        options={{
+          title: 'Good Receipt Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
+
+
+
+
+
+
+
+
+
+
       
        {/* Createworkrequest */}
       <Stack.Screen name="RoomsTable" component={RoomsTable}
@@ -619,86 +655,86 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-      {/* RoomCode */}
+      {/* RoomCode
       <Stack.Screen name="RoomCode" component={RoomCode}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Gendercode */}
-      <Stack.Screen name="Gendercode" component={Gendercode}
+      {/* <Stack.Screen name="Gendercode" component={Gendercode}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Titlesatutation */}
-      <Stack.Screen name="Titlesatutation" component={Titlesatutation}
+      {/* <Stack.Screen name="Titlesatutation" component={Titlesatutation}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Frequency */}
-      <Stack.Screen name="Frequency" component={Frequency}
+      {/* <Stack.Screen name="Frequency" component={Frequency}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Maritalstatus */}
-      <Stack.Screen name="Maritalstatus" component={Maritalstatus}
+      {/* <Stack.Screen name="Maritalstatus" component={Maritalstatus}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Nationality */}
-      <Stack.Screen name="Nationality" component={Nationality}
+      {/* <Stack.Screen name="Nationality" component={Nationality}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Assettype */}
-      <Stack.Screen name="Assettype" component={Assettype}
+      {/* <Stack.Screen name="Assettype" component={Assettype}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Assetcategory */}
-      <Stack.Screen name="Assetcategory" component={Assetcategory}
+      {/* <Stack.Screen name="Assetcategory" component={Assetcategory}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Floorcode */}
-      <Stack.Screen name="Floorcode" component={Floorcode}
+      {/* <Stack.Screen name="Floorcode" component={Floorcode}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* AssetSubCategory */}
-      <Stack.Screen name="AssetSubCategory" component={AssetSubCategory}
+      {/* <Stack.Screen name="AssetSubCategory" component={AssetSubCategory}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Assectcondition */}
-      <Stack.Screen name="Assectcondition" component={Assectcondition}
+      {/* <Stack.Screen name="Assectcondition" component={Assectcondition}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* WarrantyPeriod */}
-      <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
+      {/* <Stack.Screen name="WarrantyPeriod" component={WarrantyPeriod}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* EmployeeStatus */}
-      <Stack.Screen name="EmployeeStatus" component={EmployeeStatus}
+      {/* <Stack.Screen name="EmployeeStatus" component={EmployeeStatus}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Employeedesignation */}
-      <Stack.Screen name="Employeedesignation" component={Employeedesignation}
+      {/* <Stack.Screen name="Employeedesignation" component={Employeedesignation}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* supplier */}
-      <Stack.Screen name="supplier" component={supplier}
+      {/* <Stack.Screen name="supplier" component={supplier}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Crreatesupier */}
-      <Stack.Screen name="Crreatesupier" component={Crreatesupier}
+      {/* <Stack.Screen name="Crreatesupier" component={Crreatesupier}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
     </Stack.Navigator>
   );
 }
