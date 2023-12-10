@@ -92,6 +92,8 @@ import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crrea
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
 import Updataworkorder from './assets/Screen/Work Order/Updataworkorder';
+import Viewpreventivemaintenance from './assets/Screen/Preventive Maintenance/Viewpreventivemaintenance';
+import Updatapreventivemaintenance from './assets/Screen/Preventive Maintenance/Updatapreventivemaintenance';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -328,6 +330,18 @@ function MainStackNavigator() {
         }} />
       {/* Createpreventivemaintenance */}
       <Stack.Screen name="Createpreventivemaintenance" component={Createpreventivemaintenance}
+        options={{
+          title: 'Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewpreventivemaintenance */}
+         <Stack.Screen name="Viewpreventivemaintenance" component={Viewpreventivemaintenance}
+        options={{
+          title: 'View Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updatapreventivemaintenance */}
+         <Stack.Screen name="Updatapreventivemaintenance" component={Updatapreventivemaintenance}
         options={{
           title: 'Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
