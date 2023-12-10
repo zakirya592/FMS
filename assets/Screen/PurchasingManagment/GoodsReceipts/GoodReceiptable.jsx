@@ -154,7 +154,7 @@ export default function Workrequest () {
       ACTIONS: 'Open',
     },
   ]);
-//
+  //
   const from = page * itemsPerPage;
   const to = Math.min ((page + 1) * itemsPerPage, items.length);
 
@@ -242,7 +242,7 @@ export default function Workrequest () {
                 <Text style={styles.tableHeading}>Purchase Order Number</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 160}]}>
-                <Text style={styles.tableHeading}>Invoice Numbe</Text>
+                <Text style={styles.tableHeading}>Invoice Number</Text>
               </DataTable.Title>
               <DataTable.Title style={[styles.header, {width: 140}]}>
                 <Text style={styles.tableHeading}>Discount Amount</Text>
