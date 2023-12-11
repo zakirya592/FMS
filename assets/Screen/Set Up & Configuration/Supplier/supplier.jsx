@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
 
-export default function supplier() {
+export default function Supplier() {
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         VendorID: '', WorkRequest: '',

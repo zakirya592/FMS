@@ -1,199 +1,114 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
-import {Button, Icon} from '@rneui/themed';
-import {useNavigation} from '@react-navigation/native';
-import {DataTable} from 'react-native-paper';
-import {Checkbox} from 'react-native-paper';
-import {Dropdown} from 'react-native-element-dropdown';
-import {AntDesign} from '@expo/vector-icons';
-import {FontAwesome5} from '@expo/vector-icons';
-import {MaterialIcons} from '@expo/vector-icons';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { Button, Icon, Dialog } from '@rneui/themed';
+import { useNavigation } from '@react-navigation/native';
+import { DataTable } from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
+import { Dropdown } from 'react-native-element-dropdown';
+import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import axios from "axios";
+import moment from 'moment';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-export default function Workrequest () {
-  const navigation = useNavigation ();
-  const [value, setvalue] = useState ({
-    Employeeid: '',
-    WorkRequest: '',
+export default function Workrequest() {
+  const navigation = useNavigation();
+
+  const [value, setvalue] = useState({
+    Employeeid: '', WorkRequest: '',
   });
 
-  const [page, setPage] = useState (0);
-  const [numberOfItemsPerPageList] = useState ([10]);
-  const [itemsPerPage, onItemsPerPageChange] = useState (
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPageList] = useState([10]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(
     numberOfItemsPerPageList[0]
   );
 
-  const [items, setItems] = useState ([
-    {
-      _id: 1,
-      WORKREQUEST: 'WORKREQUEST11',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 2,
-      WORKREQUEST: 'WORKREQUEST2',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 3,
-      WORKREQUEST: 'WORKREQUEST3',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 4,
-      WORKREQUEST: 'WORKREQUEST4',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 5,
-      WORKREQUEST: 'WORKREQUEST5',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 6,
-      WORKREQUEST: 'WORKREQUEST6',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 7,
-      WORKREQUEST: 'WORKREQUEST7',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 8,
-      WORKREQUEST: 'WORKREQUEST8',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 9,
-      WORKREQUEST: 'WORKREQUEST9',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 10,
-      WORKREQUEST: 'WORKREQUEST10',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 11,
-      WORKREQUEST: 'WORKREQUEST11',
-      REQUESTSTATUS: 'Open',
-      REQUESTBYEMP: 'REQUESTBYEMP',
-      PRIORITY: 'PRIORITY',
-      REQUESTDATE: '12/12/3003',
-      WORKTYPEDESC: 'WORKTYPEDESC',
-      WORKTRADEDESC: 'WORKTRADEDESC',
-      ACTIONS: 'Open',
-    },
-  ]);
-
+  const [items, setItems] = useState([]);
+  const getapi = () => {
+    axios.get(`/api/workRequest_GET_LIST`)
+      .then((res) => {
+        setItems(res.data.recordset)
+        console.log(res.data.recordset);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  useEffect(() => {
+    getapi()
+  }, [])
   const from = page * itemsPerPage;
-  const to = Math.min ((page + 1) * itemsPerPage, items.length);
+  const to = Math.min((page + 1) * itemsPerPage, items.length);
 
-  useEffect (
+  useEffect(
     () => {
-      setPage (0);
+      setPage(0);
     },
     [itemsPerPage]
   );
-  const data = [
-    {label: 'Item 1', value: '1'},
-    {label: 'Item 2', value: '2'},
-    {label: 'Item 3', value: '3'},
-    {label: 'Item 4', value: '4'},
-  ];
+  const [RequestStatusLIST, setRequestStatusLIST] = useState([])
+  useEffect(() => {
+    axios.get(`/api/RequestStatus_LIST`).then((res) => {
+      setRequestStatusLIST(res.data.recordsets[0])
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  const [selectedItems, setSelectedItems] = useState ([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  const handleCheckboxChange = _id => {
-    const updatedItems = items.map (
-      item => (item._id === _id ? {...item, selected: !item.selected} : item)
+  const handleCheckboxChange = RequestNumber => {
+    const updatedItems = items.map(
+      item => (item.RequestNumber === RequestNumber ? { ...item, selected: !item.selected } : item)
     );
-    setItems (updatedItems);
+    setItems(updatedItems);
     // Update selectedItems state
     const selectedIds = updatedItems
-      .filter (item => item.selected)
-      .map (item => item._id);
-    setSelectedItems (selectedIds);
+      .filter(item => item.selected)
+      .map(item => item.RequestNumber);
+    setSelectedItems(selectedIds);
   };
 
   const handleSelectAllChange = () => {
-    const allSelected = items.every (item => item.selected);
-    const updatedItems = items.map (item => ({
+    const allSelected = items.every(item => item.selected);
+    const updatedItems = items.map(item => ({
       ...item,
       selected: !allSelected,
     }));
-    setItems (updatedItems);
+    setItems(updatedItems);
     const selectedIds = updatedItems
-      .filter (item => item.selected)
-      .map (item => item._id);
-    setSelectedItems (selectedIds);
+      .filter(item => item.selected)
+      .map(item => item.RequestNumber);
+    setSelectedItems(selectedIds);
   };
+  // Deleting api
+  const [visible2, setVisible2] = useState(false);
+  const [deleteItemCode, setDeleteItemCode] = useState('');
+
+  const toggleDialog2 = (RequestNumber) => {
+    setDeleteItemCode(RequestNumber); // Store the system module code
+    setVisible2(!visible2);
+  };
+  const [showAlert, setShowAlert] = useState(false);
+  const showSuccessAlert = () => {
+    setShowAlert(true);
+  };
+
+  const Deletedapi = (RequestNumber) => {
+    axios.delete(`/api/all_work_request_DELETE_BYID/${RequestNumber}`)
+      .then((res) => {
+        setVisible2(false);
+        getapi()
+        showSuccessAlert(true)
+      })
+      .catch((err) => {
+        console.log('Error deleting', err);
+      });
+  }
 
   return (
     <ScrollView>
@@ -207,18 +122,18 @@ export default function Workrequest () {
 
             <View style={styles.singleinputlable}>
               <Text style={styles.lableinput}>
-                Employee
+                Request Number
               </Text>
               <TextInput
                 style={styles.inputBox}
                 value={value.Employeeid}
-                onChange={item => {
-                  setvalue (prevValue => ({
+                onChangeText={item => {
+                  setvalue(prevValue => ({
                     ...prevValue,
-                    Employeeid: item.value, // Update the Employeeid property
+                    Employeeid: item,
                   }));
                 }}
-                placeholder="Select Employee #"
+                placeholder="Select  Request Number "
                 placeholderTextColor="#94A0CA"
                 selectionColor="#1D3A9F"
                 underlineColorAndroid="transparent"
@@ -230,19 +145,19 @@ export default function Workrequest () {
                 Request Status
               </Text>
               <Dropdown
-                style={[styles.inputBox, {height: 40}]}
+                style={[styles.inputBox, { height: 40, }]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={data}
+                data={RequestStatusLIST}
                 maxHeight={200}
-                labelField="label"
-                valueField="value"
+                labelField="RequestStatusCode"
+                valueField="RequestStatusCode"
                 placeholder={'Select Status'}
                 value={value.RequestStatus}
                 onChange={item => {
-                  setvalue (prevValue => ({
+                  setvalue((prevValue) => ({
                     ...prevValue,
                     RequestStatus: item.value, // Update the Employeeid property
                   }));
@@ -266,7 +181,7 @@ export default function Workrequest () {
           >
             <DataTable.Header>
               <DataTable.Title
-                style={[styles.header, {width: 50, borderTopLeftRadius: 5}]}
+                style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}
               >
                 <Text style={styles.tableHeading}>
                   <Checkbox
@@ -279,122 +194,123 @@ export default function Workrequest () {
                   />
                 </Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 150}]}>
+              <DataTable.Title style={[styles.header, { width: 150 }]}>
                 <Text style={styles.tableHeading}>WORK REQUEST# </Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 140}]}>
+              <DataTable.Title style={[styles.header, { width: 140 }]}>
                 <Text style={styles.tableHeading}>REQUEST STATUS</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 150}]}>
+              <DataTable.Title style={[styles.header, { width: 150 }]}>
                 <Text style={styles.tableHeading}>REQUEST BY EMP#</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 140}]}>
+              <DataTable.Title style={[styles.header, { width: 140 }]}>
                 <Text style={styles.tableHeading}>PRIORITY</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 140}]}>
+              <DataTable.Title style={[styles.header, { width: 140 }]}>
                 <Text style={styles.tableHeading}>REQUEST DATE</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>WORK TYPE DESC</Text>
+              <DataTable.Title style={[styles.header, { width: 170 }]}>
+                <Text style={styles.tableHeading}>WORK TYPE</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>WORK TRADE DESC</Text>
+              <DataTable.Title style={[styles.header, { width: 170 }]}>
+                <Text style={styles.tableHeading}>WORK TRADE </Text>
               </DataTable.Title>
               <DataTable.Title
                 style={[
                   styles.header,
-                  {width: 140, borderRightWidth: 1, borderTopRightRadius: 5},
+                  { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 },
                 ]}
               >
                 <Text style={styles.tableHeading}>ACTIONS</Text>
               </DataTable.Title>
             </DataTable.Header>
-            {items.slice (from, to).map (item => (
-              <ScrollView>
-                <DataTable.Row key={item._id}>
-                  <DataTable.Cell style={[styles.tablebody, {width: 50}]}>
-                    <Checkbox
-                      status={item.selected ? 'checked' : 'unchecked'}
-                      onPress={() => handleCheckboxChange (item._id)}
-                    />
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 150}]}>
-                    {item.WORKREQUEST}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.REQUESTSTATUS}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 150}]}>
-                    {item.REQUESTBYEMP}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.PRIORITY}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.REQUESTDATE}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.WORKTYPEDESC}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.WORKTRADEDESC}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    style={[
-                      styles.tablebody,
-                      {width: 140, borderRightWidth: 1, borderBottomWidth: 1},
-                    ]}
+            {items.filter(
+              (item) =>
+                item.RequestNumber.includes(value.Employeeid) &&
+                (value.RequestStatus ? item.RequestStatus === value.RequestStatus : true)
+            ).slice(from, to).map(item => (
+              <DataTable.Row key={item.RequestNumber}>
+                <DataTable.Cell style={[styles.tablebody, { width: 50 }]}>
+                  <Checkbox
+                    status={item.selected ? 'checked' : 'unchecked'}
+                    onPress={() => handleCheckboxChange(item.RequestNumber)}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>
+                  {item.RequestNumber}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>
+                  {item.RequestStatus === "Closed" ? "This Work Request Number is already closed.." : item.RequestStatus}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>
+                  {item.EmployeeID}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>
+                  {item.WorkPriority}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>
+                  {moment(item.RequestDateTime).isValid() ? moment(item.RequestDateTime).format('DD/MM/YYYY') : ''}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>
+                  {item.WorkType}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>
+                  {item.WorkTrade}
+                </DataTable.Cell>
+                <DataTable.Cell
+                  style={[
+                    styles.tablebody,
+                    { width: 140, borderRightWidth: 1, borderBottomWidth: 1 },
+                  ]}
+                >
+                  <Menu
+                    onSelect={value => alert(`Selected number: ${value}`)}
                   >
-                    <Menu
-                      onSelect={value => alert (`Selected number: ${value}`)}
+                    <MenuTrigger>
+                      <View style={styles.actions}>
+                        <Text>Action </Text>
+                        <AntDesign name="caretdown" size={18} color="black" />
+                      </View>
+                    </MenuTrigger>
+                    <MenuOptions
+                      optionsContainerStyle={{ width: 'auto', padding: 10 }}
                     >
-                      <MenuTrigger>
+                      <MenuOption value={1}>
                         <View style={styles.actions}>
-                          <Text>Action </Text>
-                          <AntDesign name="caretdown" size={18} color="black" />
+                          <Text style={styles.actionstitle}>View</Text>
+                          <AntDesign name="eye" size={20} color="#0A2DAA" />
                         </View>
-                      </MenuTrigger>
-                      <MenuOptions
-                        optionsContainerStyle={{width: 'auto', padding: 10}}
-                      >
-                        <MenuOption value={1}>
-                          <View style={styles.actions}>
-                            <Text style={styles.actionstitle}>View</Text>
-                            <AntDesign name="eye" size={20} color="#0A2DAA" />
-                          </View>
-                        </MenuOption>
-                        <MenuOption value={2}>
-                          <View style={styles.actions}>
-                            <Text style={styles.actionstitle}>Update</Text>
-                            <FontAwesome5
-                              name="pencil-alt"
-                              size={13}
-                              color="#0A2DAA"
-                            />
-                          </View>
-                        </MenuOption>
-                        <MenuOption value={3}>
-                          <View style={styles.actions}>
-                            <Text style={styles.actionstitle}>Delete</Text>
-                            <AntDesign name="delete" size={15} color="red" />
-                          </View>
-                        </MenuOption>
-                      </MenuOptions>
-                    </Menu>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              </ScrollView>
+                      </MenuOption>
+                      <MenuOption value={2}>
+                        <View style={styles.actions}>
+                          <Text style={styles.actionstitle}>Update</Text>
+                          <FontAwesome5
+                            name="pencil-alt"
+                            size={13}
+                            color="#0A2DAA"
+                          />
+                        </View>
+                      </MenuOption>
+                      <MenuOption onSelect={() => toggleDialog2(item.RequestNumber)}>
+                        <View style={styles.actions}>
+                          <Text style={styles.actionstitle}>Delete</Text>
+                          <AntDesign name="delete" size={15} color="red" />
+                        </View>
+                      </MenuOption>
+                    </MenuOptions>
+                  </Menu>
+                </DataTable.Cell>
+              </DataTable.Row>
             ))}
 
           </DataTable>
         </ScrollView>
         <DataTable.Pagination
           page={page}
-          numberOfPages={Math.ceil (items.length / itemsPerPage)}
-          onPageChange={page => setPage (page)}
+          numberOfPages={Math.ceil(items.length / itemsPerPage)}
+          onPageChange={page => setPage(page)}
           label={`${from + 1}-${to} of ${items.length}`}
           numberOfItemsPerPageList={numberOfItemsPerPageList}
-          // numberOfItemsPerPage={itemsPerPage}
           onItemsPerPageChange={onItemsPerPageChange}
           showFastPaginationControls
           selectPageDropdownLabel={'Rows per page'}
@@ -421,7 +337,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('Createworkrequest')}
+            onPress={() => navigation.navigate('Createworkrequest')}
           >
             <Icon
               name="add"
@@ -446,7 +362,7 @@ export default function Workrequest () {
               name="print"
               color="#0A2DAA"
               size={20}
-              style={{marginRight: 7}}
+              style={{ marginRight: 7 }}
             />
             Print
           </Button>
@@ -463,18 +379,50 @@ export default function Workrequest () {
               name="save-alt"
               size={20}
               color="#0A2DAA"
-              style={{marginRight: 12}}
+              style={{ marginRight: 12 }}
             />
             Export
           </Button>
         </View>
+
+        {/* Deleted  Dialog*/}
+        <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
+          <Dialog.Title title="Are you sure?" />
+          <Text>{`You want to delete this ${deleteItemCode} work Request No`}</Text>
+          <Dialog.Actions >
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
+              <Dialog.Button onPress={() => Deletedapi(deleteItemCode)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
+            </View>
+          </Dialog.Actions>
+        </Dialog>
+        {/* Pop message */}
+        <AwesomeAlert
+          show={showAlert}
+          title={
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <AntDesign name="delete" color="red" size={20} style={{ marginRight: 5 }} />
+              <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Deleted!</Text>
+            </View>
+          }
+          message={`work Request No ${deleteItemCode} has been deleted`}
+          confirmButtonColor="#DD6B55"
+          confirmButtonStyle={{ backgroundColor: 'black' }}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={true}
+          showConfirmButton={true}
+          confirmText="OK"
+          onConfirmPressed={() => {
+            setShowAlert(false)
+          }}
+        />
 
       </View>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
