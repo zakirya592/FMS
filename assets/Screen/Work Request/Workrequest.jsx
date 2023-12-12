@@ -31,7 +31,6 @@ export default function Workrequest() {
     axios.get(`/api/workRequest_GET_LIST`)
       .then((res) => {
         setItems(res.data.recordset)
-        console.log(res.data.recordset);
       })
       .catch((err) => {
         console.log(err);
@@ -159,7 +158,7 @@ export default function Workrequest() {
                 onChange={item => {
                   setvalue((prevValue) => ({
                     ...prevValue,
-                    RequestStatus: item.value, // Update the Employeeid property
+                    RequestStatus: item.value,
                   }));
                 }}
               />
@@ -168,7 +167,7 @@ export default function Workrequest() {
           </View>
         </View>
         {/* table section */}
-        <ScrollView horizontal>
+        <ScrollView horizontal vertical={true}>
           <DataTable
             style={[
               styles.item,
@@ -337,7 +336,7 @@ export default function Workrequest() {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate('Createworkrequest')}
+            onPress={() => navigation.navigate('Createworkrequest', { myFunction: getapi })}
           >
             <Icon
               name="add"

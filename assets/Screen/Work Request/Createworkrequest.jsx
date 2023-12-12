@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
-import { Button, Icon } from '@rneui/themed';
+import { Button, Icon, Dialog } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import PhoneInput from "react-native-phone-number-input";
@@ -10,21 +10,18 @@ import { Checkbox } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-];
 
-export default function Createworkrequest() {
-
+export default function Createworkrequest({ route }) {
+    const { myFunction } = route.params
     const navigation = useNavigation();
+
     const [value, setvalue] = useState({
-        Employeeid: null, WorkRequest: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
-        DepartmentCode: '', DepartmentName: '', WorkType: '', WorkTypeDesc: '', WorkPriority: '', WorkTrade: '',
-        Building: '', Location: '', WorkTradeDesc: '', MobileNumber: '', Landline: ''
+        Employeeid: null, RequestNumber: '', Datetime: '', RequestStatus: '', Middlename: '', Lastname: '', Firstname: '',
+        DepartmentCode: '', DepartmentName: '', WorkTypeCode: '', WorkTypeDesc: '', WorkPriority: '', WorkTradeCode: '', WorkTradeDesc: '',
+        BuildingCode: '', LocationCode: '', MobileNumber: '', LandlineNumber: ''
     })
 
     const [isFocusedDepartmentName, setIsFocusedDepartmentName] = useState(false);
@@ -38,7 +35,7 @@ export default function Createworkrequest() {
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        setShowPicker(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+        setShowPicker(Platform.OS === 'ios');
         setDate(currentDate);
     };
 
@@ -46,18 +43,15 @@ export default function Createworkrequest() {
         setShowPicker(true);
     };
 
-    const [items, setItems] = React.useState([
-        { _id: 1, WORKREQUEST: 'ASSET/STOCK NUMBER', REQUESTSTATUS: 'ASSET ITEM GROUP', REQUESTBYEMP: 'ASSET ITEM DESCRIPTION', PRIORITY: 'ASSET QTY', REQUESTDATE: 'MODEL', WORKTYPEDESC: 'MONIFACTURER', ACTIONS: 'Open', },
-    ]);
+    const [items, setItems] = useState([]);
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-   const handleCheckboxChange = (_id) => {
+    const handleCheckboxChange = (_id) => {
         const updatedItems = items.map((item) =>
             item._id === _id ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
-        // Update selectedItems state
         const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
         setSelectedItems(selectedIds);
     };
@@ -72,14 +66,333 @@ export default function Createworkrequest() {
         const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
         setSelectedItems(selectedIds);
     };
+    // auto increa
+    const Requestnumberapi = () => {
+        axios.get(`/api/workRequestCount_GET_BYID/1`)
+            .then((res) => {
+                const reqput = res.data.recordset[0].RequestNumber + 1;
+                let formattedRequestNumber;
+                if (reqput >= 1 && reqput <= 9) {
+                    formattedRequestNumber = `000-000-00${reqput}`;
+                } else if (reqput >= 10 && reqput <= 99) {
+                    formattedRequestNumber = `000-000-0${reqput}`;
+                } else if (reqput >= 100 && reqput <= 999) {
+                    formattedRequestNumber = `000-000-${reqput}`;
+                } else if (reqput >= 1000 && reqput <= 9999) {
+                    formattedRequestNumber = `000-000-${reqput}`;
+                } else {
+                    formattedRequestNumber = `000-000-${reqput}`;
+                }
+                setvalue(prevState => ({ ...prevState, RequestNumber: formattedRequestNumber }));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const requestincreas = () => {
+        axios.get(`/api/workRequestCount_GET_BYID/1`)
+            .then((res) => {
+                const reqput = res.data.recordset[0].RequestNumber + 1;
+                setvalue(prevState => ({ ...prevState, RequestNumber: '000-000-' + '0' + `${reqput}` }));
+                axios.put(`/api/workRequestCount_Put/1`, {
+                    RequestNumber: reqput
+                }).then((res) => {
+                    axios.get(`/api/workRequestCount_GET_BYID/${reqput}`).then((res) => {
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    useEffect(() => {
+        Requestnumberapi()
+    }, [])
+
+    const [WorkPrioritlist, setWorkPrioritlist] = useState([])
+    const [dropdownBuildingList, setDropdownBuildingList] = useState([]);
+    const [dropdownLocation, setdropdownLocation] = useState([])
+    const [dropdownDepartmentLIST, setdropdownDepartmentLIST] = useState([])
+    const [Employeeiddropdown, setEmployeeiddropdown] = useState([])
+    const [dropdownworktypesLIST, setdropdownworktypesLIST] = useState([])
+    const [dropdownWorkTradeLIST, setdropdownWorkTradeLIST] = useState([])
+    const [RequestStatusLIST, setRequestStatusLIST] = useState([])
+
+    useEffect(() => {
+        axios.get(`/api/WorkPriority_LIST`).then((res) => {
+            setWorkPrioritlist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get('/api/EmployeeID_GET_LIST').then((response) => {
+            const data = response.data.recordset.map((item) => ({
+                labelEmployeeID: `${item.Firstname} (${item.EmployeeID})`,
+                valueEmployeeID: item.EmployeeID,
+            }));
+            setEmployeeiddropdown(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get(`/api/Building_LIST`).then((res) => {
+            setDropdownBuildingList(res.data.recordsets[0]);
+        }).catch((err) => {
+            console.error(err);
+        });
+        axios.get(`/api/Location_LIST`).then((res) => {
+            setdropdownLocation(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/Department_LIST`).then((res) => {
+            setdropdownDepartmentLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/WorkType_LIST`).then((res) => {
+            setdropdownworktypesLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/RequestStatus_LIST`).then((res) => {
+            setRequestStatusLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [])
+    // EmployeeID
+    function postapi(EmployeeID) {
+        axios.post(`/api/getworkRequest_by_EPID`, {
+            EmployeeID,
+        }).then((res) => {
+            const {
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                LandlineNumber,
+            } = res.data.recordsets[0][0];
+            setvalue((prevValue) => ({
+                ...prevValue,
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                MobileNumber: res.data.recordsets[0][0].MobileNumber || '',
+                LandlineNumber
+            }));
+            const Depauto = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                .then((res) => {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        DepartmentName: res.data.recordset[0].DepartmentDesc,
+                    }));
+                }).catch((err) => {
+                    console.log(err);;
+                });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    // Work types desc
+    const Workypesdesc = (selectedValue) => {
+        const Deptnale = selectedValue.WorkTypeCode
+        setvalue(prevValue => ({
+            ...prevValue,
+            WorkTypeCode: selectedValue.WorkTypeCode
+        }))
+        axios.get(`/api/WorkType_descri_LIST/${Deptnale}`).then((res) => {
+            setvalue(prevValue => ({
+                ...prevValue,
+                WorkTypeDesc: res.data.recordset[0].WorkTypeDesc
+            }))
+        }).catch((err) => {
+            console.log(err);
+        });
+        // WorkTrade_LIST
+        axios.get(`/api/WorkTrade_LIST/${Deptnale}`).then((res) => {
+            setdropdownWorkTradeLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    // Department
+    const handleProvinceChange = (selectedValue) => {
+        setvalue((prevValue) => ({
+            ...prevValue,
+            DepartmentCode: selectedValue.DepartmentCode,
+        }));
+        axios.get(`/api/Department_desc_LIST/${selectedValue.DepartmentCode}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    DepartmentName: res.data.recordset[0].DepartmentDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const [showAlertpost, setshowAlertpost] = useState(false);
+
+    const showSuccessAlertpost = () => {
+        setshowAlertpost(true);
+    };
+
+    const Createapi = async () => {
+        await axios.post(`/api/AddworkRequestsecondPOST`, {
+            RequestNumber: value.RequestNumber,
+            WorkType: value.WorkTypeCode,
+            WorkTrade: value.WorkTradeCode,
+            AssetItemTagID: value.AssetItemTagID,
+            WorkPriority: value.WorkPriority,
+            RequestStatus: value.RequestStatus,
+            DepartmentCode: value.DepartmentCode,
+            BuildingCode: value.BuildingCode,
+            LocationCode: value.LocationCode,
+            EmployeeID: value.Employeeid,
+            ProblemCategory: value.ProblemCategory,
+            ProblemDescription: value.ProblemDescription,
+            RequestDateTime: date,
+        }).then((res) => {
+            myFunction()
+            showSuccessAlertpost(true)
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const postdatfunction = () => {
+        Createapi()
+        requestincreas()
+    }
+    const Assetcodebtn = (e) => {
+        navigation.navigate(`Addassetcode`, { RequestNumber: value.RequestNumber, myFunction: getapi })
+    }
+
+    const [datanumber, setdatanumber] = useState([])
+
+    const getapi = () => {
+        axios.get(`/api/assetworkrequest_GET_BYID/${value.RequestNumber}`)
+            .then((res) => {
+                const SAQ = res.data.recordset.map((item) => item.seq);
+                const AssetItemDescriptionsss = res.data.recordset.map((item) => item.AssetItemDescription);
+                const promises = res.data.recordset.map((item) => {
+                    const itid = item.AssetItemDescription;
+                    return axios.get(`/api/tblAssetsMaster_GET_BYID/${itid}`).then((res) => {
+                        return {
+                            item,
+                            data: res.data.recordset,
+                        };
+                    }).catch((err) => {
+                        console.log(err);
+                        return {
+                            item,
+                            data: null
+                        };
+                    });
+                });
+
+                const promisesNumber = res.data.recordset.map((item) => {
+                    const itid = item.AssetItemDescription;
+                    return axios.get(`/api/AssetTransactions_GET_ItemDescription/${itid}`)
+                        .then((res) => {
+                            return {
+                                item,
+                                data: res.data.recordset,
+                            };
+                        }).catch((err) => {
+                            console.log(err);
+                            return {
+                                item,
+                                data: []
+                            };
+                        });
+                });
+
+                Promise.all([Promise.all(promises), Promise.all(promisesNumber)])
+                    .then(([results1, results2]) => {
+                        results1.forEach((itemRecords, index) => {
+                            const recordsWithDescriptions = AssetItemDescriptionsss.map((description, index) => ({
+                                description: description,
+                                records: results1[index],
+                                saq: SAQ[index],
+                            }));
+                            const recordsWithSAQ = SAQ.map((saq, index) => ({
+                                saq: SAQ[index],
+                                records: results1[index],
+                            }));
+                            setItems(recordsWithDescriptions, recordsWithSAQ);
+                        });
+                        results2.forEach((itemRecords, index) => {
+                            const assetItemTagID = AssetItemDescriptionsss.map((assetItemTagID, index) => ({
+                                assetItemTagID: assetItemTagID,
+                                records: results2[index],
+                                saq: SAQ[index],
+                            }));
+                            setdatanumber(assetItemTagID);
+                        });
+
+                    });
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
+    const countDuplicates = (array, key) => {
+        const counts = {};
+        array.forEach(item => {
+            const value = item[key];
+            counts[value] = (counts[value] || 0) + 1;
+        });
+        return counts;
+    };
+    const duplicatesCount = countDuplicates(items, 'description');
+    const uniqueDescriptions = Array.from(new Set(items.map(row => row.description)));
+    // Deleting api
+    const [visible2, setVisible2] = useState(false);
+    const [deleteItemCode, setDeleteItemCode] = useState('');
+
+    const toggleDialog2 = (ASQS) => {
+        setDeleteItemCode(ASQS);
+        setVisible2(!visible2);
+    };
+    const [showAlert, setShowAlert] = useState(false);
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
+
+    const Deletedapi = (ASQS) => {
+        axios.delete(`/api/assetworkrequest_DELETE_BYID/${ASQS}`)
+            .then((res) => {
+                setVisible2(false);
+                getapi()
+                showSuccessAlert(true)
+            })
+            .catch((err) => {
+                console.log('Error deleting', err);
+            });
+    }
 
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>Create Work Request
-                    </Text>
+                    <Text style={styles.prograp}>Create Work Request</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -92,11 +405,11 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={Employeeiddropdown}
                             search
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelEmployeeID"
+                            valueField="valueEmployeeID"
                             placeholder={!isFocus ? 'Select item' : '...'}
                             searchPlaceholder="Search..."
                             value={value.Employeeid}
@@ -105,27 +418,26 @@ export default function Createworkrequest() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Employeeid: item.value, // Update the Employeeid property
+                                    Employeeid: item?.valueEmployeeID || '',
                                 }));
                                 setIsFocus(false);
+                                postapi(item?.valueEmployeeID || '');
                             }}
-
                         />
                     </View>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Request#
-                        </Text>
+                        <Text style={styles.lableinput}>Work Request#</Text>
                         <TextInput
                             style={[
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.WorkRequest}
+                            value={value.RequestNumber}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkRequest: item.value, // Update the Employeeid property
+                                    RequestNumber: item.value, // Update the Employeeid property
                                 }));
                             }}
                             placeholder="Work Request #"
@@ -186,10 +498,10 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={RequestStatusLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="RequestStatusCode"
+                            valueField="RequestStatusCode"
                             placeholder={!isFocus ? 'Select item' : '...'}
                             searchPlaceholder="Search..."
                             value={value.RequestStatus}
@@ -198,7 +510,7 @@ export default function Createworkrequest() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    RequestStatus: item.value, // Update the Employeeid property
+                                    RequestStatus: item?.RequestStatusCode || '',
                                 }));
                                 setIsFocusRequestStatus(false);
                             }}
@@ -211,21 +523,21 @@ export default function Createworkrequest() {
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>First & Middle Name
+                        <Text style={styles.lableinput}>First Name
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.FirstMiddleName}
+                            value={value.Firstname}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    FirstMiddleName: item.value, // Update the Employeeid property
+                                    Firstname: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder='First & Middle Name '
+                            placeholder='First  Name '
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -234,6 +546,28 @@ export default function Createworkrequest() {
                     </View>
 
                     <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Middle Name
+                        </Text>
+                        <TextInput
+                            style={[styles.inputBox]}
+                            value={value.Middlename}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Middlename: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder='Middle Name'
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
+
+                </View>
+                {/* last name */}
+                <View style={[styles.inputContainer, { justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5 }]}>
+                    <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Last Name
                         </Text>
                         <TextInput
@@ -241,14 +575,14 @@ export default function Createworkrequest() {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.Datetime}
+                            value={value.Lastname}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Datetime: item.value, // Update the Employeeid property
+                                    Lastname: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder='LastName'
+                            placeholder='Last Name'
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -274,19 +608,17 @@ export default function Createworkrequest() {
                             defaultCode="US"
                             layout="first"
                             value={value.MobileNumber}
-                            onChange={item => {
+                            onChange={(item) => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    MobileNumber: item.value, // Update the Employeeid property
+                                    MobileNumber: item?.value || '',
                                 }));
                             }}
                             containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA', width: 170 }}
-                            // textContainerStyle={{ height: 30, borderRadius: 5}}
                             textInputStyle={{ height: 25, padding: 1, fontSize: 12 }}
                             codeTextStyle={{ height: 20, display: 'none' }}
                             flagButtonStyle={{ paddingHorizontal: 24, }}
                             countryPickerButtonStyle={{ padding: 1, width: 5 }}
-
                         />
                     </View>
                     <View style={styles.singleinputlable}>
@@ -295,11 +627,11 @@ export default function Createworkrequest() {
                         <PhoneInput
                             defaultCode="US"
                             layout="first"
-                            value={value.Landline}
+                            value={value.LandlineNumber}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Landline: item.value, // Update the Employeeid property
+                                    LandlineNumber: item.value, // Update the Employeeid property
                                 }));
                             }}
                             containerStyle={{ height: 40, borderRadius: 5, borderColor: "#94A0CA", borderWidth: 1, color: '94A0CA', width: 170 }}
@@ -307,11 +639,8 @@ export default function Createworkrequest() {
                             codeTextStyle={{ height: 20, display: 'none' }}
                             flagButtonStyle={{ paddingHorizontal: 24, }}
                             countryPickerButtonStyle={{ padding: 1, width: 5 }}
-
                         />
                     </View>
-
-
 
                 </View>
                 {/* Building and Location*/}
@@ -326,16 +655,16 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownBuildingList}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="BuildingCode"
+                            valueField="BuildingCode"
                             placeholder={'Select Building'}
-                            value={value.Building}
+                            value={value.BuildingCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Building: item.value, // Update the Employeeid property
+                                    BuildingCode: item?.BuildingCode || '',
                                 }));
                             }}
 
@@ -351,16 +680,16 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownLocation}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="LocationCode"
+                            valueField="LocationCode"
                             placeholder={'Select Location'}
-                            value={value.Location}
+                            value={value.LocationCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Location: item.value, // Update the Employeeid property
+                                    LocationCode: item?.value || '',
                                 }));
                             }}
 
@@ -380,18 +709,13 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownDepartmentLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="DepartmentCode"
+                            valueField="DepartmentCode"
                             placeholder={'Select DeptCode'}
                             value={value.DepartmentCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    DepartmentCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            onChange={handleProvinceChange}
                         />
                     </View>
 
@@ -436,18 +760,13 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownworktypesLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkTypeCode"
+                            valueField="WorkTypeCode"
                             placeholder={'Select Work Type'}
-                            value={value.WorkType}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkType: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            value={value.WorkTypeCode}
+                            onChange={Workypesdesc}
 
                         />
                     </View>
@@ -493,16 +812,16 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={WorkPrioritlist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkPriorityCode"
+                            valueField="WorkPriorityCode"
                             placeholder={'Select Work Priority'}
                             value={value.WorkPriority}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkPriority: item.value, // Update the Employeeid property
+                                    WorkPriority: item?.WorkPriorityCode || '',
                                 }));
                             }}
 
@@ -518,19 +837,18 @@ export default function Createworkrequest() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownWorkTradeLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkTradeCode"
+                            valueField="WorkTradeCode"
                             placeholder={'Select Work Trade'}
-                            value={value.WorkTrade}
+                            value={value.WorkTradeCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkTrade: item.value, // Update the Employeeid property
+                                    WorkTradeCode: item?.value || '',
                                 }));
                             }}
-
                         />
                     </View>
 
@@ -572,7 +890,7 @@ export default function Createworkrequest() {
                         marginVertical: 10,
                         marginTop: 30
                     }}
-                    onPress={() => navigation.navigate('Addassetcode')}
+                        onPress={Assetcodebtn}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Asset code
@@ -580,7 +898,7 @@ export default function Createworkrequest() {
 
                 </View>
                 {/* Table section */}
-                <View style={[styles.tableborder, { height: 300, marginBottom: 40 }]}>
+                <View style={[{ height: 300, marginBottom: 40 }]}>
                     <ScrollView horizontal >
                         <DataTable style={[styles.item, {
                             width: '100%', height: 450, margin: 0
@@ -597,28 +915,34 @@ export default function Createworkrequest() {
                                 <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>ASSET QTY</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>MODEL</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
-                                 <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                             </DataTable.Header>
-                            {items.map((item) => (
-                                <ScrollView>
-                                    <DataTable.Row key={item._id}>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                            <Checkbox
-                                                status={item.selected ? 'checked' : 'unchecked'}
-                                                onPress={() => handleCheckboxChange(item._id)}
-                                            />
-                                        </DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.WORKREQUEST}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.PRIORITY}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, borderBottomWidth: 1 }]}>  
-                                      <DataTable.Cell style={[styles.bodytable, { width: 140 ,textAlign:'center',justifyContent:'center'}]}>ACTIONS <MaterialIcons name="delete" size={20} color="black" /> </DataTable.Cell>
-</DataTable.Cell>
-                                    </DataTable.Row>
-                                </ScrollView>
+                            {uniqueDescriptions.map((item, index) => (
+                                <DataTable.Row key={item}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{datanumber[index]?.records?.data[0]?.AssetItemTagID || ""}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{items[index].records ? items[index].records.data[0].AssetItemGroup : ''}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{duplicatesCount[item] || 0}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{items[index].records ? items[index].records.data[0].Model : ''}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{items[index].records ? items[index].records.data[0].Manufacturer : ''}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, textAlign: 'center', justifyContent: 'center', }]}><TouchableOpacity style={{ display: 'flex', flexDirection: 'row', width: 'aut' }}
+                                        onPress={() => {
+                                            const ASQS = items[index]?.records.item.seq
+                                            // items[index]?.records?.data[0]?.saq
+                                            toggleDialog2(ASQS)
+                                        }}
+                                    >
+                                        <Text>Delete</Text>
+                                        <MaterialIcons name="delete" size={20} color="black" />
+                                    </TouchableOpacity>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
                             ))}
 
                         </DataTable>
@@ -627,14 +951,14 @@ export default function Createworkrequest() {
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
                     width: 150,
-                    marginLeft:15,
+                    marginLeft: 15,
                 }}
-                // onPress={() => navigation.navigate('Createworkrequest')}
+                    onPress={postdatfunction}
                 >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{marginRight:12}}/>
+                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
                 </Button>
-                <View style={[styles.inputContainer,{marginTop:12}]}>
+                <View style={[styles.inputContainer, { marginTop: 12 }]}>
                     <Button radius={"md"} type="outline" containerStyle={{
                         width: 150,
                     }}
@@ -653,6 +977,58 @@ export default function Createworkrequest() {
                     </Button>
 
                 </View>
+                {/* Deleted  Dialog*/}
+                <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
+                    <Dialog.Title title="Are you sure?" />
+                    <Text>{`You want to delete this AssetCode`}</Text>
+                    <Dialog.Actions >
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
+                            <Dialog.Button onPress={() => Deletedapi(deleteItemCode)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
+                        </View>
+                    </Dialog.Actions>
+                </Dialog>
+                {/* Pop message */}
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <AntDesign name="delete" color="red" size={20} style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Deleted!</Text>
+                        </View>
+                    }
+                    message={`Asset Code has been deleted.`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setShowAlert(false)
+                    }}
+                />
+                {/* create data */}
+                <AwesomeAlert
+                    show={showAlertpost}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
+                        </View>
+                    }
+                    message={`Work Request ${value.RequestNumber} has been created successfully`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        navigation.navigate('Workrequest')
+                        myFunction()
+                    }}
+                />
             </View>
         </ScrollView>
     )
@@ -708,7 +1084,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingHorizontal: 10,
         borderColor: "#94A0CA",
-        borderWidth: 1, // Border width
+        borderWidth: 1,
         fontSize: 14,
         color: 'black',
         marginVertical: 9,
@@ -717,23 +1093,21 @@ const styles = StyleSheet.create({
     },
     outlineIcon: {
         backgroundColor: 'white',
-        borderWidth: 1, // You can customize the border properties as needed
-        borderRadius: 12, // Adjust the border radius to match the filled icon
-        marginRight: 10, // Add spacing between the two icons
+        borderWidth: 1,
+        borderRadius: 12,
+        marginRight: 10,
     },
     tableborder: {
         width: '99%',
         borderColor: "#94A0CA",
-        borderWidth: 1, // Border width
+        borderWidth: 1,
         justifyContent: 'center',
-        // marginLeft: 2,
-        borderRadius:5
+        borderRadius: 5
     },
     header: {
         textAlign: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderTopWidth: 1,
+        borderWidth: 0.5,
     },
     tableHeading: {
         color: '#1E3B8B',
@@ -742,12 +1116,11 @@ const styles = StyleSheet.create({
     },
     tablebody: {
         borderColor: "##9384EB",
-        borderTopWidth: 1,
-        borderLeftWidth: 1,
+        borderWidth: 0.5,
         fontSize: 14,
         textAlign: 'center',
         justifyContent: 'center',
-        borderBottomWidth:0.5
+        borderBottomWidth: 0.5
     },
 
 })

@@ -18,6 +18,7 @@ export default function Viewworkorder({ route }) {
         WorkPrority: '', WorkStaus: 'open', WorkCategory: '', WorkCategoryDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
         CompletedbyEmp: '', ComplateEmployeeName: '',
     })
+    
     const [isFocusedWorkCategoryDesc, setIsFocusedWorkCategoryDesc] = useState(false);
     const [isFocusedWorkDescription, setIsFocusedWorkDescription] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
