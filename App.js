@@ -96,6 +96,8 @@ import Viewpreventivemaintenance from './assets/Screen/Preventive Maintenance/Vi
 import Updatapreventivemaintenance from './assets/Screen/Preventive Maintenance/Updatapreventivemaintenance';
 import Viewcleaningwork from './assets/Screen/Cleaning Works/Viewcleaningwork';
 import Updatacleaningwork from './assets/Screen/Cleaning Works/Updatacleaningwork';
+import Viewworkrequest from './assets/Screen/Work Request/Viewworkrequest';
+import Updataworkrequest from './assets/Screen/Work Request/Updataworkrequest';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -151,6 +153,18 @@ function MainStackNavigator() {
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
         options={{
           title: 'Create Work Request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewworkrequest */}
+         <Stack.Screen name="Viewworkrequest" component={Viewworkrequest}
+        options={{
+          title: 'Work Request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updataworkrequest */}
+          <Stack.Screen name="Updataworkrequest" component={Updataworkrequest}
+        options={{
+          title: 'Work Request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* Addassetcode */}

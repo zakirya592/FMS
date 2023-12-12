@@ -31,6 +31,7 @@ export default function Workrequest() {
     axios.get(`/api/workRequest_GET_LIST`)
       .then((res) => {
         setItems(res.data.recordset)
+        console.log(res.data.recordset);
       })
       .catch((err) => {
         console.log(err);
@@ -262,9 +263,7 @@ export default function Workrequest() {
                     { width: 140, borderRightWidth: 1, borderBottomWidth: 1 },
                   ]}
                 >
-                  <Menu
-                    onSelect={value => alert(`Selected number: ${value}`)}
-                  >
+                  <Menu>
                     <MenuTrigger>
                       <View style={styles.actions}>
                         <Text>Action </Text>
@@ -274,13 +273,13 @@ export default function Workrequest() {
                     <MenuOptions
                       optionsContainerStyle={{ width: 'auto', padding: 10 }}
                     >
-                      <MenuOption value={1}>
+                      <MenuOption onSelect={() => navigation.navigate(`Viewworkrequest`, { RequestNumber: item.RequestNumber, EmployeeIDS: item.EmployeeID, myFunction: getapi })}>
                         <View style={styles.actions}>
                           <Text style={styles.actionstitle}>View</Text>
                           <AntDesign name="eye" size={20} color="#0A2DAA" />
                         </View>
                       </MenuOption>
-                      <MenuOption value={2}>
+                      <MenuOption onSelect={() => navigation.navigate(`Updataworkrequest`, { RequestNumberget: item.RequestNumber, EmployeeIDS: item.EmployeeID })}>
                         <View style={styles.actions}>
                           <Text style={styles.actionstitle}>Update</Text>
                           <FontAwesome5
