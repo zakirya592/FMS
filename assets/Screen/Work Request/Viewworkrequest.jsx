@@ -348,10 +348,17 @@ export default function Viewworkrequest({ route }) {
             const workaout = res.data.recordsets[0][0].WorkType
             axios.get(`/api/WorkType_descri_LIST/${workaout}`)
                 .then((res) => {
-                    setvalue((prevValue) => ({
-                        ...prevValue,
-                        WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
-                    }));
+                    if (res.data.recordset && res.data.recordset.length > 0 && res.data.recordset[0].WorkTypeDesc) {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
+                        }));
+                    } else {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            WorkTypeDesc: '',
+                        }));
+                    }
                 })
                 .catch((err) => {
                     console.log(err);

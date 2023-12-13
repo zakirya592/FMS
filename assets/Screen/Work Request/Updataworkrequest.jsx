@@ -211,50 +211,6 @@ export default function Updataworkrequest({ route }) {
             });
     }
 
-    const [showAlertpost, setshowAlertpost] = useState(false);
-
-    const showSuccessAlertpost = () => {
-        setshowAlertpost(true);
-    };
-    const Update = async () => {
-        await axios.put(`/api/updateWorkRequest`, {
-            EmployeeID: value.Employeeid,
-            RequestNumber: value.RequestNumber,
-            Firstname: value.Firstname,
-            Middlename: value.Middlename,
-            Lastname: value.Lastname,
-            MobileNumber: value.MobileNumber,
-            LandlineNumber: value.LandlineNumber,
-            BuildingCode: value.BuildingCode,
-            DepartmentCode: value.DepartmentCode,
-            LocationCode: value.LocationCode,
-            RequestDateTime: date
-        }).then((res) => {
-         }).catch((err) => {
-                console.log(err);
-            });
-    };
-    const Createapi =() => {
-         axios.put(`/api/updatesecondWorkRequest`, {
-            RequestNumber: value.RequestNumber,
-            WorkType: value.WorkTypeCode,
-            WorkTrade: value.WorkTrade,
-            WorkPriority: value.WorkPriority,
-            RequestStatus: value.RequestStatus,
-            EmployeeID: value.Employeeid,
-        }).then((res) => {
-            myFunction()
-            showSuccessAlertpost(true)
-        })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    const postdatfunction = () => {
-        Createapi()
-        Update()
-    }
     const Assetcodebtn = (e) => {
         navigation.navigate(`Addassetcode`, { RequestNumber: value.RequestNumber, myFunction: getapi })
     }
@@ -344,16 +300,15 @@ export default function Updataworkrequest({ route }) {
     // Deleting api
     const [visible2, setVisible2] = useState(false);
     const [deleteItemCode, setDeleteItemCode] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
 
     const toggleDialog2 = (ASQS) => {
         setDeleteItemCode(ASQS);
         setVisible2(!visible2);
     };
-    const [showAlert, setShowAlert] = useState(false);
     const showSuccessAlert = () => {
         setShowAlert(true);
     };
-
     const Deletedapi = (ASQS) => {
         axios.delete(`/api/assetworkrequest_DELETE_BYID/${ASQS}`)
             .then((res) => {
@@ -389,29 +344,37 @@ export default function Updataworkrequest({ route }) {
                 AssetItemTagID,
                 WorkTypeCode: res.data.recordsets[0][0].WorkType
             }));
+
             const RequestDateTimeess = res.data.recordset[0].RequestDateTime
             setDate(new Date(RequestDateTimeess))
             const workaout = res.data.recordsets[0][0].WorkType
             axios.get(`/api/WorkType_descri_LIST/${workaout}`)
                 .then((res) => {
-                    setvalue((prevValue) => ({
-                        ...prevValue,
-                        WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
-                    }));
+                    if (res.data.recordset && res.data.recordset.length > 0 && res.data.recordset[0].WorkTypeDesc) {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
+                        }));
+                    } else {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            WorkTypeDesc: '',
+                        }));
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+
             const workaouts = res.data.recordsets[0][0].WorkTrade
             axios.get(`/api/WorkTrade_descri_LIST/${workaouts}`)
                 .then((res) => {
-                    const workTradeDesc = res.data.recordset[0]?.WorkTradeDesc || ''; // Default to empty string if undefined
+                    const workTradeDesc = res.data.recordset[0]?.WorkTradeDesc || '';
                     setvalue(prevValue => ({
                         ...prevValue,
                         WorkTradeDesc: workTradeDesc
                     }));
-                })
-                .catch((err) => {
+                }).catch((err) => {
                     console.log(err);
                 });
             // Employee ID
@@ -464,6 +427,50 @@ export default function Updataworkrequest({ route }) {
     useEffect(() => {
         Workrequestget()
     }, [])
+
+    const [showAlertpost, setshowAlertpost] = useState(false);
+
+    const showSuccessAlertpost = () => {
+        setshowAlertpost(true);
+    };
+    const Update = async () => {
+        await axios.put(`/api/updateWorkRequest`, {
+            EmployeeID: value.Employeeid,
+            RequestNumber: value.RequestNumber,
+            Firstname: value.Firstname,
+            Middlename: value.Middlename,
+            Lastname: value.Lastname,
+            MobileNumber: value.MobileNumber,
+            LandlineNumber: value.LandlineNumber,
+            BuildingCode: value.BuildingCode,
+            DepartmentCode: value.DepartmentCode,
+            LocationCode: value.LocationCode,
+            RequestDateTime: date
+        }).then((res) => {
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+    const Createapi = () => {
+        axios.put(`/api/updatesecondWorkRequest`, {
+            RequestNumber: value.RequestNumber,
+            WorkType: value.WorkTypeCode,
+            WorkTrade: value.WorkTrade,
+            WorkPriority: value.WorkPriority,
+            RequestStatus: value.RequestStatus,
+            EmployeeID: value.Employeeid,
+        }).then((res) => {
+            myFunction()
+            showSuccessAlertpost(true)
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    const postdatfunction = () => {
+        Createapi()
+        Update()
+    }
 
     return (
 
@@ -1018,12 +1025,12 @@ export default function Updataworkrequest({ route }) {
                 </View>
                 {/* Button section */}
                 <View style={[styles.inputContainerbutton, { marginTop: 12 }]}>
-                    
-                <Button radius={"md"} type="solid"onPress={postdatfunction}
-                >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
-                    SAVE
-                </Button>
+
+                    <Button radius={"md"} type="solid" onPress={postdatfunction}
+                    >
+                        <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
+                        SAVE
+                    </Button>
                     <Button radius={"md"} type="outline" >
                         <Ionicons name="md-print-outline" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
                         Print

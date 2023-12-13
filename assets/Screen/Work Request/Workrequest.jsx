@@ -31,7 +31,6 @@ export default function Workrequest() {
     axios.get(`/api/workRequest_GET_LIST`)
       .then((res) => {
         setItems(res.data.recordset)
-        console.log(res.data.recordset);
       })
       .catch((err) => {
         console.log(err);
@@ -279,7 +278,7 @@ export default function Workrequest() {
                           <AntDesign name="eye" size={20} color="#0A2DAA" />
                         </View>
                       </MenuOption>
-                      <MenuOption onSelect={() => navigation.navigate(`Updataworkrequest`, { RequestNumberget: item.RequestNumber, EmployeeIDS: item.EmployeeID })}>
+                      <MenuOption onSelect={() => navigation.navigate(`Updataworkrequest`, { RequestNumberget: item.RequestNumber, EmployeeIDS: item.EmployeeID, myFunction: getapi })}>
                         <View style={styles.actions}>
                           <Text style={styles.actionstitle}>Update</Text>
                           <FontAwesome5
