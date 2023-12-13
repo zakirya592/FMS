@@ -320,7 +320,7 @@ export default function Updataworkrequest({ route }) {
                 console.log('Error deleting', err);
             });
     }
-
+// Get api
     function Workrequestget() {
         axios.post(`/api/getworkRequestsecond`, {
             "RequestNumber": RequestNumberget
@@ -344,7 +344,6 @@ export default function Updataworkrequest({ route }) {
                 AssetItemTagID,
                 WorkTypeCode: res.data.recordsets[0][0].WorkType
             }));
-
             const RequestDateTimeess = res.data.recordset[0].RequestDateTime
             setDate(new Date(RequestDateTimeess))
             const workaout = res.data.recordsets[0][0].WorkType
@@ -386,7 +385,6 @@ export default function Updataworkrequest({ route }) {
                     Firstname,
                     Lastname,
                     Middlename,
-                    MobileNumber,
                     LandlineNumber,
                     DepartmentCode,
                     BuildingCode,
@@ -399,7 +397,7 @@ export default function Updataworkrequest({ route }) {
                     Firstname,
                     Lastname,
                     Middlename,
-                    MobileNumber,
+                    MobileNumber: res.data.recordsets[0][0].MobileNumber,
                     LandlineNumber,
                     DepartmentCode,
                     BuildingCode,
