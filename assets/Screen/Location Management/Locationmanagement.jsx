@@ -3,17 +3,17 @@ import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
 import { Button, Icon } from '@rneui/themed';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
-import { Dropdown } from 'react-native-element-dropdown'; 
+import { Dropdown } from 'react-native-element-dropdown';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import moment from 'moment';
 
 export default function Locationmanagement() {
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '', Building: '', Location: '', DepartmentCode: '',
-        Building2: '', Location2: '', DepartmentCode2:null, TotalMinuites:'0'
+        Building2: '', Location2: '', DepartmentCode2: null, Totalnumber: '0'
     })
-
 
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([10]);
@@ -21,20 +21,7 @@ export default function Locationmanagement() {
         numberOfItemsPerPageList[0]
     );
 
-    const [items, setItems] = useState([
-        { _id: 1, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open' },
-        { _id: 2, WORKREQUEST: 'WORKREQUEST2', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 3, WORKREQUEST: 'WORKREQUEST3', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 4, WORKREQUEST: 'WORKREQUEST4', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 5, WORKREQUEST: 'WORKREQUEST5', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 6, WORKREQUEST: 'WORKREQUEST6', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', DEPARTMENT: 'DEPARTMENT', BUILDING: 'BUILDING', LOCATION: 'LOCATION', ACTIONS: 'Open', },
-        { _id: 7, WORKREQUEST: 'WORKREQUEST7', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 8, WORKREQUEST: 'WORKREQUEST8', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 9, WORKREQUEST: 'WORKREQUEST9', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 10, WORKREQUEST: 'WORKREQUEST10', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 11, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-
-    ]);
+    const [items, setItems] = useState([]);
 
     const from = page * itemsPerPage;
     const to = Math.min((page + 1) * itemsPerPage, items.length);
@@ -42,22 +29,15 @@ export default function Locationmanagement() {
     useEffect(() => {
         setPage(0);
     }, [itemsPerPage]);
-    const data = [
-        { label: 'Item 1', value: '1' },
-        { label: 'Item 2', value: '2' },
-        { label: 'Item 3', value: '3' },
-        { label: 'Item 4', value: '4' },
-    ];
-
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (_id) => {
+    const handleCheckboxChange = (WorkOrderNumber) => {
         const updatedItems = items.map((item) =>
-            item._id === _id ? { ...item, selected: !item.selected } : item
+            item.WorkOrderNumber === WorkOrderNumber ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
         // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkOrderNumber);
         setSelectedItems(selectedIds);
     };
 
@@ -68,7 +48,7 @@ export default function Locationmanagement() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.WorkOrderNumber);
         setSelectedItems(selectedIds);
     };
 
@@ -87,72 +67,99 @@ export default function Locationmanagement() {
         axios.get(`/api/Location_LIST`).then((res) => {
             setdropdownLocation(res.data.recordsets[0])
         }).catch((err) => {
-                console.log(err);
-            });
+            console.log(err);
+        });
         axios.get(`/api/Department_LIST`).then((res) => {
             setdropdownDepartmentLIST(res.data.recordsets[0])
         }).catch((err) => {
+            console.log(err);
+        });
+    }, []);
+
+    const getapi = () => {
+        axios.get(`/api/location_managment_All`).then((res) => {
+            setItems(res.data.recordset)
+        }).catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
 
     return (
         <ScrollView>
             <View>
                 {/* Top section */}
                 <View >
-                    <Text style={styles.prograp}>Location Management
-                    </Text>
+                    <Text style={styles.prograp}>Location Management</Text>
                     {/* Building and Location*/}
                     <View style={styles.inputContainer}>
 
                         <View style={styles.singleinputlable}>
-                            <Text style={styles.lableinput}>Building
-                            </Text>
+                            <Text style={styles.lableinput}>Building</Text>
                             <Dropdown
-                                style={[styles.inputBox, { height: 40, }]}
+                                style={[styles.inputBox, { height: 40 }]}
                                 placeholderStyle={styles.placeholderStyle}
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={dropdownBuildingList}
+                                data={[
+                                    { BuildingCode: 'Select All', BuildingName: 'Select All' },
+                                    ...dropdownBuildingList,
+                                ]}
                                 maxHeight={200}
                                 labelField="BuildingCode"
                                 valueField="BuildingCode"
                                 placeholder={'Select Building'}
                                 value={value.Building}
                                 onChange={item => {
-                                    setvalue((prevValue) => ({
-                                        ...prevValue,
-                                        Building: item.value, // Update the Employeeid property
-                                    }));
+                                    if (item?.BuildingCode === 'Select All') {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            Building: item?.BuildingCode || '',
+                                        }));
+                                    } else {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            Building: item?.BuildingCode || '',
+                                        }));
+                                    }
                                 }}
-
                             />
                         </View>
 
                         <View style={styles.singleinputlable}>
-                            <Text style={styles.lableinput}>Location
-                            </Text>
+                            <Text style={styles.lableinput}>Location</Text>
+
                             <Dropdown
-                                style={[styles.inputBox, { height: 40, }]}
+                                style={[styles.inputBox, { height: 40 }]}
                                 placeholderStyle={styles.placeholderStyle}
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={dropdownLocation}
+                                data={[
+                                    { LocationCode: 'Select All', LocationName: 'Select All' },
+                                    ...dropdownLocation,
+                                ]}
                                 maxHeight={200}
                                 labelField="LocationCode"
                                 valueField="LocationCode"
-                                placeholder={'Select Location'}
+                                placeholder={'Select Location '}
                                 value={value.Location}
                                 onChange={item => {
-                                    setvalue((prevValue) => ({
-                                        ...prevValue,
-                                        Location: item.value, // Update the Employeeid property
-                                    }));
+                                    if (item?.LocationCode === 'Select All') {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            Location: item?.LocationCode || '',
+                                        }));
+                                    } else {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            Location: item?.LocationCode || '',
+                                        }));
+                                    }
                                 }}
-
                             />
                         </View>
 
@@ -164,22 +171,32 @@ export default function Locationmanagement() {
                             <Text style={styles.lableinput}>Department Code
                             </Text>
                             <Dropdown
-                                style={[styles.inputBox, { height: 40,width:300,margin:0,padding:0 }]}
+                                style={[styles.inputBox, { height: 40, width: 300, margin: 0, padding: 0 }]}
                                 placeholderStyle={styles.placeholderStyle}
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={dropdownDepartmentLIST}
+                                data={[
+                                    { DepartmentCode: 'Select All', DepartmentCodeName: 'Select All' },
+                                    ...dropdownDepartmentLIST,
+                                ]}
                                 maxHeight={200}
                                 labelField="DepartmentCode"
                                 valueField="DepartmentCode"
-                                placeholder='Select DeptCode'
+                                placeholder={'Select Department '}
                                 value={value.DepartmentCode}
                                 onChange={item => {
-                                    setvalue((prevValue) => ({
-                                        ...prevValue,
-                                        DepartmentCode: item.value, // Update the Employeeid property
-                                    }));
+                                    if (item?.DepartmentCode === 'Select All') {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            DepartmentCode: item?.DepartmentCode || '',
+                                        }));
+                                    } else {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            DepartmentCode: item?.DepartmentCode || '',
+                                        }));
+                                    }
                                 }}
                             />
                         </View>
@@ -188,7 +205,7 @@ export default function Locationmanagement() {
                 {/* table section */}
                 <ScrollView horizontal >
                     <DataTable style={[styles.item, {
-                        width: '100%', height: 450, margin: 0
+                        width: '100%', height: 400, margin: 0
                     }]} >
                         <DataTable.Header>
                             <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}>
@@ -203,33 +220,34 @@ export default function Locationmanagement() {
                             <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>SCHEDULED DATE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>FINDING CODE</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>ASSIGNED TO EMP#</Text></DataTable.Title>
-
                             <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>DEPARTMENT</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>BUILDING</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>LOCATION</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 170, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>LOCATION</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.slice(from, to).map((item) => (
-                            <ScrollView >
-                                <DataTable.Row key={item._id}>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                        <Checkbox
-                                            status={item.selected ? 'checked' : 'unchecked'}
-                                            onPress={() => handleCheckboxChange(item._id)}
-                                        />
-                                    </DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WORKREQUEST}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.PRIORITY}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTRADEDESC}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.DEPARTMENT}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.BUILDING}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.LOCATION}</DataTable.Cell>
-                                  
-                                </DataTable.Row>
-                            </ScrollView>
+                        {items.filter(item => (
+                            (!value.Building || value.Building === 'Select All' || item.BuildingCode === value.Building) &&
+                            (!value.Location || value.Location === 'Select All' || item.LocationCode === value.Location) &&
+                            (!value.DepartmentCode || value.DepartmentCode === 'Select All' || item.DepartmentCode === value.DepartmentCode)
+                        )).slice(from, to).map((item) => (
+                            <DataTable.Row key={item.WorkOrderNumber}>
+                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                    <Checkbox
+                                        status={item.selected ? 'checked' : 'unchecked'}
+                                        onPress={() => handleCheckboxChange(item.WorkOrderNumber)}
+                                    />
+                                </DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkOrderNumber[0]}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkStatus}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.WorkType}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.WorkPriority[0]}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.ScheduledDateTime).isValid() ? moment(item.ScheduledDateTime).format('DD/MM/YYYY') : ''}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.FailureCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.AssignedtoEmployeeID}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.DepartmentCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.BuildingCode}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.LocationCode}</DataTable.Cell>
+
+                            </DataTable.Row>
                         ))}
 
                     </DataTable>
@@ -267,7 +285,7 @@ export default function Locationmanagement() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Building2: item.value, // Update the Employeeid property
+                                    Building2: item?.value || '',
                                 }));
                             }}
 
@@ -292,7 +310,7 @@ export default function Locationmanagement() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Location2: item.value, // Update the Employeeid property
+                                    Location2: item?.value || '',
                                 }));
                             }}
 
@@ -321,7 +339,7 @@ export default function Locationmanagement() {
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    DepartmentCode2: item.value, // Update the Employeeid property
+                                    DepartmentCode2: item?.value || '',
                                 }));
                             }}
                         />
@@ -331,23 +349,14 @@ export default function Locationmanagement() {
                         <Text style={styles.lableinput}>
                         </Text>
                         <TextInput
-                            style={[
-                                styles.inputBox
-                            ]}
-                            value={value.TotalMinuites}
-                            onChangeText={text => {
-                                if (/^\d+$/.test(text) || text === "") {
-                                    setvalue(prevValue => ({
-                                        ...prevValue,
-                                        TotalMinuites: text,
-                                    }));
-                                }
-                            }}
-                            placeholder="Total Minuites"
+                            style={[styles.inputBox]}
+                            value={items.length.toString()}
+                            editable={false}
+                            placeholder="Total length"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
-                            keyboardType="numeric" // Allow only numeric input
+                            keyboardType="numeric" 
                         />
                     </View>
                 </View>
@@ -433,7 +442,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 15,
         marginRight: 10,
-        borderColor:'white'
+        borderColor: 'white'
     },
     header: {
         textAlign: 'center',
@@ -447,7 +456,7 @@ const styles = StyleSheet.create({
     },
     tablebody: {
         borderColor: "##9384EB",
-        borderWidth:0.5,
+        borderWidth: 0.5,
         fontSize: 14,
         textAlign: 'center',
         justifyContent: 'center'
