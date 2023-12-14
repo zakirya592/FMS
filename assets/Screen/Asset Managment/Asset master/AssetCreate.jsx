@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,106 +7,46 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Dropdown} from 'react-native-element-dropdown';
-import {Button, Icon} from '@rneui/themed';
+import { Dropdown } from 'react-native-element-dropdown';
+import { Button, Icon } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {AntDesign} from '@expo/vector-icons';
-import PhoneInput from 'react-native-phone-number-input';
-import {DataTable} from 'react-native-paper';
-import {Checkbox} from 'react-native-paper';
-import {MaterialIcons} from '@expo/vector-icons';
-import {Ionicons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
-  {label: 'Item 1', value: '1'},
-  {label: 'Item 2', value: '2'},
-  {label: 'Item 3', value: '3'},
-  {label: 'Item 4', value: '4'},
+  { label: 'Item 1', value: '1' },
+  { label: 'Item 2', value: '2' },
+  { label: 'Item 3', value: '3' },
+  { label: 'Item 4', value: '4' },
 ];
 
-export default function Createworkrequest () {
-  const navigation = useNavigation ();
-  const [value, setvalue] = useState ({
-    Employeeid: null,
-    WorkRequest: '',
-    Datetime: '',
-    RequestStatus: '',
-    FirstMiddleName: '',
-    LastName: '',
-    DepartmentCode: '',
-    DepartmentName: '',
-    WorkType: '',
-    WorkTypeDesc: '',
-    WorkPriority: '',
-    WorkTrade: '',
-    Building: '',
-    Location: '',
-    WorkTradeDesc: '',
-    MobileNumber: '',
-    Landline: '',
+export default function AssetMasterCreate() {
+  const navigation = useNavigation();
+  const [value, setvalue] = useState({
+    Employeeid: null,WorkRequest: '', Datetime: '',RequestStatus: '', AssetType: '', AssetTypeDesc: '',
+    WorkType: '', Manufacturer: '', Model: '', Brand:'', WorkPriority: '', WorkTrade: '',
   });
 
-  const [isFocusedDepartmentName, setIsFocusedDepartmentName] = useState (
+  const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(
     false
   );
-  const [isFocusedWorkTradeDesc, setIsFocusedWorkTradeDesc] = useState (false);
-  const [isFocusedWorkTypeDesc, setIsFocusedWorkTypeDesc] = useState (false);
-  const [isFocused, setIsFocused] = useState (false);
-  const [isFocus, setIsFocus] = useState (false);
-  const [isFocusRequestStatus, setIsFocusRequestStatus] = useState (false);
-  const [date, setDate] = useState (new Date ());
-  const [showPicker, setShowPicker] = useState (false);
+  const [isFocusedManufacturer, setIsFocusedManufacturer] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShowPicker (Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
-    setDate (currentDate);
+    setShowPicker(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+    setDate(currentDate);
   };
 
   const showDatepicker = () => {
-    setShowPicker (true);
+    setShowPicker(true);
   };
 
-  const [items, setItems] = React.useState ([
-    {
-      _id: 1,
-      WORKREQUEST: 'ASSET/STOCK NUMBER',
-      REQUESTSTATUS: 'ASSET ITEM GROUP',
-      REQUESTBYEMP: 'ASSET ITEM DESCRIPTION',
-      PRIORITY: 'ASSET QTY',
-      REQUESTDATE: 'MODEL',
-      WORKTYPEDESC: 'MONIFACTURER',
-      ACTIONS: 'Open',
-    },
-  ]);
-
-  const [selectedItems, setSelectedItems] = useState ([]);
-
-  const handleCheckboxChange = _id => {
-    const updatedItems = items.map (
-      item => (item._id === _id ? {...item, selected: !item.selected} : item)
-    );
-    setItems (updatedItems);
-    // Update selectedItems state
-    const selectedIds = updatedItems
-      .filter (item => item.selected)
-      .map (item => item._id);
-    setSelectedItems (selectedIds);
-  };
-
-  const handleSelectAllChange = () => {
-    const allSelected = items.every (item => item.selected);
-    const updatedItems = items.map (item => ({
-      ...item,
-      selected: !allSelected,
-    }));
-    setItems (updatedItems);
-    const selectedIds = updatedItems
-      .filter (item => item.selected)
-      .map (item => item._id);
-    setSelectedItems (selectedIds);
-  };
 
   return (
     <ScrollView contentContainerStyle={styles.containerscrollview}>
@@ -125,8 +65,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -140,14 +80,14 @@ export default function Createworkrequest () {
               placeholder={!isFocus ? 'Select Asset Category' : '...'}
               searchPlaceholder="Search..."
               value={value.Employeeid}
-              onFocus={() => setIsFocus (true)}
-              onBlur={() => setIsFocus (false)}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   Employeeid: item.value, // Update the Employeeid property
                 }));
-                setIsFocus (false);
+                setIsFocus(false);
               }}
             />
           </View>
@@ -159,11 +99,11 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.WorkRequest}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   WorkRequest: item.value, // Update the Employeeid property
                 }));
@@ -173,10 +113,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocused (true);
+                setIsFocused(true);
               }}
               onBlur={() => {
-                setIsFocused (false);
+                setIsFocused(false);
               }}
             />
           </View>
@@ -191,8 +131,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -206,14 +146,14 @@ export default function Createworkrequest () {
               placeholder={!isFocus ? 'Select Sub Category' : '...'}
               searchPlaceholder="Search..."
               value={value.Employeeid}
-              onFocus={() => setIsFocus (true)}
-              onBlur={() => setIsFocus (false)}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   Employeeid: item.value, // Update the Employeeid property
                 }));
-                setIsFocus (false);
+                setIsFocus(false);
               }}
             />
           </View>
@@ -225,11 +165,11 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.WorkRequest}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   WorkRequest: item.value, // Update the Employeeid property
                 }));
@@ -239,10 +179,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocused (true);
+                setIsFocused(true);
               }}
               onBlur={() => {
-                setIsFocused (false);
+                setIsFocused(false);
               }}
             />
           </View>
@@ -258,11 +198,11 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBoxdescription,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.FirstMiddleName}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   FirstMiddleName: item.value, // Update the Employeeid property
                 }));
@@ -286,8 +226,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -300,7 +240,7 @@ export default function Createworkrequest () {
               placeholder={'Select Asset Group'}
               value={value.Building}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   Building: item.value, // Update the Employeeid property
                 }));
@@ -315,11 +255,11 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.WorkRequest}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   WorkRequest: item.value, // Update the Employeeid property
                 }));
@@ -329,10 +269,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocused (true);
+                setIsFocused(true);
               }}
               onBlur={() => {
-                setIsFocused (false);
+                setIsFocused(false);
               }}
             />
           </View>
@@ -348,8 +288,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -360,11 +300,11 @@ export default function Createworkrequest () {
               labelField="label"
               valueField="value"
               placeholder={'Select asset type'}
-              value={value.DepartmentCode}
+              value={value.AssetType}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  DepartmentCode: item.value, // Update the Employeeid property
+                  AssetType: item.value, // Update the Employeeid property
                 }));
               }}
             />
@@ -377,13 +317,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedDepartmentName ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedAssetTypeDesc ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.DepartmentName}
+              value={value.AssetTypeDesc}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  DepartmentName: item.value, // Update the Employeeid property
+                  AssetTypeDesc: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="Enter Description"
@@ -391,10 +331,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedDepartmentName (true);
+                setIsFocusedAssetTypeDesc(true);
               }}
               onBlur={() => {
-                setIsFocusedDepartmentName (false);
+                setIsFocusedAssetTypeDesc(false);
               }}
             />
           </View>
@@ -412,13 +352,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="Manufacturer"
@@ -426,10 +366,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -439,27 +379,18 @@ export default function Createworkrequest () {
               Model
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
+              style={[styles.inputBox,]}
+              value={value.Model}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Model: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="Model"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
             />
           </View>
 
@@ -472,27 +403,19 @@ export default function Createworkrequest () {
               Brand
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
-              ]}
-              value={value.WorkTypeDesc}
+              style={[ styles.inputBox, ]}
+              value={value.Brand}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Brand: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="Brand"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
-              }}
-              onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
-              }}
+              
             />
           </View>
 
@@ -515,7 +438,7 @@ export default function Createworkrequest () {
                 }}
               >
                 <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
+                  style={[styles.inputBox, { position: 'relative' }]}
                   placeholder="dd/mm/yyyy -:- --"
                   editable={true}
                 />
@@ -547,13 +470,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="000"
@@ -561,10 +484,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -579,8 +502,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -591,11 +514,11 @@ export default function Createworkrequest () {
               labelField="label"
               valueField="value"
               placeholder={'Warranty Period'}
-              value={value.DepartmentCode}
+              value={value.AssetType}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  DepartmentCode: item.value, // Update the Employeeid property
+                  AssetType: item.value, // Update the Employeeid property
                 }));
               }}
             />
@@ -614,7 +537,7 @@ export default function Createworkrequest () {
                 }}
               >
                 <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
+                  style={[styles.inputBox, { position: 'relative' }]}
                   placeholder="dd/mm/yyyy -:- --"
                   editable={true}
                 />
@@ -656,7 +579,7 @@ export default function Createworkrequest () {
                 }}
               >
                 <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
+                  style={[styles.inputBox, { position: 'relative' }]}
                   placeholder="dd/mm/yyyy -:- --"
                   editable={true}
                 />
@@ -701,13 +624,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -715,10 +638,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -730,13 +653,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -744,10 +667,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -763,13 +686,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -777,10 +700,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -792,13 +715,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -806,10 +729,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -824,8 +747,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -839,14 +762,14 @@ export default function Createworkrequest () {
               placeholder={!isFocus ? 'Units' : '...'}
               searchPlaceholder="Search..."
               value={value.Employeeid}
-              onFocus={() => setIsFocus (true)}
-              onBlur={() => setIsFocus (false)}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   Employeeid: item.value, // Update the Employeeid property
                 }));
-                setIsFocus (false);
+                setIsFocus(false);
               }}
             />
           </View>
@@ -858,11 +781,11 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.WorkRequest}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   WorkRequest: item.value, // Update the Employeeid property
                 }));
@@ -872,10 +795,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocused (true);
+                setIsFocused(true);
               }}
               onBlur={() => {
-                setIsFocused (false);
+                setIsFocused(false);
               }}
             />
           </View>
@@ -898,7 +821,7 @@ export default function Createworkrequest () {
                 }}
               >
                 <TextInput
-                  style={[styles.inputBox, {position: 'relative'}]}
+                  style={[styles.inputBox, { position: 'relative' }]}
                   placeholder="dd/mm/yyyy -:- --"
                   editable={true}
                 />
@@ -930,13 +853,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="xxx xxx xxx"
@@ -944,10 +867,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -963,13 +886,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -977,10 +900,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -992,13 +915,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -1006,10 +929,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -1025,13 +948,13 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocusedWorkTypeDesc ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkTypeDesc}
+              value={value.Manufacturer}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
-                  WorkTypeDesc: item.value, // Update the Employeeid property
+                  Manufacturer: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="0"
@@ -1039,10 +962,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocusedWorkTypeDesc (true);
+                setIsFocusedManufacturer(true);
               }}
               onBlur={() => {
-                setIsFocusedWorkTypeDesc (false);
+                setIsFocusedManufacturer(false);
               }}
             />
           </View>
@@ -1059,8 +982,8 @@ export default function Createworkrequest () {
             <Dropdown
               style={[
                 styles.inputBox,
-                {height: 40},
-                isFocus && {borderColor: 'blue'},
+                { height: 40 },
+                isFocus && { borderColor: 'blue' },
               ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -1074,14 +997,14 @@ export default function Createworkrequest () {
               placeholder={!isFocus ? 'Select Vendor Code' : '...'}
               searchPlaceholder="Search..."
               value={value.Employeeid}
-              onFocus={() => setIsFocus (true)}
-              onBlur={() => setIsFocus (false)}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   Employeeid: item.value, // Update the Employeeid property
                 }));
-                setIsFocus (false);
+                setIsFocus(false);
               }}
             />
           </View>
@@ -1093,11 +1016,11 @@ export default function Createworkrequest () {
             <TextInput
               style={[
                 styles.inputBox,
-                {borderColor: isFocused ? '#1D3A9F' : '#94A0CA'},
+                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.WorkRequest}
               onChange={item => {
-                setvalue (prevValue => ({
+                setvalue(prevValue => ({
                   ...prevValue,
                   WorkRequest: item.value, // Update the Employeeid property
                 }));
@@ -1107,10 +1030,10 @@ export default function Createworkrequest () {
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
               onFocus={() => {
-                setIsFocused (true);
+                setIsFocused(true);
               }}
               onBlur={() => {
-                setIsFocused (false);
+                setIsFocused(false);
               }}
             />
           </View>
@@ -1126,13 +1049,13 @@ export default function Createworkrequest () {
             marginLeft: 15,
             marginTop: -10,
           }}
-          // onPress={() => navigation.navigate('Createworkrequest')}
+        // onPress={() => navigation.navigate('Createworkrequest')}
         >
           <Ionicons
             name="md-save-outline"
             size={20}
             color="white"
-            style={{marginRight: 12}}
+            style={{ marginRight: 12 }}
           />
           SAVE
         </Button>
@@ -1142,7 +1065,7 @@ export default function Createworkrequest () {
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   iconcontainer: {
     position: 'absolute',
     left: '86%',
