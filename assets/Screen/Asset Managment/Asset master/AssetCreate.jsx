@@ -6,26 +6,26 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Image, Alert
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { Button, Icon } from '@rneui/themed';
+import { Button } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-];
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 export default function AssetMasterCreate() {
   const navigation = useNavigation();
   const [value, setvalue] = useState({
-    Employeeid: null,WorkRequest: '', Datetime: '',RequestStatus: '', AssetType: '', AssetTypeDesc: '',
-    WorkType: '', Manufacturer: '', Model: '', Brand:'', WorkPriority: '', WorkTrade: '',
+    Employeeid: null, Datetime: '', AssetType: '', AssetTypeDesc: '',
+    WorkType: '', Manufacturer: '', Model: '', Brand: '', WorkPriority: '', WorkTrade: '',
+    AssetSubCategory: '', AssetSubCategoryDesc: '', AssetCategoryCode: '', AssetCategoryDesc: '',
+    AssetItemDescription: '', AssetItemGroup: '', ItemGroupDesc: '', WarrantyPeriodCode: '', Units: '', UnitsDescriptions: '',
+    VendorCode: '', VendorName: '', PurchasedAmount: '0', OnHandQty: '0', ReOrderQtyLevel: '0', MinimumLevel: '0', MaximumLevel: '0',
+    POQtyUnits: '0', WarrantyEnd: '0', PurchaseAmount: '0', POReference: ''
   });
 
   const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(
@@ -34,19 +34,353 @@ export default function AssetMasterCreate() {
   const [isFocusedManufacturer, setIsFocusedManufacturer] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
-  const [date, setDate] = useState(new Date());
+  // Time section 
+  const [date, setDate] = useState(null);
   const [showPicker, setShowPicker] = useState(false);
+  const [dateEndDatetime, setDateEndDatetime] = useState(null);
+  const [showPickerEndDatetime, setShowPickerEndDatetime] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShowPicker(Platform.OS === 'ios'); // On iOS, the picker is not dismissed automatically
+    setShowPicker(Platform.OS === 'ios');
     setDate(currentDate);
+    if (endDate && endDate < currentDate) {
+      setDateEndDatetime(currentDate);
+    }
   };
 
   const showDatepicker = () => {
     setShowPicker(true);
   };
 
+  const onChangeEndDatetime = (event, selectedDate) => {
+    const currentDate = selectedDate || dateEndDatetime;
+
+    if (date && currentDate < date) {
+      setDateEndDatetime(date);
+    } else {
+      setShowPickerEndDatetime(Platform.OS === 'ios');
+      setDateEndDatetime(currentDate);
+
+      // Calculate the time difference in milliseconds
+      const timeDifference = currentDate.getTime() - date.getTime();
+
+      // Calculate total days
+      const totalDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+      // Calculate total hours
+      const hours = Math.floor(timeDifference / 3600000); // 1 hour = 3600000 milliseconds
+      const minutes = hours * 60
+      // Update state with totalDays and totalHours
+      setvalue(prevValue => ({
+        ...prevValue,
+        TotalDays: totalDays.toString(),
+        TotalHours: hours.toString(),
+        TotalMinuites: minutes.toString()
+      }));
+
+    }
+  };
+
+  const showDatepickerEndDatetime = () => {
+    setShowPickerEndDatetime(true);
+  };
+  // PurchaseDate
+  const [PurchaseDate, setPurchaseDate] = useState(null);
+  const [showPickerPurchaseDate, setShowPickerPurchaseDate] = useState(false);
+  const onChangePurchaseDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowPickerPurchaseDate(Platform.OS === 'ios');
+    setPurchaseDate(currentDate);
+  };
+  const showDatepickerPurchaseDate = () => {
+    setShowPickerPurchaseDate(true);
+  };
+  // Last Purchase Date
+  const [LastPurchaseDate, setLastPurchaseDate] = useState(null);
+  const [showPickerLastPurchaseDate, setShowPickerLastPurchaseDate] = useState(false);
+  const onChangeLastPurchaseDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowPickerLastPurchaseDate(Platform.OS === 'ios');
+    setLastPurchaseDate(currentDate);
+  };
+  const showDatepickerLastPurchaseDate = () => {
+    setShowPickerLastPurchaseDate(true);
+  };
+  // Image section
+  const [image, setImage] = useState(require('./../../Image/printer.jpeg'));
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage({ uri: result.assets[0].uri });
+    }
+  };
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage({ uri: result.assets[0].uri });
+    }
+  };
+  // Api section dropdown
+  const [assetTypelist, setassetTypelist] = useState([]);
+  const [assetSubCategorylist, setassetSubCategorylist] = useState([]);
+  const [assetCategorylist, setassetCategorylist] = useState([]);
+  const [AssetItemGrouplist, setAssetItemGrouplist] = useState([]);
+  const [WarrentyPeriodlist, setWarrentyPeriodlist] = useState([]);
+  const [Unitscodelist, setUnitscodelist] = useState([]);
+  const [Vendorcodelist, setVendorcodelist] = useState([]);
+
+  useEffect(() => {
+    axios.get(`/api/AssetType_GET_LIST`).then((res) => {
+      setassetTypelist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+    axios.get(`/api/AssetCategory_GET_LIST`).then((res) => {
+      setassetCategorylist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+    axios.get(`/api/AssetSubCategory_GET_LIST`).then((res) => {
+      setassetSubCategorylist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+    axios.get(`/api/AssetItemGroup_GET_LIST`).then((res) => {
+      setAssetItemGrouplist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+    axios.get(`/api/WarrantyPeriod_GET_LIST`).then((res) => {
+      setWarrentyPeriodlist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+    axios.get(`/api/MaterialUnits_GET_LIST`).then((res) => {
+      setUnitscodelist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+    axios.get(`/api/Filter_VendorMaster`).then((res) => {
+      setVendorcodelist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [])
+
+  const handleProvinceChangeassetType = (selectedValue) => {
+    const Deptnale = selectedValue.AssetTypeCode;
+    setvalue((prevValue) => ({
+      ...prevValue,
+      AssetType: selectedValue.AssetTypeCode,
+    }));
+    axios.get(`/api/AssetType_GET_BYID/${Deptnale}`)
+      .then((res) => {
+        setvalue((prevValue) => ({
+          ...prevValue,
+          AssetTypeDesc: res.data.recordset[0].AssetTypeDesc,
+        }));
+      }).catch((err) => {
+        console.log(err);;
+      });
+
+    axios.get(`/api/AssetType_GET_BYAssetType/${Deptnale}`)
+      .then((res) => {
+        if (res.data.recordset && res.data.recordset.length > 0) {
+          const responseData = res.data.recordset[0];
+          setvalue((prevValue) => ({
+            ...prevValue,
+            AssetCategory: responseData.AssetCategory || '',
+          }));
+        } else {
+          setvalue((prevValue) => ({
+            ...prevValue,
+            AssetCategory: '',
+          }));
+        }
+      }).catch((err) => {
+        console.log(err);;
+      });
+  }
+  const handleProvinceChangeasassetCategory = (selectedValue) => {
+    const Deptnale = selectedValue.AssetCategoryCode;
+    setvalue((prevValue) => ({
+      ...prevValue,
+      AssetCategoryCode: Deptnale,
+    }));
+    axios.get(`/api/AssetCategory_GET_BYID/${Deptnale}`)
+      .then((res) => {
+        if (res.data.recordset && res.data.recordset.length > 0) {
+          const responseData = res.data.recordset[0];
+          setvalue((prevValue) => ({
+            ...prevValue,
+            AssetCategoryDesc: responseData.AssetCategoryDesc || '',
+          }));
+        } else {
+          setvalue((prevValue) => ({
+            ...prevValue,
+            AssetCategoryDesc: '',
+          }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);;
+      });
+  }
+  const handleProvinceChangeassetSubCategory = (selectedValue) => {
+    const Deptnale = selectedValue.AssetSubCategoryCode;
+    setvalue((prevValue) => ({
+      ...prevValue,
+      AssetSubCategory: selectedValue.AssetSubCategoryCode,
+    }));
+    setIsFocus(false);
+    axios.get(`/api/AssetSubCategory_GET_BYID/${Deptnale}`)
+      .then((res) => {
+        if (res.data.recordset && res.data.recordset.length > 0) {
+          const responseData = res.data.recordset[0];
+          setvalue((prevValue) => ({
+            ...prevValue,
+            AssetSubCategoryDesc: responseData.AssetSubCategoryDesc || '',
+          }));
+        } else {
+          setvalue((prevValue) => ({
+            ...prevValue,
+            AssetSubCategoryDesc: '',
+          }));
+        }
+      }).catch((err) => {
+        console.log(err);;
+      });
+  }
+  const handleProvinceChangeAssetItemGroup = (selectedValue) => {
+    const Deptnale = selectedValue.AssetItemGroupCode;
+    setvalue((prevValue) => ({
+      ...prevValue,
+      AssetItemGroup: Deptnale,
+    }));
+    axios.get(`/api/AssetItemGroup_GET_BYID/${Deptnale}`)
+      .then((res) => {
+        if (res.data.recordset && res.data.recordset.length > 0) {
+          const responseData = res.data.recordset[0];
+          setvalue((prevValue) => ({
+            ...prevValue,
+            ItemGroupDesc: responseData.AssetItemGroupCodeDesc || '',
+          }));
+        } else {
+          setvalue((prevValue) => ({
+            ...prevValue,
+            ItemGroupDesc: '',
+          }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);;
+      });
+  }
+  const handleProvinceChangeUnitscode = (selectedValue) => {
+    const Deptnale = selectedValue.MaterialUnitCode;
+    setvalue((prevValue) => ({
+      ...prevValue,
+      Units: Deptnale,
+    }));
+    axios.get(`/api/MaterialUnits_GET_BYID/${Deptnale}`)
+      .then((res) => {
+        if (res.data.recordset && res.data.recordset.length > 0) {
+          const responseData = res.data.recordset[0];
+          setvalue((prevValue) => ({
+            ...prevValue,
+            UnitsDescriptions: responseData.MaterialUnitDesc || '',
+          }));
+        } else {
+          setvalue((prevValue) => ({
+            ...prevValue,
+            UnitsDescriptions: '',
+          }));
+        }
+      })
+      .catch((err) => {
+        console.log(err);;
+      });
+  }
+  const handleProvinceChangeVendorcode = (selectedValue) => {
+    const Deptnale = selectedValue.VendorID;
+    setvalue((prevValue) => ({
+      ...prevValue,
+      Vendorcode: Deptnale,
+    }));
+    axios.get(`/api/VendorMaster_GET_BYID/${Deptnale}`)
+      .then((res) => {
+        if (res.data.recordset && res.data.recordset.length > 0) {
+          const responseData = res.data.recordset[0];
+          setvalue((prevValue) => ({
+            ...prevValue,
+            VendorName: responseData.VendorName || '',
+          }));
+        } else {
+          setvalue((prevValue) => ({
+            ...prevValue,
+            VendorName: '',
+          }));
+        }
+
+      })
+      .catch((err) => {
+        console.log(err);;
+      });
+  }
+  const formData = new FormData();
+  const imageUri = image && typeof image === 'object' ? image.uri : image;
+  formData.append('AssetItemDescription', value.AssetItemDescription);
+  formData.append('AssetItemGroup', value.AssetItemGroup);
+  formData.append('AssetType', value.AssetType);
+  formData.append('AssetCategory', value.AssetCategoryCode);
+  formData.append('AssetSubCategory', value.AssetSubCategory);
+  formData.append('Manufacturer', value.Manufacturer);
+  formData.append('Model', value.Model);
+  formData.append('Brand', value.Brand);
+  formData.append('PurchaseDate', PurchaseDate);
+  formData.append('PurchaseAmount', value.PurchaseAmount);
+  formData.append('WarrantyPeriod', value.WarrantyPeriodCode);
+  formData.append('WarrantyStartDate', date);
+  formData.append('WarrantyEndDate', dateEndDatetime);
+  formData.append('Warranty', value.WarrantyEnd);
+  formData.append('OnHandQty', value.OnHandQty);
+  formData.append('ReOrderLevel', value.ReOrderQtyLevel);
+  formData.append('MinimumOrderLevel', value.MinimumLevel);
+  formData.append('MaximumOrderLevel', value.MaximumLevel);
+  formData.append('MaterialUnitCode', value.POQtyUnits);
+  formData.append('LastPOReference', value.POReference);
+  formData.append('LastPOAmount', value.PurchaseAmount);
+  formData.append('LastPOQty', value.POQtyUnits);
+  formData.append('LastVendorID', value.VendorCode);
+  formData.append('LastPurchaseDate', value.LastPurchaseDate);
+  formData.append('Details_Remarks_Notes', 'sjdksd');
+  formData.append('AssetImage', {
+    uri: imageUri,
+    type: 'image/jpeg',
+    name: 'asset_image.jpg',
+  })
+
+  const postapi = () => {
+    console.log(formData);
+    axios.post(`/api/AssetsMaster_post`, formData)
+      .then((res) => {
+        console.log('Add', res.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.containerscrollview}>
@@ -55,6 +389,21 @@ export default function AssetMasterCreate() {
           <Text style={styles.prograp}>
             Asset Masterlist-Create
           </Text>
+        </View>
+        {/* images section */}
+        <View style={styles.imagebackgrounddd}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'row' }}>
+            {image && <Image source={image} style={{ width: 200, height: 150 }} />}
+            <View style={{ marginLeft: 20 }}>
+              <TouchableOpacity onPress={pickImage} style={{ marginBottom: 20, }}>
+                <FontAwesome5 name="file-upload" size={30} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={takePhoto} >
+                <FontAwesome name="camera" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+
+          </View>
         </View>
         {/* Asset Category and Asset Category Desc. */}
         <View style={styles.inputContainer}>
@@ -72,23 +421,16 @@ export default function AssetMasterCreate() {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
-              search
+              data={assetCategorylist}
               maxHeight={200}
-              labelField="label"
-              valueField="value"
+              labelField="AssetCategoryCode"
+              valueField="AssetCategoryCode"
               placeholder={!isFocus ? 'Select Asset Category' : '...'}
               searchPlaceholder="Search..."
-              value={value.Employeeid}
+              value={value.AssetCategoryCode}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setvalue(prevValue => ({
-                  ...prevValue,
-                  Employeeid: item.value, // Update the Employeeid property
-                }));
-                setIsFocus(false);
-              }}
+              onChange={handleProvinceChangeasassetCategory}
             />
           </View>
 
@@ -101,11 +443,11 @@ export default function AssetMasterCreate() {
                 styles.inputBox,
                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkRequest}
+              value={value.AssetCategoryDesc}
               onChange={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
+                  AssetCategoryDesc: item.value,
                 }));
               }}
               placeholder="Asset Category Desc."
@@ -138,23 +480,17 @@ export default function AssetMasterCreate() {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
+              data={assetSubCategorylist}
               search
               maxHeight={200}
-              labelField="label"
-              valueField="value"
+              labelField="AssetSubCategoryCode"
+              valueField="AssetSubCategoryCode"
               placeholder={!isFocus ? 'Select Sub Category' : '...'}
               searchPlaceholder="Search..."
-              value={value.Employeeid}
+              value={value.AssetSubCategory}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setvalue(prevValue => ({
-                  ...prevValue,
-                  Employeeid: item.value, // Update the Employeeid property
-                }));
-                setIsFocus(false);
-              }}
+              onChange={handleProvinceChangeassetSubCategory}
             />
           </View>
 
@@ -167,11 +503,11 @@ export default function AssetMasterCreate() {
                 styles.inputBox,
                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkRequest}
+              value={value.AssetSubCategoryDesc}
               onChange={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
+                  AssetSubCategoryDesc: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="Sub-Asset Cat. desc."
@@ -190,7 +526,6 @@ export default function AssetMasterCreate() {
         </View>
         {/* Asset Item Description */}
         <View style={styles.inputContainerdesc}>
-
           <View style={styles.singleinputlable}>
             <Text style={styles.lableinput}>
               Asset Item Description
@@ -200,11 +535,11 @@ export default function AssetMasterCreate() {
                 styles.inputBoxdescription,
                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.FirstMiddleName}
-              onChange={item => {
+              value={value.AssetItemDescription}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  FirstMiddleName: item.value, // Update the Employeeid property
+                  AssetItemDescription: item 
                 }));
               }}
               placeholder="Enter Asset Item Description"
@@ -213,9 +548,7 @@ export default function AssetMasterCreate() {
               underlineColorAndroid="transparent"
             />
           </View>
-
         </View>
-
         {/* Asset Item Group and Item Group Desc.*/}
         <View style={styles.inputContainer}>
 
@@ -233,18 +566,13 @@ export default function AssetMasterCreate() {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
+              data={AssetItemGrouplist}
               maxHeight={200}
-              labelField="label"
-              valueField="value"
+              labelField="AssetItemGroupCode"
+              valueField="AssetItemGroupCode"
               placeholder={'Select Asset Group'}
-              value={value.Building}
-              onChange={item => {
-                setvalue(prevValue => ({
-                  ...prevValue,
-                  Building: item.value, // Update the Employeeid property
-                }));
-              }}
+              value={value.AssetItemGroup}
+              onChange={handleProvinceChangeAssetItemGroup}
             />
           </View>
 
@@ -257,11 +585,11 @@ export default function AssetMasterCreate() {
                 styles.inputBox,
                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
               ]}
-              value={value.WorkRequest}
-              onChange={item => {
+              value={value.ItemGroupDesc}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
+                  ItemGroupDesc: item
                 }));
               }}
               placeholder="Enter Description"
@@ -295,18 +623,14 @@ export default function AssetMasterCreate() {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
+              data={assetTypelist}
               maxHeight={200}
-              labelField="label"
-              valueField="value"
+              labelField="AssetTypeCode"
+              valueField="AssetTypeCode"
               placeholder={'Select asset type'}
               value={value.AssetType}
-              onChange={item => {
-                setvalue(prevValue => ({
-                  ...prevValue,
-                  AssetType: item.value, // Update the Employeeid property
-                }));
-              }}
+              onChange={handleProvinceChangeassetType}
+
             />
           </View>
 
@@ -355,10 +679,10 @@ export default function AssetMasterCreate() {
                 { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
               ]}
               value={value.Manufacturer}
-              onChange={item => {
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  Manufacturer: item,
                 }));
               }}
               placeholder="Manufacturer"
@@ -381,10 +705,10 @@ export default function AssetMasterCreate() {
             <TextInput
               style={[styles.inputBox,]}
               value={value.Model}
-              onChange={item => {
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Model: item.value, // Update the Employeeid property
+                  Model: item,
                 }));
               }}
               placeholder="Model"
@@ -403,19 +727,18 @@ export default function AssetMasterCreate() {
               Brand
             </Text>
             <TextInput
-              style={[ styles.inputBox, ]}
+              style={[styles.inputBox,]}
               value={value.Brand}
-              onChange={item => {
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Brand: item.value, // Update the Employeeid property
+                  Brand: item,
                 }));
               }}
               placeholder="Brand"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              
             />
           </View>
 
@@ -431,33 +754,30 @@ export default function AssetMasterCreate() {
             </Text>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput
                   style={[styles.inputBox, { position: 'relative' }]}
                   placeholder="dd/mm/yyyy -:- --"
                   editable={true}
+                  value={PurchaseDate ? PurchaseDate.toISOString().split('T')[0] : 'YYYY-MM-DD'}
                 />
                 <TouchableOpacity
-                  onPress={showDatepicker}
+                  onPress={showDatepickerPurchaseDate}
                   style={styles.iconcontainer}
                 >
                   <AntDesign name="calendar" size={20} color="white" />
                 </TouchableOpacity>
               </View>
-              {showPicker &&
+              {showPickerPurchaseDate &&
                 <View>
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
+                    value={PurchaseDate || new Date()}
+                    mode="date"
                     is24Hour={true}
+                    format="YYYY-MM-DD"
                     display="default"
-                    onChange={onChange}
+                    onChange={onChangePurchaseDate}
                   />
                 </View>}
             </View>
@@ -468,27 +788,19 @@ export default function AssetMasterCreate() {
               Purchased Amount
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.PurchasedAmount}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  PurchasedAmount: item
                 }));
               }}
               placeholder="000"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -509,16 +821,16 @@ export default function AssetMasterCreate() {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
+              data={WarrentyPeriodlist}
               maxHeight={200}
-              labelField="label"
-              valueField="value"
+              labelField="WarrantyPeriodCode"
+              valueField="WarrantyPeriodCode"
               placeholder={'Warranty Period'}
-              value={value.AssetType}
+              value={value.WarrantyPeriodCode}
               onChange={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  AssetType: item.value, // Update the Employeeid property
+                  WarrantyPeriodCode: item?.value || '',
                 }));
               }}
             />
@@ -530,40 +842,35 @@ export default function AssetMasterCreate() {
             </Text>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput
-                  style={[styles.inputBox, { position: 'relative' }]}
-                  placeholder="dd/mm/yyyy -:- --"
-                  editable={true}
+                  style={[styles.inputBox, { position: 'relative', }]}
+                  value={date ? date.toISOString().split('T')[0] : 'YYYY-MM-DD'}
+                  editable={false}
                 />
-                <TouchableOpacity
-                  onPress={showDatepicker}
-                  style={styles.iconcontainer}
-                >
+                <TouchableOpacity onPress={showDatepicker} style={styles.iconcontainer}>
                   <AntDesign name="calendar" size={20} color="white" />
                 </TouchableOpacity>
               </View>
-              {showPicker &&
+              {showPicker && (
                 <View>
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
+                    value={date || new Date()}
+                    mode="date"
+                    format="YYYY-MM-DD"
                     is24Hour={true}
                     display="default"
                     onChange={onChange}
                   />
-                </View>}
+                </View>
+              )}
             </View>
+
           </View>
 
         </View>
-        {/* Warranty Start Date and Warranty Start Date */}
+        {/* Warranty End Date*/}
         <View style={styles.warranty}>
 
           <View style={styles.singleinputlable}>
@@ -572,42 +879,29 @@ export default function AssetMasterCreate() {
             </Text>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput
-                  style={[styles.inputBox, { position: 'relative' }]}
-                  placeholder="dd/mm/yyyy -:- --"
-                  editable={true}
+                  style={[styles.inputBox, { position: 'relative', }]}
+                  value={dateEndDatetime ? dateEndDatetime.toISOString().split('T')[0] : 'YYYY-MM-DD'}
+                  editable={false}
                 />
-                <TouchableOpacity
-                  onPress={showDatepicker}
-                  style={styles.iconcontainer}
-                >
-                  <AntDesign
-                    name="calendar"
-                    style={{
-                      position: 'relative',
-                    }}
-                    size={20}
-                    color="white"
-                  />
+                <TouchableOpacity onPress={showDatepickerEndDatetime} style={styles.iconcontainerwarrantdata}>
+                  <AntDesign name="calendar" size={20} color="white" />
                 </TouchableOpacity>
               </View>
-              {showPicker &&
+              {showPickerEndDatetime && (
                 <View>
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
+                    value={dateEndDatetime || new Date()}
+                    mode="date"
+                    format="YYYY-MM-DD"
                     is24Hour={true}
                     display="default"
-                    onChange={onChange}
+                    onChange={onChangeEndDatetime}
                   />
-                </View>}
+                </View>
+              )}
             </View>
           </View>
 
@@ -622,27 +916,19 @@ export default function AssetMasterCreate() {
               On Hand Qty
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.OnHandQty}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  OnHandQty: item
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -651,27 +937,19 @@ export default function AssetMasterCreate() {
               Re-Order Qty Level
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.ReOrderQtyLevel}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  ReOrderQtyLevel: item,
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -684,27 +962,19 @@ export default function AssetMasterCreate() {
               Minimum Level
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.MinimumLevel}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  MinimumLevel: item,
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -713,27 +983,19 @@ export default function AssetMasterCreate() {
               Maximum Level
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.MaximumLevel}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  MaximumLevel: item,
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -754,23 +1016,13 @@ export default function AssetMasterCreate() {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
-              search
+              data={Unitscodelist}
               maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Units' : '...'}
-              searchPlaceholder="Search..."
-              value={value.Employeeid}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setvalue(prevValue => ({
-                  ...prevValue,
-                  Employeeid: item.value, // Update the Employeeid property
-                }));
-                setIsFocus(false);
-              }}
+              labelField="MaterialUnitCode"
+              valueField="MaterialUnitCode"
+              placeholder={'Select Units'}
+              value={value.Units}
+              onChange={handleProvinceChangeUnitscode}
             />
           </View>
 
@@ -779,27 +1031,18 @@ export default function AssetMasterCreate() {
               Units Description
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.WorkRequest}
+              style={[styles.inputBox]}
+              value={value.UnitsDescriptions}
               onChange={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
+                  UnitsDescriptions: item.value, // Update the Employeeid property
                 }));
               }}
               placeholder="Units Description"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocused(true);
-              }}
-              onBlur={() => {
-                setIsFocused(false);
-              }}
             />
           </View>
 
@@ -814,33 +1057,30 @@ export default function AssetMasterCreate() {
             </Text>
 
             <View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput
                   style={[styles.inputBox, { position: 'relative' }]}
                   placeholder="dd/mm/yyyy -:- --"
                   editable={true}
+                  value={LastPurchaseDate ? LastPurchaseDate.toISOString().split('T')[0] : 'YYYY-MM-DD'}
                 />
                 <TouchableOpacity
-                  onPress={showDatepicker}
+                  onPress={showDatepickerLastPurchaseDate}
                   style={styles.iconcontainer}
                 >
                   <AntDesign name="calendar" size={20} color="white" />
                 </TouchableOpacity>
               </View>
-              {showPicker &&
+              {showPickerLastPurchaseDate &&
                 <View>
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
-                    mode="datetime"
+                    value={LastPurchaseDate || new Date()}
+                    mode="date"
                     is24Hour={true}
+                    format="YYYY-MM-DD"
                     display="default"
-                    onChange={onChange}
+                    onChange={onChangeLastPurchaseDate}
                   />
                 </View>}
             </View>
@@ -851,27 +1091,19 @@ export default function AssetMasterCreate() {
               P.O Reference
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.POReference}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  POReference: item,
                 }));
               }}
               placeholder="xxx xxx xxx"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+
             />
           </View>
 
@@ -884,27 +1116,19 @@ export default function AssetMasterCreate() {
               Purchase Amount
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.PurchaseAmount}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  PurchaseAmount: item,
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -913,27 +1137,19 @@ export default function AssetMasterCreate() {
               P.O Qty Units
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.POQtyUnits}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  POQtyUnits: item
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -946,27 +1162,19 @@ export default function AssetMasterCreate() {
               Warranty End
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocusedManufacturer ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.Manufacturer}
-              onChange={item => {
+              style={[styles.inputBox,]}
+              value={value.WarrantyEnd}
+              onChangeText={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  Manufacturer: item.value, // Update the Employeeid property
+                  WarrantyEnd: item
                 }));
               }}
               placeholder="0"
               placeholderTextColor="#94A0CA"
               selectionColor="#1D3A9F"
               underlineColorAndroid="transparent"
-              onFocus={() => {
-                setIsFocusedManufacturer(true);
-              }}
-              onBlur={() => {
-                setIsFocusedManufacturer(false);
-              }}
+              keyboardType="numeric"
             />
           </View>
 
@@ -980,32 +1188,18 @@ export default function AssetMasterCreate() {
               Vendor Code
             </Text>
             <Dropdown
-              style={[
-                styles.inputBox,
-                { height: 40 },
-                isFocus && { borderColor: 'blue' },
-              ]}
+              style={[styles.inputBox, { height: 40 },]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              data={data}
-              search
+              data={Vendorcodelist}
               maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Select Vendor Code' : '...'}
-              searchPlaceholder="Search..."
-              value={value.Employeeid}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setvalue(prevValue => ({
-                  ...prevValue,
-                  Employeeid: item.value, // Update the Employeeid property
-                }));
-                setIsFocus(false);
-              }}
+              labelField="VendorID"
+              valueField="VendorID"
+              placeholder={'Select Vendor Code'}
+              value={value.VendorCode}
+              onChange={handleProvinceChangeVendorcode}
             />
           </View>
 
@@ -1014,15 +1208,12 @@ export default function AssetMasterCreate() {
               Vendor Name
             </Text>
             <TextInput
-              style={[
-                styles.inputBox,
-                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
-              ]}
-              value={value.WorkRequest}
+              style={[styles.inputBox]}
+              value={value.VendorName}
               onChange={item => {
                 setvalue(prevValue => ({
                   ...prevValue,
-                  WorkRequest: item.value, // Update the Employeeid property
+                  VendorName: item.value,
                 }));
               }}
               placeholder="Vendor Name"
@@ -1039,7 +1230,6 @@ export default function AssetMasterCreate() {
           </View>
 
         </View>
-
         {/* Button section */}
         <Button
           radius={'md'}
@@ -1047,9 +1237,9 @@ export default function AssetMasterCreate() {
           containerStyle={{
             width: 150,
             marginLeft: 15,
-            marginTop: -10,
+            marginBottom: 15,
           }}
-        // onPress={() => navigation.navigate('Createworkrequest')}
+          onPress={postapi}
         >
           <Ionicons
             name="md-save-outline"
@@ -1072,6 +1262,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: 1,
     borderRadius: 5,
+  },
+  iconcontainerwarrantdata: {
+    position: 'absolute',
+    left: '40%',
+    backgroundColor: 'black',
+    padding: 1,
+    borderRadius: 5,
+  },
+  imagebackgrounddd: {
+    backgroundColor: '#e9e2e2',
+    borderColor: "#94A0CA",
+    borderWidth: 1,
+    paddingVertical: 5,
+    width: '98%',
+    marginLeft: 2.5,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   placeholderStyle: {
     fontSize: 12,
@@ -1187,5 +1394,43 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     // Change the thickness as needed
     marginVertical: 10, // Adjust the vertical margin as needed
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  imageContainer: {
+    borderRadius: 8,
+    marginBottom: 16,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 16,
+  },
+  header: {
+    fontSize: 20,
+    marginBottom: 16,
+  },
+  button: {
+    backgroundColor: "#007AFF",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 16,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
