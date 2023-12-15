@@ -16,6 +16,7 @@ import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function AssetMasterCreate() {
   const navigation = useNavigation();
@@ -24,7 +25,7 @@ export default function AssetMasterCreate() {
     WorkType: '', Manufacturer: '', Model: '', Brand: '', WorkPriority: '', WorkTrade: '',
     AssetSubCategory: '', AssetSubCategoryDesc: '', AssetCategoryCode: '', AssetCategoryDesc: '',
     AssetItemDescription: '', AssetItemGroup: '', ItemGroupDesc: '', WarrantyPeriodCode: '', Units: '', UnitsDescriptions: '',
-    VendorCode: '', VendorName: '', PurchasedAmount: '0', OnHandQty: '0', ReOrderQtyLevel: '0', MinimumLevel: '0', MaximumLevel: '0',
+    VendorID: '', VendorName: '', PurchasedAmount: '0', OnHandQty: '0', ReOrderQtyLevel: '0', MinimumLevel: '0', MaximumLevel: '0',
     POQtyUnits: '0', WarrantyEnd: '0', PurchaseAmount: '0', POReference: ''
   });
 
@@ -317,7 +318,7 @@ export default function AssetMasterCreate() {
     const Deptnale = selectedValue.VendorID;
     setvalue((prevValue) => ({
       ...prevValue,
-      Vendorcode: Deptnale,
+      VendorID: selectedValue.VendorID,
     }));
     axios.get(`/api/VendorMaster_GET_BYID/${Deptnale}`)
       .then((res) => {
@@ -339,6 +340,12 @@ export default function AssetMasterCreate() {
         console.log(err);;
       });
   }
+  const [showAlert, setShowAlert] = useState(false);
+
+  const showSuccessAlert = () => {
+    setShowAlert(true);
+  };
+
   const formData = new FormData();
   const imageUri = image && typeof image === 'object' ? image.uri : image;
   formData.append('AssetItemDescription', value.AssetItemDescription);
@@ -363,20 +370,20 @@ export default function AssetMasterCreate() {
   formData.append('LastPOReference', value.POReference);
   formData.append('LastPOAmount', value.PurchaseAmount);
   formData.append('LastPOQty', value.POQtyUnits);
-  formData.append('LastVendorID', value.VendorCode);
-  formData.append('LastPurchaseDate', value.LastPurchaseDate);
+  formData.append('LastVendorID', value.VendorID);
+  formData.append('LastPurchaseDate',LastPurchaseDate);
   formData.append('Details_Remarks_Notes', 'sjdksd');
   formData.append('AssetImage', {
     uri: imageUri,
     type: 'image/jpeg',
     name: 'asset_image.jpg',
   })
-
   const postapi = () => {
     console.log(formData);
     axios.post(`/api/AssetsMaster_post`, formData)
       .then((res) => {
         console.log('Add', res.data);
+        showSuccessAlert(true)
       }).catch((err) => {
         console.log(err);
       });
@@ -1249,6 +1256,27 @@ export default function AssetMasterCreate() {
           />
           SAVE
         </Button>
+
+        <AwesomeAlert
+          show={showAlert}
+          title={
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+              <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
+            </View>
+          }
+          message={`Assets Master has been created successfully`}
+          confirmButtonColor="#DD6B55"
+          confirmButtonStyle={{ backgroundColor: 'black' }}
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="OK"
+          onConfirmPressed={() => {
+            navigation.navigate('AssetHome')
+            myFunction()
+          }}
+        />
 
       </View>
     </ScrollView>
