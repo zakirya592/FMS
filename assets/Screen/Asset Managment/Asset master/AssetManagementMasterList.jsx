@@ -259,7 +259,7 @@ export default function Workrequest () {
                       <MenuOptions
                         optionsContainerStyle={{width: 'auto', padding: 10}}
                       >
-                        <MenuOption value={1}>
+                      <MenuOption onSelect={() => navigation.navigate(`Viewassetmaster`, { AssetItemDescription: item.AssetItemDescription })}>
                           <View style={styles.actions}>
                             <Text style={styles.actionstitle}>View</Text>
                             <AntDesign name="eye" size={20} color="#0A2DAA" />

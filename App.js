@@ -98,6 +98,7 @@ import Viewcleaningwork from './assets/Screen/Cleaning Works/Viewcleaningwork';
 import Updatacleaningwork from './assets/Screen/Cleaning Works/Updatacleaningwork';
 import Viewworkrequest from './assets/Screen/Work Request/Viewworkrequest';
 import Updataworkrequest from './assets/Screen/Work Request/Updataworkrequest';
+import Viewassetmaster from './assets/Screen/Asset Managment/Asset master/Viewassetmaster';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -170,10 +171,12 @@ function MainStackNavigator() {
       {/* Addassetcode */}
       <Stack.Screen name="Addassetcode" component={Addassetcode}
         options={{
-          title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {
-            color: '#FFFFFF',
-          },
-          headerTintColor: '#FFFFFF'
+          title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {color: '#FFFFFF'},  headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewassetmaster */}
+         <Stack.Screen name="Viewassetmaster" component={Viewassetmaster}
+        options={{
+          title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {color: '#FFFFFF'},  headerTintColor: '#FFFFFF'
         }} />
          {/* transferlocationTable */}
       <Stack.Screen name="transferlocationTable" component={transferlocationTable}
