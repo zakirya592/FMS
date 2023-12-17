@@ -265,7 +265,7 @@ export default function Workrequest () {
                             <AntDesign name="eye" size={20} color="#0A2DAA" />
                           </View>
                         </MenuOption>
-                        <MenuOption value={2}>
+                      <MenuOption onSelect={() => navigation.navigate(`AssetMasterUpdate`, { AssetItemDescription: item.AssetItemDescription })}>
                           <View style={styles.actions}>
                             <Text style={styles.actionstitle}>Update</Text>
                             <FontAwesome5
