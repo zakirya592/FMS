@@ -17,7 +17,7 @@ import {
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-export default function Workrequest () {
+export default function AssetTransactionsHome () {
   const navigation = useNavigation ();
   const [value, setvalue] = useState ({
     Employeeid: '',
@@ -113,7 +113,7 @@ export default function Workrequest () {
   };
   const updatbutton = () => {
     if (selectedItems.length >= 1) {
-      navigation.navigate(`AssetTransactionsUpdate`, { AssetItemTagID: selectedItems, myFunction: getapi })
+      navigation.navigate(`AssetTransactionsUpdate`, { AssetItemTagID: selectedItems, AssetItemTagIDnumer: getapi })
     }
     else {
       showSuccessAlertstatus(true)
@@ -358,7 +358,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('AssetTransactionsCreate')}
+            onPress={() => navigation.navigate('AssetTransactionsCreate', { AssetItemTagIDnumer: getapi })}
           >
             <Icon
               name="add"

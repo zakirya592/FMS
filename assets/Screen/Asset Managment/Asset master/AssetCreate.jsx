@@ -372,7 +372,7 @@ export default function AssetMasterCreate() {
   formData.append('LastPOQty', value.POQtyUnits);
   formData.append('LastVendorID', value.VendorID);
   formData.append('LastPurchaseDate',LastPurchaseDate);
-  formData.append('Details_Remarks_Notes', 'sjdksd');s
+  formData.append('Details_Remarks_Notes', 'sjdksd');
   formData.append('AssetImage', {
     uri: imageUri,
     type: 'image/jpeg',
