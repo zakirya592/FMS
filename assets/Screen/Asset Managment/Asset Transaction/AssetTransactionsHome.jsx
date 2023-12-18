@@ -113,7 +113,7 @@ export default function AssetTransactionsHome () {
   };
   const updatbutton = () => {
     if (selectedItems.length >= 1) {
-      navigation.navigate(`AssetTransactionsUpdate`, { AssetItemTagID: selectedItems, AssetItemTagIDnumer: getapi })
+      navigation.navigate(`AssetTransactionsUpdate`, { AssetItemTagID: selectedItems, myFunction: getapi })
     }
     else {
       showSuccessAlertstatus(true)
@@ -282,9 +282,7 @@ export default function AssetTransactionsHome () {
                       {width: 140, borderRightWidth: 1, borderBottomWidth: 1},
                     ]}
                   >
-                    <Menu
-                      onSelect={value => alert (`Selected number: ${value}`)}
-                    >
+                    <Menu>
                       <MenuTrigger>
                         <View style={styles.actions}>
                           <Text>Action </Text>
@@ -294,13 +292,13 @@ export default function AssetTransactionsHome () {
                       <MenuOptions
                         optionsContainerStyle={{width: 'auto', padding: 10}}
                       >
-                        <MenuOption value={1}>
+                      <MenuOption onSelect={() => navigation.navigate(`Viewassettransaction`, { AssetItemTagID: item.AssetItemTagID, AssetItemTagIDnumer: getapi })}>
                           <View style={styles.actions}>
                             <Text style={styles.actionstitle}>View</Text>
                             <AntDesign name="eye" size={20} color="#0A2DAA" />
                           </View>
                         </MenuOption>
-                        <MenuOption value={2}>
+                      <MenuOption onSelect={() => navigation.navigate(`AssetTransactionsUpdate`, { AssetItemTagID: item.AssetItemTagID, myFunction: getapi })}>
                           <View style={styles.actions}>
                             <Text style={styles.actionstitle}>Update</Text>
                             <FontAwesome5

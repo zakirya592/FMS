@@ -99,6 +99,7 @@ import Updatacleaningwork from './assets/Screen/Cleaning Works/Updatacleaningwor
 import Viewworkrequest from './assets/Screen/Work Request/Viewworkrequest';
 import Updataworkrequest from './assets/Screen/Work Request/Updataworkrequest';
 import Viewassetmaster from './assets/Screen/Asset Managment/Asset master/Viewassetmaster';
+import Viewassettransaction from './assets/Screen/Asset Managment/Asset Transaction/Viewassettransaction';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -469,7 +470,12 @@ function MainStackNavigator() {
       {/* AssetTransactionsCreate */}
       <Stack.Screen name="AssetTransactionsUpdate" component={AssetTransactionsUpdate}
         options={{
-          title: 'Asset Transactions Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+          title: 'Asset Transactions', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewassettransaction */}
+        <Stack.Screen name="Viewassettransaction" component={Viewassettransaction}
+        options={{
+          title: 'Asset Transactions', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
       {/* set up and configuration COmponent Rounting */}
       <Stack.Screen name="Setupconfigurationrouting" component={Setupconfigurationrouting}
