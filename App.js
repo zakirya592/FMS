@@ -100,6 +100,8 @@ import Viewworkrequest from './assets/Screen/Work Request/Viewworkrequest';
 import Updataworkrequest from './assets/Screen/Work Request/Updataworkrequest';
 import Viewassetmaster from './assets/Screen/Asset Managment/Asset master/Viewassetmaster';
 import Viewassettransaction from './assets/Screen/Asset Managment/Asset Transaction/Viewassettransaction';
+import Viewusercredientials from './assets/Screen/User management/User Credientials/Viewusercredientials';
+import Updateusercredientials from './assets/Screen/User management/User Credientials/Updateusercredientials';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -425,6 +427,18 @@ function MainStackNavigator() {
         }} />
       {/* Create UserCredentials managment Access */}
       <Stack.Screen name="Createusercredientials" component={Createusercredientials}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewusercredientials */}
+        <Stack.Screen name="Viewusercredientials" component={Viewusercredientials}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updateusercredientials */}
+         <Stack.Screen name="Updateusercredientials" component={Updateusercredientials}
         options={{
           title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
