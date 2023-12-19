@@ -14,8 +14,9 @@ import axios from "axios";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 
-export default function Createworkrequest({ route }) {
-    const { myFunction } = route.params
+export default function Viewworkrequest({ route }) {
+    const { EmployeeIDS } = route.params
+    const { RequestNumber } = route.params
     const navigation = useNavigation();
 
     const [value, setvalue] = useState({
@@ -34,7 +35,7 @@ export default function Createworkrequest({ route }) {
     const [showPicker, setShowPicker] = useState(false);
 
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
+        const currentDate = selectedDate
         setShowPicker(Platform.OS === 'ios');
         setDate(currentDate);
     };
@@ -66,53 +67,6 @@ export default function Createworkrequest({ route }) {
         const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
         setSelectedItems(selectedIds);
     };
-    // auto increa
-    const Requestnumberapi = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].RequestNumber + 1;
-                let formattedRequestNumber;
-                if (reqput >= 1 && reqput <= 9) {
-                    formattedRequestNumber = `000-000-00${reqput}`;
-                } else if (reqput >= 10 && reqput <= 99) {
-                    formattedRequestNumber = `000-000-0${reqput}`;
-                } else if (reqput >= 100 && reqput <= 999) {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                } else if (reqput >= 1000 && reqput <= 9999) {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                } else {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                }
-                setvalue(prevState => ({ ...prevState, RequestNumber: formattedRequestNumber }));
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
-    const requestincreas = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].RequestNumber + 1;
-                setvalue(prevState => ({ ...prevState, RequestNumber: '000-000-' + '0' + `${reqput}` }));
-                axios.put(`/api/workRequestCount_Put/1`, {
-                    RequestNumber: reqput
-                }).then((res) => {
-                    axios.get(`/api/workRequestCount_GET_BYID/${reqput}`).then((res) => {
-                    }).catch((err) => {
-                        console.log(err);
-                    });
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }).catch((err) => {
-                console.log(err);
-            });
-    }
-
-    useEffect(() => {
-        Requestnumberapi()
-    }, [])
 
     const [WorkPrioritlist, setWorkPrioritlist] = useState([])
     const [dropdownBuildingList, setDropdownBuildingList] = useState([]);
@@ -225,21 +179,6 @@ export default function Createworkrequest({ route }) {
             console.log(err);
         });
     }
-    const Worktrandedesc = (selectedValue) => {
-        setvalue(prevValue => ({
-            ...prevValue,
-            WorkTrade: selectedValue.WorkTradeCode
-        }))
-        axios.get(`/api/WorkTrade_descri_LIST/${selectedValue.WorkTradeCode}`)
-            .then((res) => {
-                setvalue(prevValue => ({
-                    ...prevValue,
-                    WorkTradeDesc: res.data.recordset[0].WorkTradeDesc
-                }))
-            }).catch((err) => {
-                console.log(err);
-            });
-    }
     // Department
     const handleProvinceChange = (selectedValue) => {
         setvalue((prevValue) => ({
@@ -256,49 +195,26 @@ export default function Createworkrequest({ route }) {
                 console.log(err);
             });
     }
-
-    const [showAlertpost, setshowAlertpost] = useState(false);
-
-    const showSuccessAlertpost = () => {
-        setshowAlertpost(true);
-    };
-
-    const Createapi = async () => {
-        await axios.post(`/api/AddworkRequestsecondPOST`, {
-            RequestNumber: value.RequestNumber,
-            WorkType: value.WorkTypeCode,
-            WorkTrade: value.WorkTrade,
-            AssetItemTagID: value.AssetItemTagID,
-            WorkPriority: value.WorkPriority,
-            RequestStatus: value.RequestStatus,
-            DepartmentCode: value.DepartmentCode,
-            BuildingCode: value.BuildingCode,
-            LocationCode: value.LocationCode,
-            EmployeeID: value.Employeeid,
-            ProblemCategory: value.ProblemCategory,
-            ProblemDescription: value.ProblemDescription,
-            RequestDateTime: date,
-        }).then((res) => {
-            myFunction()
-            showSuccessAlertpost(true)
-        })
-            .catch((err) => {
+    const Worktrandedesc = (selectedValue) => {
+        setvalue(prevValue => ({
+            ...prevValue,
+            WorkTrade: selectedValue.WorkTradeCode
+        }))
+        axios.get(`/api/WorkTrade_descri_LIST/${selectedValue.WorkTradeCode}`)
+            .then((res) => {
+                setvalue(prevValue => ({
+                    ...prevValue,
+                    WorkTradeDesc: res.data.recordset[0].WorkTradeDesc
+                }))
+            }).catch((err) => {
                 console.log(err);
             });
-    };
-
-    const postdatfunction = () => {
-        Createapi()
-        requestincreas()
-    }
-    const Assetcodebtn = (e) => {
-        navigation.navigate(`Addassetcode`, { RequestNumber: value.RequestNumber, myFunction: getapi })
     }
 
     const [datanumber, setdatanumber] = useState([])
 
     const getapi = () => {
-        axios.get(`/api/assetworkrequest_GET_BYID/${value.RequestNumber}`)
+        axios.get(`/api/assetworkrequest_GET_BYID/${RequestNumber}`)
             .then((res) => {
                 const SAQ = res.data.recordset.map((item) => item.seq);
                 const AssetItemDescriptionsss = res.data.recordset.map((item) => item.AssetItemDescription);
@@ -402,12 +318,120 @@ export default function Createworkrequest({ route }) {
             });
     }
 
+    function Workrequestget() {
+        axios.post(`/api/getworkRequestsecond`, {
+            "RequestNumber": RequestNumber
+        }).then((res) => {
+            const {
+                RequestNumber,
+                WorkPriority,
+                ProblemDescription,
+                RequestStatus,
+                ProblemCategory,
+                AssetItemTagID,
+                EmployeeID,
+            } = res.data.recordsets[0][0];
+            setvalue((prevValue) => ({
+                ...prevValue,
+                EmployeeID,
+                WorkTrade: res.data.recordsets[0][0].WorkTrade,
+                WorkPriority,
+                ProblemDescription,
+                RequestStatus,
+                ProblemCategory,
+                AssetItemTagID,
+                RequestNumber,
+                WorkTypeCode: res.data.recordsets[0][0].WorkType
+            }));
+            const RequestDateTimeess = res.data.recordset[0].RequestDateTime
+            setDate(new Date(RequestDateTimeess))
+            const workaout = res.data.recordsets[0][0].WorkType
+            axios.get(`/api/WorkType_descri_LIST/${workaout}`)
+                .then((res) => {
+                    if (res.data.recordset && res.data.recordset.length > 0 && res.data.recordset[0].WorkTypeDesc) {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            WorkTypeDesc: res.data.recordset[0].WorkTypeDesc,
+                        }));
+                    } else {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            WorkTypeDesc: '',
+                        }));
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            const workaouts = res.data.recordsets[0][0].WorkTrade
+            axios.get(`/api/WorkTrade_descri_LIST/${workaouts}`)
+                .then((res) => {
+                    const workTradeDesc = res.data.recordset[0]?.WorkTradeDesc || ''; // Default to empty string if undefined
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        WorkTradeDesc: workTradeDesc
+                    }));
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            // Employee ID
+            const employees = res.data.recordsets[0][0].EmployeeID
+            axios.post(`/api/getworkRequest`, {
+                "EmployeeID": employees
+            }).then((res) => {
+                const {
+                    Firstname,
+                    Lastname,
+                    Middlename,
+                    MobileNumber,
+                    LandlineNumber,
+                    DepartmentCode,
+                    BuildingCode,
+                    LocationCode,
+                } = res.data.recordsets[0][0];
+
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    Employeeid: res.data.recordsets[0][0].EmployeeID,
+                    Firstname,
+                    Lastname,
+                    Middlename,
+                    MobileNumber,
+                    LandlineNumber,
+                    DepartmentCode,
+                    BuildingCode,
+                    LocationCode,
+                }));
+                const Depauto = res.data.recordsets[0][0].DepartmentCode
+                axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                    .then((res) => {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            DepartmentName: res.data.recordset[0].DepartmentDesc,
+                        }));
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }).catch((err) => {
+                console.log(err);
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    useEffect(() => {
+        Workrequestget()
+    }, [])
+
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>Create Work Request</Text>
+                    <Text style={styles.prograp}>View Work Request</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -448,13 +472,8 @@ export default function Createworkrequest({ route }) {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.RequestNumber}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    RequestNumber: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            value={RequestNumber}
+                            editable={false}
                             placeholder="Work Request #"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
@@ -900,7 +919,7 @@ export default function Createworkrequest({ route }) {
                         marginVertical: 10,
                         marginTop: 30
                     }}
-                        onPress={Assetcodebtn}
+                    disabled
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Asset code
@@ -925,7 +944,7 @@ export default function Createworkrequest({ route }) {
                                 <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>ASSET QTY</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>MODEL</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
-                                <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
+                                <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                             </DataTable.Header>
                             {uniqueDescriptions.map((item, index) => (
                                 <DataTable.Row key={item}>
@@ -959,33 +978,20 @@ export default function Createworkrequest({ route }) {
                     </ScrollView>
                 </View>
                 {/* Button section */}
-                <Button radius={"md"} type="solid" containerStyle={{
-                    width: 150,
-                    marginLeft: 15,
-                }}
-                    onPress={postdatfunction}
-                >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
-                    SAVE
-                </Button>
-                <View style={[styles.inputContainer, { marginTop: 12 }]}>
-                    <Button radius={"md"} type="outline" containerStyle={{
-                        width: 150,
-                    }}
+               
+                <View style={[styles.inputContainerbutton, { marginTop: 12 }]}>
+                    <Button radius={"md"} type="solid"
+                        onPress={() => { navigation.goBack() }}
+                    >
+                        <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }}  />
+                        Back
+                    </Button>
+                    <Button radius={"md"} type="outline"
                     // onPress={() => navigation.navigate('Createworkrequest')}
                     >
                         <Ionicons name="md-print-outline" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
                         Print
                     </Button>
-                    <Button radius={"md"} type="outline" containerStyle={{
-                        width: 150,
-                    }}
-                    // onPress={() => navigation.navigate('Createworkrequest')}
-                    >
-                        <MaterialIcons name="save-alt" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
-                        Export
-                    </Button>
-
                 </View>
                 {/* Deleted  Dialog*/}
                 <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
@@ -1016,27 +1022,6 @@ export default function Createworkrequest({ route }) {
                     confirmText="OK"
                     onConfirmPressed={() => {
                         setShowAlert(false)
-                    }}
-                />
-                {/* create data */}
-                <AwesomeAlert
-                    show={showAlertpost}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
-                        </View>
-                    }
-                    message={`Work Request ${value.RequestNumber} has been created successfully`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={false}
-                    closeOnHardwareBackPress={false}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        navigation.navigate('Workrequest')
-                        myFunction()
                     }}
                 />
             </View>
@@ -1082,6 +1067,13 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         position: 'relative',
         justifyContent: 'space-around'
+    },
+    inputContainerbutton: {
+        flexDirection: 'row',
+        paddingBottom: 5,
+        marginBottom: 10,
+        justifyContent: 'space-between',
+        marginHorizontal:15,
     },
     lableinput: {
         color: '#0A2DAA',

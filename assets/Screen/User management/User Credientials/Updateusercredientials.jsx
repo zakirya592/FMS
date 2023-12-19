@@ -15,14 +15,16 @@ const data = [
     { label: 'Item 3', value: '3' },
     { label: 'Item 4', value: '4' },
 ];
-export default function Createusercredientials({ route }) {
+export default function Updateusercredientials({ route }) {
     const { myFunction } = route.params
+    const { EmployeeID } = route.params
+
     const navigation = useNavigation();
 
     const [value, setvalue] = useState({
         Employeeid: null, MiddleName: '', LastName: '', FirstName: '', Title: '',
-        DepartmentCode: '', DepartmentName: '', UserRole: '', UserRoleDesc: '', WorkPriority: '', UserAuthorityCode:'',
-        Building: '', Location: '', MobileNumber: '', Landline: '', UserID: '', passwordUserid: '', WindowUserID: '', Windowpassword: '', email:''
+        DepartmentCode: '', DepartmentName: '', UserRole: '', UserRoleDesc: '', WorkPriority: '', UserAuthorityCode: '',
+        Building: '', Location: '', MobileNumber: '', Landline: '', UserID: '', passwordUserid: '', WindowUserID: '', Windowpassword: '', email: ''
     })
 
     const [isFocusedemail, setisFocusedemail] = useState(false)
@@ -161,7 +163,77 @@ export default function Createusercredientials({ route }) {
                 console.log(err);
             });
     }
+    const getapi = () => {
+        axios.get(`/api/UserCredentials_GET_BYID/${EmployeeID}`).then((res) => {
+            setvalue((prevValue) => ({
+                ...prevValue,
+                UserID: res.data.recordset[0].UserID,
+                passwordUserid: res.data.recordset[0].UserPassword,
+                WindowUserID: res.data.recordset[0].WindowsID,
+                Windowpassword: res.data.recordset[0].WindowsPassword,
+                email: res.data.recordset[0].CreatedByAdminID,
+                Employeeid: res.data.recordset[0].EmployeeID
+            }));
 
+            const EmployeeID = res.data.recordset[0].EmployeeID
+            axios.post(`/api/getworkRequest_by_EPID`, {
+                EmployeeID,
+            }).then((res) => {
+                const {
+                    Firstname,
+                    Middlename,
+                    Lastname,
+                    DepartmentCode,
+                    BuildingCode,
+                    LocationCode,
+                    MobileNumber,
+                    LandlineNumber
+                } = res.data.recordsets[0][0];
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    Firstname,
+                    Middlename,
+                    Lastname,
+                    DepartmentCode,
+                    BuildingCode,
+                    LocationCode,
+                    MobileNumber,
+                    LandlineNumber
+                }));
+                const Depauto = res.data.recordsets[0][0].DepartmentCode
+                axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                    .then((res) => {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            DepartmentName: res.data.recordset[0].DepartmentDesc,
+                        }));
+                    }).catch((err) => {
+                        console.log(err);;
+                    });
+                const EmployeeIDss = res.data.recordsets[0][0].EmployeeID
+                axios.get(`/api/UserSystemAccess_GET_BYID/${EmployeeIDss}`)
+                    .then((res) => {
+                        const userAuthorityCode = res.data.recordset[0]?.UserAuthorityCode || null;
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            UserAuthorityCode: userAuthorityCode,
+                        }));
+                    })
+                    .catch((err) => {
+                        console.log(err);;
+                    });
+            }).catch((err) => {
+                console.log(err);
+            });
+
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
     const [showAlert, setShowAlert] = useState(false);
     const [errorshow, seterrorshow] = useState(false)
     const [errorstatues, seterrorstatues] = useState('')
@@ -172,9 +244,8 @@ export default function Createusercredientials({ route }) {
         seterrorshow(true)
     }
     const addtransaction = async () => {
-        const RequestDateTimepost  = new Date()
-        axios.post(`/api/UserCredentials_post`, {
-            EmployeeID: value.Employeeid,
+        const RequestDateTimepost = new Date()
+        axios.put(`/api/UserCredentials_Put/${EmployeeID}`, {
             UserAuthorityCode: value.UserAuthorityCode,
             UserID: value.UserID,
             UserPassword: value.passwordUserid,
@@ -186,10 +257,10 @@ export default function Createusercredientials({ route }) {
         }).then((res) => {
             showSuccessAlert(true)
         }).catch((err) => {
-                const statuss = err.response.data.error  
+            const statuss = err.response.data.error
             errorshowmessage(true)
             seterrorstatues(statuss)
-            });
+        });
     };
 
     return (
@@ -197,7 +268,7 @@ export default function Createusercredientials({ route }) {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>User Credentials - Create
+                    <Text style={styles.prograp}>User Credentials - Update
                     </Text>
                 </View>
                 {/* Employee ID  */}
@@ -206,7 +277,7 @@ export default function Createusercredientials({ route }) {
                         <Text style={styles.lableinput}>Employee ID
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40, width: 350 }, isFocus && { borderColor: 'blue' }]}                            placeholderStyle={styles.placeholderStyle}
+                            style={[styles.inputBox, { height: 40, width: 350 }, isFocus && { borderColor: 'blue' }]} placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
@@ -577,7 +648,7 @@ export default function Createusercredientials({ route }) {
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    UserID : item,
+                                    UserID: item,
                                 }));
                             }}
                             placeholder="Enter User-ID "
@@ -605,7 +676,7 @@ export default function Createusercredientials({ route }) {
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    passwordUserid: item, 
+                                    passwordUserid: item,
                                 }));
                             }}
                             secureTextEntry={!showpasswordUserid}
@@ -640,7 +711,7 @@ export default function Createusercredientials({ route }) {
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WindowUserID : item,
+                                    WindowUserID: item,
                                 }));
                             }}
                             placeholder="Enter Window User-ID "
@@ -668,7 +739,7 @@ export default function Createusercredientials({ route }) {
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Windowpassword: item, 
+                                    Windowpassword: item,
                                 }));
                             }}
                             secureTextEntry={!showWindowpassword}
@@ -695,7 +766,7 @@ export default function Createusercredientials({ route }) {
                         <Text style={styles.lableinput}>Email Address</Text>
                         <TextInput
                             style={[
-                                styles.inputBox,{width:350},
+                                styles.inputBox, { width: 350 },
                                 { borderColor: isFocusedemail ? '#1D3A9F' : '#94A0CA' }, // Dynamic border color
                             ]}
                             value={value.email}
@@ -724,13 +795,13 @@ export default function Createusercredientials({ route }) {
                 <Button radius={"md"} type="solid" containerStyle={{
                     width: 200,
                     marginVertical: 20,
-                    marginLeft:5,
+                    marginLeft: 5,
                 }}
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
                     }}
-                onPress={addtransaction}
+                    onPress={addtransaction}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
@@ -743,7 +814,7 @@ export default function Createusercredientials({ route }) {
                             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
                         </View>
                     }
-                    message={`User Credentials has been created successfully`}
+                    message={`User Credentials ${EmployeeID} has been updated`}
                     confirmButtonColor="#DD6B55"
                     confirmButtonStyle={{ backgroundColor: 'black' }}
                     closeOnTouchOutside={false}
@@ -873,7 +944,7 @@ const styles = StyleSheet.create({
     icon: {
         position: 'absolute',
         left: '85%',
-        top:'45%'
+        top: '45%'
     },
 
 })

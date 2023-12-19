@@ -10,13 +10,13 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function UserCredentials() {
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '',
     })
-
 
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([10]);
@@ -85,7 +85,18 @@ export default function UserCredentials() {
 
             });
     }
-
+    const [showAlertstatus, setshowAlertstatus] = useState(false);
+    const showSuccessAlertstatus = () => {
+        setshowAlertstatus(true);
+    };
+    const updatbutton = () => {
+        if (selectedItems.length >= 1) {
+            navigation.navigate(`Updateusercredientials`, { EmployeeID: selectedItems, myFunction: getapi })
+        }
+        else {
+            showSuccessAlertstatus(true)
+        }
+    }
     return (
         <ScrollView>
             <View>
@@ -156,13 +167,13 @@ export default function UserCredentials() {
                                         </View>
                                     </MenuTrigger>
                                     <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                        <MenuOption>
+                                        <MenuOption onSelect={() => navigation.navigate(`Viewusercredientials`, { EmployeeID: item.EmployeeID, myFunction: getapi })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>View</Text>
                                                 <AntDesign name="eye" size={20} color="#0A2DAA" />
                                             </View>
                                         </MenuOption>
-                                        <MenuOption >
+                                        <MenuOption onSelect={() => navigation.navigate(`Updateusercredientials`, { EmployeeID: item.EmployeeID, myFunction: getapi })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>Update</Text>
                                                 <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
@@ -214,6 +225,7 @@ export default function UserCredentials() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
+                        onPress={updatbutton}
                     >
                         Update
                     </Button>
@@ -222,7 +234,7 @@ export default function UserCredentials() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createusercredientials')}
+                        onPress={() => navigation.navigate('Createusercredientials', { myFunction: getapi })}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
@@ -248,7 +260,26 @@ export default function UserCredentials() {
                         Export
                     </Button>
                 </View>
-
+                {/* status updata */}
+                <AwesomeAlert
+                    show={showAlertstatus}
+                    title={
+                        <View >
+                            <MaterialIcons name="error-outline" color="red" size={30} style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 4, marginLeft: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Error!</Text>
+                        </View>
+                    }
+                    message={`Select a User Credentials  by checking the check box`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setshowAlertstatus(false)
+                    }}
+                />
             </View>
         </ScrollView>
     )

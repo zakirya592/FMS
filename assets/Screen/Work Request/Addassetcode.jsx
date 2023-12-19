@@ -1,43 +1,43 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import { Button, Icon } from '@rneui/themed';
+import { Button, Icon, Dialog } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { Ionicons } from '@expo/vector-icons';
 
+export default function Addassetcode({ route }) {
 
-export default function Addassetcode() {
-    const navigation = useNavigation();
+    const { RequestNumber } = route.params
+    const { myFunction } = route.params
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '',
     })
 
-    const [items, setItems] = useState([
-        { _id: 1, WORKREQUEST: 'WORKREQUEST11', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open' },
-        { _id: 2, WORKREQUEST: 'WORKREQUEST2', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 3, WORKREQUEST: 'WORKREQUEST3', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 4, WORKREQUEST: 'WORKREQUEST4', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-        { _id: 5, WORKREQUEST: 'WORKREQUEST5', REQUESTSTATUS: 'Open', REQUESTBYEMP: 'REQUESTBYEMP', PRIORITY: 'PRIORITY', REQUESTDATE: '12/12/3003', WORKTYPEDESC: 'WORKTYPEDESC', WORKTRADEDESC: 'WORKTRADEDESC', ACTIONS: 'Open', },
-      
-    ]);
+    const [items, setItems] = useState([]);
 
-    const data = [
-        { label: 'Item 1', value: '1' },
-        { label: 'Item 2', value: '2' },
-        { label: 'Item 3', value: '3' },
-        { label: 'Item 4', value: '4' },
-    ];
+    const getapi = () => {
+        axios.get(`/api/AssetsMaster_GET_LIST`).then((res) => {
+            setItems(res.data.recordset)
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
 
     const [selectedItems, setSelectedItems] = useState([]);
 
-    const handleCheckboxChange = (_id) => {
+    const handleCheckboxChange = (AssetItemDescription) => {
         const updatedItems = items.map((item) =>
-            item._id === _id ? { ...item, selected: !item.selected } : item
+            item.AssetItemDescription === AssetItemDescription ? { ...item, selected: !item.selected } : item
         );
         setItems(updatedItems);
-        // Update selectedItems state
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.AssetItemDescription);
         setSelectedItems(selectedIds);
     };
 
@@ -48,8 +48,33 @@ export default function Addassetcode() {
             selected: !allSelected,
         }));
         setItems(updatedItems);
-        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item._id);
+        const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.AssetItemDescription);
         setSelectedItems(selectedIds);
+    };
+
+    const [visible2, setVisible2] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const putapi = () => {
+        axios.post(`/api/assetworkrequest_post`, {
+            RequestNumber: RequestNumber,
+            AssetItemDescriptions: selectedItems
+        }).then((res) => {
+            setSelectedItems([])
+            myFunction()
+        }).catch((err) => {
+           console.log(err);
+        });
+    };
+
+    const toggleDialog2 = () => {
+        setVisible2(!visible2);
+    };
+
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+        setVisible2(false)
+        setSelectedItems('')
+        putapi()
     };
 
     return (
@@ -67,20 +92,19 @@ export default function Addassetcode() {
                             <TextInput
                                 style={[styles.inputBox]}
                                 value={value.Employeeid}
-                                onChange={item => {
-                                    setvalue((prevValue) => ({
+                                onChangeText={item => {
+                                    setvalue(prevValue => ({
                                         ...prevValue,
-                                        Employeeid: item.value, // Update the Employeeid property
+                                        Employeeid: item,
                                     }));
                                 }}
                                 placeholder="Select Filter Asset Description"
                                 placeholderTextColor="#94A0CA"
                                 selectionColor="#1D3A9F"
                                 underlineColorAndroid="transparent"
-
                             />
                         </View>
-
+                        <Text style={[styles.lableinput, { marginTop: 35 }]}>{RequestNumber}</Text>
                     </View>
                 </View>
                 {/* table section */}
@@ -90,32 +114,35 @@ export default function Addassetcode() {
                     }]} >
                         <DataTable.Header>
                             <DataTable.Title style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}><Text style={styles.tableHeading}><Checkbox
-                                    status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
-                                    onPress={handleSelectAllChange}
-                                /></Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 180 }]} ><Text style={styles.tableHeading}>ASSET/STOCK NUMBER</Text></DataTable.Title>
+                                status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
+                                onPress={handleSelectAllChange}
+                            /></Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 180 }]} ><Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 150 }]} ><Text style={styles.tableHeading}>ASSET ITEM GROUP</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 200 }]}><Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>ASSET QTY</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 200 }]}><Text style={styles.tableHeading}>ASSET CATGORY</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 200 }]}><Text style={styles.tableHeading}>ASSET SUB_CATGORY</Text></DataTable.Title>
+                            <DataTable.Title style={[styles.header, { width: 140 }]}><Text style={styles.tableHeading}>ON-HAND QTY</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>MODEL</Text></DataTable.Title>
-                            <DataTable.Title style={[styles.header, { width: 170,borderTopRightRadius:5 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
-                                </DataTable.Header>
-                        {items.map((item) => (
-                                <DataTable.Row key={item._id}>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                        <Checkbox
-                                            status={item.selected ? 'checked' : 'unchecked'}
-                                            onPress={() => handleCheckboxChange(item._id)}
-                                        />
-                                    </DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.WORKREQUEST}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.REQUESTSTATUS}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.REQUESTBYEMP}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.PRIORITY}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.REQUESTDATE}</DataTable.Cell>
-                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WORKTYPEDESC}</DataTable.Cell>
-                                   
-                                </DataTable.Row>
+                            <DataTable.Title style={[styles.header, { width: 170, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>MONIFACTURER</Text></DataTable.Title>
+                        </DataTable.Header>
+                        {items.filter(row => (
+                            (!value.Employeeid || row.AssetItemDescription.toLowerCase().includes(value.Employeeid.toLowerCase()))
+                        )).map((item) => (
+                            <DataTable.Row key={item.AssetItemDescription}>
+                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                    <Checkbox
+                                        status={item.selected ? 'checked' : 'unchecked'}
+                                        onPress={() => handleCheckboxChange(item.AssetItemDescription)}
+                                    />
+                                </DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.AssetItemDescription}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.AssetItemGroup}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.AssetCategory}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.AssetSubCategory}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.OnHandQty}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.Model}</DataTable.Cell>
+                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.Manufacturer}</DataTable.Cell>
+                            </DataTable.Row>
                         ))}
 
                     </DataTable>
@@ -128,7 +155,7 @@ export default function Addassetcode() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createworkrequest')}
+                        onPress={toggleDialog2}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Add to work request
@@ -151,10 +178,41 @@ export default function Addassetcode() {
                     }}
                     >
                         <MaterialIcons name="save-alt" size={20} color="#0A2DAA" style={{ marginRight: 12 }} />
-
                         Export
                     </Button>
                 </View>
+
+                {/* Deleted  Dialog*/}
+                <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
+                    <Dialog.Title title="Are you sure?" />
+                    <Text>{`You want to Add the Asset code `}</Text>
+                    <Dialog.Actions >
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
+                            <Dialog.Button onPress={showSuccessAlert} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, Add it!</Text></Dialog.Button>
+                        </View>
+                    </Dialog.Actions>
+                </Dialog>
+                {/* Pop message */}
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success!</Text>
+                        </View>
+                    }
+                    message={`The selected records are added to the Work Request No ${RequestNumber}`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setShowAlert(false)
+                    }}
+                />
 
             </View>
         </ScrollView>
@@ -164,12 +222,11 @@ export default function Addassetcode() {
 const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: 'row',
-        // alignItems: 'center',
         paddingBottom: 5,
         marginBottom: 10,
         position: 'relative',
-        // justifyContent: 'space-around'
-        paddingHorizontal:15
+        justifyContent: 'space-between',
+        paddingHorizontal: 15
     },
     lableinput: {
         color: '#0A2DAA',
@@ -186,7 +243,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     inputBox: {
-        width: 300,
+        // width: 250,
         borderRadius: 5,
         paddingHorizontal: 10,
         borderColor: "#94A0CA",
@@ -196,6 +253,7 @@ const styles = StyleSheet.create({
         marginVertical: 9,
         paddingVertical: 5,
         backgroundColor: '#FFFFFF',
+        paddingHorizontal: 10
     },
     buttonsection: {
         display: 'flex',
@@ -219,7 +277,7 @@ const styles = StyleSheet.create({
     },
     tablebody: {
         borderColor: "##9384EB",
-        borderWidth:0.5,
+        borderWidth: 0.5,
         fontSize: 14,
         textAlign: 'center',
         justifyContent: 'center'

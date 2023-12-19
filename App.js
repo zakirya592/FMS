@@ -102,7 +102,7 @@ import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condi
 import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
 import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
 import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
-import supplier from './assets/Screen/Set Up & Configuration/Supplier/supplier';
+import Supplier from './assets/Screen/Set Up & Configuration/Supplier/Supplier';
 import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
@@ -111,6 +111,13 @@ import Viewpreventivemaintenance from './assets/Screen/Preventive Maintenance/Vi
 import Updatapreventivemaintenance from './assets/Screen/Preventive Maintenance/Updatapreventivemaintenance';
 import Viewcleaningwork from './assets/Screen/Cleaning Works/Viewcleaningwork';
 import Updatacleaningwork from './assets/Screen/Cleaning Works/Updatacleaningwork';
+import Viewworkrequest from './assets/Screen/Work Request/Viewworkrequest';
+import Updataworkrequest from './assets/Screen/Work Request/Updataworkrequest';
+import Viewassetmaster from './assets/Screen/Asset Managment/Asset master/Viewassetmaster';
+import Viewassettransaction from './assets/Screen/Asset Managment/Asset Transaction/Viewassettransaction';
+import Viewusercredientials from './assets/Screen/User management/User Credientials/Viewusercredientials';
+import Updateusercredientials from './assets/Screen/User management/User Credientials/Updateusercredientials';
+
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -347,149 +354,164 @@ function MainStackNavigator() {
 
       
       {/* Createworkrequest */}
-      <Stack.Screen name="transferlocationTable" component={transferlocationTable}
-        options={{
-          title: 'transfer location Table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="transferlocationCreate" component={transferlocationCreate}
-        options={{
-          title: 'transfer location Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="transferlocationUpdate" component={transferlocationUpdate}
-        options={{
-          title: 'transfer location Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="stockmastertable" component={stockmastertable}
-        options={{
-          title: 'stockmastertable', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="stockmasterCreate" component={stockmasterCreate}
-        options={{
-          title: 'stock master Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="stockmasterUpdate" component={stockmasterUpdate}
-        options={{
-          title: 'stock master Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="reorderminitable" component={reorderminitable}
-        options={{
-          title: 'reorder mini table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="reorderminicreate" component={reorderminicreate}
-        options={{
-          title: 'reorder mini create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="reorderminiupdate" component={reorderminiupdate}
-        options={{
-          title: 'reorder mini update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="ExpireWarrntytable" component={ExpireWarrntytable}
-        options={{
-          title: 'Expire Warrnety table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="ExpireWarrntyCreate" component={ExpireWarrntyCreate}
-        options={{
-          title: 'Expire Warrnty Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="ExpireWarrntyUpdate" component={ExpireWarrntyUpdate}
-        options={{
-          title: 'Expire Warrnty Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="WarehouseManagment" component={WarehouseManagment}
-        options={{
-          title: 'Warehouse Managment', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
-        options={{
-          title: 'Purchase Request Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="Purchaserequesttable" component={Purchaserequesttable}
-        options={{
-          title: 'Purchase request table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="PurchaseRequestCreate" component={PurchaseRequestCreate}
-        options={{
-          title: 'Purchase Request Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
-        options={{
-          title: 'Purchase Order Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="PurchaseOrderCreate" component={PurchaseOrderCreate}
-        options={{
-          title: 'Purchase Order Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="PurchaseOrdertable" component={PurchaseOrdertable}
-        options={{
-          title: 'Purchase Order table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="GoodReturnCreate" component={GoodReturnCreate}
-        options={{
-          title: 'Good Return Create ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="GoodReturnUpdate" component={GoodReturnUpdate}
-        options={{
-          title: 'Good Return Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
-      <Stack.Screen name="GoodReturntable" component={GoodReturntable}
-        options={{
-          title: 'Good Return ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {/* Createworkrequest */}
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
         options={{
           title: 'Create Work Request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Viewworkrequest */}
+         <Stack.Screen name="Viewworkrequest" component={Viewworkrequest}
+        options={{
+          title: 'Work Request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updataworkrequest */}
+          <Stack.Screen name="Updataworkrequest" component={Updataworkrequest}
+        options={{
+          title: 'Work Request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
       {/* Addassetcode */}
       <Stack.Screen name="Addassetcode" component={Addassetcode}
         options={{
-          title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {
-            color: '#FFFFFF',
-          },
+          title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {color: '#FFFFFF'},  headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewassetmaster */}
+         <Stack.Screen name="Viewassetmaster" component={Viewassetmaster}
+        options={{
+          title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {color: '#FFFFFF'},  headerTintColor: '#FFFFFF'
+        }} />
+         {/* transferlocationTable */}
+      <Stack.Screen name="transferlocationTable" component={transferlocationTable}
+        options={{
+          title: 'transfer location Table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* transferlocationCreate */}
+      <Stack.Screen name="transferlocationCreate" component={transferlocationCreate}
+        options={{
+          title: 'transfer location Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* transferlocationUpdate */}
+      <Stack.Screen name="transferlocationUpdate" component={transferlocationUpdate}
+        options={{
+          title: 'transfer location Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* stockmastertable */}
+      <Stack.Screen name="stockmastertable" component={stockmastertable}
+        options={{
+          title: 'stockmastertable', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* stockmasterCreate */}
+      <Stack.Screen name="stockmasterCreate" component={stockmasterCreate}
+        options={{
+          title: 'stock master Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* stockmasterUpdate */}
+      <Stack.Screen name="stockmasterUpdate" component={stockmasterUpdate}
+        options={{
+          title: 'stock master Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* reorderminitable */}
+      <Stack.Screen name="reorderminitable" component={reorderminitable}
+        options={{
+          title: 'reorder mini table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* reorderminicreate */}
+      <Stack.Screen name="reorderminicreate" component={reorderminicreate}
+        options={{
+          title: 'reorder mini create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* reorderminiupdate */}
+      <Stack.Screen name="reorderminiupdate" component={reorderminiupdate}
+        options={{
+          title: 'reorder mini update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* ExpireWarrntytable */}
+      <Stack.Screen name="ExpireWarrntytable" component={ExpireWarrntytable}
+        options={{
+          title: 'Expire Warrnety table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* ExpireWarrntyCreate */}
+      <Stack.Screen name="ExpireWarrntyCreate" component={ExpireWarrntyCreate}
+        options={{
+          title: 'Expire Warrnty Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* ExpireWarrntyUpdate */}
+      <Stack.Screen name="ExpireWarrntyUpdate" component={ExpireWarrntyUpdate}
+        options={{
+          title: 'Expire Warrnty Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* WarehouseManagment */}
+      <Stack.Screen name="WarehouseManagment" component={WarehouseManagment}
+        options={{
+          title: 'Warehouse Managment', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* PurchaseRequestUpdate */}
+      <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
+        options={{
+          title: 'Purchase Request Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {
+        /* Purchaserequesttable */ }
+      <Stack.Screen name="Purchaserequesttable" component={Purchaserequesttable}
+        options={{
+          title: 'Purchase request table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* PurchaseRequestCreate */}
+      <Stack.Screen name="PurchaseRequestCreate" component={PurchaseRequestCreate}
+        options={{
+          title: 'Purchase Request Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* PurchaseOrderUpdate */}
+      <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
+        options={{
+          title: 'Purchase Order Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* PurchaseOrderCreate */}
+      <Stack.Screen name="PurchaseOrderCreate" component={PurchaseOrderCreate}
+        options={{
+          title: 'Purchase Order Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* PurchaseOrdertable */}
+      <Stack.Screen name="PurchaseOrdertable" component={PurchaseOrdertable}
+        options={{
+          title: 'Purchase Order table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* GoodReturnCreate */}
+      <Stack.Screen name="GoodReturnCreate" component={GoodReturnCreate}
+        options={{
+          title: 'Good Return Create ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* GoodReturnUpdate */}
+      <Stack.Screen name="GoodReturnUpdate" component={GoodReturnUpdate}
+        options={{
+          title: 'Good Return Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+      {/* GoodReturntable */}
+      <Stack.Screen name="GoodReturntable" component={GoodReturntable}
+        options={{
+          title: 'Good Return ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* Workorder */}
@@ -609,6 +631,18 @@ function MainStackNavigator() {
           title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Viewusercredientials */}
+        <Stack.Screen name="Viewusercredientials" component={Viewusercredientials}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updateusercredientials */}
+         <Stack.Screen name="Updateusercredientials" component={Updateusercredientials}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
       {/* Useraccess managment Access */}
       <Stack.Screen name="Useraccess" component={Useraccess}
         options={{
@@ -650,7 +684,12 @@ function MainStackNavigator() {
       {/* AssetTransactionsCreate */}
       <Stack.Screen name="AssetTransactionsUpdate" component={AssetTransactionsUpdate}
         options={{
-          title: 'Asset Transactions Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+          title: 'Asset Transactions', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewassettransaction */}
+        <Stack.Screen name="Viewassettransaction" component={Viewassettransaction}
+        options={{
+          title: 'Asset Transactions', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
       {/* set up and configuration COmponent Rounting */}
       <Stack.Screen name="Setupconfigurationrouting" component={Setupconfigurationrouting}
