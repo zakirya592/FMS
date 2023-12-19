@@ -7,10 +7,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
-import AwesomeAlert from 'react-native-awesome-alerts';
 
-export default function Createworkorder({ route }) {
-    const { myFunction } = route.params
+export default function Viewworkorder({ route }) {
+    const { WorkOrderNumber } = route.params
+
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkOrderNumber: '', Datetime: '', RequestStatus: '',
@@ -22,7 +22,8 @@ export default function Createworkorder({ route }) {
     const [isFocusedWorkDescription, setIsFocusedWorkDescription] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [isFocus, setIsFocus] = useState(false);
-    const [date, setDate] = useState(new Date());
+    const [startdata, setstartdata] = useState(new Date())
+    const [date, setDate] = useState(startdata);
     const [showPicker, setShowPicker] = useState(false);
     // Dropdown useState
     const [RequestStatusLIST, setRequestStatusLIST] = useState([])
@@ -106,35 +107,6 @@ export default function Createworkorder({ route }) {
         setShowPickerSchedule(true);
     };
 
-    // Work Employes ID  Api
-    const Requestnumberapi = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].WorkOrderNumber;
-                // const reqput=1000
-                let formattedRequestNumber;
-                if (reqput >= 1 && reqput <= 9) {
-                    formattedRequestNumber = `000-000-00${reqput}`;
-                } else if (reqput >= 10 && reqput <= 99) {
-                    formattedRequestNumber = `000-000-0${reqput}`;
-                } else if (reqput >= 100 && reqput <= 999) {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                } else if (reqput >= 1000 && reqput <= 9999) {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                } else {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                }
-                // localStorage.setItem('Requestnumbers', reqput)
-                setvalue(prevState => ({ ...prevState, WorkOrderNumber: formattedRequestNumber }));
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
-    useEffect(() => {
-        Requestnumberapi()
-    }, [])
     // Dropdown api
     useEffect(() => {
         axios.get('/api/EmployeeID_GET_LIST').then((response) => {
@@ -239,74 +211,109 @@ export default function Createworkorder({ route }) {
             });
     }
 
-    const requestincreas = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].WorkOrderNumber + 1;
-                axios.put(`/api/WorkOrderNumberCount_Put/1`, {
-                    WorkOrderNumber: reqput
-                })
-                    .then((res) => {
-                        const reqput = res.data.recordset[0].WorkOrderNumber + 1;
-                        setvalue(prevState => ({ ...prevState, WorkOrderNumber: '000-000-' + '0' + `${reqput}` }));
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            })
-            .catch((err) => {
+    function GetgetworkRequest() {
+        axios.get(`/api/WorkOrders_GET_BYID/${WorkOrderNumber}`).then((res) => {
+            setvalue(prevValue => ({
+                ...prevValue,
+                Employeeid: res.data.recordset[0].WorkRequestNumber,
+                WorkStaus: res.data.recordset[0].WorkStatus,
+                WorkPrority: res.data.recordset[0].WorkPriority,
+                WorkDescription: res.data.recordset[0].WorkDescription,
+                FailureCode: res.data.recordset[0].FailureCode,
+                solutionCode: res.data.recordset[0].SolutionCode,
+                WorkCategory: res.data.recordset[0].WorkCategoryCode,
+                AssigntoEmployee: res.data.recordset[0].AssignedtoEmployeeID,
+                CompletedbyEmp: res.data.recordset[0].CompletedByEmployeeID,
+                CostofWork: res.data.recordset[0].TotalCostofWork.toString(),
+                TotalDays: res.data.recordset[0].TotalDays.toString(),
+                TotalHours: res.data.recordset[0].TotalHours.toString(),
+                TotalMinuites: res.data.recordset[0].TotalMinutes.toString(),
+            }));
+            const startdat = res.data.recordset[0].StartWorkOrderDateTime
+            const enddata = res.data.recordset[0].EndWorkOrderDateTime
+            const appointdatadata = res.data.recordset[0].AppointmentDateTime
+            const scheduleddatatime = res.data.recordset[0].ScheduledDateTime
+            setDateSchedule(new Date(scheduleddatatime))
+            setstartdata(new Date(startdat))
+            setDateAppointment(new Date(appointdatadata));
+            setDateEndDatetime(new Date(enddata))
+            const workcategoryCodedec = res.data.recordset[0].WorkCategoryCode
+            axios.get(`/api/WorkCatagres_GET_BYID/${workcategoryCodedec}`)
+                .then((res) => {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        WorkCategoryDesc: res.data.recordset[0].WorkCategoryDesc,
+                    }));
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            const soluctionCodedec = res.data.recordset[0].SolutionCode
+            axios.get(`/api/Solution_GET_BYID/${soluctionCodedec}`)
+                .then((res) => {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        SolutionCodeDesc: res.data.recordset[0].SolutionStatusDesc,
+                    }));
+                }).catch((err) => {
+                    // console.log(err);
+                });
+
+            const FailureCodedec = res.data.recordset[0].FailureCode
+            axios.get(`/api/Failure_GET_BYID/${FailureCodedec}`)
+                .then((res) => {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        FailureCodeDesc: res.data.recordset[0].FailureStatusDesc,
+                    }));
+                }).catch((err) => {
+                    // console.log(err);;
+                });
+
+            const completeEmployee = res.data.recordset[0].CompletedByEmployeeID
+            axios.post(`/api/getworkRequest`, {
+                "EmployeeID": completeEmployee
+            }).then((res) => {
+                const CompleteddEmployeeName = res.data.recordset[0].Firstname
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    ComplateEmployeeName: CompleteddEmployeeName
+                }));
+
+            }).catch((err) => {
                 console.log(err);
             });
-    }
 
-    const [showAlert, setShowAlert] = useState(false);
-
-    const showSuccessAlert = () => {
-        setShowAlert(true);
-    };
-
-    const Createapi = async () => {
-        await axios.post(`/api/WorkOrders_post`, {
-            WorkOrderNumber: value.WorkOrderNumber,
-            WorkRequestNumber: value.Employeeid,
-            WorkStatus: value.WorkStaus,
-            WorkPriority: value.WorkPrority,
-            WorkCategoryCode: value.WorkCategory,
-            WorkDescription: value.WorkDescription,
-            FailureCode: value.FailureCode,
-            SolutionCode: value.solutionCode,
-            AssignedtoEmployeeID: value.AssigntoEmployee,
-            AppointmentDateTime: dateAppointment,
-            ScheduledDateTime: dateSchedule,
-            StartWorkOrderDateTime: date,
-            EndWorkOrderDateTime: dateEndDatetime,
-            TotalDays: value.TotalDays,
-            TotalHours: value.TotalHours,
-            TotalMinutes: value.TotalMinuites,
-            TotalCostofWork: value.CostofWork,
-            CompletedByEmployeeID: value.CompletedbyEmp,
-            CompletionDateTime: date.toISOString(),
-        }).then((res) => {
-            myFunction()
-            showSuccessAlert(true)
-            })
-            .catch((err) => {
-                console.log(err);
+            const assignEmployeeas = res.data.recordset[0].AssignedtoEmployeeID
+            axios.post(`/api/getworkRequest`, {
+                "EmployeeID": assignEmployeeas
+            }).then((res) => {
+                const assignEmployeename = res.data.recordset[0].Firstname
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    EmployeeName: assignEmployeename
+                }));
+            }).catch((err) => {
+                // console.log(err);
             });
-    };
 
-    const postdatfunction = () => {
-        Createapi()
-        requestincreas()
+
+            console.log(res.data.recordset[0]);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
+    useEffect(() => {
+        GetgetworkRequest()
+
+    }, [])
 
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
-
                 <View >
-                    <Text style={styles.prograp}>Create Work Orders
+                    <Text style={styles.prograp}>View Work Orders
                     </Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
@@ -319,7 +326,7 @@ export default function Createworkorder({ route }) {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.WorkOrderNumber}
+                            value={WorkOrderNumber}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
@@ -717,7 +724,7 @@ export default function Createworkorder({ route }) {
                                 <TextInput
                                     style={[styles.inputBox, { position: 'relative', }]}
                                     value={date.toLocaleString()}
-                                    editable={false}
+                                    editable={true}
                                 />
                                 <TouchableOpacity onPress={showDatepicker} style={styles.iconcontainer}>
                                     <AntDesign name="calendar" size={20} color="white" />
@@ -755,7 +762,7 @@ export default function Createworkorder({ route }) {
                                 <View>
                                     <DateTimePicker
                                         testID="dateTimePicker"
-                                        value={dateEndDatetime || new Date()} 
+                                        value={dateEndDatetime || new Date()}
                                         mode="datetime"
                                         is24Hour={true}
                                         display="default"
@@ -927,36 +934,18 @@ export default function Createworkorder({ route }) {
                     paddingHorizontal: 12,
                     marginRight: 40,
                     marginBottom: 20,
-                    alignItems: 'flex-end',
-                    justifyContent: 'flex-end',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
                 }}
-                    onPress={postdatfunction}
-                >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
-                    SAVE
-                </Button>
-
-                <AwesomeAlert
-                    show={showAlert}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
-                        </View>
-                    }
-                    message={`Work Order ${value.WorkOrderNumber} has been created successfully`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={false}
-                    closeOnHardwareBackPress={false}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        navigation.navigate('Workorder')
-                        myFunction()
+                    buttonStyle={{
+                        backgroundColor: 'black',
+                        borderRadius: 3,
                     }}
-                />
-                
+                    onPress={() => { navigation.goBack()}}
+                >
+                    <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
+                    Back
+                </Button>
             </View>
         </ScrollView>
     )

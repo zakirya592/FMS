@@ -7,11 +7,13 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper';
 import axios from "axios";
-import AwesomeAlert from 'react-native-awesome-alerts';
 import { useNavigation } from '@react-navigation/native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-export default function Createcleaningwork({ route }) {
+export default function Updatacleaningwork({ route }) {
+    const { RequestNumber } = route.params
     const { myFunction } = route.params
+
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequestNo: '',
@@ -20,7 +22,7 @@ export default function Createcleaningwork({ route }) {
         WorkPriority: '', Intruction_Remarks: '', SchedulingPriority: '',
         WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '',
         CompletedbyEmp: '', ComplateEmployeeName: '',
-        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: '', CleaningGroup:'', GroupDescription:'',
+        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: '', CleaningGroup: '', GroupDescription: '',
     })
 
     const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
@@ -92,7 +94,6 @@ export default function Createcleaningwork({ route }) {
     const [schedulingprioritylist, setschedulingprioritylist] = useState([])
     const [assetTypelist, setassetTypelist] = useState([]);
     const [dropdownCleaning, setdropdownCleaning] = useState([])
-
     useEffect(() => {
         axios.get('/api/Filter_WR').then((response) => {
             const data = response.data.recordset.map((item) => ({
@@ -151,8 +152,8 @@ export default function Createcleaningwork({ route }) {
         axios.get(`/api/CleaningGroup_GET_LIST`).then((res) => {
             setdropdownCleaning(res.data.recordsets[0])
         }).catch((err) => {
-                console.log(err);
-            });
+            console.log(err);
+        });
     }, [])
 
     // Department
@@ -161,8 +162,7 @@ export default function Createcleaningwork({ route }) {
             ...prevValue,
             DepartmentCode: selectedValue.DepartmentCode,
         }));
-        axios.get(`/api/Department_desc_LIST/${selectedValue.DepartmentCode}`)
-            .then((res) => {
+        axios.get(`/api/Department_desc_LIST/${selectedValue.DepartmentCode}`).then((res) => {
                 setvalue((prevValue) => ({
                     ...prevValue,
                     DepartmentName: res.data.recordset[0].DepartmentDesc,
@@ -179,13 +179,13 @@ export default function Createcleaningwork({ route }) {
             CleaningGroup: Deptnale,
         }));
         axios.get(`/api/CleaningGroup_GET_BYID/${Deptnale}`).then((res) => {
-                setvalue((prevValue) => ({
-                    ...prevValue,
-                    GroupDescription: res.data.recordset[0].CleaningGroupDesc,
-                }));
-            }).catch((err) => {
-                console.log(err);
-            });
+            setvalue((prevValue) => ({
+                ...prevValue,
+                GroupDescription: res.data.recordset[0].CleaningGroupDesc,
+            }));
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     // Work types desc
     const Workypesdesc = (selectedValue) => {
@@ -288,16 +288,148 @@ export default function Createcleaningwork({ route }) {
                 console.log(err);;
             });
     }
+    // empoyee ID
+    function GetgetworkRequest() {
+        axios.get(`/api/CleaningWorks_GET_BYID/${RequestNumber}`).then((res) => {
+            console.log(res.data);
+            const {
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                SchedulingPriority,
+                WorkPriority,
+            } = res.data.recordsets[0][0];
+
+            setvalue((prevValue) => ({
+                ...prevValue,
+                Employeeid: res.data.recordsets[0][0].EmployeeID,
+                WorkRequestNo: res.data.recordsets[0][0].RequestNumber,
+                WorkTypeCode: res.data.recordsets[0][0].WorkType,
+                AssetType: res.data.recordsets[0][0].AssetItemTagID,
+                Intruction_Remarks: res.data.recordsets[0][0].Intruction_Remarks,
+                CleaningGroup: res.data.recordsets[0][0].CleaningGroup,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                WorkPriority,
+                SchedulingPriority,
+            }));
+            setSelectedOption(res.data.recordsets[0][0].Frequency)
+            const startdata = res.data.recordset[0].ScheduleStartDateTime
+            const enddata = res.data.recordset[0].ScheduleEndDateTime
+            const requestDateTime = res.data.recordset[0].RequestDateTime
+            setDate(new Date(requestDateTime))
+            setDateManufacturer(new Date(startdata))
+            setDateEndDatetime(new Date(enddata));
+            const Emplid = res.data.recordsets[0][0].EmployeeID
+            axios.post(`/api/getworkRequest_by_EPID`, {
+                'EmployeeID': Emplid,
+            }).then((res) => {
+                const {
+                    Firstname,
+                    Lastname,
+                    Middlename,
+                } = res.data.recordsets[0][0];
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    Firstname,
+                    Lastname,
+                    Middlename,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+            const depmantlistdesc = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${depmantlistdesc}`).then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    DepartmentName: res.data.recordset[0].DepartmentDesc || '',
+                }));
+            }).catch((err) => {
+                console.log(err);;
+            });
+            const workaout = res.data.recordsets[0][0].WorkType
+            axios.get(`/api/WorkType_descri_LIST/${workaout}`).then((res) => {
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        WorkTypeDesc: res.data.recordset[0].WorkTypeDesc || '',
+                    }));
+                } else {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        WorkTypeDesc: '',
+                    }));
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+            axios.get(`/api/WorkTrade_LIST/${workaout}`).then((res) => {
+                setdropdownWorkTradeLIST(res.data.recordsets[0])
+            }).catch((err) => {
+                console.log(err);
+            });
+            const AssetItemTagIDdesc = res.data.recordsets[0][0].AssetItemTagID
+            axios.get(`/api/AssetType_GET_BYID/${AssetItemTagIDdesc}`).then((res) => {
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        AssetTypeDesc: res.data.recordset[0].AssetTypeDesc || '',
+                    }));
+                } else {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        AssetTypeDesc: '',
+                    }));
+                }
+            }).catch((err) => {
+                console.log(err);;
+            });
+            axios.get(`/api/AssetType_GET_BYAssetType/${AssetItemTagIDdesc}`).then((res) => {
+                const responseData = res.data.recordset[0];
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: responseData.AssetCategory || '',
+                        Manufacturer: responseData.Manufacturer || '',
+                        Model: responseData.Model || '',
+                    }));
+                } else {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: '',
+                        Manufacturer: '',
+                        Model: '',
+                    }));
+                }
+            }).catch((err) => {
+                console.log(err);;
+            });
+            const CleaningGroup = res.data.recordsets[0][0].CleaningGroup
+            axios.get(`/api/CleaningGroup_GET_BYID/${CleaningGroup}`).then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    GroupDescription: res.data.recordset[0].CleaningGroupDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        GetgetworkRequest()
+    }, [])
 
     const [showAlert, setShowAlert] = useState(false);
 
     const showSuccessAlert = () => {
         setShowAlert(true);
     };
-
     const Createapi = () => {
-        axios.post(`/api/CleaningWorks_post`, {
-            RequestNumber: value.WorkRequestNo,
+        axios.put(`/api/CleaningWorks_Put/${RequestNumber}`, {
             EmployeeID: value.Employeeid,
             RequestDateTime: date,
             WorkType: value.WorkTypeCode,
@@ -323,9 +455,8 @@ export default function Createcleaningwork({ route }) {
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
-                {/* Top title */}
                 <View >
-                    <Text style={styles.prograp}>Create Cleaning Works</Text>
+                    <Text style={styles.prograp}>Update Cleaning Works</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -923,9 +1054,7 @@ export default function Createcleaningwork({ route }) {
                         </Text>
 
                         <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <TextInput
                                     style={[styles.inputBox, { position: 'relative', }]}
                                     value={dateManufacturer ? dateManufacturer.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
@@ -1067,41 +1196,34 @@ export default function Createcleaningwork({ route }) {
                     </View>
                 </View>
                 {/* Button section */}
-                <Button radius={"md"} type="solid" containerStyle={{
-                    paddingHorizontal: 12,
-                    marginRight: 40,
-                    marginBottom: 10,
-                    marginTop: 10,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                }}
-                    buttonStyle={{
-                        backgroundColor: '#0A2DAA',
-                        borderRadius: 3,
-                        width: 130
+                <View style={styles.buttonsection}>
+                    <Button radius={"md"} type="solid" containerStyle={{
+                        paddingHorizontal: 12,
+                        marginRight: 40,
                     }}
-                    onPress={Createapi}
-                >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
-                    SAVE
-                </Button>
-                <Button radius={"md"} type="solid" containerStyle={{
-                    width: 350,
-                    paddingHorizontal: 12,
-                    marginRight: 40,
-                    marginBottom: 20,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                }}
-                    buttonStyle={{
-                        backgroundColor: '#029B5B',
-                        borderRadius: 3,
+                        buttonStyle={{
+                            backgroundColor: 'black',
+                            borderRadius: 3,
+                        }}
+                        onPress={() => { navigation.goBack() }}
+                    >
+                        <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
+                        Back
+                    </Button>
+                    <Button radius={"md"} type="solid" containerStyle={{
+                        paddingHorizontal: 12,
                     }}
-                // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
-                >
-                    <Ionicons name="document-text-outline" size={23} color="white" style={{ marginRight: 12 }} />
-                    GENERATE PM WORK ORDERS
-                </Button>
+                        buttonStyle={{
+                            backgroundColor: '#0A2DAA',
+                            borderRadius: 3,
+                            width: 130
+                        }}
+                        onPress={Createapi}
+                    >
+                        <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
+                        SAVE
+                    </Button>
+                </View>
 
                 <AwesomeAlert
                     show={showAlert}
@@ -1111,7 +1233,7 @@ export default function Createcleaningwork({ route }) {
                             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
                         </View>
                     }
-                    message={`Cleaning Works ${value.WorkRequestNo} has been created successfully`}
+                    message={`Cleaning Work ${RequestNumber} has been created updated`}
                     confirmButtonColor="#DD6B55"
                     confirmButtonStyle={{ backgroundColor: 'black' }}
                     closeOnTouchOutside={false}
@@ -1224,6 +1346,13 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         fontSize: 12,
         color: '#0A2DAA'
+    },
+    buttonsection: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+        marginTop: 10,
     }
 
 })

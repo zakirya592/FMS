@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native"
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button } from '@rneui/themed';
@@ -6,22 +6,21 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper';
+import axios from "axios";
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { useNavigation } from '@react-navigation/native';
 
-const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-];
-
-export default function Createpreventivemaintenance() {
+export default function Createpreventivemaintenance({ route }) {
+    const { myFunction } = route.params
+    const navigation = useNavigation();
     const [value, setvalue] = useState({
-        Employeeid: null, WorkRequestNo:'',
-        WorkOrderNumber: '', Datetime: '', RequestStatus: '', FirstMiddleName: '', LastName: '',
-        AssetCategory: '', Manufacturer: '', Model: '', Building: '', DepartmentCode: '', DepartmentName:'',
-        WorkPriority: '', WorkDescription: '', SchedulingPriority:'',
-        WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '', TotalDays: '0', TotalHours: '0', TotalMinuites: '0', CostofWork: '0',
+        Employeeid: null, WorkRequestNo: '',
+        WorkOrderNumber: '', Datetime: '', RequestStatus: '', Firstname: '', Middlename: '', Lastname: '',
+        AssetCategory: '', Manufacturer: '', Model: '', BuildingCode: '', DepartmentCode: '', DepartmentName: '',
+        WorkPriority: '', WorkDescription: '', SchedulingPriority: '',
+        WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '',
         CompletedbyEmp: '', ComplateEmployeeName: '',
+        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: ''
     })
 
     const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
@@ -82,13 +81,228 @@ export default function Createpreventivemaintenance() {
         setSelectedOption(value);
     };
 
+    const [dropdownRequestNumber, setdropdownRequestNumber] = useState([])
+    const [WorkPrioritlist, setWorkPrioritlist] = useState([])
+    const [dropdownBuildingList, setDropdownBuildingList] = useState([]);
+    const [dropdownLocation, setdropdownLocation] = useState([])
+    const [dropdownDepartmentLIST, setdropdownDepartmentLIST] = useState([])
+    const [Employeeiddropdown, setEmployeeiddropdown] = useState([])
+    const [dropdownworktypesLIST, setdropdownworktypesLIST] = useState([])
+    const [dropdownWorkTradeLIST, setdropdownWorkTradeLIST] = useState([])
+    const [schedulingprioritylist, setschedulingprioritylist] = useState([])
+    const [assetTypelist, setassetTypelist] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/Filter_WR').then((response) => {
+            const data = response.data.recordset.map((item) => ({
+                labelRequestNumber: `${item.RequestNumber} (${item.RequestStatus})`, // Customize label as needed
+                valueRequestNumber: item.RequestNumber,
+                labelEmployeeIDname: item.RequestStatus
+            }));
+            setdropdownRequestNumber(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get(`/api/WorkPriority_LIST`).then((res) => {
+            setWorkPrioritlist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get('/api/EmployeeID_GET_LIST').then((response) => {
+            const data = response.data.recordset.map((item) => ({
+                labelEmployeeID: `${item.Firstname} (${item.EmployeeID})`,
+                valueEmployeeID: item.EmployeeID,
+            }));
+            setEmployeeiddropdown(data)
+        }).catch((error) => {
+            console.log('-----', error);
+        });
+        axios.get(`/api/Building_LIST`).then((res) => {
+            setDropdownBuildingList(res.data.recordsets[0]);
+        }).catch((err) => {
+            console.error(err);
+        });
+        axios.get(`/api/Location_LIST`).then((res) => {
+            setdropdownLocation(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/Department_LIST`).then((res) => {
+            setdropdownDepartmentLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/WorkType_LIST`).then((res) => {
+            setdropdownworktypesLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get(`/api/SchedPriority_GET_LIST`).then((res) => {
+            setschedulingprioritylist(res.data.recordsets[0]);
+        }).catch((err) => {
+            console.error("Gender API error:", err);
+        });
+        axios.get(`/api/AssetType_GET_LIST`).then((res) => {
+            setassetTypelist(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, [])
+
+    // Department
+    const handleProvinceChange = (selectedValue) => {
+        setvalue((prevValue) => ({
+            ...prevValue,
+            DepartmentCode: selectedValue.DepartmentCode,
+        }));
+        axios.get(`/api/Department_desc_LIST/${selectedValue.DepartmentCode}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    DepartmentName: res.data.recordset[0].DepartmentDesc,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+    // Work types desc
+    const Workypesdesc = (selectedValue) => {
+        const Deptnale = selectedValue.WorkTypeCode
+        setvalue(prevValue => ({
+            ...prevValue,
+            WorkTypeCode: selectedValue.WorkTypeCode
+        }))
+        axios.get(`/api/WorkType_descri_LIST/${Deptnale}`).then((res) => {
+            setvalue(prevValue => ({
+                ...prevValue,
+                WorkTypeDesc: res.data.recordset[0].WorkTypeDesc
+            }))
+        }).catch((err) => {
+            console.log(err);
+        });
+        // WorkTrade_LIST
+        axios.get(`/api/WorkTrade_LIST/${Deptnale}`).then((res) => {
+            setdropdownWorkTradeLIST(res.data.recordsets[0])
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    // EmployeeID
+    function postapi(EmployeeID) {
+        axios.post(`/api/getworkRequest_by_EPID`, {
+            EmployeeID,
+        }).then((res) => {
+            console.log(res.data.recordset);
+            const {
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+            } = res.data.recordsets[0][0];
+            setvalue((prevValue) => ({
+                ...prevValue,
+                Firstname,
+                Middlename,
+                Lastname,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+            }));
+            const Depauto = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                .then((res) => {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        DepartmentName: res.data.recordset[0].DepartmentDesc,
+                    }));
+                }).catch((err) => {
+                    console.log(err);;
+                });
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    const handleProvinceChangeassetType = (selectedValue) => {
+        const Deptnale = selectedValue.AssetTypeCode;
+        setvalue((prevValue) => ({
+            ...prevValue,
+            AssetType: selectedValue.AssetTypeCode,
+        }));
+        axios.get(`/api/AssetType_GET_BYID/${Deptnale}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    AssetTypeDesc: res.data.recordset[0].AssetTypeDesc,
+                }));
+            })
+            .catch((err) => {
+                console.log(err);;
+            });
+
+        axios.get(`/api/AssetType_GET_BYAssetType/${Deptnale}`)
+            .then((res) => {
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    const responseData = res.data.recordset[0];
+
+                    // Set values in state
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: responseData.AssetCategory || '',
+                        Manufacturer: responseData.Manufacturer || '',
+                        Model: responseData.Model || '',
+                    }));
+                } else {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: '',
+                        Manufacturer: '',
+                        Model: '',
+                    }));
+                }
+            })
+            .catch((err) => {
+                console.log(err);;
+            });
+    }
+
+    const [showAlert, setShowAlert] = useState(false);
+
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
+
+    const Createapi = () => {
+        axios.post(`/api/PreventiveMaintenance_post`, {
+            RequestNumber: value.WorkRequestNo,
+            EmployeeID: value.Employeeid,
+            RequestDateTime: date,
+            WorkType: value.WorkTypeCode,
+            WorkPriority: value.WorkPriority,
+            AssetItemTagID: value.AssetType,
+            DepartmentCode: value.DepartmentCode,
+            BuildingCode: value.BuildingCode,
+            LocationCode: value.LocationCode,
+            MaintenanceDescription: value.WorkDescription,
+            Frequency: selectedOption,
+            ScheduleStartDateTime: dateManufacturer,
+            ScheduleEndDateTime: dateEndDatetime,
+            SchedulingPriority: value.SchedulingPriority,
+        }).then((res) => {
+            myFunction()
+            showSuccessAlert(true)
+        }).catch((err) => {
+        });
+    };
+
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
+                {/* Top title */}
                 <View >
-                    <Text style={styles.prograp}>Create Preventive  Maintenance
-                    </Text>
+                    <Text style={styles.prograp}>Create Preventive Maintenance</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -101,19 +315,21 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={Employeeiddropdown}
                             search
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelEmployeeID"
+                            valueField="valueEmployeeID"
                             placeholder='Employee Number'
                             searchPlaceholder="Search..."
                             value={value.Employeeid}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Employeeid: item.value, // Update the Employeeid property
+                                    Employeeid: item?.valueEmployeeID || '',
                                 }));
+                                postapi(item?.valueEmployeeID || '');
+
                             }}
                         />
                     </View>
@@ -127,16 +343,16 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownRequestNumber}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="labelRequestNumber"
+                            valueField="valueRequestNumber"
                             placeholder='Work Request No'
                             value={value.WorkRequestNo}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkRequestNo: item.value, // Update the Employeeid property
+                                    WorkRequestNo: item?.valueRequestNumber || '',
                                 }));
                             }}
                         />
@@ -144,7 +360,7 @@ export default function Createpreventivemaintenance() {
 
                 </View>
                 {/* Start Date/Time  */}
-                <View style={[styles.inputContainer,{alignItems:'flex-start',justifyContent:'flex-start',marginLeft:4}]}>
+                <View style={[styles.inputContainer, { alignItems: 'flex-start', justifyContent: 'flex-start', marginLeft: 4 }]}>
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Request <Text style={{ fontSize: 12 }}> Date/Time</Text>
@@ -177,22 +393,22 @@ export default function Createpreventivemaintenance() {
                         </View>
                     </View>
                 </View>
-                {/* FirstMiddleName and last name */}
+                {/* FirstName and MiddleName */}
                 <View style={styles.inputContainer}>
 
                     <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>First & Middle Name
+                        <Text style={styles.lableinput}>First Name
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.FirstMiddleName}
+                            value={value.Firstname}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    FirstMiddleName: item.value, // Update the Employeeid property
+                                    Firstname: item.value, // Update the Employeeid property
                                 }));
                             }}
                             placeholder='First & Middle Name '
@@ -204,6 +420,33 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                     <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Middle Name
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.inputBox,
+                                { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
+                            ]}
+                            value={value.Middlename}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    Middlename: item.value, // Update the Employeeid property
+                                }));
+                            }}
+                            placeholder='Middle Name'
+                            placeholderTextColor="#94A0CA"
+                            selectionColor="#1D3A9F"
+                            underlineColorAndroid="transparent"
+
+                        />
+                    </View>
+
+                </View>
+                {/* Work Priority* and last name */}
+                <View style={styles.inputContainer}>
+
+                    <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Last Name
                         </Text>
                         <TextInput
@@ -211,14 +454,14 @@ export default function Createpreventivemaintenance() {
                                 styles.inputBox,
                                 { borderColor: isFocused ? '#1D3A9F' : '#94A0CA' },
                             ]}
-                            value={value.Datetime}
+                            value={value.Lastname}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Datetime: item.value, // Update the Employeeid property
+                                    Lastname: item.value, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder='LastName'
+                            placeholder='Last Name'
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -231,7 +474,30 @@ export default function Createpreventivemaintenance() {
                         />
                     </View>
 
+                    <View style={styles.singleinputlable}>
+                        <Text style={styles.lableinput}>Work Priority
+                        </Text>
+                        <Dropdown
+                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={WorkPrioritlist}
+                            maxHeight={200}
+                            labelField="WorkPriorityCode"
+                            valueField="WorkPriorityCode"
+                            placeholder={'Select Work Priority'}
+                            value={value.WorkPriority}
+                            onChange={item => {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    WorkPriority: item?.WorkPriorityCode || '',
+                                }));
+                            }}
 
+                        />
+                    </View>
 
                 </View>
                 {/* Work Type */}
@@ -246,18 +512,13 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownworktypesLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkTypeCode"
+                            valueField="WorkTypeCode"
                             placeholder={'Select Work Type'}
-                            value={value.WorkType}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkType: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            value={value.WorkTypeCode}
+                            onChange={Workypesdesc}
 
                         />
                     </View>
@@ -284,35 +545,6 @@ export default function Createpreventivemaintenance() {
                     </View>
 
                 </View>
-                {/* Work Priority*/}
-                <View style={[styles.inputContainer,{alignItems:'flex-start',justifyContent:'flex-start',margin:5}]}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}>Work Priority
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }, isFocus && { borderColor: 'blue' }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={data}
-                            maxHeight={200}
-                            labelField="label"
-                            valueField="value"
-                            placeholder={'Select Work Priority'}
-                            value={value.WorkPriority}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    WorkPriority: item.value, // Update the Employeeid property
-                                }));
-                            }}
-
-                        />
-                    </View>
-
-                </View>
                 {/* Asset Type and AssetTypeDesc */}
                 <View style={styles.inputContainer}>
 
@@ -325,18 +557,13 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={assetTypelist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="AssetTypeCode"
+                            valueField="AssetTypeCode"
                             placeholder={'Asset Type'}
                             value={value.AssetType}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    AssetType: item.value,
-                                }));
-                            }}
+                            onChange={handleProvinceChangeassetType}
                         />
                     </View>
 
@@ -448,16 +675,16 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownBuildingList}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="BuildingCode"
+                            valueField="BuildingCode"
                             placeholder={'Select Building'}
-                            value={value.Building}
+                            value={value.BuildingCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Building: item.value, // Update the Employeeid property
+                                    BuildingCode: item?.BuildingCode || '',
                                 }));
                             }}
 
@@ -476,18 +703,13 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownDepartmentLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="DepartmentCode"
+                            valueField="DepartmentCode"
                             placeholder={'Select DeptCode'}
                             value={value.DepartmentCode}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    DepartmentCode: item.value, // Update the Employeeid property
-                                }));
-                            }}
+                            onChange={handleProvinceChange}
                         />
                     </View>
 
@@ -577,7 +799,7 @@ export default function Createpreventivemaintenance() {
                     </View>
                 </View>
                 {/* Location*/}
-                <View style={[styles.inputContainer,{justifyContent:'flex-start',alignItems:'flex-start',marginLeft:5}]}>
+                <View style={[styles.inputContainer, { justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: 5 }]}>
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Location
@@ -588,16 +810,16 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownLocation}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="LocationCode"
+                            valueField="LocationCode"
                             placeholder={'Select Location'}
-                            value={value.Location}
+                            value={value.LocationCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Location: item.value, // Update the Employeeid property
+                                    LocationCode: item?.value || '',
                                 }));
                             }}
 
@@ -615,10 +837,10 @@ export default function Createpreventivemaintenance() {
                                 styles.inputBox, { width: 350 },
                             ]}
                             value={value.WorkDescription}
-                            onChange={item => {
+                            onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkDescription: item.value, // Update the Employeeid property
+                                    WorkDescription: item, // Update the Employeeid property
                                 }));
                             }}
                             placeholder="Describe the nature of the Proplem"
@@ -694,7 +916,7 @@ export default function Createpreventivemaintenance() {
                         </View>
                     </View>
                 </View>
-                {/* {Work Trade} */}
+                {/* {Work Trade} Scheduling Priority*/}
                 <View style={styles.inputContainer}>
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>Work Trade
@@ -705,16 +927,16 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={dropdownWorkTradeLIST}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="WorkTradeCode"
+                            valueField="WorkTradeCode"
                             placeholder={'Select Work Trade'}
-                            value={value.WorkTrade}
+                            value={value.WorkTradeCode}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    WorkTrade: item.value, // Update the Employeeid property
+                                    WorkTradeCode: item?.value || '',
                                 }));
                             }}
 
@@ -730,16 +952,16 @@ export default function Createpreventivemaintenance() {
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
                             iconStyle={styles.iconStyle}
-                            data={data}
+                            data={schedulingprioritylist}
                             maxHeight={200}
-                            labelField="label"
-                            valueField="value"
+                            labelField="SchedPriorityCode"
+                            valueField="SchedPriorityCode"
                             placeholder={'Select sched priority'}
                             value={value.SchedulingPriority}
                             onChange={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    SchedulingPriority: item.value, // Update the Employeeid property
+                                    SchedulingPriority: item?.SchedPriorityCode || '',
                                 }));
                             }}
 
@@ -748,7 +970,7 @@ export default function Createpreventivemaintenance() {
                 </View>
                 {/* Frequency */}
                 <View >
-                    <Text style={[styles.lableinput,{marginLeft:5}]}>Frequency
+                    <Text style={[styles.lableinput, { marginLeft: 5 }]}>Frequency
                     </Text>
                     <View style={{ flexDirection: 'row' }}>
                         <RadioButton.Item
@@ -756,7 +978,7 @@ export default function Createpreventivemaintenance() {
                             value="Daily"
                             status={selectedOption === 'Daily' ? 'checked' : 'unchecked'}
                             onPress={() => handleRadioChange('Daily')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }} 
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                             style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
                             labelPosition='right'  // Set the label position to the left
 
@@ -778,8 +1000,8 @@ export default function Createpreventivemaintenance() {
                             labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row'}}>
-                       
+                    <View style={{ flexDirection: 'row' }}>
+
                         <RadioButton.Item
                             label="Bi-Monthly"
                             value="Bi-Monthly"
@@ -796,34 +1018,33 @@ export default function Createpreventivemaintenance() {
                             onPress={() => handleRadioChange('Quarterly')}
                             labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                             style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
-                             />
+                        />
 
                         <RadioButton.Item
                             label="Yearly"
                             value="Yearly"
                             status={selectedOption === 'Yearly' ? 'checked' : 'unchecked'}
                             onPress={() => handleRadioChange('Yearly')}
-                            labelStyle={{ color: '#0A2DAA', fontSize: 14 ,fontWeight:'400'}}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                             style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
                         />
                     </View>
                 </View>
                 {/* Button section */}
                 <Button radius={"md"} type="solid" containerStyle={{
-                    // width: 400,
                     paddingHorizontal: 12,
                     marginRight: 40,
                     marginBottom: 10,
-                    marginTop:10,
+                    marginTop: 10,
                     alignItems: 'flex-start',
                     justifyContent: 'flex-start',
                 }}
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
-                        width:130
+                        width: 130
                     }}
-                // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
+                    onPress={Createapi}
                 >
                     <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
                     SAVE
@@ -845,6 +1066,27 @@ export default function Createpreventivemaintenance() {
                     <Ionicons name="document-text-outline" size={23} color="white" style={{ marginRight: 12 }} />
                     GENERATE PM WORK ORDERS
                 </Button>
+
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
+                        </View>
+                    }
+                    message={`Preventive ${value.WorkRequestNo} has been created successfully`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={false}
+                    closeOnHardwareBackPress={false}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        navigation.navigate('Preventivemaintenance')
+                        myFunction()
+                    }}
+                />
 
             </View>
         </ScrollView>
@@ -942,10 +1184,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderBottomWidth: 0.5
     },
-    radiobutton:{
-        fontWeight:'400',
-        fontSize:12,
-        color:'#0A2DAA'
+    radiobutton: {
+        fontWeight: '400',
+        fontSize: 12,
+        color: '#0A2DAA'
     }
 
 })

@@ -31,7 +31,6 @@ import Useraccess from './assets/Screen/User management/User System Access/Usera
 import Crreateuseraccess from './assets/Screen/User management/User System Access/Crreateuseraccess';
 import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Setupconfigurationrouting';
-import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import AssetTransactionsCreate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsCreate'
 import AssetManagementMasterList from "./assets/Screen/Asset Managment/Asset master/AssetManagementMasterList"
 import AssetTransactionsUpdate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsUpdate'
@@ -89,6 +88,29 @@ import FloorUpdate from './assets/Screen/SpaceManagement/Floors/FloorCreate'
 import RoomsTable from './assets/Screen/SpaceManagement/Rooms/RoomsTable'
 import RoomsCreate from './assets/Screen/SpaceManagement/Rooms/RoomsCreate'
 import RoomsUpdate from './assets/Screen/SpaceManagement/Rooms/RoomsUpdate'
+import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
+import Gendercode from './assets/Screen/Set Up & Configuration/Gender Code/Gendercode';
+import Titlesatutation from './assets/Screen/Set Up & Configuration/Title Salutation/Titlesatutation';
+import Frequency from './assets/Screen/Set Up & Configuration/Frequency Code/Frequency';
+import Maritalstatus from './assets/Screen/Set Up & Configuration/Marital Status/Maritalstatus';
+import Nationality from './assets/Screen/Set Up & Configuration/Nationality/Nationality';
+import Assettype from './assets/Screen/Set Up & Configuration/Asset Type/Assettype';
+import Assetcategory from './assets/Screen/Set Up & Configuration/Asset Category/Assetcategory';
+import Floorcode from './assets/Screen/Set Up & Configuration/Floor Code/Floorcode';
+import AssetSubCategory from './assets/Screen/Set Up & Configuration/Asset Sub Category/AssetSubCategory';
+import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condition/Assectcondition';
+import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
+import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
+import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
+import supplier from './assets/Screen/Set Up & Configuration/Supplier/supplier';
+import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
+import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
+import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
+import Updataworkorder from './assets/Screen/Work Order/Updataworkorder';
+import Viewpreventivemaintenance from './assets/Screen/Preventive Maintenance/Viewpreventivemaintenance';
+import Updatapreventivemaintenance from './assets/Screen/Preventive Maintenance/Updatapreventivemaintenance';
+import Viewcleaningwork from './assets/Screen/Cleaning Works/Viewcleaningwork';
+import Updatacleaningwork from './assets/Screen/Cleaning Works/Updatacleaningwork';
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -482,6 +504,19 @@ function MainStackNavigator() {
           title: 'Work Order', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+         {/* View Work Orders */}
+      <Stack.Screen name="ViewWorkorder" component={Viewworkorder}
+        options={{
+          title: ' View Work Orders', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+          {/* Modify Work Orders */}
+      <Stack.Screen name="Updataworkorder" component={Updataworkorder}
+        options={{
+          title: 'Modify Work Orders', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+
       {/* Locationmanagement */}
       <Stack.Screen name="Locationmanagement" component={Locationmanagement}
         options={{
@@ -499,6 +534,38 @@ function MainStackNavigator() {
         options={{
           title: 'Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewpreventivemaintenance */}
+         <Stack.Screen name="Viewpreventivemaintenance" component={Viewpreventivemaintenance}
+        options={{
+          title: 'View Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updatapreventivemaintenance */}
+         <Stack.Screen name="Updatapreventivemaintenance" component={Updatapreventivemaintenance}
+        options={{
+          title: 'Preventive Maintenance', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Cleaningworks */}
+         <Stack.Screen name="Cleaningworks" component={Cleaningworks}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Createcleaningwork */}
+          <Stack.Screen name="Createcleaningwork" component={Createcleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewcleaningwork */}
+          <Stack.Screen name="Viewcleaningwork" component={Viewcleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updatacleaningwork */}
+          <Stack.Screen name="Updatacleaningwork" component={Updatacleaningwork}
+        options={{
+          title: 'Cleaning Works', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
       {/* Asset magmanet  */}
       <Stack.Screen name="AssetHome" component={AssetHome}

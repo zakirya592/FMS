@@ -11,13 +11,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
 import moment from 'moment';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function Preventivemaintenance() {
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: '', WorkRequest: '',
     })
-
 
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([10]);
@@ -70,9 +70,15 @@ export default function Preventivemaintenance() {
     };
 
     const [visible2, setVisible2] = useState(false);
+    const [deleteItemCode, setDeleteItemCode] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const showSuccessAlert = () => {
+        setShowAlert(true);
+    };
 
-    const toggleDialog2 = () => {
+    const toggleDialog2 = (RequestNumber) => {
         setVisible2(!visible2);
+        setDeleteItemCode(RequestNumber)
     };
 
     const Deletedapi = (RequestNumber) => {
@@ -80,6 +86,7 @@ export default function Preventivemaintenance() {
             .then((res) => {
                 setVisible2(false);
                 getapi()
+                showSuccessAlert(true)
             })
             .catch((err) => {
                 console.log('Error deleting', err);
@@ -87,6 +94,19 @@ export default function Preventivemaintenance() {
             });
     }
 
+    const [showAlertstatus, setshowAlertstatus] = useState(false);
+    const showSuccessAlertstatus = () => {
+        setshowAlertstatus(true);
+    };
+    const updatbutton = () => {
+        if (selectedItems.length >= 1) {
+            navigation.navigate(`Updatapreventivemaintenance`, { RequestNumber: selectedItems, myFunction: getapi })
+        }
+        else {
+            console.warn('Please select at least one item before updating.');
+            showSuccessAlertstatus(true)
+        }
+    }
     return (
         <ScrollView>
             <View>
@@ -155,7 +175,7 @@ export default function Preventivemaintenance() {
                                 <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{moment(item.RequestDateTime).isValid() ? moment(item.RequestDateTime).format('DD/MM/YYYY') : ''}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.DepartmentCode}</DataTable.Cell>
                                 <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.BuildingCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu onSelect={value => alert(`Selected number: ${value}`)}>
+                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu>
                                     <MenuTrigger >
                                         <View style={styles.actions}>
                                             <Text>Action </Text>
@@ -163,36 +183,23 @@ export default function Preventivemaintenance() {
                                         </View>
                                     </MenuTrigger>
                                     <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                        <MenuOption>
+                                        <MenuOption onSelect={() => navigation.navigate(`Viewpreventivemaintenance`, { RequestNumber: item.RequestNumber })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>View</Text>
                                                 <AntDesign name="eye" size={20} color="#0A2DAA" />
                                             </View>
                                         </MenuOption>
-                                        <MenuOption >
+                                        <MenuOption onSelect={() => navigation.navigate(`Updatapreventivemaintenance`, { RequestNumber: item.RequestNumber, myFunction: getapi })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>Update</Text>
                                                 <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
                                             </View>
                                         </MenuOption>
-                                        <MenuOption>
-
+                                        <MenuOption onSelect={() => toggleDialog2(item.RequestNumber)}>
                                             <View style={styles.actions}>
-                                                <TouchableOpacity onPress={() => toggleDialog2(item.RequestNumber)} style={styles.actions}>
-                                                    <Text style={styles.actionstitle}>Delete</Text>
-                                                    <AntDesign name="delete" size={15} color="red" />
-                                                </TouchableOpacity>
+                                                <Text style={styles.actionstitle}>Delete</Text>
+                                                <AntDesign name="delete" size={15} color="red" />
                                             </View>
-                                            <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
-                                                <Dialog.Title title="Are you sure?" />
-                                                <Text>{`You want to delete this ${item.RequestNumber} Work Request Number`}</Text>
-                                                <Dialog.Actions >
-                                                    <View style={{display:'flex',flexDirection:'row'}}>
-                                                        <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
-                                                    <Dialog.Button onPress={() => Deletedapi(item.RequestNumber)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
-                                                    </View>
-                                                </Dialog.Actions>
-                                            </Dialog>
                                         </MenuOption>
                                     </MenuOptions>
                                 </Menu>
@@ -213,7 +220,6 @@ export default function Preventivemaintenance() {
                     showFastPaginationControls
                     selectPageDropdownLabel={'Rows per page'}
                 />
-
                 {/* Button section */}
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="solid" containerStyle={{
@@ -221,6 +227,7 @@ export default function Preventivemaintenance() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
+                        onPress={updatbutton}
                     >
                         Update
                     </Button>
@@ -229,7 +236,7 @@ export default function Preventivemaintenance() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Createpreventivemaintenance')}
+                        onPress={() => navigation.navigate('Createpreventivemaintenance', { myFunction: getapi })}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
@@ -255,7 +262,57 @@ export default function Preventivemaintenance() {
                         Export
                     </Button>
                 </View>
-
+                {/* Deletinf section */}
+                <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
+                    <Dialog.Title title="Are you sure?" />
+                    <Text>{`You want to delete this ${deleteItemCode} Work Request Number`}</Text>
+                    <Dialog.Actions >
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
+                            <Dialog.Button onPress={() => Deletedapi(deleteItemCode)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
+                        </View>
+                    </Dialog.Actions>
+                </Dialog>
+                {/* Pop message */}
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <AntDesign name="delete" color="red" size={20} style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Deleted!</Text>
+                        </View>
+                    }
+                    message={`Work Request Number ${deleteItemCode} has been deleted`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setShowAlert(false)
+                    }}
+                />
+                {/* status updata */}
+                <AwesomeAlert
+                    show={showAlertstatus}
+                    title={
+                        <View >
+                            <MaterialIcons name="error-outline"  color="red" size={30} style={{ alignItems: 'center' , justifyContent:'center',marginBottom:4,marginLeft:5}}/>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Error!</Text>
+                        </View>
+                    }
+                    message={`Select a Work Order by checking the check box`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setshowAlertstatus(false)
+                    }}
+                />
             </View>
         </ScrollView>
     )

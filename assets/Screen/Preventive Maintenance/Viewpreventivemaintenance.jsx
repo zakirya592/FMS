@@ -7,20 +7,20 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper';
 import axios from "axios";
-import AwesomeAlert from 'react-native-awesome-alerts';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Createcleaningwork({ route }) {
-    const { myFunction } = route.params
+export default function Viewpreventivemaintenance({ route }) {
+    const { RequestNumber } = route.params
+
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         Employeeid: null, WorkRequestNo: '',
         WorkOrderNumber: '', Datetime: '', RequestStatus: '', Firstname: '', Middlename: '', Lastname: '',
         AssetCategory: '', Manufacturer: '', Model: '', BuildingCode: '', DepartmentCode: '', DepartmentName: '',
-        WorkPriority: '', Intruction_Remarks: '', SchedulingPriority: '',
+        WorkPriority: '', WorkDescription: '', SchedulingPriority: '',
         WorkPrority: '', WorkStaus: '', AssetType: '', AssetTypeDesc: '', AssigntoEmployee: '', EmployeeName: '',
         CompletedbyEmp: '', ComplateEmployeeName: '',
-        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: '', CleaningGroup:'', GroupDescription:'',
+        LocationCode: '', WorkTypeCode: '', WorkTypeDesc: '', WorkTradeCode: ''
     })
 
     const [isFocusedAssetTypeDesc, setIsFocusedAssetTypeDesc] = useState(false);
@@ -91,7 +91,6 @@ export default function Createcleaningwork({ route }) {
     const [dropdownWorkTradeLIST, setdropdownWorkTradeLIST] = useState([])
     const [schedulingprioritylist, setschedulingprioritylist] = useState([])
     const [assetTypelist, setassetTypelist] = useState([]);
-    const [dropdownCleaning, setdropdownCleaning] = useState([])
 
     useEffect(() => {
         axios.get('/api/Filter_WR').then((response) => {
@@ -148,11 +147,6 @@ export default function Createcleaningwork({ route }) {
         }).catch((err) => {
             console.log(err);
         });
-        axios.get(`/api/CleaningGroup_GET_LIST`).then((res) => {
-            setdropdownCleaning(res.data.recordsets[0])
-        }).catch((err) => {
-                console.log(err);
-            });
     }, [])
 
     // Department
@@ -166,22 +160,6 @@ export default function Createcleaningwork({ route }) {
                 setvalue((prevValue) => ({
                     ...prevValue,
                     DepartmentName: res.data.recordset[0].DepartmentDesc,
-                }));
-            }).catch((err) => {
-                console.log(err);
-            });
-    }
-    // Cleaning
-    const handleCleaningChange = (selectedValue) => {
-        const Deptnale = selectedValue.CleaningGroupCode
-        setvalue((prevValue) => ({
-            ...prevValue,
-            CleaningGroup: Deptnale,
-        }));
-        axios.get(`/api/CleaningGroup_GET_BYID/${Deptnale}`).then((res) => {
-                setvalue((prevValue) => ({
-                    ...prevValue,
-                    GroupDescription: res.data.recordset[0].CleaningGroupDesc,
                 }));
             }).catch((err) => {
                 console.log(err);
@@ -288,44 +266,141 @@ export default function Createcleaningwork({ route }) {
                 console.log(err);;
             });
     }
+    // empoyee ID
+    function GetgetworkRequest() {
+        axios.get(`/api/PreventiveMaintenance_GET_BYID/${RequestNumber}`).then((res) => {
+            const {
+                MobileNumber,
+                LandlineNumber,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                SchedulingPriority,
+                WorkPriority,
+            } = res.data.recordsets[0][0];
 
-    const [showAlert, setShowAlert] = useState(false);
+            setvalue((prevValue) => ({
+                ...prevValue,
+                Employeeid: res.data.recordsets[0][0].EmployeeID,
+                WorkRequestNo: res.data.recordsets[0][0].RequestNumber,
+                WorkTypeCode: res.data.recordsets[0][0].WorkType,
+                AssetType: res.data.recordsets[0][0].AssetItemTagID,
+                WorkDescription: res.data.recordsets[0][0].MaintenanceDescription,
+                MobileNumber,
+                LandlineNumber,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                WorkPriority,
+                SchedulingPriority,
+            }));
+            setSelectedOption(res.data.recordsets[0][0].Frequency)
+            const startdata = res.data.recordset[0].ScheduleStartDateTime
+            const enddata = res.data.recordset[0].ScheduleEndDateTime
+            const requestDateTime = res.data.recordset[0].RequestDateTime
+            setDate(new Date(requestDateTime))
+            setDateManufacturer(new Date(startdata))
+            setDateEndDatetime(new Date(enddata));
+            const Emplid = res.data.recordsets[0][0].EmployeeID
+            axios.post(`/api/getworkRequest_by_EPID`, {
+                'EmployeeID': Emplid,
+            }).then((res) => {
+                const {
+                    Firstname,
+                    Lastname,
+                    Middlename,
+                } = res.data.recordsets[0][0];
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    Firstname,
+                    Lastname,
+                    Middlename,
+                }));
+            }).catch((err) => {
+                console.log(err);
+            });
+            const depmantlistdesc = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${depmantlistdesc}`).then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    DepartmentName: res.data.recordset[0].DepartmentDesc || '',
+                }));
+            }).catch((err) => {
+                console.log(err);;
+            });
+            const workaout = res.data.recordsets[0][0].WorkType
+            axios.get(`/api/WorkType_descri_LIST/${workaout}`).then((res) => {
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        WorkTypeDesc: res.data.recordset[0].WorkTypeDesc || '',
+                    }));
+                } else {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        WorkTypeDesc: '',
+                    }));
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+            axios.get(`/api/WorkTrade_LIST/${workaout}`).then((res) => {
+                setdropdownWorkTradeLIST(res.data.recordsets[0])
+            }).catch((err) => {
+                console.log(err);
+            });
+            const AssetItemTagIDdesc = res.data.recordsets[0][0].AssetItemTagID
+            axios.get(`/api/AssetType_GET_BYID/${AssetItemTagIDdesc}`).then((res) => {
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        AssetTypeDesc: res.data.recordset[0].AssetTypeDesc || '',
+                    }));
+                } else {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        AssetTypeDesc: '',
+                    }));
+                }
+            }).catch((err) => {
+                console.log(err);;
+            });
+            axios.get(`/api/AssetType_GET_BYAssetType/${AssetItemTagIDdesc}`).then((res) => {
+                const responseData = res.data.recordset[0];
+                if (res.data.recordset && res.data.recordset.length > 0) {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: responseData.AssetCategory || '',
+                        Manufacturer: responseData.Manufacturer || '',
+                        Model: responseData.Model || '',
+                    }));
+                } else {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        AssetCategory: '',
+                        Manufacturer: '',
+                        Model: '',
+                    }));
+                }
+            }).catch((err) => {
+                console.log(err);;
+            });
+        })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        GetgetworkRequest()
+    }, [])
 
-    const showSuccessAlert = () => {
-        setShowAlert(true);
-    };
-
-    const Createapi = () => {
-        axios.post(`/api/CleaningWorks_post`, {
-            RequestNumber: value.WorkRequestNo,
-            EmployeeID: value.Employeeid,
-            RequestDateTime: date,
-            WorkType: value.WorkTypeCode,
-            WorkPriority: value.WorkPriority,
-            CleaningGroup: value.CleaningGroup,
-            Intruction_Remarks: value.Intruction_Remarks,
-            AssetItemTagID: value.AssetType,
-            BuildingCode: value.BuildingCode,
-            LocationCode: value.LocationCode,
-            DepartmentCode: value.DepartmentCode,
-            Frequency: selectedOption,
-            ScheduleStartDateTime: dateManufacturer,
-            ScheduleEndDateTime: dateEndDatetime,
-            SchedulingPriority: value.SchedulingPriority,
-        }).then((res) => {
-            myFunction()
-            showSuccessAlert(true)
-        }).catch((err) => {
-        });
-    };
 
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
-                {/* Top title */}
                 <View >
-                    <Text style={styles.prograp}>Create Cleaning Works</Text>
+                    <Text style={styles.prograp}>View Preventive Maintenance</Text>
                 </View>
                 {/* Employee ID and Work Request Number */}
                 <View style={styles.inputContainer}>
@@ -756,48 +831,6 @@ export default function Createcleaningwork({ route }) {
                     </View>
 
                 </View>
-                {/* CleaningGroup */}
-                <View style={styles.inputContainer}>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}> Cleaning Group
-                        </Text>
-                        <Dropdown
-                            style={[styles.inputBox, { height: 40, }]}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            inputSearchStyle={styles.inputSearchStyle}
-                            iconStyle={styles.iconStyle}
-                            data={dropdownCleaning}
-                            maxHeight={200}
-                            labelField="CleaningGroupCode"
-                            valueField="CleaningGroupCode"
-                            placeholder={'Select DeptCode'}
-                            value={value.CleaningGroup}
-                            onChange={handleCleaningChange}
-                        />
-                    </View>
-
-                    <View style={styles.singleinputlable}>
-                        <Text style={styles.lableinput}> Group Description
-                        </Text>
-                        <TextInput
-                            style={[styles.inputBox,]}
-                            value={value.GroupDescription}
-                            onChange={item => {
-                                setvalue((prevValue) => ({
-                                    ...prevValue,
-                                    GroupDescription: item.value, // Update the Employeeid property
-                                }));
-                            }}
-                            placeholder=" Group Description"
-                            placeholderTextColor="#94A0CA"
-                            selectionColor="#1D3A9F"
-                            underlineColorAndroid="transparent"
-                        />
-                    </View>
-
-                </View>
                 {/* Warranty Period and Warrantyenddata Date/time */}
                 <View style={styles.inputContainer}>
 
@@ -892,23 +925,23 @@ export default function Createcleaningwork({ route }) {
                     </View>
 
                 </View>
-                {/* Intruction_Remarks */}
+                {/* WorkDescription */}
                 <View style={styles.inputContainer}>
                     <View style={[styles.singleinputlable]}>
-                        <Text style={styles.lableinput}>Instructions/Remarks
+                        <Text style={styles.lableinput}>Work Description
                         </Text>
                         <TextInput
                             style={[
                                 styles.inputBox, { width: 350 },
                             ]}
-                            value={value.Intruction_Remarks}
+                            value={value.WorkDescription}
                             onChangeText={item => {
                                 setvalue((prevValue) => ({
                                     ...prevValue,
-                                    Intruction_Remarks: item, // Update the Employeeid property
+                                    WorkDescription: item, // Update the Employeeid property
                                 }));
                             }}
-                            placeholder="Describe the cleaning works"
+                            placeholder="Describe the nature of the Proplem"
                             placeholderTextColor="#94A0CA"
                             selectionColor="#1D3A9F"
                             underlineColorAndroid="transparent"
@@ -923,9 +956,7 @@ export default function Createcleaningwork({ route }) {
                         </Text>
 
                         <View>
-                            <View style={{
-                                flexDirection: 'row', alignItems: 'center',
-                            }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <TextInput
                                     style={[styles.inputBox, { position: 'relative', }]}
                                     value={dateManufacturer ? dateManufacturer.toLocaleString() : 'dd/mm/yyyy -:- -'} // Show placeholder text if dateEndDatetime is null
@@ -1065,64 +1096,55 @@ export default function Createcleaningwork({ route }) {
                             labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
                         />
                     </View>
+                    <View style={{ flexDirection: 'row' }}>
+
+                        <RadioButton.Item
+                            label="Bi-Monthly"
+                            value="Bi-Monthly"
+                            status={selectedOption === 'Bi-Monthly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Bi-Monthly')}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                        />
+
+                        <RadioButton.Item
+                            label="Quarterly"
+                            value="Quarterly"
+                            status={selectedOption === 'Quarterly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Quarterly')}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                        />
+
+                        <RadioButton.Item
+                            label="Yearly"
+                            value="Yearly"
+                            status={selectedOption === 'Yearly' ? 'checked' : 'unchecked'}
+                            onPress={() => handleRadioChange('Yearly')}
+                            labelStyle={{ color: '#0A2DAA', fontSize: 14, fontWeight: '400' }}
+                            style={{ flexDirection: 'row-reverse', justifyContent: 'space-between', ...styles.radiobutton }}
+                        />
+                    </View>
                 </View>
                 {/* Button section */}
-                <Button radius={"md"} type="solid" containerStyle={{
-                    paddingHorizontal: 12,
-                    marginRight: 40,
-                    marginBottom: 10,
-                    marginTop: 10,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                }}
-                    buttonStyle={{
-                        backgroundColor: '#0A2DAA',
-                        borderRadius: 3,
-                        width: 130
-                    }}
-                    onPress={Createapi}
-                >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
-                    SAVE
-                </Button>
                 <Button radius={"md"} type="solid" containerStyle={{
                     width: 350,
                     paddingHorizontal: 12,
                     marginRight: 40,
                     marginBottom: 20,
+                    marginTop: 10,
                     alignItems: 'flex-start',
                     justifyContent: 'flex-start',
                 }}
                     buttonStyle={{
-                        backgroundColor: '#029B5B',
+                        backgroundColor: 'black',
                         borderRadius: 3,
                     }}
-                // onPress={() => navigation.navigate('CreateWorkOrderNumber')}
+                    onPress={() => { navigation.goBack() }}
                 >
-                    <Ionicons name="document-text-outline" size={23} color="white" style={{ marginRight: 12 }} />
-                    GENERATE PM WORK ORDERS
+                    <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
+                    Back
                 </Button>
-
-                <AwesomeAlert
-                    show={showAlert}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
-                        </View>
-                    }
-                    message={`Cleaning Works ${value.WorkRequestNo} has been created successfully`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={false}
-                    closeOnHardwareBackPress={false}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        navigation.navigate('Cleaningworks')
-                        myFunction()
-                    }}
-                />
 
             </View>
         </ScrollView>
