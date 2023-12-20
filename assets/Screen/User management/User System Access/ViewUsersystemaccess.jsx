@@ -11,10 +11,11 @@ import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Crreateuseraccess({ route }) {
+export default function ViewUsersystemaccess({ route }) {
     const navigation = useNavigation();
-
     const { myFunction } = route.params
+    const { EmployeeID } = route.params
+
     const [value, setvalue] = useState({
         Employeeid: '', Middlename: '', Lastname: '', Firstname: '', Title: '',
         DepartmentCode: '', DepartmentName: '', UserAuthorityCode: '',
@@ -150,11 +151,10 @@ export default function Crreateuseraccess({ route }) {
     }
 
     const getapitable = () => {
-        axios.get(`/api/usersystemAccess_get_Em_id/${value.Employeeid}`)
+        axios.get(`/api/usersystemAccess_get_Em_id/${EmployeeID}`)
             .then((res) => {
                 setItems(res.data.recordset)
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
             });
     }
@@ -162,46 +162,68 @@ export default function Crreateuseraccess({ route }) {
         getapitable()
     }, [])
 
-    const AddSyetemModulesscreen = () => {
-        if (value.Employeeid) {
-            navigation.navigate('Addystemaccessmodules', { selectedEmployeeID: value.Employeeid, myFunction: getapitable });
-        } else {
-            console.warn('Please select an Employee ID');
-        }
-    }
-    const [showAlertpost, setshowAlertpost] = useState(false);
-    const [errorshow, seterrorshow] = useState(false)
-    const [errorstatues, seterrorstatues] = useState('')
+    const getapi = () => {
+        axios.get(`/api/UserSystemAccess_GET_BYID/${EmployeeID}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    Employeeid: res.data.recordset[0].EmployeeID,
+                    UserAuthorityCode: res.data.recordset[0].UserAuthorityCode
+                }));
 
-    const showSuccessAlertpost = () => {
-        setshowAlertpost(true);
-    };
-    const errorshowmessage = () => {
-        seterrorshow(true)
-    }
-    const Createapi =() => {
-        axios.post(`/api/UserSystemAccess_post`, {
-            EmployeeID: value.Employeeid,
-            UserAuthorityCode: value.UserAuthorityCode,
-            UserAuthorityAccessYN: 'dhfd',
-            AddedByAdminID: 'nu',
-            AddedDateTime: '0',
-        }).then((res) => {
-            showSuccessAlertpost(true)
-            }).catch((err) => {
-                console.log(err.response.data.error);
-                const statuss = err.response.data.error  
-                errorshowmessage(true)
-                seterrorstatues(statuss)
+                const EmployeeID = res.data.recordset[0].EmployeeID
+                axios.post(`/api/getworkRequest_by_EPID`, {
+                    EmployeeID,
+                }).then((res) => {
+                    const {
+                        Firstname,
+                        Middlename,
+                        Lastname,
+                        DepartmentCode,
+                        BuildingCode,
+                        LocationCode,
+                        MobileNumber,
+                        LandlineNumber
+                    } = res.data.recordsets[0][0];
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        Firstname,
+                        Middlename,
+                        Lastname,
+                        DepartmentCode,
+                        BuildingCode,
+                        LocationCode,
+                        MobileNumber,
+                        LandlineNumber
+                    }));
+                    const Depauto = res.data.recordsets[0][0].DepartmentCode
+                    axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                        .then((res) => {
+                            setvalue((prevValue) => ({
+                                ...prevValue,
+                                DepartmentName: res.data.recordset[0].DepartmentDesc,
+                            }));
+                        }).catch((err) => {
+                            console.log(err);;
+                        });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            })
+            .catch((err) => {
+                console.log('err', err);
             });
-    };
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
 
     return (
 
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>Create User Access
+                    <Text style={styles.prograp}>View - User Access
                     </Text>
                 </View>
                 {/* Employee ID User Authority */}
@@ -530,12 +552,15 @@ export default function Crreateuseraccess({ route }) {
                     buttonStyle={{
                         backgroundColor: '#0A2DAA',
                         borderRadius: 3,
+                    borderWidth:1,
+                        borderColor:'#0A2DAA',
                     }}
-                    onPress={AddSyetemModulesscreen}
+                    disabled={true}
                 >
                     <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                     Add Syetem Modules
                 </Button>
+                
                 {/* Table section */}
                 <View style={{ height: 300, marginBottom: 40 }}>
                     <ScrollView horizontal >
@@ -551,78 +576,35 @@ export default function Crreateuseraccess({ route }) {
                                 <DataTable.Title style={[styles.header, { width: 120 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 180, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>SYSTEM MODULES</Text></DataTable.Title>
                             </DataTable.Header>
-                            {items.map((item,index) => (
-                                    <DataTable.Row key={item.SystemModuleCode}>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                            <Checkbox
-                                                status={item.selected ? 'checked' : 'unchecked'}
-                                                onPress={() => handleCheckboxChange(item.SystemModuleCode)}
-                                            />
-                                        </DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{index + 1}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.SystemModuleCode}</DataTable.Cell>
+                            {items.map((item, index) => (
+                                <DataTable.Row key={item.SystemModuleCode} index={item.SystemModuleCode}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item.SystemModuleCode)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.SystemModuleCode}</DataTable.Cell>
 
-                                    </DataTable.Row>
+                                </DataTable.Row>
                             ))}
 
                         </DataTable>
                     </ScrollView>
                 </View>
                 {/* Button section */}
+                
                 <Button radius={"md"} type="solid" containerStyle={{
                     width: 200,
                     marginVertical: 20,
                     marginLeft: 5,
                 }}
-                    buttonStyle={{
-                        backgroundColor: '#0A2DAA',
-                        borderRadius: 3,
-                    }}
-                    onPress={Createapi}
+                    onPress={() => { navigation.goBack() }}
                 >
-                    <Ionicons name="md-save-outline" size={20} color="white" style={{ marginRight: 12 }} />
-                    SAVE
+                    <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
+                    Back
                 </Button>
-
-                <AwesomeAlert
-                    show={showAlertpost}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
-                        </View>
-                    }
-                    message={`User Access ${value.Employeeid} has been created successfully`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={false}
-                    closeOnHardwareBackPress={false}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        navigation.navigate('Useraccess')
-                        myFunction()
-                    }}
-                />
-                <AwesomeAlert
-                    show={errorshow}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <MaterialIcons name="error-outline" size={30} color="red" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'red' }}>Error</Text>
-                        </View>
-                    }
-                    message={`${errorstatues}`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={true}
-                    closeOnHardwareBackPress={true}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        seterrorshow(false)
-                    }}
-                />
             </View>
         </ScrollView>
     )

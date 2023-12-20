@@ -102,6 +102,8 @@ import Viewassetmaster from './assets/Screen/Asset Managment/Asset master/Viewas
 import Viewassettransaction from './assets/Screen/Asset Managment/Asset Transaction/Viewassettransaction';
 import Viewusercredientials from './assets/Screen/User management/User Credientials/Viewusercredientials';
 import Updateusercredientials from './assets/Screen/User management/User Credientials/Updateusercredientials';
+import ViewUsersystemaccess from './assets/Screen/User management/User System Access/ViewUsersystemaccess';
+import Updateusersystemassecc from './assets/Screen/User management/User System Access/Updateusersystemassecc';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -451,6 +453,18 @@ function MainStackNavigator() {
         }} />
       {/* Useraccess managment Access */}
       <Stack.Screen name="Crreateuseraccess" component={Crreateuseraccess}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* ViewUsersystemaccess */}
+         <Stack.Screen name="ViewUsersystemaccess" component={ViewUsersystemaccess}
+        options={{
+          title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updateusersystemassecc */}
+         <Stack.Screen name="Updateusersystemassecc" component={Updateusersystemassecc}
         options={{
           title: 'User Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'

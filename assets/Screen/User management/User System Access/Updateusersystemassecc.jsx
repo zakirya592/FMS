@@ -11,12 +11,13 @@ import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Crreateuseraccess({ route }) {
+export default function Updateusersystemassecc({ route }) {
     const navigation = useNavigation();
-
     const { myFunction } = route.params
+    const { EmployeeID } = route.params
+
     const [value, setvalue] = useState({
-        Employeeid: '', Middlename: '', Lastname: '', Firstname: '', Title: '',
+        Employeeid: EmployeeID, Middlename: '', Lastname: '', Firstname: '', Title: '',
         DepartmentCode: '', DepartmentName: '', UserAuthorityCode: '',
         BuildingCode: '', LocationCode: '', MobileNumber: '', LandlineNumber: '',
     })
@@ -153,13 +154,68 @@ export default function Crreateuseraccess({ route }) {
         axios.get(`/api/usersystemAccess_get_Em_id/${value.Employeeid}`)
             .then((res) => {
                 setItems(res.data.recordset)
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.log(err);
             });
     }
     useEffect(() => {
         getapitable()
+    }, [])
+
+    const getapi = () => {
+        axios.get(`/api/UserSystemAccess_GET_BYID/${EmployeeID}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    Employeeid: res.data.recordset[0].EmployeeID,
+                    UserAuthorityCode: res.data.recordset[0].UserAuthorityCode
+                }));
+
+                const EmployeeID = res.data.recordset[0].EmployeeID
+                axios.post(`/api/getworkRequest_by_EPID`, {
+                    EmployeeID,
+                }).then((res) => {
+                    const {
+                        Firstname,
+                        Middlename,
+                        Lastname,
+                        DepartmentCode,
+                        BuildingCode,
+                        LocationCode,
+                        MobileNumber,
+                        LandlineNumber
+                    } = res.data.recordsets[0][0];
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        Firstname,
+                        Middlename,
+                        Lastname,
+                        DepartmentCode,
+                        BuildingCode,
+                        LocationCode,
+                        MobileNumber,
+                        LandlineNumber
+                    }));
+                    const Depauto = res.data.recordsets[0][0].DepartmentCode
+                    axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                        .then((res) => {
+                            setvalue((prevValue) => ({
+                                ...prevValue,
+                                DepartmentName: res.data.recordset[0].DepartmentDesc,
+                            }));
+                        }).catch((err) => {
+                            console.log(err);;
+                        });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
+    }
+    useEffect(() => {
+        getapi()
     }, [])
 
     const AddSyetemModulesscreen = () => {
@@ -179,21 +235,19 @@ export default function Crreateuseraccess({ route }) {
     const errorshowmessage = () => {
         seterrorshow(true)
     }
-    const Createapi =() => {
-        axios.post(`/api/UserSystemAccess_post`, {
-            EmployeeID: value.Employeeid,
-            UserAuthorityCode: value.UserAuthorityCode,
+    const Createapi = () => {
+        axios.put(`/api/UserSystemAccess_Put/${EmployeeID}`, {
             UserAuthorityAccessYN: 'dhfd',
             AddedByAdminID: 'nu',
             AddedDateTime: '0',
         }).then((res) => {
             showSuccessAlertpost(true)
-            }).catch((err) => {
-                console.log(err.response.data.error);
-                const statuss = err.response.data.error  
-                errorshowmessage(true)
-                seterrorstatues(statuss)
-            });
+        }).catch((err) => {
+            console.log(err.response.data.error);
+            const statuss = err.response.data.error
+            errorshowmessage(true)
+            seterrorstatues(statuss)
+        });
     };
 
     return (
@@ -201,7 +255,7 @@ export default function Crreateuseraccess({ route }) {
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View >
-                    <Text style={styles.prograp}>Create User Access
+                    <Text style={styles.prograp}>Update - User Access
                     </Text>
                 </View>
                 {/* Employee ID User Authority */}
@@ -551,18 +605,18 @@ export default function Crreateuseraccess({ route }) {
                                 <DataTable.Title style={[styles.header, { width: 120 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
                                 <DataTable.Title style={[styles.header, { width: 180, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>SYSTEM MODULES</Text></DataTable.Title>
                             </DataTable.Header>
-                            {items.map((item,index) => (
-                                    <DataTable.Row key={item.SystemModuleCode}>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                            <Checkbox
-                                                status={item.selected ? 'checked' : 'unchecked'}
-                                                onPress={() => handleCheckboxChange(item.SystemModuleCode)}
-                                            />
-                                        </DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{index + 1}</DataTable.Cell>
-                                        <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.SystemModuleCode}</DataTable.Cell>
+                            {items.map((item, index) => (
+                                <DataTable.Row key={item.SystemModuleCode} index={item.SystemModuleCode}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item.SystemModuleCode)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 120 }]}>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>{item.SystemModuleCode}</DataTable.Cell>
 
-                                    </DataTable.Row>
+                                </DataTable.Row>
                             ))}
 
                         </DataTable>
@@ -592,7 +646,7 @@ export default function Crreateuseraccess({ route }) {
                             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
                         </View>
                     }
-                    message={`User Access ${value.Employeeid} has been created successfully`}
+                    message={`User Access ${value.Employeeid} has been Update successfully`}
                     confirmButtonColor="#DD6B55"
                     confirmButtonStyle={{ backgroundColor: 'black' }}
                     closeOnTouchOutside={false}

@@ -10,6 +10,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function Useraccess() {
     const navigation = useNavigation();
@@ -69,21 +70,25 @@ export default function Useraccess() {
     };
 
     const [visible2, setVisible2] = useState(false);
+    const [deleteItemCode, setDeleteItemCode] = useState('');
 
-    const toggleDialog2 = () => {
+    const toggleDialog2 = (EmployeeID) => {
+        setDeleteItemCode(EmployeeID); // Store the system module code
         setVisible2(!visible2);
+    };
+    const [showAlert, setShowAlert] = useState(false);
+    const showSuccessAlert = () => {
+        setShowAlert(true);
     };
 
     const Deletedapi = (EmployeeID) => {
-        axios.delete(`/api/UserSystemAccess_DELETE_BYID/${EmployeeID}`)
-            .then((res) => {
-                setVisible2(false);
-                getapi()
-            })
-            .catch((err) => {
-                console.log('Error deleting', err);
-
-            });
+        axios.delete(`/api/UserSystemAccess_DELETE_BYID/${EmployeeID}`).then((res) => {
+            setVisible2(false);
+            getapi()
+            showSuccessAlert(true)
+        }).catch((err) => {
+            console.log('Error deleting', err);
+        });
     }
 
     return (
@@ -150,43 +155,29 @@ export default function Useraccess() {
                                         </View>
                                     </MenuTrigger>
                                     <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                        <MenuOption>
+                                        <MenuOption onSelect={() => navigation.navigate(`ViewUsersystemaccess`, { EmployeeID: item.EmployeeID })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>View</Text>
                                                 <AntDesign name="eye" size={20} color="#0A2DAA" />
                                             </View>
                                         </MenuOption>
-                                        <MenuOption >
+                                        <MenuOption onSelect={() => navigation.navigate(`Updateusersystemassecc`, { EmployeeID: item.EmployeeID, myFunction: getapi })} >
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>Update</Text>
                                                 <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
                                             </View>
                                         </MenuOption>
-                                        <MenuOption>
-
+                                        <MenuOption onSelect={() => toggleDialog2(item.EmployeeID)} >
                                             <View style={styles.actions}>
-                                                <TouchableOpacity onPress={() => toggleDialog2(item.EmployeeID)} style={styles.actions}>
-                                                    <Text style={styles.actionstitle}>Delete</Text>
-                                                    <AntDesign name="delete" size={15} color="red" />
-                                                </TouchableOpacity>
+                                                <Text style={styles.actionstitle}>Delete</Text>
+                                                <AntDesign name="delete" size={15} color="red" />
                                             </View>
-                                            <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
-                                                <Dialog.Title title="Are you sure?" />
-                                                <Text>{`You want to delete this ${item.EmployeeID} User System Access`}</Text>
-                                                <Dialog.Actions >
-                                                    <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                                        <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
-                                                        <Dialog.Button onPress={() => Deletedapi(item.EmployeeID)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
-                                                    </View>
-                                                </Dialog.Actions>
-                                            </Dialog>
                                         </MenuOption>
                                     </MenuOptions>
                                 </Menu>
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
 
                     </DataTable>
                 </ScrollView>
@@ -200,7 +191,6 @@ export default function Useraccess() {
                     showFastPaginationControls
                     selectPageDropdownLabel={'Rows per page'}
                 />
-
                 {/* Button section */}
                 <View style={styles.buttonsection} >
                     <Button radius={"md"} type="solid" containerStyle={{
@@ -216,7 +206,7 @@ export default function Useraccess() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
-                        onPress={() => navigation.navigate('Crreateuseraccess')}
+                        onPress={() => navigation.navigate('Crreateuseraccess', { myFunction: getapi })}
                     >
                         <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
                         Create
@@ -243,6 +233,37 @@ export default function Useraccess() {
                     </Button>
                 </View>
 
+                {/* Deleted  Dialog*/}
+                <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
+                    <Dialog.Title title="Are you sure?" />
+                    <Text>{`You want to delete this ${deleteItemCode} User System Access`}</Text>
+                    <Dialog.Actions >
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
+                            <Dialog.Button onPress={() => Deletedapi(deleteItemCode)} ><Text style={{ backgroundColor: '#EF643B', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>Yes, delete it!</Text></Dialog.Button>
+                        </View>
+                    </Dialog.Actions>
+                </Dialog>
+                {/* Pop message */}
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <AntDesign name="delete" color="red" size={20} style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Deleted!</Text>
+                        </View>
+                    }
+                    message={`User System Access ${deleteItemCode} has been deleted`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setShowAlert(false)
+                    }}
+                />
             </View>
         </ScrollView>
     )

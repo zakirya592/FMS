@@ -1,15 +1,18 @@
 import React, { useState,useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native'
-import { Button, Icon } from '@rneui/themed';
+import { Button, Icon, Dialog } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { DataTable } from 'react-native-paper';
 import { Checkbox } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function Addystemaccessmodules({ route }) {
     const { selectedEmployeeID } = route.params;
+    const { myFunction } = route.params
 
     const navigation = useNavigation();
     const [value, setvalue] = useState({
@@ -17,7 +20,6 @@ export default function Addystemaccessmodules({ route }) {
     })
 
     const [items, setItems] = useState([]);
-
 
     const getapi = () => {
         axios.get(`/api/SystemModules_GET_LIST`)
@@ -61,16 +63,24 @@ export default function Addystemaccessmodules({ route }) {
             SystemModuleCodes: selectedItems
         }).then((res) => {
                 getapi()
-            })
-            .catch((err) => {
-                // Handle delete error
-                console.log('Add Asset Code Error:', err);
+                setSelectedItems([])
+                 myFunction()
+            }).catch((err) => {
+                console.warn('Add User Access Error:', err);
             });
     }
 
+    const [visible2, setVisible2] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const toggleDialog2 = () => {
+        setVisible2(!visible2);
+    };
     const handleAddSyetemModule = () => {
         posttable(selectedItems)
+        setShowAlert(true);
+        toggleDialog2(false)
     };
+  
 
     return (
         <ScrollView>
@@ -174,6 +184,25 @@ export default function Addystemaccessmodules({ route }) {
                     </Button>
                 </View>
 
+                <AwesomeAlert
+                    show={showAlert}
+                    title={
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success!</Text>
+                        </View>
+                    }
+                    message={`The selected records are added to the System Module ${selectedEmployeeID}`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setShowAlert(false)
+                    }}
+                />
             </View>
         </ScrollView>
     )
