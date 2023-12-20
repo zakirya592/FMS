@@ -1,228 +1,152 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
-import {Button, Icon} from '@rneui/themed';
-import {useNavigation} from '@react-navigation/native';
-import {DataTable} from 'react-native-paper';
-import {Checkbox} from 'react-native-paper';
-import {Dropdown} from 'react-native-element-dropdown';
-import {AntDesign} from '@expo/vector-icons';
-import {Feather} from '@expo/vector-icons';
-import {FontAwesome5} from '@expo/vector-icons';
-import {MaterialIcons} from '@expo/vector-icons';
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { Button, Icon } from '@rneui/themed';
+import { DataTable } from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
+import { Dropdown } from 'react-native-element-dropdown';
+import { MaterialIcons } from '@expo/vector-icons';
+import moment from 'moment';
+import axios from "axios";
 
-export default function Workrequest () {
-  const navigation = useNavigation ();
-  const [value, setvalue] = useState ({
-    Employeeid: '',
+export default function ExpireWarrntytable() {
+  const [value, setvalue] = useState({
+    AssetItemGroupCode: '',
     WorkRequest: '',
   });
 
-  const [page, setPage] = useState (0);
-  const [numberOfItemsPerPageList] = useState ([10]);
-  const [itemsPerPage, onItemsPerPageChange] = useState (
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPageList] = useState([10]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(
     numberOfItemsPerPageList[0]
   );
 
-  const [items, setItems] = useState ([
-    {
-      _id: 1,
-      Seq: '1',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 2,
-      Seq: '2',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-      LASTPURCHASEDATE: 'LASTPURCHASEDATE',
-      PURCHASEAMOUNT: 'PURCHASEAMOUNT',
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 3,
-      Seq: '3',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 4,
-      Seq: '4',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 5,
-      Seq: '5',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 6,
-      Seq: '6',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 7,
-      Seq: '7',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 8,
-      Seq: '8',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 9,
-      Seq: '9',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 10,
-      Seq: '10',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'DiscountAmount',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-    {
-      _id: 11,
-      Seq: '11',
-      PurchaseOrderNumber: 'Open',
-      InvoiceNumbe: 'InvoiceNumbe',
-      DiscountAmount: 'PRIORITY',
-      VendorID: '12/12/3003',
-      InvoiceDate: 'InvoiceDate',
-
-      ACTIONS: 'Open',
-    },
-  ]);
-  //
+  const [items, setItems] = useState([]);
+  const getapi = () => {
+    axios.get(`/api/AssetsMaster_GET_LIST`).then((res) => {
+      setItems(res.data.recordset)
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+  useEffect(() => {
+    getapi()
+  }, [])
   const from = page * itemsPerPage;
-  const to = Math.min ((page + 1) * itemsPerPage, items.length);
+  const to = Math.min((page + 1) * itemsPerPage, items.length);
 
-  useEffect (
+  useEffect(
     () => {
-      setPage (0);
+      setPage(0);
     },
     [itemsPerPage]
   );
-  const data = [
-    {label: 'Item 1', value: '1'},
-    {label: 'Item 2', value: '2'},
-    {label: 'Item 3', value: '3'},
-    {label: 'Item 4', value: '4'},
-  ];
 
-  const [selectedItems, setSelectedItems] = useState ([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  const handleCheckboxChange = _id => {
-    const updatedItems = items.map (
-      item => (item._id === _id ? {...item, selected: !item.selected} : item)
+  const handleCheckboxChange = AssetItemDescription => {
+    const updatedItems = items.map(
+      item => (item.AssetItemDescription === AssetItemDescription ? { ...item, selected: !item.selected } : item)
     );
-    setItems (updatedItems);
+    setItems(updatedItems);
     // Update selectedItems state
     const selectedIds = updatedItems
-      .filter (item => item.selected)
-      .map (item => item._id);
-    setSelectedItems (selectedIds);
+      .filter(item => item.selected)
+      .map(item => item.AssetItemDescription);
+    setSelectedItems(selectedIds);
   };
 
   const handleSelectAllChange = () => {
-    const allSelected = items.every (item => item.selected);
-    const updatedItems = items.map (item => ({
+    const allSelected = items.every(item => item.selected);
+    const updatedItems = items.map(item => ({
       ...item,
       selected: !allSelected,
     }));
-    setItems (updatedItems);
+    setItems(updatedItems);
     const selectedIds = updatedItems
-      .filter (item => item.selected)
-      .map (item => item._id);
-    setSelectedItems (selectedIds);
+      .filter(item => item.selected)
+      .map(item => item.AssetItemDescription);
+    setSelectedItems(selectedIds);
   };
+
+  const [AssetItemGrouplist, setAssetItemGrouplist] = useState([]);
+  useEffect(() => {
+    axios.get(`/api/AssetItemGroup_GET_LIST`).then((res) => {
+      setAssetItemGrouplist(res.data.recordsets[0])
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, [])
+
 
   return (
     <ScrollView>
       <View>
         {/* Top section */}
         <View>
-          <Text style={styles.prograp}>
-            Goods Receipts
-          </Text>
+          <Text style={styles.prograp}>Expired/Warrany Ends</Text>
+        </View>
+        {/* AssetItemDescription and Asset Item Description */}
+        <View style={styles.inputContainer}>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>Asset Item Description</Text>
+            <TextInput
+              style={[
+                styles.inputBox,
+              ]}
+              value={value.AssetItemDescription}
+              onChangeText={item => {
+                setvalue((prevValue) => ({
+                  ...prevValue,
+                  AssetItemDescription: item,
+                }));
+              }}
+              placeholder="Asset Item Description"
+              placeholderTextColor="#94A0CA"
+              selectionColor="#1D3A9F"
+              underlineColorAndroid="transparent"
+            />
+          </View>
+
+          <View style={styles.singleinputlable}>
+            <Text style={styles.lableinput}>Asset Item Group
+            </Text>
+            <Dropdown
+              style={[styles.inputBox, { height: 40, }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              iconStyle={styles.iconStyle}
+              data={[
+                { AssetItemGroupCode: 'Select All', AssetItemGroupName: 'Select All' },
+                ...AssetItemGrouplist,
+              ]}
+              maxHeight={200}
+              labelField="AssetItemGroupCode"
+              valueField="AssetItemGroupCode"
+              value={value.AssetItemGroupCode}
+              onChange={item => {
+                if (item?.AssetItemGroupCode === 'Select All') {
+                  setvalue(prevValue => ({
+                    ...prevValue,
+                    AssetItemGroupCode: item?.AssetItemGroupCode || '',
+                  }));
+                } else {
+                  setvalue(prevValue => ({
+                    ...prevValue,
+                    AssetItemGroupCode: item?.AssetItemGroupCode || '',
+                  }));
+                }
+              }}
+            />
+          </View>
 
         </View>
         {/* table section */}
         <ScrollView horizontal>
-          <DataTable
-            style={[
-              styles.item,
-              {
-                width: '100%',
-                height: 450,
-                margin: 0,
-              },
-            ]}
-          >
+          <DataTable style={[styles.item, { width: '100%', height: 450, margin: 0, }]}>
             <DataTable.Header>
               <DataTable.Title
-                style={[styles.header, {width: 50, borderTopLeftRadius: 5}]}
+                style={[styles.header, { width: 50, borderTopLeftRadius: 5 }]}
               >
                 <Text style={styles.tableHeading}>
                   <Checkbox
@@ -235,156 +159,94 @@ export default function Workrequest () {
                   />
                 </Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 50}]}>
+              <DataTable.Title style={[styles.header, { width: 80 }]}>
                 <Text style={styles.tableHeading}>Seq </Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 180}]}>
-                <Text style={styles.tableHeading}>Purchase Order Number</Text>
+              <DataTable.Title style={[styles.header, { width: 200 }]}>
+                <Text style={styles.tableHeading}>ASSET ITEM DESCRIPTION</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 160}]}>
-                <Text style={styles.tableHeading}>Invoice Numbe</Text>
+              <DataTable.Title style={[styles.header, { width: 160 }]}>
+                <Text style={styles.tableHeading}>ASSET ITEM GROUP</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 140}]}>
-                <Text style={styles.tableHeading}>Discount Amount</Text>
+              <DataTable.Title style={[styles.header, { width: 140 }]}>
+                <Text style={styles.tableHeading}>ASSET CATGORY</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 170}]}>
-                <Text style={styles.tableHeading}>Vendor ID</Text>
+              <DataTable.Title style={[styles.header, { width: 170 }]}>
+                <Text style={styles.tableHeading}>ASSET SUB_CATGORY</Text>
               </DataTable.Title>
-              <DataTable.Title style={[styles.header, {width: 130}]}>
-                <Text style={styles.tableHeading}>Invoice Date</Text>
+              <DataTable.Title style={[styles.header, { width: 130 }]}>
+                <Text style={styles.tableHeading}>ON-HAND QTY</Text>
               </DataTable.Title>
-
-              <DataTable.Title
-                style={[
-                  styles.header,
-                  {width: 140, borderRightWidth: 1, borderTopRightRadius: 5},
-                ]}
-              >
-                <Text style={styles.tableHeading}>ACTIONS</Text>
+              <DataTable.Title style={[styles.header, { width: 150 }]}>
+                <Text style={styles.tableHeading}>WARRANTY PERIOD</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, { width: 150 }]}>
+                <Text style={styles.tableHeading}>WARRANTY</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, { width: 180 }]}>
+                <Text style={styles.tableHeading}>LAST PURCHASE DATE</Text>
+              </DataTable.Title>
+              <DataTable.Title style={[styles.header, { width: 180, borderTopRightRadius: 5 }]}>
+                <Text style={styles.tableHeading}>MINIMUM ORDER LEVEL</Text>
               </DataTable.Title>
             </DataTable.Header>
-            {items.slice (from, to).map (item => (
-              <ScrollView>
-                <DataTable.Row key={item._id}>
-                  <DataTable.Cell style={[styles.tablebody, {width: 50}]}>
-                    <Checkbox
-                      status={item.selected ? 'checked' : 'unchecked'}
-                      onPress={() => handleCheckboxChange (item._id)}
-                    />
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 50}]}>
-                    {item.Seq}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 180}]}>
-                    {item.PurchaseOrderNumber}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 160}]}>
-                    {item.InvoiceNumbe}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 140}]}>
-                    {item.DiscountAmount}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 170}]}>
-                    {item.VendorID}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={[styles.tablebody, {width: 130}]}>
-                    {item.InvoiceDate}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell
-                    style={[
-                      styles.tablebody,
-                      {width: 140, borderRightWidth: 1, borderBottomWidth: 1},
-                    ]}
-                  >
-                    <Menu
-                      onSelect={value => alert (`Selected number: ${value}`)}
-                    >
-                      <MenuTrigger>
-                        <View style={styles.actions}>
-                          <Text>Action </Text>
-                          <AntDesign name="caretdown" size={18} color="black" />
-                        </View>
-                      </MenuTrigger>
-                      <MenuOptions
-                        optionsContainerStyle={{width: 'auto', padding: 10}}
-                      >
-                        <MenuOption value={1}>
-                          <View style={styles.actions}>
-                            <Text style={styles.actionstitle}>View</Text>
-                            <AntDesign name="eye" size={20} color="#0A2DAA" />
-                          </View>
-                        </MenuOption>
-                        <MenuOption value={2}>
-                          <View style={styles.actions}>
-                            <Text style={styles.actionstitle}>Update</Text>
-                            <FontAwesome5
-                              name="pencil-alt"
-                              size={13}
-                              color="#0A2DAA"
-                            />
-                          </View>
-                        </MenuOption>
-                        <MenuOption value={3}>
-                          <View style={styles.actions}>
-                            <Text style={styles.actionstitle}>Delete</Text>
-                            <AntDesign name="delete" size={15} color="red" />
-                          </View>
-                        </MenuOption>
-                      </MenuOptions>
-                    </Menu>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              </ScrollView>
+            {items.filter(item => (
+              (!value.AssetItemGroupCode || value.AssetItemGroupCode === 'Select All' || item.AssetItemGroup === value.AssetItemGroupCode) &&
+              (!value.AssetItemDescription || item.AssetItemDescription.toLowerCase().includes(value.AssetItemDescription.toLowerCase()))
+            )).slice(from, to).map((item, index) => (
+              <DataTable.Row key={item.AssetItemDescription} index={item.AssetItemDescription}>
+                <DataTable.Cell style={[styles.tablebody, { width: 50 }]}>
+                  <Checkbox
+                    status={item.selected ? 'checked' : 'unchecked'}
+                    onPress={() => handleCheckboxChange(item.AssetItemDescription)}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>
+                  {index + 1}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>
+                  {item.AssetItemDescription}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 160 }]}>
+                  {item.AssetItemGroup}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>
+                  {item.AssetCategory}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>
+                  {item.AssetSubCategory}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 130 }]}>
+                  {item.OnHandQty}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>
+                  {item.WarrantyPeriod}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>
+                  {item.Warranty}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>
+                  {moment(item.LastPurchaseDate).isValid() ? moment(item.LastPurchaseDate).format('DD/MM/YYYY') : ''}
+                </DataTable.Cell>
+                <DataTable.Cell style={[styles.tablebody, { width: 180 }]}>
+                  {moment(item.WarrantyEndDate).isValid() ? moment(item.WarrantyEndDate).format('DD/MM/YYYY') : ''}
+                </DataTable.Cell>
+              </DataTable.Row>
             ))}
 
           </DataTable>
         </ScrollView>
         <DataTable.Pagination
           page={page}
-          numberOfPages={Math.ceil (items.length / itemsPerPage)}
-          onPageChange={page => setPage (page)}
+          numberOfPages={Math.ceil(items.length / itemsPerPage)}
+          onPageChange={page => setPage(page)}
           label={`${from + 1}-${to} of ${items.length}`}
           numberOfItemsPerPageList={numberOfItemsPerPageList}
-          // numberOfItemsPerPage={itemsPerPage}
           onItemsPerPageChange={onItemsPerPageChange}
           showFastPaginationControls
           selectPageDropdownLabel={'Rows per page'}
         />
 
-        {/* Button section */}
-        <View style={styles.buttonsection}>
-          <Button
-            radius={'md'}
-            type="solid"
-            containerStyle={{
-              width: 150,
-              marginHorizontal: 50,
-              marginVertical: 10,
-            }}
-            onPress={() => navigation.navigate ('ExpireWarrntyUpdate')}
-          >
-            Update
-          </Button>
-          <Button
-            radius={'md'}
-            type="outline"
-            containerStyle={{
-              width: 150,
-              marginHorizontal: 50,
-              marginVertical: 10,
-            }}
-            onPress={() => navigation.navigate ('ExpireWarrntyCreate')}
-          >
-            <Icon
-              name="add"
-              color="#0A2DAA"
-              size={15}
-              style={styles.outlineIcon}
-            />
-            Create
-          </Button>
-        </View>
         <View style={styles.buttonsection}>
           <Button
             radius={'md'}
@@ -399,7 +261,7 @@ export default function Workrequest () {
               name="print"
               color="#0A2DAA"
               size={20}
-              style={{marginRight: 7}}
+              style={{ marginRight: 7 }}
             />
             Print
           </Button>
@@ -416,7 +278,7 @@ export default function Workrequest () {
               name="save-alt"
               size={20}
               color="#0A2DAA"
-              style={{marginRight: 12}}
+              style={{ marginRight: 12 }}
             />
             Export
           </Button>
@@ -427,15 +289,14 @@ export default function Workrequest () {
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 5,
     marginBottom: 10,
     position: 'relative',
-    marginLeft: -90,
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   },
   lableinput: {
     color: '#0A2DAA',
@@ -449,14 +310,14 @@ const styles = StyleSheet.create ({
     fontStyle: 'normal',
     fontWeight: '600',
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginVertical: 20,
   },
   inputBox: {
-    width: 250,
+    width: 170,
     borderRadius: 5,
     paddingHorizontal: 10,
-    borderColor: '#94A0CA',
-    borderWidth: 1, // Border width
+    borderColor: "#94A0CA",
+    borderWidth: 1,
     fontSize: 14,
     color: 'black',
     marginVertical: 9,
@@ -467,6 +328,7 @@ const styles = StyleSheet.create ({
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'row',
+    marginBottom: 10,
   },
   outlineIcon: {
     borderWidth: 1, // You can customize the border properties as needed
@@ -476,23 +338,16 @@ const styles = StyleSheet.create ({
   header: {
     textAlign: 'center',
     justifyContent: 'center',
-    borderLeftWidth: 1,
-    borderTopWidth: 1,
+    borderWidth: 0.5,
   },
   tableHeading: {
     color: '#1E3B8B',
     fontWeight: 'bold',
     fontSize: 14,
   },
-  item: {
-    // borderColor: "#0A2DAA",
-    // borderWidth: 1, // Border width
-    // borderRadius:5
-  },
   tablebody: {
     borderColor: '##9384EB',
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
+    borderWidth: 0.5,
     fontSize: 14,
     textAlign: 'center',
     justifyContent: 'center',

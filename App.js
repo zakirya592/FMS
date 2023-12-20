@@ -64,13 +64,13 @@ import WarehouseManagment from './assets/Screen/WarehouseManagement/WarehouseMan
 import ExpireWarrntytable from './assets/Screen/WarehouseManagement/EXPIREDWARRANTYENDITEMS/ExpireWarrntytable'
 import ExpireWarrntyCreate from './assets/Screen/WarehouseManagement/EXPIREDWARRANTYENDITEMS/ExpireWarrntyCreate'
 import ExpireWarrntyUpdate from './assets/Screen/WarehouseManagement/EXPIREDWARRANTYENDITEMS/ExpireWarrntyUpdate'
-import reorderminitable from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminitable'
+import Reorderminitable from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/Reorderminitable'
 import reorderminicreate from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminicreate'
 import reorderminiupdate from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminiupdate'
-import stockmastertable from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmastertable'
+import Stockmastertable from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/Stockmastertable'
 import stockmasterCreate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmasterCreate'
 import stockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmasterUpdate'
-import transferlocationTable from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationTable'
+import TransferlocationTable from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/TransferlocationTable'
 import transferlocationCreate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationCreate'
 import transferlocationUpdate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationUpdate'
 import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
@@ -184,9 +184,9 @@ function MainStackNavigator() {
           title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: {color: '#FFFFFF'},  headerTintColor: '#FFFFFF'
         }} />
          {/* transferlocationTable */}
-      <Stack.Screen name="transferlocationTable" component={transferlocationTable}
+      <Stack.Screen name="transferlocationTable" component={TransferlocationTable}
         options={{
-          title: 'transfer location Table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Warehouse Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* transferlocationCreate */}
@@ -202,9 +202,9 @@ function MainStackNavigator() {
           headerTintColor: '#FFFFFF'
         }} />
       {/* stockmastertable */}
-      <Stack.Screen name="stockmastertable" component={stockmastertable}
+      <Stack.Screen name="stockmastertable" component={Stockmastertable}
         options={{
-          title: 'stockmastertable', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Warehouse Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* stockmasterCreate */}
@@ -220,9 +220,9 @@ function MainStackNavigator() {
           headerTintColor: '#FFFFFF'
         }} />
       {/* reorderminitable */}
-      <Stack.Screen name="reorderminitable" component={reorderminitable}
+      <Stack.Screen name="reorderminitable" component={Reorderminitable}
         options={{
-          title: 'reorder mini table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Warehouse Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* reorderminicreate */}
