@@ -104,6 +104,9 @@ import Viewusercredientials from './assets/Screen/User management/User Credienti
 import Updateusercredientials from './assets/Screen/User management/User Credientials/Updateusercredientials';
 import ViewUsersystemaccess from './assets/Screen/User management/User System Access/ViewUsersystemaccess';
 import Updateusersystemassecc from './assets/Screen/User management/User System Access/Updateusersystemassecc';
+import Spacemanagementhome from './assets/Screen/Space Management/Spacemanagementhome';
+import Roomtable from './assets/Screen/Space Management/Room/Roomtable';
+import Createroom from './assets/Screen/Space Management/Room/Createroom';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -654,6 +657,21 @@ function MainStackNavigator() {
       <Stack.Screen name="Crreatesupier" component={Crreatesupier}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Space Management */}
+        <Stack.Screen name="Spacemanagementhome" component={Spacemanagementhome}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Roomtable */}
+        <Stack.Screen name="Roomtable" component={Roomtable}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Createroom */}
+        <Stack.Screen name="Createroom" component={Createroom}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
     </Stack.Navigator>
   );

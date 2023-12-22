@@ -120,12 +120,14 @@ const Home = () => {
 
                 <View style={styles.imgrow}>
                     <View style={styles.imgsingle}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Spacemanagementhome')}>
                         <Image
                             source={require('../Image/Spacemanagment.png')}
                             style={styles.image}
                             resizeMode="cover"
                         />
-                        <Text style={styles.prograp}>Space Management</Text>
+                            <Text style={styles.prograp}>Space Management</Text>
+                    </TouchableOpacity>
                     </View>
                     {/* Setupconfigurationrouting */}
                     <View style={styles.imgsingle}>
