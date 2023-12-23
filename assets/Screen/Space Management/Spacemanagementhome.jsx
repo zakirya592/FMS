@@ -60,7 +60,7 @@ export default function Spacemanagementhome() {
                     </View>
                     <View>
                         <Button
-                            onPress={() => navigation.navigate('GoodReturntable')}
+                            onPress={() => navigation.navigate('Employeeroomassignment')}
                             radius={'md'}
                             type="solid"
                             containerStyle={{

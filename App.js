@@ -109,6 +109,10 @@ import Roomtable from './assets/Screen/Space Management/Room/Roomtable';
 import Createroom from './assets/Screen/Space Management/Room/Createroom';
 import Viewroom from './assets/Screen/Space Management/Room/Viewroom';
 import Updateroom from './assets/Screen/Space Management/Room/Updateroom';
+import Employeeroomassignment from './assets/Screen/Space Management/Employee Room Assignments/Employeeroomassignment';
+import Createemployeeroomassinment from './assets/Screen/Space Management/Employee Room Assignments/Createemployeeroomassinment';
+import Viewemployeeroomassignment from './assets/Screen/Space Management/Employee Room Assignments/Viewemployeeroomassignment';
+import Updateemployeeroomassingment from './assets/Screen/Space Management/Employee Room Assignments/Updateemployeeroomassingment';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -682,6 +686,26 @@ function MainStackNavigator() {
         }} />
         {/* Updateroom */}
            <Stack.Screen name="Updateroom" component={Updateroom}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Employeeroomassignment */}
+         <Stack.Screen name="Employeeroomassignment" component={Employeeroomassignment}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Createemployeeroomassinment */}
+          <Stack.Screen name="Createemployeeroomassinment" component={Createemployeeroomassinment}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewemployeeroomassignment */}
+           <Stack.Screen name="Viewemployeeroomassignment" component={Viewemployeeroomassignment}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updateemployeeroomassingment */}
+            <Stack.Screen name="Updateemployeeroomassingment" component={Updateemployeeroomassingment}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
