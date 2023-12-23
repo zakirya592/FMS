@@ -107,6 +107,8 @@ import Updateusersystemassecc from './assets/Screen/User management/User System 
 import Spacemanagementhome from './assets/Screen/Space Management/Spacemanagementhome';
 import Roomtable from './assets/Screen/Space Management/Room/Roomtable';
 import Createroom from './assets/Screen/Space Management/Room/Createroom';
+import Viewroom from './assets/Screen/Space Management/Room/Viewroom';
+import Updateroom from './assets/Screen/Space Management/Room/Updateroom';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -670,6 +672,16 @@ function MainStackNavigator() {
         }} />
         {/* Createroom */}
         <Stack.Screen name="Createroom" component={Createroom}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewroom */}
+         <Stack.Screen name="Viewroom" component={Viewroom}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updateroom */}
+           <Stack.Screen name="Updateroom" component={Updateroom}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

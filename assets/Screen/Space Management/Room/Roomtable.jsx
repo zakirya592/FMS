@@ -63,7 +63,18 @@ export default function Roomtable() {
         const selectedIds = updatedItems.filter((item) => item.selected).map((item) => item.RoomCode);
         setSelectedItems(selectedIds);
     };
-
+    const [showAlertstatus, setshowAlertstatus] = useState(false);
+    const showSuccessAlertstatus = () => {
+        setshowAlertstatus(true);
+    };
+    const updatbutton = () => {
+        if (selectedItems.length >= 1) {
+            navigation.navigate(`Updateroom`, { RoomCodepage: selectedItems, myFunction: getapi })
+        }
+        else {
+            showSuccessAlertstatus(true)
+        }
+    }
     const [visible2, setVisible2] = useState(false);
     const [deleteItemCode, setDeleteItemCode] = useState('');
     const [showAlert, setShowAlert] = useState(false);
@@ -139,13 +150,13 @@ export default function Roomtable() {
                                         </View>
                                     </MenuTrigger>
                                     <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                        <MenuOption>
+                                        <MenuOption onSelect={() => navigation.navigate(`Viewroom`, { RoomCodepage: item.RoomCode, myFunction: getapi })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>View</Text>
                                                 <AntDesign name="eye" size={20} color="#0A2DAA" />
                                             </View>
                                         </MenuOption>
-                                        <MenuOption >
+                                        <MenuOption onSelect={() => navigation.navigate(`Updateroom`, { RoomCodepage: item.RoomCode, myFunction: getapi })}>
                                             <View style={styles.actions}>
                                                 <Text style={styles.actionstitle}>Update</Text>
                                                 <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
@@ -184,6 +195,8 @@ export default function Roomtable() {
                         marginHorizontal: 50,
                         marginVertical: 10,
                     }}
+                        onPress={updatbutton}
+
                     >
                         Update
                     </Button>
@@ -251,6 +264,25 @@ export default function Roomtable() {
                     }}
                 />
 
+                <AwesomeAlert
+                    show={showAlertstatus}
+                    title={
+                        <View >
+                            <MaterialIcons name="error-outline" color="red" size={30} style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 4, marginLeft: 5 }} />
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Error!</Text>
+                        </View>
+                    }
+                    message={`Select a Room Maintenance  by checking the check box`}
+                    confirmButtonColor="#DD6B55"
+                    confirmButtonStyle={{ backgroundColor: 'black' }}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={true}
+                    showConfirmButton={true}
+                    confirmText="OK"
+                    onConfirmPressed={() => {
+                        setshowAlertstatus(false)
+                    }}
+                />
             </View>
         </ScrollView>
     )

@@ -14,8 +14,6 @@ import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import AwesomeAlert from 'react-native-awesome-alerts';
-import { MaterialIcons } from '@expo/vector-icons';
 
 
 const Vacancy = [
@@ -23,13 +21,13 @@ const Vacancy = [
     { label: 'N', value: 'No' },
 ];
 
-export default function Createroom({ route }) {
-    const { myFunction } = route.params
+export default function Viewroom({ route }) {
+    const { RoomCodepage } = route.params
     const navigation = useNavigation();
     const [value, setvalue] = useState({
         LocationCode: '', LocationDesc: '',
-        RoomCode: '', RoomName: '', BuildingCode: '', BuildingDesc: '', AreaTable: '', FloorCode:'',
-        RoomCapacity: '0', NoofOccupancy: '0', Vacancy:''
+        RoomCode: '', RoomName: '', BuildingCode: '', BuildingDesc: '', AreaTable: '', FloorCode: '',
+        RoomCapacity: '0', NoofOccupancy: '0', Vacancy: ''
     });
 
     const [isFocusedLocationCodeDesc, setIsFocusedLocationCodeDesc] = useState(
@@ -73,20 +71,20 @@ export default function Createroom({ route }) {
         axios.get(`/api/Building_GET_LIST`).then((res) => {
             setdropdownBuildingLIST(res.data.recordsets[0])
         }).catch((err) => {
-                console.log(err);
-            });
+            console.log(err);
+        });
         // Location_LIST
         axios.get(`/api/Location_GET_LIST`).then((res) => {
             setdropdownLocation(res.data.recordsets[0])
         }).catch((err) => {
-                console.log(err);
-            });
+            console.log(err);
+        });
         // Floor
         axios.get(`/api/Floor_GET_List`).then((res) => {
             setdropdownFloor(res.data.data)
         }).catch((err) => {
-                console.log(err);
-            });
+            console.log(err);
+        });
 
     }, [])
 
@@ -137,7 +135,7 @@ export default function Createroom({ route }) {
                         LocationCode: responseData.LocationCode || '',
                     }));
                     const loactioncaodee = res.data.recordset[0].LocationCode
-                        axios.get(`/api/Location_GET_BYID/${loactioncaodee}`)
+                    axios.get(`/api/Location_GET_BYID/${loactioncaodee}`)
                         .then((res) => {
                             if (res.data.recordset && res.data.recordset.length > 0) {
                                 const responseData = res.data.recordset[0];
@@ -167,45 +165,85 @@ export default function Createroom({ route }) {
                 console.log(err);;
             });
     }
-    const [showAlert, setShowAlert] = useState(false);
-    const showSuccessAlert = () => {
-        setShowAlert(true);
-    };
 
-    const [errorshow, seterrorshow] = useState(false)
-    const [errorstatues, seterrorstatues] = useState('')
-    const errorshowmessage = () => {
-        seterrorshow(true)
-    }
-   
-    const postapi = () => {
-        axios.post(`/api/Rooms_newpage_post`, {
-            RoomCode: value.RoomCode,
-            RoomDesc: value.RoomName,
-            Area: value.AreaTable,
-            FloorCode: value.FloorCode,
-            BuildingCode: value.BuildingCode,
-            LocationCode: value.LocationCode,
-            Capacity: value.RoomCapacity,
-            Occupants: value.NoofOccupancy,
-            VacancyFlag: value.Vacancy
-        }).then((res) => {
-                showSuccessAlert(true)
-            myFunction()
-            }).catch((err) => {
+    const getapi = () => {
+        axios.get(`/api/Rooms_newpage_GET_BYID/${RoomCodepage}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    RoomCode: res.data.data[0].RoomCode,
+                    RoomName: res.data.data[0].RoomDesc,
+                    AreaTable: res.data.data[0].Area,
+                    FloorCode: res.data.data[0].FloorCode,
+                    BuildingCode: res.data.data[0].BuildingCode,
+                    RoomCapacity: res.data.data[0].Capacity.toString(),
+                    NoofOccupancy: res.data.data[0].Occupants.toString(),
+                    Vacancy: res.data.data[0].VacancyFlag,
+                    LocationCode: res.data.data[0].LocationCode,
+                }));
+
+                if (res.data.data && res.data.data[0]) {
+                    const loactioncode = res.data.data[0].LocationCode
+                    axios.get(`/api/Location_GET_BYID/${loactioncode}`)
+                        .then((res) => {
+                            if (res.data.recordset && res.data.recordset.length > 0) {
+                                const responseData = res.data.recordset[0];
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    LocationDesc: responseData.LocationDesc || '',
+                                }));
+                            } else {
+                                setvalue((prevValue) => ({
+                                    ...prevValue,
+                                    LocationDesc: '',
+                                }));
+
+                            }
+                        }).catch((err) => {
+                            console.log(err);;
+                        });
+                }
+
+                const buildingcodeget = res.data.data[0].BuildingCode
+                axios.get(`/api/Building_GET_BYID/${buildingcodeget}`)
+                    .then((res) => {
+                        const apiImage = res.data.recordset[0].BuildingImage;
+                        if (apiImage) {
+                            setImage({ uri: apiImage });
+                        } else {
+                            setImage(require('./../../Image/RoomMaintence.png'));
+                        }
+                        if (res.data.recordset && res.data.recordset.length > 0) {
+                            const responseData = res.data.recordset[0];
+                            setvalue((prevValue) => ({
+                                ...prevValue,
+                                BuildingDesc: responseData.BuildingDesc || '',
+                            }));
+                        } else {
+                            setvalue((prevValue) => ({
+                                ...prevValue,
+                                BuildingDesc: '',
+                            }));
+                        }
+                    })
+                    .catch((err) => {
+                        // console.log(err);;
+                    });
+            })
+            .catch((err) => {
                 console.log(err);
-                const statuss = err.response.data.error
-                errorshowmessage(true)
-                seterrorstatues(statuss)
             });
     }
+    useEffect(() => {
+        getapi()
+    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View>
                     <Text style={styles.prograp}>
-                        ROOM MAINTENANCE - CREATE
+                        ROOM MAINTENANCE - VIEW
                     </Text>
                 </View>
                 {/* images section */}
@@ -213,10 +251,10 @@ export default function Createroom({ route }) {
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'row' }}>
                         {image && <Image source={image} style={{ width: 300, height: 150 }} />}
                         <View style={{ marginLeft: 20 }}>
-                            <TouchableOpacity onPress={pickImage} style={{ marginBottom: 20, }}>
+                            <TouchableOpacity onPress={pickImage} style={{ marginBottom: 20, }} disabled>
                                 <FontAwesome5 name="file-upload" size={30} color="black" />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={takePhoto} >
+                            <TouchableOpacity onPress={takePhoto} disabled>
                                 <FontAwesome name="camera" size={24} color="black" />
                             </TouchableOpacity>
                         </View>
@@ -323,7 +361,7 @@ export default function Createroom({ route }) {
                             onChange={item => {
                                 setvalue(prevValue => ({
                                     ...prevValue,
-                                    FloorCode: item?.FloorCode || '',
+                                    FloorCode: item?.value || '',
                                 }));
                             }}
                         />
@@ -427,7 +465,7 @@ export default function Createroom({ route }) {
                             onChange={item => {
                                 setvalue(prevValue => ({
                                     ...prevValue,
-                                    LocationDesc: item.value, 
+                                    LocationDesc: item.value,
                                 }));
                             }}
                             placeholder="Enter Description"
@@ -492,7 +530,7 @@ export default function Createroom({ route }) {
 
                 </View>
                 {/* Vacancy(Y/N) ? */}
-                <View style={[styles.singleinputlable,{marginLeft:10,marginBottom:10}]}>
+                <View style={[styles.singleinputlable, { marginLeft: 10, marginBottom: 10 }]}>
                     <Text style={styles.lableinput}>
                         Vacancy(Y/N) ?
                     </Text>
@@ -520,64 +558,21 @@ export default function Createroom({ route }) {
                     />
                 </View>
                 {/* Button section */}
-                <Button
-                    radius={'md'}
-                    type="solid"
+                <Button radius={"md"} type="solid"
+                    buttonStyle={{
+                        backgroundColor: 'black',
+                        borderRadius: 3,
+                    }}
                     containerStyle={{
                         width: 150,
                         marginLeft: 15,
                         marginBottom: 15,
                     }}
-                    onPress={postapi}
+                    onPress={() => { navigation.goBack() }}
                 >
-                    <Ionicons
-                        name="md-save-outline"
-                        size={20}
-                        color="white"
-                        style={{ marginRight: 12 }}
-                    />
-                    SAVE
+                    <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
+                    Back
                 </Button>
-
-                <AwesomeAlert
-                    show={showAlert}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
-                        </View>
-                    }
-                    message={`Room  has been created successfully`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={false}
-                    closeOnHardwareBackPress={false}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        navigation.navigate('Roomtable')
-                        myFunction()
-                    }}
-                />
-                <AwesomeAlert
-                    show={errorshow}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <MaterialIcons name="error-outline" size={30} color="red" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'red' }}>Error</Text>
-                        </View>
-                    }
-                    message={`${errorstatues}`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={true}
-                    closeOnHardwareBackPress={true}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        seterrorshow(false)
-                    }}
-                />
 
             </View>
         </ScrollView>
