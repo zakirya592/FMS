@@ -31,7 +31,6 @@ import Useraccess from './assets/Screen/User management/User System Access/Usera
 import Crreateuseraccess from './assets/Screen/User management/User System Access/Crreateuseraccess';
 import Addystemaccessmodules from './assets/Screen/User management/User System Access/Addystemaccessmodules';
 import Setupconfigurationrouting from './assets/Screen/Set Up & Configuration/Set Up configuration Router/Setupconfigurationrouting';
-// import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import AssetTransactionsCreate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsCreate'
 import AssetManagementMasterList from "./assets/Screen/Asset Managment/Asset master/AssetManagementMasterList"
 import AssetTransactionsUpdate from './assets/Screen/Asset Managment/Asset Transaction/AssetTransactionsUpdate'
@@ -279,17 +278,22 @@ function MainStackNavigator() {
           title: 'Warehouse Managment', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+          {/* PMHome */}
+                  <Stack.Screen name="PMHome" component={PMHome}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
       {/* PurchaseRequestUpdate */}
       <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
         options={{
-          title: 'Purchase Request Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase Request ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {
         /* Purchaserequesttable */}
       <Stack.Screen name="Purchaserequesttable" component={Purchaserequesttable}
         options={{
-          title: 'Purchase request table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* PurchaseRequestCreate */}
@@ -332,6 +336,12 @@ function MainStackNavigator() {
       <Stack.Screen name="GoodReturntable" component={GoodReturntable}
         options={{
           title: 'Good Return ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* GoodReceiptable */}
+        <Stack.Screen name="GoodReceiptable" component={GoodReceiptable}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* Workorder */}
@@ -758,6 +768,8 @@ function MainStackNavigator() {
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
+      
+
     </Stack.Navigator>
   );
 }

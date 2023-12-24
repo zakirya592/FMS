@@ -204,7 +204,7 @@ export default function Workrequest () {
         {/* Top section */}
         <View>
           <Text style={styles.prograp}>
-            Goods Receipts
+            Purchase Order 
           </Text>
 
         </View>
