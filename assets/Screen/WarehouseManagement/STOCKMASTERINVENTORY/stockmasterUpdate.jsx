@@ -11,10 +11,6 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {Button, Icon} from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {AntDesign} from '@expo/vector-icons';
-import PhoneInput from 'react-native-phone-number-input';
-import {DataTable} from 'react-native-paper';
-import {Checkbox} from 'react-native-paper';
-import {MaterialIcons} from '@expo/vector-icons';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
@@ -25,7 +21,7 @@ const data = [
   {label: 'Item 4', value: '4'},
 ];
 
-export default function Createworkrequest () {
+export default function StockmasterUpdate () {
   const navigation = useNavigation ();
   const [value, setvalue] = useState ({
     Employeeid: null,
