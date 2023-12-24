@@ -113,6 +113,10 @@ import Employeeroomtransfer from './assets/Screen/Space Management/Employee Room
 import Createemployeeroomtransfers from './assets/Screen/Space Management/Employee Room Transfers/Createemployeeroomtransfers';
 import Viewremployeeroomtransfer from './assets/Screen/Space Management/Employee Room Transfers/Viewremployeeroomtransfer';
 import Updateemployeeroomtransfer from './assets/Screen/Space Management/Employee Room Transfers/Updateemployeeroomtransfer';
+import Buildingspacemanagement from './assets/Screen/Space Management/Building/Buildingspacemanagement';
+import Createbuilding from './assets/Screen/Space Management/Building/Createbuilding';
+import Viewbuildingspace from './assets/Screen/Space Management/Building/Viewbuildingspace';
+import Updatebuildingspace from './assets/Screen/Space Management/Building/Updatebuildingspace';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -726,6 +730,26 @@ function MainStackNavigator() {
         }} />
         {/* Updateemployeeroomtransfer */}
           <Stack.Screen name="Updateemployeeroomtransfer" component={Updateemployeeroomtransfer}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Buildingspacemanagement */}
+          <Stack.Screen name="Buildingspacemanagement" component={Buildingspacemanagement}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Createbuilding */}
+            <Stack.Screen name="Createbuilding" component={Createbuilding}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewbuildingspace */}
+                <Stack.Screen name="Viewbuildingspace" component={Viewbuildingspace}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updatebuildingspace */}
+               <Stack.Screen name="Updatebuildingspace" component={Updatebuildingspace}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

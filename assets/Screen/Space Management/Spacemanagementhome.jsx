@@ -15,7 +15,7 @@ export default function Spacemanagementhome() {
                     </Text>
                     <View>
                         <Button
-                            onPress={() => navigation.navigate('Purchaserequesttable')}
+                            onPress={() => navigation.navigate('Buildingspacemanagement')}
                             radius={'md'}
                             type="solid"
                             containerStyle={{
