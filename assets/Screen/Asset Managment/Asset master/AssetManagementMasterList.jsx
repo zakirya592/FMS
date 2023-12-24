@@ -18,7 +18,7 @@ import {
 } from 'react-native-popup-menu';
 import axios from 'axios';
 
-export default function Workrequest () {
+export default function AssetManagementMasterList () {
   const navigation = useNavigation ();
   const [value, setvalue] = useState ({
     Employeeid: '',
@@ -265,7 +265,7 @@ export default function Workrequest () {
                             <AntDesign name="eye" size={20} color="#0A2DAA" />
                           </View>
                         </MenuOption>
-                      <MenuOption onSelect={() => navigation.navigate(`AssetMasterUpdate`, { AssetItemDescription: item.AssetItemDescription })}>
+                      <MenuOption onSelect={() => navigation.navigate(`AssetMasterUpdate`, { AssetItemDescription: item.AssetItemDescription, myFunction: getapi })}>
                           <View style={styles.actions}>
                             <Text style={styles.actionstitle}>Update</Text>
                             <FontAwesome5
@@ -322,7 +322,7 @@ export default function Workrequest () {
               marginHorizontal: 50,
               marginVertical: 10,
             }}
-            onPress={() => navigation.navigate ('AssetMasterCreate')}
+            onPress={() => navigation.navigate('AssetMasterCreate', { myFunction: getapi })}
           >
             <Icon
               name="add"
@@ -369,7 +369,6 @@ export default function Workrequest () {
             Export
           </Button>
         </View>
-
         {/* Deleted  Dialog*/}
         <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
           <Dialog.Title title="Are you sure?" />

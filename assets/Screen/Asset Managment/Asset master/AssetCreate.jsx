@@ -18,7 +18,8 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-export default function AssetMasterCreate() {
+export default function AssetMasterCreate({ route }) {
+  const { myFunction } = route.params
   const navigation = useNavigation();
   const [value, setvalue] = useState({
     Employeeid: null, Datetime: '', AssetType: '', AssetTypeDesc: '',
@@ -378,11 +379,14 @@ export default function AssetMasterCreate() {
     type: 'image/jpeg',
     name: 'asset_image.jpg',
   })
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
   const postapi = () => {
-    console.log(formData);
-    axios.post(`/api/AssetsMaster_post`, formData)
+    axios.post(`/api/AssetsMaster_post`, formData, config)
       .then((res) => {
-        console.log('Add', res.data);
         showSuccessAlert(true)
       }).catch((err) => {
         console.log(err);
@@ -1273,7 +1277,7 @@ export default function AssetMasterCreate() {
           showConfirmButton={true}
           confirmText="OK"
           onConfirmPressed={() => {
-            navigation.navigate('AssetHome')
+            navigation.navigate('AssetManagementMasterList')
             myFunction()
           }}
         />

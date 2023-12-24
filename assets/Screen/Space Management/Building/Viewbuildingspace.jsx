@@ -14,9 +14,6 @@ import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import AwesomeAlert from 'react-native-awesome-alerts';
-import { MaterialIcons } from '@expo/vector-icons';
-
 
 export default function Viewbuildingspace({ route }) {
     const { myFunction } = route.params

@@ -20,6 +20,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default function AssetMasterUpdate({ route }) {
   const { AssetItemDescription } = route.params
+  const { myFunction } = route.params
   const navigation = useNavigation();
   const [value, setvalue] = useState({
     Employeeid: null, Datetime: '', AssetType: '', AssetTypeDesc: '',
@@ -554,12 +555,16 @@ export default function AssetMasterUpdate({ route }) {
       name: 'asset_image.jpg',
     });
   }
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
   const postapi = () => {
-    console.log(formData);
-    axios.put(`/api/AssetsMaster_Put/${AssetItemDescription}`, formData)
+    axios.put(`/api/AssetsMaster_Put/${AssetItemDescription}`, formData, config)
       .then((res) => {
-        console.log('Add', res.data);
         showSuccessAlert(true)
+        myFunction()
       }).catch((err) => {
         console.log(err);
       });
@@ -1449,7 +1454,7 @@ export default function AssetMasterUpdate({ route }) {
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
             </View>
           }
-          message={`Assets Master has been created successfully`}
+          message={`Assets Master ${AssetItemDescription} has been Updated`}
           confirmButtonColor="#DD6B55"
           confirmButtonStyle={{ backgroundColor: 'black' }}
           closeOnTouchOutside={false}
@@ -1457,7 +1462,7 @@ export default function AssetMasterUpdate({ route }) {
           showConfirmButton={true}
           confirmText="OK"
           onConfirmPressed={() => {
-            navigation.navigate('AssetHome')
+            navigation.navigate('AssetManagementMasterList')
             myFunction()
           }}
         />
