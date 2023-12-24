@@ -64,13 +64,10 @@ import WarehouseManagment from './assets/Screen/WarehouseManagement/WarehouseMan
 import ExpireWarrntytable from './assets/Screen/WarehouseManagement/EXPIREDWARRANTYENDITEMS/ExpireWarrntytable'
 import ExpireWarrntyCreate from './assets/Screen/WarehouseManagement/EXPIREDWARRANTYENDITEMS/ExpireWarrntyCreate'
 import ExpireWarrntyUpdate from './assets/Screen/WarehouseManagement/EXPIREDWARRANTYENDITEMS/ExpireWarrntyUpdate'
-import Reorderminitable from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/Reorderminitable'
 import reorderminicreate from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminicreate'
 import reorderminiupdate from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminiupdate'
-import Stockmastertable from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/Stockmastertable'
 import stockmasterCreate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmasterCreate'
 import stockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmasterUpdate'
-import TransferlocationTable from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/TransferlocationTable'
 import transferlocationCreate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationCreate'
 import transferlocationUpdate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationUpdate'
 import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
@@ -87,7 +84,6 @@ import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condi
 import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
 import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
 import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
-import Supplier from './assets/Screen/Set Up & Configuration/Supplier/Supplier';
 import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
@@ -115,6 +111,8 @@ import Viewemployeeroomassignment from './assets/Screen/Space Management/Employe
 import Updateemployeeroomassingment from './assets/Screen/Space Management/Employee Room Assignments/Updateemployeeroomassingment';
 import Employeeroomtransfer from './assets/Screen/Space Management/Employee Room Transfers/Employeeroomtransfer';
 import Createemployeeroomtransfers from './assets/Screen/Space Management/Employee Room Transfers/Createemployeeroomtransfers';
+import Viewremployeeroomtransfer from './assets/Screen/Space Management/Employee Room Transfers/Viewremployeeroomtransfer';
+import Updateemployeeroomtransfer from './assets/Screen/Space Management/Employee Room Transfers/Updateemployeeroomtransfer';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -195,11 +193,11 @@ function MainStackNavigator() {
           title: 'Asset Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: { color: '#FFFFFF' }, headerTintColor: '#FFFFFF'
         }} />
       {/* transferlocationTable */}
-      <Stack.Screen name="transferlocationTable" component={TransferlocationTable}
+      {/* <Stack.Screen name="transferlocationTable" component={TransferlocationTable}
         options={{
           title: 'Warehouse Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* transferlocationCreate */}
       <Stack.Screen name="transferlocationCreate" component={transferlocationCreate}
         options={{
@@ -213,11 +211,11 @@ function MainStackNavigator() {
           headerTintColor: '#FFFFFF'
         }} />
       {/* stockmastertable */}
-      <Stack.Screen name="stockmastertable" component={Stockmastertable}
+      {/* <Stack.Screen name="stockmastertable" component={Stockmastertable}
         options={{
           title: 'Warehouse Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* stockmasterCreate */}
       <Stack.Screen name="stockmasterCreate" component={stockmasterCreate}
         options={{
@@ -225,17 +223,17 @@ function MainStackNavigator() {
           headerTintColor: '#FFFFFF'
         }} />
       {/* stockmasterUpdate */}
-      <Stack.Screen name="stockmasterUpdate" component={stockmasterUpdate}
+      {/* <Stack.Screen name="stockmasterUpdate" component={stockmasterUpdate}
         options={{
           title: 'stock master Update', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* reorderminitable */}
-      <Stack.Screen name="reorderminitable" component={Reorderminitable}
+      {/* <Stack.Screen name="reorderminitable" component={Reorderminitable}
         options={{
           title: 'Warehouse Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* reorderminicreate */}
       <Stack.Screen name="reorderminicreate" component={reorderminicreate}
         options={{
@@ -657,10 +655,10 @@ function MainStackNavigator() {
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
       {/* supplier */}
-      <Stack.Screen name="supplier" component={Supplier}
+      {/* <Stack.Screen name="supplier" component={Supplier}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
-        }} />
+        }} /> */}
       {/* Crreatesupier */}
       <Stack.Screen name="Crreatesupier" component={Crreatesupier}
         options={{
@@ -718,6 +716,16 @@ function MainStackNavigator() {
         }} />
       {/* Createemployeeroomtransfers */}
       <Stack.Screen name="Createemployeeroomtransfers" component={Createemployeeroomtransfers}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewremployeeroomtransfer */}
+          <Stack.Screen name="Viewremployeeroomtransfer" component={Viewremployeeroomtransfer}
+        options={{
+          title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Updateemployeeroomtransfer */}
+          <Stack.Screen name="Updateemployeeroomtransfer" component={Updateemployeeroomtransfer}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

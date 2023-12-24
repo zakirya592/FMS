@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button } from '@rneui/themed';
-import { Ionicons} from '@expo/vector-icons';
+import { Ionicons, } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -18,16 +18,17 @@ import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 
-export default function Createemployeeroomtransfers({ route }) {
+export default function Updateemployeeroomtransfer({ route }) {
     const { myFunction } = route.params
+    const { TransferRequestNumber } = route.params
     const navigation = useNavigation();
     const [value, setvalue] = useState({
-        LocationCode: '', LocationDesc: '', TransferRequestNumber:'',
+        LocationCode: '', LocationDesc: '', TransferRequestNumber: '',
         RoomCode: '', RoomName: '', BuildingCode: '', BuildingDesc: '', AreaTable: '', FloorCode: '',
         EmployeeNumber: '', EmployeeName: '',
         TransferRoomCode: '', RoomName2: '', BuildingCode2: '', BuildingDesc2: '', AreaTable2: '', FloorCode2: '',
         Level2ndEmpCode: '', Level2ndEmpCodeEmployeeName: '', Flag2nd: '',
-        Level1stEmpCode: '', Level1stEmpCodeEmployeeName: '', Flag1st:'',
+        Level1stEmpCode: '', Level1stEmpCodeEmployeeName: '', Flag1st: '',
         Level3rdEmpCode: '', Level3rdEmpCodeEmployeeName: '', Flag3rd: '',
     });
     const [isFocusedRoomCode, setIsFocusedRoomCode] = useState(false);
@@ -68,6 +69,7 @@ export default function Createemployeeroomtransfers({ route }) {
         }).catch((err) => {
             console.log(err);
         });
+        // Floor
         axios.get(`/api/Floor_GET_List`).then((res) => {
             setdropdownFloor(res.data.data)
         }).catch((err) => {
@@ -81,6 +83,7 @@ export default function Createemployeeroomtransfers({ route }) {
         });
 
     }, [])
+
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
 
@@ -299,6 +302,188 @@ export default function Createemployeeroomtransfers({ route }) {
             });
     }
 
+    const getapi = () => {
+        axios.get(`/api/EmployeeRoomTransfers_GET_BYID/${TransferRequestNumber}`)
+            .then((res) => {
+                setvalue((prevValue) => ({
+                    ...prevValue,
+                    TransferRequestNumber: res.data.data[0].TransferRequestNumber,
+                    EmployeeNumber: res.data.data[0].EmployeeID,
+                    RoomCode: res.data.data[0].FROM_RoomCode,
+                    TransferRoomCode: res.data.data[0].TO_RoomCode,
+                    Level1stEmpCode: res.data.data[0].EmployeeID_Approval_1,
+                    Level2ndEmpCode: res.data.data[0].EmployeeID_Approval_2,
+                    Level3rdEmpCode: res.data.data[0].EmployeeID_Approval_3,
+                    Flag1st: res.data.data[0].ApprovedFlag_Approval_1,
+                    Flag2nd: res.data.data[0].ApprovedFlag_Approval_2,
+                    Flag3rd: res.data.data[0].ApprovedFlag_Approval_3,
+                }));
+
+                const RequesttimeDate = res.data.data[0].TransferRequestDate
+                const DateApprovedApproval1 = res.data.data[0].DateApproved_Approval_1
+                const DateApprovedApproval2 = res.data.data[0].DateApproved_Approval_2
+                const DateApprovedApproval3 = res.data.data[0].DateApproved_Approval_3
+                setDate(new Date(RequesttimeDate))
+                setApproval1stDate(new Date(DateApprovedApproval1))
+                setApproval2ndDate(new Date(DateApprovedApproval2))
+                setApproval3rdDate(new Date(DateApprovedApproval3))
+                const EmployeeID = res.data.data[0].EmployeeID
+                axios.post(`/api/getworkRequest_by_EPID`, {
+                    EmployeeID,
+                }).then((res) => {
+                    setvalue((prevValue) => ({
+                        ...prevValue,
+                        EmployeeName: res.data.recordsets[0][0].Firstname,
+                    }));
+                }).catch((err) => {
+                    console.log(err);
+                });
+                const EmpCode1stLevel = res.data.data[0].EmployeeID_Approval_1
+                console.log('EmpCode1stLevel', EmpCode1stLevel);
+                axios.get(`/api/EmployeeMaster_GET_BYID/${EmpCode1stLevel}`).then((res) => {
+                    if (res.data.recordset && res.data.recordset.length > 0) {
+                        const first = res.data.recordset[0].Firstname
+                        const middle = res.data.recordset[0].Middlename
+                        const last = res.data.recordset[0].Lastname
+                        setvalue(prevValue => ({
+                            ...prevValue,
+                            Level1stEmpCodeEmployeeName: `${first} ${middle} ${last}`
+                        }))
+                    } else {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            Level1stEmpCodeEmployeeName: '',
+                        }));
+                    }
+
+                }).catch((err) => {
+                    console.log(err);
+                });
+                const EmpCode2ndLevel = res.data.data[0].EmployeeID_Approval_2
+                console.log('EmpCode2ndLevel', EmpCode2ndLevel);
+                axios.get(`/api/EmployeeMaster_GET_BYID/${EmpCode2ndLevel}`).then((res) => {
+                    if (res.data.recordset && res.data.recordset.length > 0) {
+                        const first = res.data.recordset[0].Firstname
+                        const middle = res.data.recordset[0].Middlename
+                        const last = res.data.recordset[0].Lastname
+                        setvalue(prevValue => ({
+                            ...prevValue,
+                            Level2ndEmpCodeEmployeeName: `${first} ${middle} ${last}`
+                        }))
+                    } else {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            Level2ndEmpCodeEmployeeName: '',
+                        }));
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+                const EmpCode3rdLevel = res.data.data[0].EmployeeID_Approval_3
+                axios.get(`/api/EmployeeMaster_GET_BYID/${EmpCode3rdLevel}`).then((res) => {
+                    if (res.data.recordset && res.data.recordset.length > 0) {
+                        const first = res.data.recordset[0].Firstname
+                        const middle = res.data.recordset[0].Middlename
+                        const last = res.data.recordset[0].Lastname
+                        setvalue(prevValue => ({
+                            ...prevValue,
+                            Level3rdEmpCodeEmployeeName: `${first} ${middle} ${last}`
+                        }))
+                    } else {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            Level3rdEmpCodeEmployeeName: '',
+                        }));
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+                const Roomcodess = res.data.data[0].FROM_RoomCode
+                axios.get(`/api/Rooms_newpage_GET_BYID/${Roomcodess}`)
+                    .then((res) => {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            RoomName: res.data.data[0].RoomDesc,
+                            AreaTable: res.data.data[0].Area,
+                            FloorCode: res.data.data[0].FloorCode,
+                            BuildingCode: res.data.data[0].BuildingCode,
+                            LocationCode: res.data.data[0].LocationCode
+                        }));
+
+                        const RoomCodes = res.data.data[0].BuildingCode
+
+                        axios.get(`/api/Building_GET_BYID/${RoomCodes}`)
+                            .then((res) => {
+                                const apiImage = res.data.recordset[0].BuildingImage;
+                                if (apiImage) {
+                                    setImage({ uri: apiImage });
+                                } else {
+                                    setImage(require('./../../Image/RoomMaintence.png'));
+                                }
+                                if (res.data.recordset && res.data.recordset.length > 0) {
+                                    const responseData = res.data.recordset[0];
+                                    setvalue((prevValue) => ({
+                                        ...prevValue,
+                                        BuildingDesc: responseData.BuildingDesc || '',
+                                    }));
+                                } else {
+                                    setvalue((prevValue) => ({
+                                        ...prevValue,
+                                        BuildingDesc: '',
+                                    }));
+
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+
+                const RoomcodeTran = res.data.data[0].TO_RoomCode
+                axios.get(`/api/Rooms_newpage_GET_BYID/${RoomcodeTran}`)
+                    .then((res) => {
+                        setvalue((prevValue) => ({
+                            ...prevValue,
+                            RoomName2: res.data.data[0].RoomDesc,
+                            AreaTable2: res.data.data[0].Area,
+                            FloorCode2: res.data.data[0].FloorCode,
+                            BuildingCode2: res.data.data[0].BuildingCode,
+                        }));
+
+                        const RoomCodes = res.data.data[0].BuildingCode
+                        axios.get(`/api/Building_GET_BYID/${RoomCodes}`)
+                            .then((res) => {
+                                if (res.data.recordset && res.data.recordset.length > 0) {
+                                    const responseData = res.data.recordset[0];
+                                    setvalue((prevValue) => ({
+                                        ...prevValue,
+                                        BuildingDesc2: responseData.BuildingDesc || '',
+                                    }));
+                                } else {
+                                    setvalue((prevValue) => ({
+                                        ...prevValue,
+                                        BuildingDesc2: '',
+                                    }));
+
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+    useEffect(() => {
+        getapi()
+    }, [])
 
     const [showAlert, setShowAlert] = useState(false);
     const showSuccessAlert = () => {
@@ -311,68 +496,18 @@ export default function Createemployeeroomtransfers({ route }) {
         seterrorshow(true)
     }
 
-    // auto increa
-    const Requestnumberapi = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].TransferRequestNumber;
-                let formattedRequestNumber;
-                if (reqput >= 1 && reqput <= 9) {
-                    formattedRequestNumber = `000-000-00${reqput}`;
-                } else if (reqput >= 10 && reqput <= 99) {
-                    formattedRequestNumber = `000-000-0${reqput}`;
-                } else if (reqput >= 100 && reqput <= 999) {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                } else if (reqput >= 1000 && reqput <= 9999) {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                } else {
-                    formattedRequestNumber = `000-000-${reqput}`;
-                }
-                setvalue(prevState => ({ ...prevState, TransferRequestNumber: formattedRequestNumber }));
-            })
-            .catch((err) => {
-                console.log('',err);
-            });
-    }
-    const requestincreas = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].TransferRequestNumber + 1;
-                setvalue(prevState => ({ ...prevState, TransferRequestNumber: '000-000-' + '0' + `${reqput}` }));
-                axios.put(`/api/TransferRequestNumber_Put/1`, {
-                    TransferRequestNumber: reqput
-                }).then((res) => {
-                    axios.get(`/api/workRequestCount_GET_BYID/${reqput}`).then((res) => {
-                    }).catch((err) => {
-                        console.log(err);
-                    });
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }).catch((err) => {
-                console.log(err);
-            });
-    }
-    useEffect(() => {
-        Requestnumberapi()
-    }, [])
-
     const postapi = () => {
-        axios.post(`/api/EmployeeRoomTransfers_post`, {
-            TransferRequestNumber: value.TransferRequestNumber,
+        axios.put(`/api/EmployeeRoomTransfers_Put/${TransferRequestNumber}`, {
             TransferRequestDate: date,
             EmployeeID: value.EmployeeNumber,
             FROM_RoomCode: value.RoomCode,
             TO_RoomCode: value.TransferRoomCode,
-
             EmployeeID_Approval_1: value.Level1stEmpCode,
             DateApproved_Approval_1: Approval1stDate,
             ApprovedFlag_Approval_1: value.Flag1st,
-
             EmployeeID_Approval_2: value.Level2ndEmpCode,
             DateApproved_Approval_2: Approval2ndDate,
             ApprovedFlag_Approval_2: value.Flag2nd,
-
             EmployeeID_Approval_3: value.Level3rdEmpCode,
             DateApproved_Approval_3: Approval3rdDate,
             ApprovedFlag_Approval_3: value.Flag3rd,
@@ -380,7 +515,6 @@ export default function Createemployeeroomtransfers({ route }) {
         }).then((res) => {
             showSuccessAlert(true)
             myFunction()
-            requestincreas()
             console.log(res.data);
         }).catch((err) => {
             const statuss = err.response.data.error
@@ -395,7 +529,7 @@ export default function Createemployeeroomtransfers({ route }) {
             <View>
                 <View>
                     <Text style={styles.prograp}>
-                        Employee Room Transfers - Create
+                        Modify Employee Room Transfers
                     </Text>
                 </View>
                 <View style={styles.line} />
@@ -862,7 +996,7 @@ export default function Createemployeeroomtransfers({ route }) {
                                     ...prevValue,
                                     Level1stEmpCode: item?.valueEmployeeID || '',
                                     Level1stEmpCodeEmployeeName: item?.labelEmployeeIDname || '',
-                                 
+
                                 }));
                             }}
                         />
@@ -1190,7 +1324,7 @@ export default function Createemployeeroomtransfers({ route }) {
                             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
                         </View>
                     }
-                    message={`Employee Room Assignments  has been created successfully`}
+                    message={`Employee Room Assignments ${TransferRequestNumber} has been Update successfully`}
                     confirmButtonColor="#DD6B55"
                     confirmButtonStyle={{ backgroundColor: 'black' }}
                     closeOnTouchOutside={false}

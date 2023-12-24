@@ -64,7 +64,7 @@ export default function Employeeroomtransfer() {
 
     const updatbutton = () => {
         if (selectedItems.length >= 1) {
-            navigation.navigate(`Updataworkorder`, { TransferRequestNumber: selectedItems, myFunction: getapi })
+            navigation.navigate(`Updateemployeeroomtransfer`, { TransferRequestNumber: selectedItems, myFunction: getapi })
         }
         else {
             console.warn('Please select at least one item before updating.');
@@ -203,13 +203,13 @@ export default function Employeeroomtransfer() {
                                             </View>
                                         </MenuTrigger>
                                         <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                            <MenuOption onSelect={() => navigation.navigate(`ViewWorkorder`, { TransferRequestNumber: item.TransferRequestNumber })}>
+                                            <MenuOption onSelect={() => navigation.navigate(`Viewremployeeroomtransfer`, { TransferRequestNumber: item.TransferRequestNumber, myFunction: getapi })}>
                                                 <View style={styles.actions} >
                                                     <Text style={styles.actionstitle}>View</Text>
                                                     <AntDesign name="eye" size={20} color="#0A2DAA" />
                                                 </View>
                                             </MenuOption>
-                                            <MenuOption onSelect={() => navigation.navigate(`Updataworkorder`, { TransferRequestNumber: item.TransferRequestNumber, myFunction: getapi })}>
+                                            <MenuOption onSelect={() => navigation.navigate(`Updateemployeeroomtransfer`, { TransferRequestNumber: item.TransferRequestNumber, myFunction: getapi })}>
                                                 <View style={styles.actions} >
                                                     <Text style={styles.actionstitle}>Update</Text>
                                                     <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
