@@ -121,6 +121,8 @@ import Reorderminitable from './assets/Screen/WarehouseManagement/REORDERMINIMUM
 import Stockmastertable from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmastertable';
 import StockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/StockmasterUpdate';
 import Supplier from './assets/Screen/Set Up & Configuration/Supplier/Supplier';
+import Addpurchaserequest from './assets/Screen/PurchasingManagment/PurchaseRequests/Addpurchaserequest';
+import Viewpurachaserequest from './assets/Screen/PurchasingManagment/PurchaseRequests/Viewpurachaserequest';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -283,23 +285,34 @@ function MainStackNavigator() {
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-      {/* PurchaseRequestUpdate */}
-      <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
-        options={{
-          title: 'Purchase Request ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
-      {
-        /* Purchaserequesttable */}
+      {/* Purchaserequesttable */}
       <Stack.Screen name="Purchaserequesttable" component={Purchaserequesttable}
         options={{
           title: 'Purchase request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
+        {/* Addpurchaserequest */}
+         <Stack.Screen name="Addpurchaserequest" component={Addpurchaserequest}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewpurachaserequest */}
+            <Stack.Screen name="Viewpurachaserequest" component={Viewpurachaserequest}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* PurchaseRequestUpdate */}
+                <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
       {/* PurchaseRequestCreate */}
       <Stack.Screen name="PurchaseRequestCreate" component={PurchaseRequestCreate}
         options={{
-          title: 'Purchase Request Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* PurchaseOrderUpdate */}
