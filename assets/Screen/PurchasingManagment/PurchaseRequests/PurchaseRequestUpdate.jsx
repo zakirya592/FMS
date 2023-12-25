@@ -409,7 +409,7 @@ export default function PurchaseRequestUpdate({ route }) {
     <ScrollView contentContainerStyle={styles.containerscrollview}>
       <View>
         <View >
-          <Text style={styles.prograp}>View Purchase Requests</Text>
+          <Text style={styles.prograp}>Update Purchase Requests</Text>
         </View>
         {/* Purchase Request and Date Request */}
         <View style={styles.inputContainer}>
