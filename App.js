@@ -330,7 +330,7 @@ function MainStackNavigator() {
       {/* PurchaseOrdertable */}
       <Stack.Screen name="PurchaseOrdertable" component={PurchaseOrdertable}
         options={{
-          title: 'Purchase Order table', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* GoodReturnCreate */}

@@ -45,7 +45,7 @@ export default function Workrequest () {
           </View>
 <View>
             <Button
-              onPress={() => navigation.navigate ('GoodReceiptable')}
+              onPress={() => navigation.navigate('GoodReceiptable')}
               radius={'md'}
               type="solid"
               containerStyle={{
