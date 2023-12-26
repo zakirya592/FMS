@@ -116,13 +116,15 @@ import Buildingspacemanagement from './assets/Screen/Space Management/Building/B
 import Createbuilding from './assets/Screen/Space Management/Building/Createbuilding';
 import Viewbuildingspace from './assets/Screen/Space Management/Building/Viewbuildingspace';
 import Updatebuildingspace from './assets/Screen/Space Management/Building/Updatebuildingspace';
-import TransferlocationTable from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationTable';
-import Reorderminitable from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminitable';
-import Stockmastertable from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmastertable';
+import TransferlocationTable from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/TransferlocationTable';
+import Reorderminitable from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/Reorderminitable';
+import Stockmastertable from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/Stockmastertable';
 import StockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/StockmasterUpdate';
 import Supplier from './assets/Screen/Set Up & Configuration/Supplier/Supplier';
 import Addpurchaserequest from './assets/Screen/PurchasingManagment/PurchaseRequests/Addpurchaserequest';
 import Viewpurachaserequest from './assets/Screen/PurchasingManagment/PurchaseRequests/Viewpurachaserequest';
+import Addpurachaseorder from './assets/Screen/PurchasingManagment/PurchaseOrders/Addpurachaseorder';
+import Viewpurachaseorder from './assets/Screen/PurchasingManagment/PurchaseOrders/Viewpurachaseorder';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -315,22 +317,34 @@ function MainStackNavigator() {
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-      {/* PurchaseOrderUpdate */}
-      <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
-        options={{
-          title: 'Purchase Order Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF'
-        }} />
       {/* PurchaseOrderCreate */}
       <Stack.Screen name="PurchaseOrderCreate" component={PurchaseOrderCreate}
         options={{
-          title: 'Purchase Order Create', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* PurchaseOrdertable */}
       <Stack.Screen name="PurchaseOrdertable" component={PurchaseOrdertable}
         options={{
           title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Addpurachaseorder */}
+        <Stack.Screen name="Addpurachaseorder" component={Addpurachaseorder}
+        options={{
+          title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewpurachaseorder */}
+         <Stack.Screen name="Viewpurachaseorder" component={Viewpurachaseorder}
+        options={{
+          title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* PurchaseOrderUpdate */}
+      <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
+        options={{
+          title: 'Purchase Management  ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* GoodReturnCreate */}

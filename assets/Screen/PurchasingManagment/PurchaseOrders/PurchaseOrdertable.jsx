@@ -153,13 +153,13 @@ export default function PurchaseOrdertable() {
                     </View>
                   </MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                    <MenuOption onSelect={() => navigation.navigate(`Viewpurachaserequest`, { PurchaseOrderNumber: item.PurchaseOrderNumber })}>
+                    <MenuOption onSelect={() => navigation.navigate(`Viewpurachaseorder`, { PurchaseOrderNumber: item.PurchaseOrderNumber })}>
                       <View style={styles.actions}>
                         <Text style={styles.actionstitle}>View</Text>
                         <AntDesign name="eye" size={20} color="#0A2DAA" />
                       </View>
                     </MenuOption>
-                    <MenuOption onSelect={() => navigation.navigate(`PurchaseRequestUpdate`, { PurchaseOrderNumber: item.PurchaseOrderNumber, myFunction: getapi })}>
+                    <MenuOption onSelect={() => navigation.navigate(`PurchaseOrderUpdate`, { PurchaseOrderNumber: item.PurchaseOrderNumber, myFunction: getapi })}>
                       <View style={styles.actions}>
                         <Text style={styles.actionstitle}>Update</Text>
                         <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
@@ -206,7 +206,7 @@ export default function PurchaseOrdertable() {
             marginHorizontal: 50,
             marginVertical: 10,
           }}
-            onPress={() => navigation.navigate('PurchaseRequestCreate', { myFunction: getapi })}
+            onPress={() => navigation.navigate('PurchaseOrderCreate', { myFunction: getapi })}
           >
             <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
             Create
