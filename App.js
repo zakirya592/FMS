@@ -125,6 +125,8 @@ import Addpurchaserequest from './assets/Screen/PurchasingManagment/PurchaseRequ
 import Viewpurachaserequest from './assets/Screen/PurchasingManagment/PurchaseRequests/Viewpurachaserequest';
 import Addpurachaseorder from './assets/Screen/PurchasingManagment/PurchaseOrders/Addpurachaseorder';
 import Viewpurachaseorder from './assets/Screen/PurchasingManagment/PurchaseOrders/Viewpurachaseorder';
+import Addgoodreceip from './assets/Screen/PurchasingManagment/GoodsReceipts/Addgoodreceip';
+import Viewgoodreceipt from './assets/Screen/PurchasingManagment/GoodsReceipts/Viewgoodreceipt';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -282,8 +284,8 @@ function MainStackNavigator() {
           title: 'Warehouse Managment', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-          {/* PMHome */}
-                  <Stack.Screen name="PMHome" component={PMHome}
+      {/* PMHome */}
+      <Stack.Screen name="PMHome" component={PMHome}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
@@ -293,20 +295,20 @@ function MainStackNavigator() {
           title: 'Purchase request', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Addpurchaserequest */}
-         <Stack.Screen name="Addpurchaserequest" component={Addpurchaserequest}
+      {/* Addpurchaserequest */}
+      <Stack.Screen name="Addpurchaserequest" component={Addpurchaserequest}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Viewpurachaserequest */}
-            <Stack.Screen name="Viewpurachaserequest" component={Viewpurachaserequest}
+      {/* Viewpurachaserequest */}
+      <Stack.Screen name="Viewpurachaserequest" component={Viewpurachaserequest}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* PurchaseRequestUpdate */}
-                <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
+      {/* PurchaseRequestUpdate */}
+      <Stack.Screen name="PurchaseRequestUpdate" component={PurchaseRequestUpdate}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
@@ -329,19 +331,19 @@ function MainStackNavigator() {
           title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Addpurachaseorder */}
-        <Stack.Screen name="Addpurachaseorder" component={Addpurachaseorder}
+      {/* Addpurachaseorder */}
+      <Stack.Screen name="Addpurachaseorder" component={Addpurachaseorder}
         options={{
           title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Viewpurachaseorder */}
-         <Stack.Screen name="Viewpurachaseorder" component={Viewpurachaseorder}
+      {/* Viewpurachaseorder */}
+      <Stack.Screen name="Viewpurachaseorder" component={Viewpurachaseorder}
         options={{
           title: 'Purchasing Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* PurchaseOrderUpdate */}
+      {/* PurchaseOrderUpdate */}
       <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
         options={{
           title: 'Purchase Management  ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
@@ -365,8 +367,32 @@ function MainStackNavigator() {
           title: 'Good Return ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* GoodReceiptable */}
-        <Stack.Screen name="GoodReceiptable" component={GoodReceiptable}
+      {/* GoodReceiptable */}
+      <Stack.Screen name="GoodReceiptable" component={GoodReceiptable}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* GoodReceiptCreate */}
+         <Stack.Screen name="GoodReceiptCreate" component={GoodReceiptCreate}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Addgoodreceip */}
+           <Stack.Screen name="Addgoodreceip" component={Addgoodreceip}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewgoodreceipt */}
+            <Stack.Screen name="Viewgoodreceipt" component={Viewgoodreceipt}
+        options={{
+          title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* GoodReceiptUpdate */}
+             <Stack.Screen name="GoodReceiptUpdate" component={GoodReceiptUpdate}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
@@ -765,37 +791,37 @@ function MainStackNavigator() {
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Viewremployeeroomtransfer */}
-          <Stack.Screen name="Viewremployeeroomtransfer" component={Viewremployeeroomtransfer}
+      {/* Viewremployeeroomtransfer */}
+      <Stack.Screen name="Viewremployeeroomtransfer" component={Viewremployeeroomtransfer}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Updateemployeeroomtransfer */}
-          <Stack.Screen name="Updateemployeeroomtransfer" component={Updateemployeeroomtransfer}
+      {/* Updateemployeeroomtransfer */}
+      <Stack.Screen name="Updateemployeeroomtransfer" component={Updateemployeeroomtransfer}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Buildingspacemanagement */}
-          <Stack.Screen name="Buildingspacemanagement" component={Buildingspacemanagement}
+      {/* Buildingspacemanagement */}
+      <Stack.Screen name="Buildingspacemanagement" component={Buildingspacemanagement}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Createbuilding */}
-            <Stack.Screen name="Createbuilding" component={Createbuilding}
+      {/* Createbuilding */}
+      <Stack.Screen name="Createbuilding" component={Createbuilding}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Viewbuildingspace */}
-                <Stack.Screen name="Viewbuildingspace" component={Viewbuildingspace}
+      {/* Viewbuildingspace */}
+      <Stack.Screen name="Viewbuildingspace" component={Viewbuildingspace}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Updatebuildingspace */}
-               <Stack.Screen name="Updatebuildingspace" component={Updatebuildingspace}
+      {/* Updatebuildingspace */}
+      <Stack.Screen name="Updatebuildingspace" component={Updatebuildingspace}
         options={{
           title: 'Space Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-      
+
 
     </Stack.Navigator>
   );
