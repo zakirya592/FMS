@@ -96,7 +96,7 @@ export default function GoodReturntable() {
   };
   const updatbutton = () => {
     if (selectedItems.length >= 1) {
-      navigation.navigate(`PurchaseRequestUpdate`, { PurchaseOrderNumber: selectedItems, myFunction: getapi })
+      navigation.navigate(`GoodReturnUpdate`, { PurchaseOrderNumber: selectedItems, myFunction: getapi })
     }
     else {
       console.warn('Please select at least one item before updating.');
@@ -149,13 +149,13 @@ export default function GoodReturntable() {
                     </View>
                   </MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                    <MenuOption onSelect={() => navigation.navigate(`Viewpurachaserequest`, { PurchaseOrderNumber: item.PurchaseOrderNumber })}>
+                    <MenuOption onSelect={() => navigation.navigate(`Viewgoodreturn`, { PurchaseOrderNumber: item.PurchaseOrderNumber })}>
                       <View style={styles.actions}>
                         <Text style={styles.actionstitle}>View</Text>
                         <AntDesign name="eye" size={20} color="#0A2DAA" />
                       </View>
                     </MenuOption>
-                    <MenuOption onSelect={() => navigation.navigate(`PurchaseRequestUpdate`, { PurchaseOrderNumber: item.PurchaseOrderNumber, myFunction: getapi })}>
+                    <MenuOption onSelect={() => navigation.navigate(`GoodReturnUpdate`, { PurchaseOrderNumber: item.PurchaseOrderNumber, myFunction: getapi })}>
                       <View style={styles.actions}>
                         <Text style={styles.actionstitle}>Update</Text>
                         <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
@@ -202,7 +202,7 @@ export default function GoodReturntable() {
             marginHorizontal: 50,
             marginVertical: 10,
           }}
-            onPress={() => navigation.navigate('PurchaseRequestCreate', { myFunction: getapi })}
+            onPress={() => navigation.navigate('GoodReturnCreate', { myFunction: getapi })}
           >
             <Icon name="add" color="#0A2DAA" size={15} style={styles.outlineIcon} />
             Create
@@ -231,7 +231,7 @@ export default function GoodReturntable() {
         {/* Deletinf section */}
         <Dialog isVisible={visible2} onBackdropPress={toggleDialog2}>
           <Dialog.Title title="Are you sure?" />
-          <Text>{`You want to delete this ${deleteItemCode} Purchase Order Number GOODS Recipt`}</Text>
+          <Text>{`You want to delete this ${deleteItemCode} Purchase Order Number Good Recipt`}</Text>
           <Dialog.Actions >
             <View style={{ display: 'flex', flexDirection: 'row' }}>
               <Dialog.Button onPress={() => setVisible2(!visible2)} ><Text style={{ backgroundColor: '#198754', paddingHorizontal: 10, paddingVertical: 10, borderRadius: 5, color: 'white', fontSize: 14 }}>No, cancel!</Text></Dialog.Button>
@@ -248,7 +248,7 @@ export default function GoodReturntable() {
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Deleted!</Text>
             </View>
           }
-          message={` Purchase Order Number Good Recipt ${deleteItemCode} has been deleted`}
+          message={` Purchase Order Number Good Return ${deleteItemCode} has been deleted`}
           confirmButtonColor="#DD6B55"
           confirmButtonStyle={{ backgroundColor: 'black' }}
           closeOnTouchOutside={true}
@@ -268,7 +268,7 @@ export default function GoodReturntable() {
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Error!</Text>
             </View>
           }
-          message={`Select a Purchase Request by checking the check box`}
+          message={`Select a Good Return by checking the check box`}
           confirmButtonColor="#DD6B55"
           confirmButtonStyle={{ backgroundColor: 'black' }}
           closeOnTouchOutside={true}

@@ -23,6 +23,10 @@ export default function Spacemanagementhome() {
                                 marginHorizontal: 50,
                                 marginVertical: 20,
                             }}
+                            buttonStyle={{
+                                backgroundColor: '#0A2DAA',
+                                borderRadius: 3,
+                            }}
                         >
                             BUILDING MAINTENANCE
                         </Button>
@@ -37,6 +41,10 @@ export default function Spacemanagementhome() {
                                 width: 270,
                                 marginHorizontal: 50,
                                 marginVertical: 20,
+                            }}
+                            buttonStyle={{
+                                backgroundColor: '#0A2DAA',
+                                borderRadius: 3,
                             }}
                         >
                             FLOOR MAINTENANCE
@@ -53,6 +61,10 @@ export default function Spacemanagementhome() {
                                 marginHorizontal: 50,
                                 marginVertical: 20,
                             }}
+                            buttonStyle={{
+                                backgroundColor: '#0A2DAA',
+                                borderRadius: 3,
+                            }}
                         >
                             ROOM MAINTENANCE
                         </Button>
@@ -68,6 +80,10 @@ export default function Spacemanagementhome() {
                                 marginHorizontal: 50,
                                 marginVertical: 20,
                             }}
+                            buttonStyle={{
+                                backgroundColor: '#0A2DAA',
+                                borderRadius: 3,
+                            }}
                         >
                          EMPLOYEE ROOM ASSIGNMENTS
                         </Button>
@@ -82,6 +98,10 @@ export default function Spacemanagementhome() {
                                 width: 270,
                                 marginHorizontal: 50,
                                 marginVertical: 20,
+                            }}
+                            buttonStyle={{
+                                backgroundColor: '#0A2DAA',
+                                borderRadius: 3,
                             }}
                         >
                             EMPLOYEE ROOM TRANSERS

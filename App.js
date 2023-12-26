@@ -127,6 +127,8 @@ import Addpurachaseorder from './assets/Screen/PurchasingManagment/PurchaseOrder
 import Viewpurachaseorder from './assets/Screen/PurchasingManagment/PurchaseOrders/Viewpurachaseorder';
 import Addgoodreceip from './assets/Screen/PurchasingManagment/GoodsReceipts/Addgoodreceip';
 import Viewgoodreceipt from './assets/Screen/PurchasingManagment/GoodsReceipts/Viewgoodreceipt';
+import Addgoodreturn from './assets/Screen/PurchasingManagment/GoodsReturns/Addgoodreturn';
+import Viewgoodreturn from './assets/Screen/PurchasingManagment/GoodsReturns/Viewgoodreturn';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -346,25 +348,37 @@ function MainStackNavigator() {
       {/* PurchaseOrderUpdate */}
       <Stack.Screen name="PurchaseOrderUpdate" component={PurchaseOrderUpdate}
         options={{
-          title: 'Purchase Management  ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* GoodReturnCreate */}
       <Stack.Screen name="GoodReturnCreate" component={GoodReturnCreate}
         options={{
-          title: 'Good Return Create ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase Management ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* GoodReturnUpdate */}
       <Stack.Screen name="GoodReturnUpdate" component={GoodReturnUpdate}
         options={{
-          title: 'Good Return Update ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* GoodReturntable */}
       <Stack.Screen name="GoodReturntable" component={GoodReturntable}
         options={{
-          title: 'Good Return ', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Addgoodreturn */}
+         <Stack.Screen name="Addgoodreturn" component={Addgoodreturn}
+        options={{
+          title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF'
+        }} />
+        {/* Viewgoodreturn */}
+          <Stack.Screen name="Viewgoodreturn" component={Viewgoodreturn}
+        options={{
+          title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
       {/* GoodReceiptable */}

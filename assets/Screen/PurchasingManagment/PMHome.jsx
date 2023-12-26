@@ -23,6 +23,10 @@ export default function Workrequest () {
                 marginHorizontal: 50,
                 marginVertical: 40,
               }}
+              buttonStyle={{
+                backgroundColor: '#0A2DAA',
+                borderRadius: 3,
+              }}
             >
               Purchase Requests
             </Button>
@@ -37,6 +41,10 @@ export default function Workrequest () {
                 width: 250,
                 marginHorizontal: 50,
                 marginVertical: 10,
+              }}
+              buttonStyle={{
+                backgroundColor: '#0A2DAA',
+                borderRadius: 3,
               }}
             >
              Purchase Orders
@@ -53,6 +61,10 @@ export default function Workrequest () {
                 marginHorizontal: 50,
                 marginVertical: 40,
               }}
+              buttonStyle={{
+                backgroundColor: '#0A2DAA',
+                borderRadius: 3,
+              }}
             >
              Goods Receipts
             </Button>
@@ -67,6 +79,10 @@ export default function Workrequest () {
                 width: 250,
                 marginHorizontal: 50,
                 marginVertical: 10,
+              }}
+              buttonStyle={{
+                backgroundColor: '#0A2DAA',
+                borderRadius: 3,
               }}
             >
               Goods Returns
