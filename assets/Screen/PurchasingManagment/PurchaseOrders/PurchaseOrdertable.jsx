@@ -96,7 +96,7 @@ export default function PurchaseOrdertable() {
   };
   const updatbutton = () => {
     if (selectedItems.length >= 1) {
-      navigation.navigate(`PurchaseRequestUpdate`, { PurchaseOrderNumber: selectedItems, myFunction: getapi })
+      navigation.navigate(`PurchaseOrderUpdate`, { PurchaseOrderNumber: selectedItems, myFunction: getapi })
     }
     else {
       console.warn('Please select at least one item before updating.');
@@ -272,7 +272,7 @@ export default function PurchaseOrdertable() {
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Error!</Text>
             </View>
           }
-          message={`Select a Purchase Request by checking the check box`}
+          message={`Select a Purchase Order by checking the check box`}
           confirmButtonColor="#DD6B55"
           confirmButtonStyle={{ backgroundColor: 'black' }}
           closeOnTouchOutside={true}
