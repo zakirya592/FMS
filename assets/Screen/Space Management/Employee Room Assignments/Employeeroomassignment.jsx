@@ -334,7 +334,18 @@ export default function Employeeroomassignment() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        {/* If the length is equal to the 0 than   */}
+                        {items.filter(item => (
+                            (!value.Building || value.Building === 'Select All' || item.records.data?.[0]?.BuildingCode === value.Building) &&
+                            (!value.Location || value.Location === 'Select All' || item.records.data?.[0]?.LocationCode === value.Location) &&
+                            (!value.FloorCode || value.FloorCode === 'Select All' || item.records.data?.[0]?.FloorCode === value.FloorCode)
+                        )).length === 0 && (
+                            <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <Text >No data available</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                        )}
 
                     </DataTable>
                 </ScrollView>

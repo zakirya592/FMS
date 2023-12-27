@@ -151,17 +151,27 @@ export default function Workorder() {
                                 selectedTextStyle={styles.selectedTextStyle}
                                 inputSearchStyle={styles.inputSearchStyle}
                                 iconStyle={styles.iconStyle}
-                                data={RequestStatusLIST}
+                                data={[
+                                    { RequestStatusCode: 'Select All', RequestStatusName: 'Select All' },
+                                    ...RequestStatusLIST,
+                                ]}
                                 maxHeight={200}
                                 labelField="RequestStatusCode"
                                 valueField="RequestStatusCode"
                                 placeholder={'Select Status'}
                                 value={value.RequestStatus}
                                 onChange={item => {
-                                    setvalue((prevValue) => ({
-                                        ...prevValue,
-                                        RequestStatus: item.value, // Update the Employeeid property
-                                    }));
+                                    if (item?.RequestStatusCode === 'Select All') {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            RequestStatus: item?.RequestStatusCode || '',
+                                        }));
+                                    } else {
+                                        setvalue(prevValue => ({
+                                            ...prevValue,
+                                            RequestStatus: item?.RequestStatusCode || '',
+                                        }));
+                                    }
                                 }}
                             />
                         </View>
@@ -192,7 +202,8 @@ export default function Workorder() {
                         </DataTable.Header>
                         {items.filter(
                             (item) =>
-                                item.WorkOrderNumber.includes(value.Employeeid)
+                                item.WorkOrderNumber.includes(value.Employeeid) &&
+                                (!value.RequestStatus || value.RequestStatus === 'Select All' || item.WorkStatus === value.RequestStatus) 
                         ).slice(from, to).map((item) => (
                             <DataTable.Row key={item.WorkOrderNumber}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
@@ -242,6 +253,18 @@ export default function Workorder() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
+                        {/* If the length is eual to the 0 than   */}
+                        {items.filter(
+                                (item) =>
+                                    item.WorkOrderNumber.includes(value.Employeeid) &&
+                                    (!value.RequestStatus || value.RequestStatus === 'Select All' || item.WorkStatus === value.RequestStatus)
+                            ).length === 0 && (
+                            <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                        <Text >No data available</Text>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            )}
 
                     </DataTable>
                 </ScrollView>

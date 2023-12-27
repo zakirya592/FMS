@@ -286,6 +286,16 @@ export default function AssetManagementMasterList () {
                   </DataTable.Cell>
                 </DataTable.Row>
             ))}
+            {/* If the length is equal to the 0 than   */}
+            {items.filter(row => (
+              (!value.Employeeid || row.AssetItemDescription.toLowerCase().includes(value.Employeeid.toLowerCase()))
+            )).length === 0 && (
+                <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text >No data available</Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              )}
 
           </DataTable>
         </ScrollView>

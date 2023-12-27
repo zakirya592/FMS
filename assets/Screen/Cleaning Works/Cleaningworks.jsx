@@ -205,7 +205,14 @@ export default function Cleaningworks() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        {/* If the length is eual to the 0 than   */}
+                        {items.filter((item) => item && item.RequestNumber && item.RequestNumber.includes(value.Employeeid)).length === 0 && (
+                            <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <Text >No data available</Text>
+                                </DataTable.Cell>
+                            </DataTable.Row>
+                        )}
 
                     </DataTable>
                 </ScrollView>

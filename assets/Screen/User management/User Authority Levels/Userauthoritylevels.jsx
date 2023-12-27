@@ -8,7 +8,6 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import axios from 'axios';
-import Addsystemmodules from '../../../Component/User Managment/System Modules/Addsystemmodules';
 import Adduserauthority from '../../../Component/User Managment/User Authority/Adduserauthority';
 
 export default function Userauthoritylevels() {
@@ -203,7 +202,19 @@ export default function Userauthoritylevels() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        {/* If the length is equal to the 0 than   */}
+                        {items.filter(
+                            (item) =>
+                                item &&
+                                item.UserAuthorityCode &&
+                                item.UserAuthorityCode.toLowerCase().includes(value.UserAuthorityCodeserach.toLowerCase())
+                        ).length === 0 && (
+                                <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                        <Text >No data available</Text>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            )}
 
                     </DataTable>
                 </ScrollView>

@@ -149,17 +149,27 @@ export default function Workrequest() {
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={RequestStatusLIST}
                 maxHeight={200}
                 labelField="RequestStatusCode"
                 valueField="RequestStatusCode"
                 placeholder={'Select Status'}
                 value={value.RequestStatus}
+                data={[
+                  { RequestStatusCode: 'Select All', RequestStatusName: 'Select All' },
+                  ...RequestStatusLIST,
+                ]}
                 onChange={item => {
-                  setvalue((prevValue) => ({
-                    ...prevValue,
-                    RequestStatus: item.value,
-                  }));
+                  if (item?.RequestStatusCode === 'Select All') {
+                    setvalue(prevValue => ({
+                      ...prevValue,
+                      RequestStatus: item?.RequestStatusCode || '',
+                    }));
+                  } else {
+                    setvalue(prevValue => ({
+                      ...prevValue,
+                      RequestStatus: item?.RequestStatusCode || '',
+                    }));
+                  }
                 }}
               />
             </View>
@@ -167,7 +177,8 @@ export default function Workrequest() {
           </View>
         </View>
         {/* table section */}
-        <ScrollView horizontal vertical={true}>
+        
+        <ScrollView horizontal >
           <DataTable
             style={[
               styles.item,
@@ -223,10 +234,11 @@ export default function Workrequest() {
                 <Text style={styles.tableHeading}>ACTIONS</Text>
               </DataTable.Title>
             </DataTable.Header>
+            
             {items.filter(
               (item) =>
                 item.RequestNumber.includes(value.Employeeid) &&
-                (value.RequestStatus ? item.RequestStatus === value.RequestStatus : true)
+                (!value.RequestStatus || value.RequestStatus === 'Select All' || item.RequestStatus === value.RequestStatus) 
             ).slice(from, to).map(item => (
               <DataTable.Row key={item.RequestNumber}>
                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]}>
@@ -299,9 +311,20 @@ export default function Workrequest() {
                 </DataTable.Cell>
               </DataTable.Row>
             ))}
-
+            {/* If the length is equal to the 0 than   */}
+            {items.filter(
+              (item) =>
+                item.RequestNumber.includes(value.Employeeid) &&
+                (!value.RequestStatus || value.RequestStatus === 'Select All' || item.RequestStatus === value.RequestStatus)).length === 0 && (
+                <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text >No data available</Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              )}
           </DataTable>
         </ScrollView>
+
         <DataTable.Pagination
           page={page}
           numberOfPages={Math.ceil(items.length / itemsPerPage)}

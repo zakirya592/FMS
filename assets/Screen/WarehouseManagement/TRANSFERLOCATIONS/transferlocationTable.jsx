@@ -223,6 +223,18 @@ export default function TransferlocationTable() {
               </DataTable.Row>
             ))}
 
+            {/* If the length is equal to the 0 than   */}
+            {items.filter(item => (
+              (!value.AssetItemGroupCode || value.AssetItemGroupCode === 'Select All' || item.AssetItemGroup === value.AssetItemGroupCode) &&
+              (!value.AssetItemDescription || item.AssetItemDescription.toLowerCase().includes(value.AssetItemDescription.toLowerCase()))
+            )).length === 0 && (
+                <DataTable.Row style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <DataTable.Cell style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text >No data available</Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              )}
+
           </DataTable>
         </ScrollView>
         <DataTable.Pagination
@@ -237,12 +249,12 @@ export default function TransferlocationTable() {
         />
 
         {/* Location*/}
-        <View style={[styles.loactionntransac,{ marginLeft: 5, display: 'flex' }]}>
-          <Text style={[styles.lableinput,{marginEnd:12}]}>Location
+        <View style={[styles.loactionntransac, { marginLeft: 5, display: 'flex' }]}>
+          <Text style={[styles.lableinput, { marginEnd: 12 }]}>Location
           </Text>
-          <View style={[styles.singleinputlable,{display:'flex'}]}>
+          <View style={[styles.singleinputlable, { display: 'flex' }]}>
             <Dropdown
-              style={[styles.inputBox, { height: 40,paddingVertical:0 }]}
+              style={[styles.inputBox, { height: 40, paddingVertical: 0 }]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               iconStyle={styles.iconStyle}
@@ -301,7 +313,7 @@ export default function TransferlocationTable() {
           </Button>
         </View>
 
-      
+
       </View>
     </ScrollView>
   );

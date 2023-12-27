@@ -178,8 +178,31 @@ function MainStackNavigator() {
     >
       {/* Login */}
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Home" component={Home} options={{
+        headerTitle: '',
+         headerShown: true,
+        headerRight: () => (
+          <Image
+            source={require('./assets/Screen/Image/log-removebg-preview.png')}
+            resizeMode='contain'
+            style={{
+              marginTop: 10,
+              // width: '100%',
+              height: '400%',
+            }}
+          />
+        ),
+        drawerLabelStyle: {
+          color: '#1D3A9F',
+          fontSize: 16,
+          fontStyle: 'normal',
+          fontWeight: '700',
+
+        },
+      }} />
       {/* Workrequest */}
-      <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' }} />
+      <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' , headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+          headerTintColor: '#FFFFFF' }} />
       {/* Createworkrequest */}
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
         options={{
@@ -369,14 +392,14 @@ function MainStackNavigator() {
           title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Addgoodreturn */}
-         <Stack.Screen name="Addgoodreturn" component={Addgoodreturn}
+      {/* Addgoodreturn */}
+      <Stack.Screen name="Addgoodreturn" component={Addgoodreturn}
         options={{
           title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Viewgoodreturn */}
-          <Stack.Screen name="Viewgoodreturn" component={Viewgoodreturn}
+      {/* Viewgoodreturn */}
+      <Stack.Screen name="Viewgoodreturn" component={Viewgoodreturn}
         options={{
           title: 'Purchase Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
@@ -387,26 +410,26 @@ function MainStackNavigator() {
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* GoodReceiptCreate */}
-         <Stack.Screen name="GoodReceiptCreate" component={GoodReceiptCreate}
+      {/* GoodReceiptCreate */}
+      <Stack.Screen name="GoodReceiptCreate" component={GoodReceiptCreate}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Addgoodreceip */}
-           <Stack.Screen name="Addgoodreceip" component={Addgoodreceip}
+      {/* Addgoodreceip */}
+      <Stack.Screen name="Addgoodreceip" component={Addgoodreceip}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* Viewgoodreceipt */}
-            <Stack.Screen name="Viewgoodreceipt" component={Viewgoodreceipt}
+      {/* Viewgoodreceipt */}
+      <Stack.Screen name="Viewgoodreceipt" component={Viewgoodreceipt}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
         }} />
-        {/* GoodReceiptUpdate */}
-             <Stack.Screen name="GoodReceiptUpdate" component={GoodReceiptUpdate}
+      {/* GoodReceiptUpdate */}
+      <Stack.Screen name="GoodReceiptUpdate" component={GoodReceiptUpdate}
         options={{
           title: 'Purchasing Management', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle,
           headerTintColor: '#FFFFFF'
@@ -845,7 +868,7 @@ export default function App() {
   return (
     <MenuProvider>
       <NavigationContainer>
-        <Drawer.Navigator
+        {/* <Drawer.Navigator
           initialRouteName="Logout"
           drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
@@ -873,7 +896,8 @@ export default function App() {
           }} />
 
           <Drawer.Screen name="Logout" component={MainStackNavigator} options={{ headerShown: false }} />
-        </Drawer.Navigator>
+        </Drawer.Navigator> */}
+        <MainStackNavigator />
       </NavigationContainer>
     </MenuProvider>
   );
