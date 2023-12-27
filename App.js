@@ -129,6 +129,8 @@ import Addgoodreceip from './assets/Screen/PurchasingManagment/GoodsReceipts/Add
 import Viewgoodreceipt from './assets/Screen/PurchasingManagment/GoodsReceipts/Viewgoodreceipt';
 import Addgoodreturn from './assets/Screen/PurchasingManagment/GoodsReturns/Addgoodreturn';
 import Viewgoodreturn from './assets/Screen/PurchasingManagment/GoodsReturns/Viewgoodreturn';
+import Employeemaste from './assets/Screen/Set Up & Configuration/Employee Maste/Employeemaste';
+import Createemployeemaster from './assets/Screen/Set Up & Configuration/Employee Maste/Createemployeemaster';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -760,6 +762,16 @@ function MainStackNavigator() {
         }} />
       {/* Employeedesignation */}
       <Stack.Screen name="Employeedesignation" component={Employeedesignation}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Employeemaste */}
+          <Stack.Screen name="Employeemaste" component={Employeemaste}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+        {/* Createemployeemaster */}
+            <Stack.Screen name="Createemployeemaster" component={Createemployeemaster}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />

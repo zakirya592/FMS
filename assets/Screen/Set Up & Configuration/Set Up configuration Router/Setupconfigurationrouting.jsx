@@ -229,7 +229,7 @@ export default function Setupconfigurationrouting () {
             containerStyle={styles.containerstyle}
             titleStyle={styles.titlestyle}
             buttonStyle={styles.buttonstylesss}
-            onPress={() => navigation.navigate ('Systemmodules')}
+            onPress={() => navigation.navigate('Employeemaste')}
             title="Employee Master"
           />
           {/* Employee Status*/}
