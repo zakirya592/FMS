@@ -131,6 +131,8 @@ import Addgoodreturn from './assets/Screen/PurchasingManagment/GoodsReturns/Addg
 import Viewgoodreturn from './assets/Screen/PurchasingManagment/GoodsReturns/Viewgoodreturn';
 import Employeemaste from './assets/Screen/Set Up & Configuration/Employee Maste/Employeemaste';
 import Createemployeemaster from './assets/Screen/Set Up & Configuration/Employee Maste/Createemployeemaster';
+import Viewemployeemaster from './assets/Screen/Set Up & Configuration/Employee Maste/Viewemployeemaster';
+import Updateemployeemaster from './assets/Screen/Set Up & Configuration/Employee Maste/Updateemployeemaster';
 
 axios.defaults.baseURL = "http://gs1ksa.org:3021";
 const Stack = createNativeStackNavigator();
@@ -182,7 +184,7 @@ function MainStackNavigator() {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={Home} options={{
         headerTitle: '',
-         headerShown: true,
+        headerShown: true,
         headerRight: () => (
           <Image
             source={require('./assets/Screen/Image/log-removebg-preview.png')}
@@ -203,8 +205,10 @@ function MainStackNavigator() {
         },
       }} />
       {/* Workrequest */}
-      <Stack.Screen name="Workrequest" component={Workrequest} options={{ headerShown: true, title: 'Work Request' , headerStyle: styles.header, headerTitleStyle: styles.headertitle,
-          headerTintColor: '#FFFFFF' }} />
+      <Stack.Screen name="Workrequest" component={Workrequest} options={{
+        headerShown: true, title: 'Work Request', headerStyle: styles.header, headerTitleStyle: styles.headertitle,
+        headerTintColor: '#FFFFFF'
+      }} />
       {/* Createworkrequest */}
       <Stack.Screen name="Createworkrequest" component={Createworkrequest}
         options={{
@@ -765,16 +769,27 @@ function MainStackNavigator() {
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Employeemaste */}
-          <Stack.Screen name="Employeemaste" component={Employeemaste}
+      {/* Employeemaste */}
+      <Stack.Screen name="Employeemaste" component={Employeemaste}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
-        {/* Createemployeemaster */}
-            <Stack.Screen name="Createemployeemaster" component={Createemployeemaster}
+      {/* Createemployeemaster */}
+      <Stack.Screen name="Createemployeemaster" component={Createemployeemaster}
         options={{
           title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
         }} />
+      {/* Viewemployeemaster */}
+      <Stack.Screen name="Viewemployeemaster" component={Viewemployeemaster}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+      {/* Updateemployeemaster */}
+      <Stack.Screen name="Updateemployeemaster" component={Updateemployeemaster}
+        options={{
+          title: 'Set Up & Configuration', headerShown: true, headerStyle: styles.header, headerTitleStyle: styles.headertitle, headerTintColor: '#FFFFFF'
+        }} />
+
       {/* supplier */}
       <Stack.Screen name="supplier" component={Supplier}
         options={{

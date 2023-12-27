@@ -16,18 +16,17 @@ import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import PhoneInput from "react-native-phone-number-input";
 
-export default function Createemployeemaster({ route }) {
-    const { myFunction } = route.params
+export default function Viewemployeemaster({ route }) {
+    const { EmployeeID } = route.params
     const navigation = useNavigation();
     const [value, setvalue] = useState({
-        EmployeeID: '', RequestNumber: '', Middlename: '', Lastname: '', Firstname: '',
+        EmployeeID: EmployeeID, RequestNumber: '', Middlename: '', Lastname: '', Firstname: '',
         DepartmentCode: '', DepartmentName: '', WorkTypeCode: '', WorkTypeDesc: '', WorkPriority: '', WorkTrade: '', WorkTradeDesc: '',
         BuildingCode: '', LocationCode: '', MobileNumber: '', LandlineNumber: '',
-        PassportNumber: '', NationalIQAMANumber: '', MaritalStatus: '', NationalityDescription: '', NationalityCode:'',
-        Age: '', Gender: '', Title: '', DesignationCode: '', DesignationName: '', EmailAddress:'',
+        PassportNumber: '', NationalIQAMANumber: '', MaritalStatus: '', NationalityDescription: '', NationalityCode: '',
+        Age: '', Gender: '', Title: '', DesignationCode: '', DesignationName: '', EmailAddress: '',
     })
 
     const [isFocused, setIsFocused] = useState(false);
@@ -147,103 +146,110 @@ export default function Createemployeemaster({ route }) {
                 console.log(err);
             });
     }
-    // Work Employes ID  Api
-    const Requestnumberapi = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].EmployeeID;
-                let formattedRequestNumber;
-                if (reqput >= 1 && reqput <= 9) {
-                    formattedRequestNumber = `000${reqput}`;
-                } else if (reqput >= 10 && reqput <= 99) {
-                    formattedRequestNumber = `00${reqput}`;
-                } else if (reqput >= 100 && reqput <= 999) {
-                    formattedRequestNumber = `0${reqput}`;
-                } else if (reqput >= 1000 && reqput <= 9999) {
-                    formattedRequestNumber = `${reqput}`;
-                } else {
-                    formattedRequestNumber = `${reqput}`;
-                }
-                setvalue(prevState => ({ ...prevState, EmployeeID: formattedRequestNumber }));
-            })
+    const getapi = () => {
+        axios.get(`/api/EmployeeMaster_GET_BYID/${EmployeeID}`
+        ).then((res) => {
+            const {
+                Firstname,
+                Lastname,
+                Middlename,
+                MobileNumber,
+                LandlineNumber,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                EmployeeID,
+                EmployeeStatus,
+                NationalityCode,
+                NationalID,
+                PassportNumber,
+                DesignationCode,
+                Title,
+                MaritalStatus,
+                Gender,
+            } = res.data.recordsets[0][0];
+            setvalue((prevValue) => ({
+                ...prevValue,
+                EmployeeStatus,
+                EmployeeID,
+                Firstname,
+                Lastname,
+                Middlename,
+                EmailAddress: res.data.recordsets[0][0].Email,
+                MobileNumber,
+                LandlineNumber,
+                DepartmentCode,
+                BuildingCode,
+                LocationCode,
+                NationalID,
+                PassportNumber,
+                DesignationCode,
+                Title,
+                Gender,
+                NationalityCode,
+                MaritalStatus,
+                Age: res.data.recordsets[0][0].Age.toString(),
+                NationalIQAMANumber: res.data.recordsets[0][0].NationalID || ''
+            }));
+            const apiImage = res.data.recordsets[0][0].EmployeeImage;
+            if (apiImage) {
+                setImage({ uri: apiImage });
+            } else {
+                setImage(require('./../../Image/printer.jpeg'));
+            }
+
+            const BirthDategetdate = res.data.recordsets[0][0].BirthDate
+            setBirthDate(new Date(BirthDategetdate))
+            const JoiningDategetdate = res.data.recordsets[0][0].JoiningDate
+            setJoiningDate(new Date(JoiningDategetdate))
+            // designation
+            const desi = res.data.recordset[0].DesignationCode
+            axios.get(`/api/Designation_GET_BYID/${desi}`)
+                .then((res) => {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        DesignationName: res.data.recordset[0]?.DesignationDesc || ''
+                    }));
+                }).catch((err) => {
+                    console.log(err);
+                });
+            // nationality
+            const desnat = res.data.recordset[0].NationalityCode
+            axios.get(`/api/Nationality_GET_BYID/${desnat}`)
+                .then((res) => {
+                    const designationDesc = res.data.recordset[0]?.NationalityDesc || '';
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        NationalityDescription: designationDesc,
+                    }));
+                }).catch((err) => {
+                    console.log(err);
+                });
+            const Depauto = res.data.recordsets[0][0].DepartmentCode
+            axios.get(`/api/Department_desc_LIST/${Depauto}`)
+                .then((res) => {
+                    setvalue(prevValue => ({
+                        ...prevValue,
+                        DepartmentName: res.data.recordset[0]?.DepartmentDesc || '',
+                    }));
+                }).catch((err) => {
+                    console.log(err);
+                });
+        })
             .catch((err) => {
                 console.log(err);
             });
     }
     useEffect(() => {
-        Requestnumberapi()
+        getapi()
     }, [])
-
-    const requestincreas = () => {
-        axios.get(`/api/workRequestCount_GET_BYID/1`)
-            .then((res) => {
-                const reqput = res.data.recordset[0].EmployeeID + 1;
-                axios.put(`/api/EmployeeIDCount_Put/1`, {
-                    EmployeeID: reqput
-                }).then((res) => {
-                        const reqput = res.data.recordset[0].EmployeeID + 1;
-                        setvalue(prevState => ({ ...prevState, EmployeeID: '000-000-' + '0' + `${reqput}` }));
-                    }).catch((err) => {
-                        console.log(err);
-                    });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-    const [showAlert, setShowAlert] = useState(false);
-    const showSuccessAlert = () => {
-        setShowAlert(true);
-    };
-    const formData = new FormData();
-    const imageUri = image && typeof image === 'object' ? image.uri : image;
-
-    formData.append('EmployeeID', value.EmployeeID);
-    formData.append('Gender', value.Gender);
-    formData.append('Title', value.Title);
-    formData.append('BirthDate', BirthDate);
-    formData.append('Age', value.Age);
-    formData.append('Lastname', value.Lastname);
-    formData.append('Middlename', value.Middlename);
-    formData.append('Firstname', value.Firstname);
-    formData.append('NationalityCode', value.NationalityCode);
-    formData.append('MaritalStatus', value.MaritalStatus);
-    formData.append('NationalID', value.NationalIQAMANumber);
-    formData.append('PassportNumber', value.PassportNumber);
-    formData.append('MobileNumber', value.MobileNumber);
-    formData.append('LandlineNumber', value.LandlineNumber);
-    formData.append('DesignationCode', value.DesignationCode);
-    formData.append('Email', value.EmailAddress);
-    formData.append('DepartmentCode', value.DepartmentCode);
-    formData.append('BuildingCode', value.BuildingCode);
-    formData.append('LocationCode', value.LocationCode);
-    formData.append('JoiningDate', JoiningDate);
-    formData.append('EmployeeImage', {
-        uri: imageUri,
-        type: 'image/jpeg',
-        name: 'Employee_Image.jpg',
-    })
-    const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    };
-    const postapi = () => {
-        axios.post(`/api/EmployeeMaster_post`, formData, config)
-            .then((res) => {
-                showSuccessAlert(true)
-                requestincreas()
-            }).catch((err) => {
-                console.log(err);
-            });
-    }
 
     return (
         <ScrollView contentContainerStyle={styles.containerscrollview}>
             <View>
                 <View>
                     <Text style={styles.prograp}>
-                        Create Set-Up-Employee Master
+                        View Set-Up-Employee Master
                     </Text>
                 </View>
                 {/* images section */}
@@ -262,11 +268,11 @@ export default function Createemployeemaster({ route }) {
                     </View>
                 </View>
                 <View style={styles.line} />
-                <View style={[styles.singleinputlable,{marginLeft:8,marginBottom:5}]}>
+                <View style={[styles.singleinputlable, { marginLeft: 8, marginBottom: 5 }]}>
                     <Text style={styles.lableinput}>Employee Number</Text>
                     <TextInput
                         style={[
-                            styles.inputBox,{width:300}
+                            styles.inputBox, { width: 300 }
                         ]}
                         value={value.EmployeeID}
                         onChange={item => {
@@ -379,7 +385,7 @@ export default function Createemployeemaster({ route }) {
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>
-                           Age
+                            Age
                         </Text>
                         <TextInput
                             style={[styles.inputBox,]}
@@ -510,7 +516,7 @@ export default function Createemployeemaster({ route }) {
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>
-                           Nationality Code
+                            Nationality Code
                         </Text>
                         <Dropdown
                             style={[
@@ -553,7 +559,7 @@ export default function Createemployeemaster({ route }) {
                             onChange={item => {
                                 setvalue(prevValue => ({
                                     ...prevValue,
-                                    NationalityDescription: item.value, 
+                                    NationalityDescription: item.value,
                                 }));
                             }}
                             placeholder="Enter Description"
@@ -719,7 +725,7 @@ export default function Createemployeemaster({ route }) {
                         <Text style={styles.lableinput}>Department Code
                         </Text>
                         <Dropdown
-                            style={[styles.inputBox, { height: 40, }, ]}
+                            style={[styles.inputBox, { height: 40, },]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
@@ -810,7 +816,7 @@ export default function Createemployeemaster({ route }) {
                             onChange={item => {
                                 setvalue(prevValue => ({
                                     ...prevValue,
-                                    DesignationName: item.value, 
+                                    DesignationName: item.value,
                                 }));
                             }}
                             placeholder="Enter Description"
@@ -826,7 +832,7 @@ export default function Createemployeemaster({ route }) {
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>
-                          Joining Date
+                            Joining Date
                         </Text>
 
                         <View>
@@ -861,7 +867,7 @@ export default function Createemployeemaster({ route }) {
 
                     <View style={styles.singleinputlable}>
                         <Text style={styles.lableinput}>
-                           Email Address
+                            Email Address
                         </Text>
                         <TextInput
                             style={[styles.inputBox]}
@@ -883,46 +889,23 @@ export default function Createemployeemaster({ route }) {
 
                 </View>
                 {/* Button section */}
-                <Button
-                    radius={'md'}
-                    type="solid"
-                    containerStyle={{
-                        width: 150,
-                        marginLeft: 15,
-                        marginBottom: 15,
+                <Button radius={"md"} type="solid" containerStyle={{
+                    width: 350,
+                    paddingHorizontal: 12,
+                    marginRight: 40,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    marginVertical: 20,
+                }}
+                    buttonStyle={{
+                        backgroundColor: 'black',
+                        borderRadius: 3,
                     }}
-                    onPress={postapi}
+                    onPress={() => { navigation.goBack() }}
                 >
-                    <Ionicons
-                        name="md-save-outline"
-                        size={20}
-                        color="white"
-                        style={{ marginRight: 12 }}
-                    />
-                    SAVE
+                    <Ionicons name="arrow-back-circle" size={20} color="white" style={{ marginRight: 12 }} />
+                    Back
                 </Button>
-
-                <AwesomeAlert
-                    show={showAlert}
-                    title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Ionicons name="ios-checkmark-circle" size={30} color="#4CAF50" style={{ marginRight: 5 }} />
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Success</Text>
-                        </View>
-                    }
-                    message={`Employee Master has been created successfully`}
-                    confirmButtonColor="#DD6B55"
-                    confirmButtonStyle={{ backgroundColor: 'black' }}
-                    closeOnTouchOutside={false}
-                    closeOnHardwareBackPress={false}
-                    showConfirmButton={true}
-                    confirmText="OK"
-                    onConfirmPressed={() => {
-                        navigation.navigate('Employeemaste')
-                        myFunction()
-                    }}
-                />
-
             </View>
         </ScrollView>
     );

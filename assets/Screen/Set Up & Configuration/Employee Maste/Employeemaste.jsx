@@ -62,7 +62,7 @@ export default function Employeemaste() {
 
     const updatbutton = () => {
         if (selectedItems.length >= 1) {
-            navigation.navigate(`Updataworkorder`, { EmployeeID: selectedItems, myFunction: getapi })
+            navigation.navigate(`Updateemployeemaster`, { EmployeeID: selectedItems, myFunction: getapi })
         }
         else {
             console.warn('Please select at least one item before updating.');
@@ -175,13 +175,13 @@ export default function Employeemaste() {
                                                 </View>
                                             </MenuTrigger>
                                             <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                                <MenuOption onSelect={() => navigation.navigate(`ViewWorkorder`, { EmployeeID: item.EmployeeID })}>
+                                                <MenuOption onSelect={() => navigation.navigate(`Viewemployeemaster`, { EmployeeID: item.EmployeeID })}>
                                                     <View style={styles.actions} >
                                                         <Text style={styles.actionstitle}>View</Text>
                                                         <AntDesign name="eye" size={20} color="#0A2DAA" />
                                                     </View>
                                                 </MenuOption>
-                                                <MenuOption onSelect={() => navigation.navigate(`Updataworkorder`, { EmployeeID: item.EmployeeID, myFunction: getapi })}>
+                                                <MenuOption onSelect={() => navigation.navigate(`Updateemployeemaster`, { EmployeeID: item.EmployeeID, myFunction: getapi })}>
                                                     <View style={styles.actions} >
                                                         <Text style={styles.actionstitle}>Update</Text>
                                                         <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
