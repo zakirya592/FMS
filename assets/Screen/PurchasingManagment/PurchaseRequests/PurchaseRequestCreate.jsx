@@ -561,7 +561,7 @@ export default function PurchaseRequestCreate({ route }) {
         </Button> 
         {/* Table section */}
         <View style={[{ height: 300, marginBottom: 40 }]}>
-          <ScrollView horizontal >
+          <ScrollView horizontal vertical>
             <DataTable style={[styles.item, {
               width: '100%', height: 450, margin: 0
             }]} >
@@ -578,6 +578,7 @@ export default function PurchaseRequestCreate({ route }) {
                 <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>TOTAL PRICE</Text></DataTable.Title>
                 <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
               </DataTable.Header>
+              <ScrollView>
               {uniqueDescriptions.map((item, index) => (
                 <DataTable.Row key={item}>
                   <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
@@ -625,7 +626,7 @@ export default function PurchaseRequestCreate({ route }) {
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
-
+              </ScrollView>
             </DataTable>
           </ScrollView>
         </View>
