@@ -149,7 +149,7 @@ export default function Stockmastertable () {
 
         </View>
         {/* table section */}
-        <ScrollView horizontal>
+        <ScrollView horizontal vertical>
           <DataTable style={[ styles.item, {width: '100%',height: 450,  margin: 0,  }]}>
             <DataTable.Header>
               <DataTable.Title
@@ -188,6 +188,8 @@ export default function Stockmastertable () {
                 <Text style={styles.tableHeading}>LAST PURCHASE DATE</Text>
               </DataTable.Title>
             </DataTable.Header>
+
+            <ScrollView>
             {items.filter(item => (
               (!value.AssetItemGroupCode || value.AssetItemGroupCode === 'Select All' || item.AssetItemGroup === value.AssetItemGroupCode) &&
               (!value.AssetItemDescription || item.AssetItemDescription.toLowerCase().includes(value.AssetItemDescription.toLowerCase()))
@@ -222,6 +224,7 @@ export default function Stockmastertable () {
                 </DataTable.Cell>
               </DataTable.Row>
             ))}
+            </ScrollView>
             {/* If the length is equal to the 0 than   */}
             {items.filter(item => (
               (!value.AssetItemGroupCode || value.AssetItemGroupCode === 'Select All' || item.AssetItemGroup === value.AssetItemGroupCode) &&

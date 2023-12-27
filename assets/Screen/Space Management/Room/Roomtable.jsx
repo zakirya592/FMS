@@ -107,7 +107,7 @@ export default function Roomtable() {
                     </Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, margin: 0, marginTop: 20
                     }]} >
@@ -126,54 +126,56 @@ export default function Roomtable() {
                             <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>Capacity</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.RoomCode}>
-                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                    <Checkbox
-                                        status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.RoomCode)}
-                                    />
-                                </DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.RoomCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.RoomDesc}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.Area}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.FloorCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.BuildingCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.LocationCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.Capacity}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu>
-                                    <MenuTrigger >
-                                        <View style={styles.actions}>
-                                            <Text>Action </Text>
-                                            <AntDesign name="caretdown" size={18} color="black" />
-                                        </View>
-                                    </MenuTrigger>
-                                    <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                                        <MenuOption onSelect={() => navigation.navigate(`Viewroom`, { RoomCodepage: item.RoomCode, myFunction: getapi })}>
+
+                        <ScrollView>
+                            {items.slice(from, to).map((item, index) => (
+                                <DataTable.Row key={item.RoomCode}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item.RoomCode)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.RoomCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.RoomDesc}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.Area}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.FloorCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.BuildingCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.LocationCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.Capacity}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu>
+                                        <MenuTrigger >
                                             <View style={styles.actions}>
-                                                <Text style={styles.actionstitle}>View</Text>
-                                                <AntDesign name="eye" size={20} color="#0A2DAA" />
+                                                <Text>Action </Text>
+                                                <AntDesign name="caretdown" size={18} color="black" />
                                             </View>
-                                        </MenuOption>
-                                        <MenuOption onSelect={() => navigation.navigate(`Updateroom`, { RoomCodepage: item.RoomCode, myFunction: getapi })}>
-                                            <View style={styles.actions}>
-                                                <Text style={styles.actionstitle}>Update</Text>
-                                                <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
-                                            </View>
-                                        </MenuOption>
-                                        <MenuOption onSelect={() => toggleDialog2(item.RoomCode)}>
-                                            <View style={styles.actions}>
+                                        </MenuTrigger>
+                                        <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
+                                            <MenuOption onSelect={() => navigation.navigate(`Viewroom`, { RoomCodepage: item.RoomCode, myFunction: getapi })}>
+                                                <View style={styles.actions}>
+                                                    <Text style={styles.actionstitle}>View</Text>
+                                                    <AntDesign name="eye" size={20} color="#0A2DAA" />
+                                                </View>
+                                            </MenuOption>
+                                            <MenuOption onSelect={() => navigation.navigate(`Updateroom`, { RoomCodepage: item.RoomCode, myFunction: getapi })}>
+                                                <View style={styles.actions}>
+                                                    <Text style={styles.actionstitle}>Update</Text>
+                                                    <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
+                                                </View>
+                                            </MenuOption>
+                                            <MenuOption onSelect={() => toggleDialog2(item.RoomCode)}>
+                                                <View style={styles.actions}>
                                                     <Text style={styles.actionstitle}>Delete</Text>
                                                     <AntDesign name="delete" size={15} color="red" />
-                                            </View>
-                                        </MenuOption>
-                                    </MenuOptions>
-                                </Menu>
-                                </DataTable.Cell>
-                            </DataTable.Row>
-                        ))}
-
+                                                </View>
+                                            </MenuOption>
+                                        </MenuOptions>
+                                    </Menu>
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                        </ScrollView>
 
                     </DataTable>
                 </ScrollView>

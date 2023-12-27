@@ -111,7 +111,7 @@ export default function Buildingspacemanagement() {
                     <Text style={styles.prograp}>BUILDING MAINTENANCE</Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, margin: 0
                     }]} >
@@ -128,6 +128,8 @@ export default function Buildingspacemanagement() {
                             <DataTable.Title style={[styles.header, { width: 180 }]} ><Text style={styles.tableHeading}>GPS Longtitude</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
+
+                        <ScrollView>
                         {items.slice(from, to).map((item) => (
                             <DataTable.Row key={item.BuildingCode}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
@@ -173,7 +175,7 @@ export default function Buildingspacemanagement() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        </ScrollView>
                     </DataTable>
                 </ScrollView>
                 <DataTable.Pagination

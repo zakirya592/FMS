@@ -112,7 +112,7 @@ export default function PurchaseOrdertable() {
           </Text>
         </View>
         {/* table section */}
-        <ScrollView horizontal >
+        <ScrollView horizontal vertical>
           <DataTable style={[styles.item, {
             width: '100%', height: 450, margin: 0
           }]} >
@@ -121,7 +121,7 @@ export default function PurchaseOrdertable() {
                 status={selectedItems.length === items.length ? 'checked' : 'unchecked'}
                 onPress={handleSelectAllChange}
               /></Text></DataTable.Title>
-              <DataTable.Title style={[styles.header, { width: 80  }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
+              <DataTable.Title style={[styles.header, { width: 80 }]} ><Text style={styles.tableHeading}>SEQ</Text></DataTable.Title>
               <DataTable.Title style={[styles.header, { width: 200 }]} ><Text style={styles.tableHeading}>Purchase Order Number</Text></DataTable.Title>
               <DataTable.Title style={[styles.header, { width: 200 }]} ><Text style={styles.tableHeading}>Purchase Request Number</Text></DataTable.Title>
               <DataTable.Title style={[styles.header, { width: 150 }]} ><Text style={styles.tableHeading}>Approved ByEmployeeID</Text></DataTable.Title>
@@ -130,53 +130,55 @@ export default function PurchaseOrdertable() {
               <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>Request Date</Text></DataTable.Title>
               <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
             </DataTable.Header>
-            {items.slice(from, to).map((item, index) => (
-              <DataTable.Row key={item.PurchaseOrderNumber}>
-                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                  <Checkbox
-                    status={item.selected ? 'checked' : 'unchecked'}
-                    onPress={() => handleCheckboxChange(item.PurchaseOrderNumber)}
-                  />
-                </DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.PurchaseOrderNumber}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.PurchaseRequestNumber}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.ApprovedByEmpl}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.PODate).isValid() ? moment(item.PODate).format('DD/MM/YYYY') : ''}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.VendorID}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.RequestDate).isValid() ? moment(item.RequestDate).format('DD/MM/YYYY') : ''}</DataTable.Cell>
-                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu>
-                  <MenuTrigger >
-                    <View style={styles.actions}>
-                      <Text>Action </Text>
-                      <AntDesign name="caretdown" size={18} color="black" />
-                    </View>
-                  </MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
-                    <MenuOption onSelect={() => navigation.navigate(`Viewpurachaseorder`, { PurchaseOrderNumber: item.PurchaseOrderNumber })}>
-                      <View style={styles.actions}>
-                        <Text style={styles.actionstitle}>View</Text>
-                        <AntDesign name="eye" size={20} color="#0A2DAA" />
-                      </View>
-                    </MenuOption>
-                    <MenuOption onSelect={() => navigation.navigate(`PurchaseOrderUpdate`, { PurchaseOrderNumber: item.PurchaseOrderNumber, myFunction: getapi })}>
-                      <View style={styles.actions}>
-                        <Text style={styles.actionstitle}>Update</Text>
-                        <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
-                      </View>
-                    </MenuOption>
-                    <MenuOption onSelect={() => toggleDialog2(item.PurchaseOrderNumber)}>
-                      <View style={styles.actions}>
-                        <Text style={styles.actionstitle}>Delete</Text>
-                        <AntDesign name="delete" size={15} color="red" />
-                      </View>
-                    </MenuOption>
-                  </MenuOptions>
-                </Menu>
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
 
+            <ScrollView>
+              {items.slice(from, to).map((item, index) => (
+                <DataTable.Row key={item.PurchaseOrderNumber}>
+                  <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                    <Checkbox
+                      status={item.selected ? 'checked' : 'unchecked'}
+                      onPress={() => handleCheckboxChange(item.PurchaseOrderNumber)}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.PurchaseOrderNumber}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.PurchaseRequestNumber}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 150 }]}>{item.ApprovedByEmpl}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.PODate).isValid() ? moment(item.PODate).format('DD/MM/YYYY') : ''}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{item.VendorID}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 140 }]}>{moment(item.RequestDate).isValid() ? moment(item.RequestDate).format('DD/MM/YYYY') : ''}</DataTable.Cell>
+                  <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}><Menu>
+                    <MenuTrigger >
+                      <View style={styles.actions}>
+                        <Text>Action </Text>
+                        <AntDesign name="caretdown" size={18} color="black" />
+                      </View>
+                    </MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', padding: 10 }}>
+                      <MenuOption onSelect={() => navigation.navigate(`Viewpurachaseorder`, { PurchaseOrderNumber: item.PurchaseOrderNumber })}>
+                        <View style={styles.actions}>
+                          <Text style={styles.actionstitle}>View</Text>
+                          <AntDesign name="eye" size={20} color="#0A2DAA" />
+                        </View>
+                      </MenuOption>
+                      <MenuOption onSelect={() => navigation.navigate(`PurchaseOrderUpdate`, { PurchaseOrderNumber: item.PurchaseOrderNumber, myFunction: getapi })}>
+                        <View style={styles.actions}>
+                          <Text style={styles.actionstitle}>Update</Text>
+                          <FontAwesome5 name="pencil-alt" size={13} color="#0A2DAA" />
+                        </View>
+                      </MenuOption>
+                      <MenuOption onSelect={() => toggleDialog2(item.PurchaseOrderNumber)}>
+                        <View style={styles.actions}>
+                          <Text style={styles.actionstitle}>Delete</Text>
+                          <AntDesign name="delete" size={15} color="red" />
+                        </View>
+                      </MenuOption>
+                    </MenuOptions>
+                  </Menu>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+            </ScrollView>
 
           </DataTable>
         </ScrollView>

@@ -266,7 +266,7 @@ export default function Employeeroomassignment() {
                     </View>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, margin: 0, marginTop: 20
                     }]} >
@@ -284,6 +284,8 @@ export default function Employeeroomassignment() {
                             <DataTable.Title style={[styles.header, { width: 150 }]}><Text style={styles.tableHeading}>Location Code</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
+
+                        <ScrollView>
                         {items.filter(item => (
                             (!value.Building || value.Building === 'Select All' || item.records.data?.[0]?.BuildingCode === value.Building) &&
                             (!value.Location || value.Location === 'Select All' || item.records.data?.[0]?.LocationCode === value.Location) &&
@@ -334,6 +336,7 @@ export default function Employeeroomassignment() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
+                        </ScrollView>
                         {/* If the length is equal to the 0 than   */}
                         {items.filter(item => (
                             (!value.Building || value.Building === 'Select All' || item.records.data?.[0]?.BuildingCode === value.Building) &&

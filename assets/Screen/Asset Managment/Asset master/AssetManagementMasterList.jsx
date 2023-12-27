@@ -148,7 +148,7 @@ export default function AssetManagementMasterList () {
           </View>
         </View>
         {/* table section */}
-        <ScrollView horizontal>
+        <ScrollView horizontal vertical>
           <DataTable
             style={[
               styles.item,
@@ -208,6 +208,8 @@ export default function AssetManagementMasterList () {
                 <Text style={styles.tableHeading}>ACTIONS</Text>
               </DataTable.Title>
             </DataTable.Header>
+
+            <ScrollView>
             {items.filter(row => (
               (!value.Employeeid || row.AssetItemDescription.toLowerCase().includes(value.Employeeid.toLowerCase()))
             )).slice(from, to).map((item,index) => (
@@ -286,6 +288,7 @@ export default function AssetManagementMasterList () {
                   </DataTable.Cell>
                 </DataTable.Row>
             ))}
+            </ScrollView>
             {/* If the length is equal to the 0 than   */}
             {items.filter(row => (
               (!value.Employeeid || row.AssetItemDescription.toLowerCase().includes(value.Employeeid.toLowerCase()))

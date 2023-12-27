@@ -124,7 +124,7 @@ export default function Workcategory() {
                     </Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, marginTop: 20
                     }]} >
@@ -138,6 +138,8 @@ export default function Workcategory() {
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
+
+                        <ScrollView>
                         {items.slice(from, to).map((item, index) => (
                             <DataTable.Row key={item.WorkCategoryCode}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
@@ -166,7 +168,7 @@ export default function Workcategory() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        </ScrollView>
 
                     </DataTable>
                 </ScrollView>

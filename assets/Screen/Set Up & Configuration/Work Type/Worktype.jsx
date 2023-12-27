@@ -110,11 +110,11 @@ export default function Worktype() {
         axios.put(`/api/WorkType_Put/${updataItemCode}`, {
             WorkTypeDesc: value.WorkTypeDesc,
         },).then((res) => {
-                getapi()
-                setshowmodel(!showmodel);
-            }).catch((err) => {
-                console.log(err);
-            });
+            getapi()
+            setshowmodel(!showmodel);
+        }).catch((err) => {
+            console.log(err);
+        });
     };
 
     return (
@@ -126,7 +126,7 @@ export default function Worktype() {
                     </Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, marginTop: 20
                     }]} >
@@ -140,40 +140,42 @@ export default function Worktype() {
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.filter(
-                            (item) =>
-                                item &&
-                                item.WorkTypeCode &&
-                                item.WorkTypeCode.toLowerCase().includes(value.WorkTypeCodeserach.toLowerCase())
-                        ).slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.WorkTypeCode}>
-                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                    <Checkbox
-                                        status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.WorkTypeCode)}
-                                    />
-                                </DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkTypeCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.WorkTypeDesc}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
-                                    <View>
-                                        <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => toggleshowmodel(item.WorkTypeCode)} style={[styles.actions, { marginRight: 10 }]}>
-                                                <FontAwesome5 name="sync-alt" size={20} color="black" />
-                                            </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => toggleDialog2(item.WorkTypeCode)} style={styles.actions}>
-                                                <AntDesign name="delete" size={20} color="red" />
-                                            </TouchableOpacity>
+
+                        <ScrollView>
+                            {items.filter(
+                                (item) =>
+                                    item &&
+                                    item.WorkTypeCode &&
+                                    item.WorkTypeCode.toLowerCase().includes(value.WorkTypeCodeserach.toLowerCase())
+                            ).slice(from, to).map((item, index) => (
+                                <DataTable.Row key={item.WorkTypeCode}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item.WorkTypeCode)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.WorkTypeCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.WorkTypeDesc}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
+                                        <View>
+                                            <View style={styles.actions}>
+                                                <TouchableOpacity onPress={() => toggleshowmodel(item.WorkTypeCode)} style={[styles.actions, { marginRight: 10 }]}>
+                                                    <FontAwesome5 name="sync-alt" size={20} color="black" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => toggleDialog2(item.WorkTypeCode)} style={styles.actions}>
+                                                    <AntDesign name="delete" size={20} color="red" />
+                                                </TouchableOpacity>
+
+                                            </View>
 
                                         </View>
 
-                                    </View>
-
-                                </DataTable.Cell>
-                            </DataTable.Row>
-                        ))}
-
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                        </ScrollView>
 
                     </DataTable>
                 </ScrollView>

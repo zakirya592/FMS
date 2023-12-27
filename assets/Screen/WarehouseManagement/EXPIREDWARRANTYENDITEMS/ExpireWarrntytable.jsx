@@ -142,7 +142,7 @@ export default function ExpireWarrntytable() {
 
         </View>
         {/* table section */}
-        <ScrollView horizontal>
+        <ScrollView horizontal vertical>
           <DataTable style={[styles.item, { width: '100%', height: 450, margin: 0, }]}>
             <DataTable.Header>
               <DataTable.Title
@@ -190,6 +190,8 @@ export default function ExpireWarrntytable() {
                 <Text style={styles.tableHeading}>MINIMUM ORDER LEVEL</Text>
               </DataTable.Title>
             </DataTable.Header>
+
+            <ScrollView>
             {items.filter(item => (
               (!value.AssetItemGroupCode || value.AssetItemGroupCode === 'Select All' || item.AssetItemGroup === value.AssetItemGroupCode) &&
               (!value.AssetItemDescription || item.AssetItemDescription.toLowerCase().includes(value.AssetItemDescription.toLowerCase()))
@@ -233,7 +235,7 @@ export default function ExpireWarrntytable() {
                 </DataTable.Cell>
               </DataTable.Row>
             ))}
-
+            </ScrollView>
             {/* If the length is equal to the 0 than   */}
             {items.filter(item => (
               (!value.AssetItemGroupCode || value.AssetItemGroupCode === 'Select All' || item.AssetItemGroup === value.AssetItemGroupCode) &&

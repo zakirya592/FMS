@@ -11,7 +11,8 @@ import Createproblemcategory from '../../../Component/Setup and configuration/Pr
 
 export default function Problemcategory() {
     const [value, setvalue] = useState({
-        ProblemCategoryCodeserach: '', WorkRequest: '', ProblemCategoryCode: '', ProblemCategoryDesc: ''})
+        ProblemCategoryCodeserach: '', WorkRequest: '', ProblemCategoryCode: '', ProblemCategoryDesc: ''
+    })
 
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([10]);
@@ -120,7 +121,7 @@ export default function Problemcategory() {
                     </Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, marginTop: 20
                     }]} >
@@ -134,35 +135,37 @@ export default function Problemcategory() {
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.ProblemCategoryCode}>
-                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                    <Checkbox
-                                        status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.ProblemCategoryCode)}
-                                    />
-                                </DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.ProblemCategoryCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.ProblemCategoryDesc}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
-                                    <View>
-                                        <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => toggleshowmodel(item.ProblemCategoryCode)} style={[styles.actions, { marginRight: 10 }]}>
-                                                <FontAwesome5 name="sync-alt" size={20} color="black" />
-                                            </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => toggleDialog2(item.ProblemCategoryCode)} style={styles.actions}>
-                                                <AntDesign name="delete" size={20} color="red" />
-                                            </TouchableOpacity>
+
+                        <ScrollView>
+                            {items.slice(from, to).map((item, index) => (
+                                <DataTable.Row key={item.ProblemCategoryCode}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item.ProblemCategoryCode)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 200 }]}>{item.ProblemCategoryCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.ProblemCategoryDesc}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
+                                        <View>
+                                            <View style={styles.actions}>
+                                                <TouchableOpacity onPress={() => toggleshowmodel(item.ProblemCategoryCode)} style={[styles.actions, { marginRight: 10 }]}>
+                                                    <FontAwesome5 name="sync-alt" size={20} color="black" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => toggleDialog2(item.ProblemCategoryCode)} style={styles.actions}>
+                                                    <AntDesign name="delete" size={20} color="red" />
+                                                </TouchableOpacity>
+
+                                            </View>
 
                                         </View>
 
-                                    </View>
-
-                                </DataTable.Cell>
-                            </DataTable.Row>
-                        ))}
-
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                        </ScrollView>
 
                     </DataTable>
                 </ScrollView>

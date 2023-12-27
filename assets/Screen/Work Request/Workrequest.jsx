@@ -178,13 +178,13 @@ export default function Workrequest() {
         </View>
         {/* table section */}
         
-        <ScrollView horizontal >
+        <ScrollView horizontal vertical>
           <DataTable
             style={[
               styles.item,
               {
                 width: '100%',
-                height: 450,
+                height: 400,
                 margin: 0,
               },
             ]}
@@ -234,7 +234,7 @@ export default function Workrequest() {
                 <Text style={styles.tableHeading}>ACTIONS</Text>
               </DataTable.Title>
             </DataTable.Header>
-            
+            <ScrollView>
             {items.filter(
               (item) =>
                 item.RequestNumber.includes(value.Employeeid) &&
@@ -322,6 +322,7 @@ export default function Workrequest() {
                   </DataTable.Cell>
                 </DataTable.Row>
               )}
+            </ScrollView>
           </DataTable>
         </ScrollView>
 

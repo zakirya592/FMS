@@ -181,7 +181,7 @@ export default function AssetTransactionsHome () {
           </View>
         </View>
         {/* table section */}
-        <ScrollView horizontal>
+        <ScrollView horizontal vertical>
           <DataTable
             style={[
               styles.item,
@@ -241,6 +241,8 @@ export default function AssetTransactionsHome () {
                 <Text style={styles.tableHeading}>ACTIONS</Text>
               </DataTable.Title>
             </DataTable.Header>
+
+            <ScrollView>
             {items.filter(row => (
               (!value.AssetItemTagIDnumber || (row.AssetItemTagID && row.AssetItemTagID.includes(value.AssetItemTagIDnumber))) &&
               (!value.Employeeid || row.AssetItemDescription.toLowerCase().includes(value.Employeeid.toLowerCase()))
@@ -319,6 +321,7 @@ export default function AssetTransactionsHome () {
                   </DataTable.Cell>
                 </DataTable.Row>
             ))}
+            </ScrollView>
             {/* If the length is equal to the 0 than   */}
             {items.filter(row => (
               (!value.AssetItemTagIDnumber || (row.AssetItemTagID && row.AssetItemTagID.includes(value.AssetItemTagIDnumber))) &&

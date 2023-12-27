@@ -121,7 +121,7 @@ export default function Employeedesignation() {
                     </Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, marginTop: 20
                     }]} >
@@ -135,35 +135,37 @@ export default function Employeedesignation() {
                             <DataTable.Title style={[styles.header, { width: 250 }]} ><Text style={styles.tableHeading}>DESCRIPTION</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
-                        {items.slice(from, to).map((item, index) => (
-                            <DataTable.Row key={item.DesignationCode}>
-                                <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
-                                    <Checkbox
-                                        status={item.selected ? 'checked' : 'unchecked'}
-                                        onPress={() => handleCheckboxChange(item.DesignationCode)}
-                                    />
-                                </DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.DesignationCode}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.DesignationDesc}</DataTable.Cell>
-                                <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
-                                    <View>
-                                        <View style={styles.actions}>
-                                            <TouchableOpacity onPress={() => toggleshowmodel(item.DesignationCode)} style={[styles.actions, { marginRight: 10 }]}>
-                                                <FontAwesome5 name="sync-alt" size={20} color="black" />
-                                            </TouchableOpacity>
-                                            <TouchableOpacity onPress={() => toggleDialog2(item.DesignationCode)} style={styles.actions}>
-                                                <AntDesign name="delete" size={20} color="red" />
-                                            </TouchableOpacity>
+
+                        <ScrollView>
+                            {items.slice(from, to).map((item, index) => (
+                                <DataTable.Row key={item.DesignationCode}>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
+                                        <Checkbox
+                                            status={item.selected ? 'checked' : 'unchecked'}
+                                            onPress={() => handleCheckboxChange(item.DesignationCode)}
+                                        />
+                                    </DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 80 }]}>{index + 1}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 170 }]}>{item.DesignationCode}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 250 }]}>{item.DesignationDesc}</DataTable.Cell>
+                                    <DataTable.Cell style={[styles.tablebody, { width: 140, borderRightWidth: 1, }]}>
+                                        <View>
+                                            <View style={styles.actions}>
+                                                <TouchableOpacity onPress={() => toggleshowmodel(item.DesignationCode)} style={[styles.actions, { marginRight: 10 }]}>
+                                                    <FontAwesome5 name="sync-alt" size={20} color="black" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={() => toggleDialog2(item.DesignationCode)} style={styles.actions}>
+                                                    <AntDesign name="delete" size={20} color="red" />
+                                                </TouchableOpacity>
+
+                                            </View>
 
                                         </View>
 
-                                    </View>
-
-                                </DataTable.Cell>
-                            </DataTable.Row>
-                        ))}
-
+                                    </DataTable.Cell>
+                                </DataTable.Row>
+                            ))}
+                        </ScrollView>
 
                     </DataTable>
                 </ScrollView>

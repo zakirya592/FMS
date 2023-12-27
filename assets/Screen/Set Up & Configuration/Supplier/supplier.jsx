@@ -95,7 +95,7 @@ export default function Supplier() {
                     </Text>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, margin: 0,marginTop:20
                     }]} >
@@ -111,6 +111,8 @@ export default function Supplier() {
                             <DataTable.Title style={[styles.header, { width: 200 }]}><Text style={styles.tableHeading}>Email</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
+
+                        <ScrollView>
                         {items.slice(from, to).map((item, index) => (
                             <DataTable.Row key={item.VendorID}>
                                 <DataTable.Cell style={[styles.tablebody, { width: 50 }]} >
@@ -168,7 +170,7 @@ export default function Supplier() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        </ScrollView>
 
                     </DataTable>
                 </ScrollView>

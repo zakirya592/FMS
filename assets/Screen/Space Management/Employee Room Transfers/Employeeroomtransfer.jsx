@@ -154,7 +154,7 @@ export default function Employeeroomtransfer() {
                     </View>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical >
                     <DataTable style={[styles.item, {
                         width: '100%', height: 450, margin: 0
                     }]} >
@@ -174,6 +174,8 @@ export default function Employeeroomtransfer() {
                             <DataTable.Title style={[styles.header, { width: 140 }]} ><Text style={styles.tableHeading}>3rd Level - Emp. Code</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 140, borderRightWidth: 1, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>ACTIONS</Text></DataTable.Title>
                         </DataTable.Header>
+
+                        <ScrollView>
                         {items.filter(
                             (item) =>
                                 item.EmployeeID.includes(value.Employeeid) &&
@@ -226,7 +228,7 @@ export default function Employeeroomtransfer() {
                                 </DataTable.Cell>
                             </DataTable.Row>
                         ))}
-
+                        </ScrollView>
                         {/* If the length is equal to the 0 than   */}
                         {items.filter(
                             (item) =>

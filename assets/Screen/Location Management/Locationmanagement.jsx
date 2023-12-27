@@ -203,7 +203,7 @@ export default function Locationmanagement() {
                     </View>
                 </View>
                 {/* table section */}
-                <ScrollView horizontal >
+                <ScrollView horizontal vertical>
                     <DataTable style={[styles.item, {
                         width: '100%', height: 400, margin: 0
                     }]} >
@@ -224,6 +224,8 @@ export default function Locationmanagement() {
                             <DataTable.Title style={[styles.header, { width: 170 }]} ><Text style={styles.tableHeading}>BUILDING</Text></DataTable.Title>
                             <DataTable.Title style={[styles.header, { width: 170, borderTopRightRadius: 5 }]} ><Text style={styles.tableHeading}>LOCATION</Text></DataTable.Title>
                         </DataTable.Header>
+
+                        <ScrollView>
                         {items.filter(item => (
                             (!value.Building || value.Building === 'Select All' || item.BuildingCode === value.Building) &&
                             (!value.Location || value.Location === 'Select All' || item.LocationCode === value.Location) &&
@@ -249,6 +251,7 @@ export default function Locationmanagement() {
 
                             </DataTable.Row>
                         ))}
+                        </ScrollView>
                         {/* If the length is eual to the 0 than   */}
                         {items.filter(item => (
                             (!value.Building || value.Building === 'Select All' || item.BuildingCode === value.Building) &&
