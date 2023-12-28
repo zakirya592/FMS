@@ -25,7 +25,7 @@ const data = [
   {label: 'Item 4', value: '4'},
 ];
 
-export default function Createworkrequest () {
+export default function transferlocationCreate () {
   const navigation = useNavigation ();
   const [value, setvalue] = useState ({
     Employeeid: null,
