@@ -66,7 +66,7 @@ import ExpireWarrntyUpdate from './assets/Screen/WarehouseManagement/EXPIREDWARR
 import reorderminicreate from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminicreate'
 import reorderminiupdate from './assets/Screen/WarehouseManagement/REORDERMINIMUMLEVELS/reorderminiupdate'
 import stockmasterCreate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/stockmasterCreate'
-import stockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/StockmasterUpdate'
+// import stockmasterUpdate from './assets/Screen/WarehouseManagement/STOCKMASTERINVENTORY/StockmasterUpdate'
 import transferlocationCreate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationCreate'
 import transferlocationUpdate from './assets/Screen/WarehouseManagement/TRANSFERLOCATIONS/transferlocationUpdate'
 import RoomCode from './assets/Screen/Set Up & Configuration/Room Code/RoomCode';
