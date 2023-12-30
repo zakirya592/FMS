@@ -102,7 +102,7 @@ import Assectcondition from './assets/Screen/Set Up & Configuration/Assect Condi
 import WarrantyPeriod from './assets/Screen/Set Up & Configuration/Warranty Period/WarrantyPeriod';
 import EmployeeStatus from './assets/Screen/Set Up & Configuration/Employee Status/EmployeeStatus';
 import Employeedesignation from './assets/Screen/Set Up & Configuration/Employee Designation/Employeedesignation';
-import Supplier from './assets/Screen/Set Up & Configuration/Supplier/Supplier';
+// import Supplier from './assets/Screen/Set Up & Configuration/Supplier/Supplier';
 import Crreatesupier from './assets/Screen/Set Up & Configuration/Supplier/Crreatesupier';
 import Worktype from './assets/Screen/Set Up & Configuration/Work Type/Worktype';
 import Viewworkorder from './assets/Screen/Work Order/Viewworkorder';
